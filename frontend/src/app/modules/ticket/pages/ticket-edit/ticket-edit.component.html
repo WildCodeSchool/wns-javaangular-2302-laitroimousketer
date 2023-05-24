@@ -1,0 +1,17 @@
+
+<div class="container-fluid mb-3">
+    <h2 class="text-center">Ticket Edit</h2>
+    <form class="container-fluid" [formGroup]="ticketAdditionForm">
+        <div class="mb-3">
+        <label class="form-label" for="title">Title</label>
+        <input class="form-control" id="title" type="text" formControlName="title" value="{{ticketToUpdate.title}}" required >
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="description">description</label>
+            <input class="form-control" id="description" type="text" formControlName="description" value="{{ticketToUpdate.description}}" required >
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" type="button"  (click)="updateTicket()">Edit</button>
+        </div>
+    </form>
+</div>

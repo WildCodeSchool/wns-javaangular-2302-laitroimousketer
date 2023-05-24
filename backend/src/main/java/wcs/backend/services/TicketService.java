@@ -30,6 +30,7 @@ public class TicketService {
 
     public Ticket updateTicket(Ticket ticket) {
         Ticket existingTicket = ticketRepository.findById(ticket.getId()).get();
+        existingTicket.setTitle(ticket.getTitle());
         existingTicket.setDescription(ticket.getDescription());
         Ticket updatedTicket = ticketRepository.save(existingTicket);
         return updatedTicket;
