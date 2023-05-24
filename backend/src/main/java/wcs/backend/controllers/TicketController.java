@@ -21,7 +21,7 @@ import wcs.backend.services.TicketService;
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/tickets")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class TicketController {
 
     private TicketService ticketService;
@@ -62,6 +62,7 @@ public class TicketController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteTicket(@PathVariable("id") Long ticketId){
         ticketService.deleteTicket(ticketId);
-        return new ResponseEntity<>("Ticket successfully deleted!", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
