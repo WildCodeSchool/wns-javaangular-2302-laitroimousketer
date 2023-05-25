@@ -34,7 +34,7 @@ public class TicketController {
     }
 
     // build get ticket by id REST API
-    // http://localhost:8080/api/ticket/1
+    // http://localhost:8080/api/tickets/1
     @GetMapping("{id}")
     public ResponseEntity<Ticket> getTicketById(@PathVariable("id") Long ticketId){
         Ticket ticket = ticketService.getTicketById(ticketId);
@@ -48,9 +48,10 @@ public class TicketController {
         List<Ticket> tickets = ticketService.getAllTickets();
         return new ResponseEntity<>(tickets, HttpStatus.OK);
     }
+
     // Build Update Ticket REST API
     @PutMapping("{id}")
-    // http://localhost:8080/api/Tickets/1
+    // http://localhost:8080/api/tickets/1
     public ResponseEntity<Ticket> updateTicket(@PathVariable("id") Long ticketId,
                                            @RequestBody Ticket ticket){
         ticket.setId(ticketId);
