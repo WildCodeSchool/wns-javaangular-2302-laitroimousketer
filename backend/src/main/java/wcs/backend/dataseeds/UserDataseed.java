@@ -32,21 +32,7 @@ public class UserDataseed {
       userService.deleteUser(user.getId());
     }
   }
-  
-  private void createDefaultRoles() {
-    // Vérifier si les rôles par défaut existent déjà
-    List<Role> existingRoles = roleService.getAllRoles();
-    if (existingRoles.isEmpty()) {
-      // Créer les rôles par défaut s'ils n'existent pas
-      Role clientRole = new Role(Role.Title.CLIENT);
-      Role developpeurRole = new Role(Role.Title.DEVELOPPEUR);
-      Role responsableRole = new Role(Role.Title.RESPONSABLE);
 
-      roleService.createRole(clientRole);
-      roleService.createRole(developpeurRole);
-      roleService.createRole(responsableRole);
-    }
-  }
   
   private void loadData() {
 
