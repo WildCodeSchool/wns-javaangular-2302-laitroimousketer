@@ -19,16 +19,6 @@ public class UserService {
   private RoleRepository roleRepository;
 
   public User createUser(User user) {
-    Role clientRole = roleRepository.findByTitle(Role.Title.CLIENT);
-
-    if (clientRole == null) {
-        clientRole = new Role(Role.Title.CLIENT);
-        roleRepository.save(clientRole);
-    }
-
-    user.setRole(clientRole);
-    clientRole.getUsers().add(user);
-
     return userRepository.save(user);
 }
 
@@ -51,6 +41,18 @@ public class UserService {
     }
     return null;
   }
+
+  public User updateUser(User user) {
+    User existingUser = userRepository.findById(user.getId()).get();
+    existingUser.setEmail(user.getEmail());
+    existingUser.setFirstname(user.getFirstname());
+    existingUser.setLastname(user.getLastname());
+    existingUser.setPassword(user.getPassword());
+    existingUser.setRole(user.getRole());
+    User updatedUser = userRepository.save(existingUser);
+    return updatedUser;
+}
+
 
   public void deleteUser(Long userId) {
     userRepository.deleteById(userId);

@@ -5,9 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import wcs.backend.entities.User;
 import wcs.backend.entities.Role.Title;
-import wcs.backend.services.UserService;
 import wcs.backend.services.RoleService;
 import wcs.backend.entities.Role;
 
@@ -29,15 +27,18 @@ public class RoleDataseed {
     }
   }
 
-  
   private void loadData() {
+        Role roleClientCreated = new Role();
+        roleClientCreated.setTitle(Title.CLIENT);
+        roleService.createRole(roleClientCreated);
 
-        Role roleCreated = new Role();
-        roleCreated.setTitle(Title.CLIENT);
-        roleService.createRole(roleCreated);
+        Role roleDevCreated = new Role();
+        roleDevCreated.setTitle(Title.DEVELOPER);
+        roleService.createRole(roleDevCreated);
 
-  }
+        Role roleManagerCreated = new Role();
+        roleManagerCreated.setTitle(Title.MANAGER);
+        roleService.createRole(roleManagerCreated);
+
+      }
 }
-
-
-

@@ -23,9 +23,9 @@ public class Seeder implements CommandLineRunner{
 
 
     public void run(String...args)  throws Exception {
+    // The order of the entities seeded is IMPORTANT !
         roleDataseed.resetData();
         userDataseed.resetData();
-    // The order of the entities seeded is IMPORTANT !
         categoryDataseed.resetData();
         ticketDataseed.resetData();
      }    

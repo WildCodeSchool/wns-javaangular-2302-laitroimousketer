@@ -17,12 +17,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Getter
 @Setter
 @Entity
-
 public class Role {
     public enum Title {
+        DEVELOPER,
         CLIENT,
-        DEVELOPPEUR,
-        RESPONSABLE
+        MANAGER
     }
 
     @Id
@@ -31,12 +30,12 @@ public class Role {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "VARCHAR(100) DEFAULT 'CLIENT'")
+    @Column(nullable = false)
     private Title title;
 
-@JsonIgnoreProperties("category")
-@OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-private List<User> users = new ArrayList<>();
+    @JsonIgnoreProperties("role")
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<User> users;
 
     // Constructeurs, getters et setters
    
