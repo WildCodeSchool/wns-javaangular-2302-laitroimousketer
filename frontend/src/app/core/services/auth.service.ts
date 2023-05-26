@@ -11,7 +11,7 @@ interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly baseAPI = "http://localhost:3306";
+  private readonly baseAPI = "http://localhost:8080/api";
   private readonly httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export class AuthService {
 
   public register(username: string, email: string, password: string): Observable<any> {
     return this.httpClient.post(
-      `${this.baseAPI}/register`,
+      `${this.baseAPI}/users/register`,
       { username, email, password },
       this.httpOptions
     );
@@ -63,3 +63,4 @@ export class AuthService {
     return storedToken !== null;
   }
 }
+
