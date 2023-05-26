@@ -24,6 +24,10 @@ public class Ticket {
     @Column(nullable = false)
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name="category_id", nullable = true)
+    Category category;
+
     public Ticket(){}
 
 }

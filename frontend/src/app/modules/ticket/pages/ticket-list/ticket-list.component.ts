@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 export class TicketListComponent {
 
   tickets: Ticket[] | undefined;
-  t1 = new Ticket();
   constructor(
     private ticketService: TicketService,
     private router : Router    
@@ -23,8 +22,10 @@ export class TicketListComponent {
 
     getTicketList(){
       this.ticketService.getTicketList().subscribe(
-        data => this.tickets = data,
-      );     
+        data => {
+          this.tickets = data
+        }
+      );
     }
 
     deleteTicket(ticketId : any){
