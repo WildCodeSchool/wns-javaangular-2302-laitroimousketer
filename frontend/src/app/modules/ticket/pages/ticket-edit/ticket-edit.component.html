@@ -11,6 +11,13 @@
             <input class="form-control" id="description" type="text" formControlName="description" value="{{ticketToUpdate.description}}" required >
         </div>
         <div class="mb-3">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" formControlName="selectedCategory">
+                <option *ngFor="let category of categories" [ngValue]="category.id">
+                {{ category.title }}
+                </option>
+            </select>
+        </div>
+        <div class="mb-3">
             <button class="btn btn-primary" type="button"  (click)="updateTicket()">Edit</button>
         </div>
     </form>

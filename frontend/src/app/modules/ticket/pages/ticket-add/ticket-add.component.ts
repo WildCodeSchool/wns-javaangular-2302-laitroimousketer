@@ -5,6 +5,8 @@ import { Ticket } from '../../models/Ticket';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CategoryService } from '../../services/category.service';
+import { Category } from '../../models/category';
 
 @Component({
   selector: 'app-ticket-add',
@@ -15,25 +17,37 @@ export class TicketAddComponent {
 
   constructor(
     private ticketService : TicketService,
+    private categoryService : CategoryService,
     private fb : FormBuilder,
     private router : Router){}
-  
-    ticketToCreate = new Ticket;
+    
+    categoryforTicket = new Category();
+    ticketToCreate = new Ticket(0,'','',this.categoryforTicket);
+    categories : Category[] = [];
+    selectedCategory : number = 0;
 
-   ticketAdditionForm = this.fb.group({
+    ticketAdditionForm = this.fb.group({
     title : ['title x', Validators.required],
     description : ['description x', Validators.required],
+    selectedCategory : ['']
  });
 
-    addTicket(){
+  ngOnInit(){
+    this.categoryService.getCategoryList().subscribe(
+      data => this.categories = data
+    );
+  }
+   addTicket(){
       if (this.ticketAdditionForm.value.title != null){
         this.ticketToCreate.title = this.ticketAdditionForm.value.title;
       }
       if (this.ticketAdditionForm.value.description != null){
         this.ticketToCreate.description = this.ticketAdditionForm.value.description;
       }
-
-      this.ticketService.createTicket(this.ticketToCreate).subscribe(data => 
+      if (this.ticketAdditionForm.value.selectedCategory != null){
+        this.selectedCategory =  parseInt(this.ticketAdditionForm.value.selectedCategory);
+      }
+      this.ticketService.createTicket(this.ticketToCreate, this.selectedCategory).subscribe(data => 
         console.log(data)
         );
       this.router.navigateByUrl("/tickets/list")

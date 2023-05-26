@@ -14,10 +14,15 @@ public class Seeder implements CommandLineRunner{
 
     @Autowired
     private TicketDataseed ticketDataseed;
+    
+    @Autowired
+    private CategoryDataseed categoryDataseed;
 
 
     public void run(String...args)  throws Exception {
         userDataseed.resetData();
+    // The order of the entities seeded is IMPORTANT !
+        categoryDataseed.resetData();
         ticketDataseed.resetData();
      }    
 }
