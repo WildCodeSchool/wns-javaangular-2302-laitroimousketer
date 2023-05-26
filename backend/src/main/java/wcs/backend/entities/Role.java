@@ -9,6 +9,8 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,8 +34,8 @@ public class Role {
     @Column(nullable = false, columnDefinition = "VARCHAR(100) DEFAULT 'CLIENT'")
     private Title title;
 
-
-@OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+@JsonIgnoreProperties("category")
+@OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 private List<User> users = new ArrayList<>();
 
     // Constructeurs, getters et setters
