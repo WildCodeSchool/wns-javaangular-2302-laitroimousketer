@@ -1,56 +1,75 @@
 package wcs.backend.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
-import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-@Configuration
-public class SecurityConfiguration {
 
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-      http
-      .csrf().disable()
-      .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
-//        .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
-      .httpBasic(Customizer.withDefaults());
-      return http.build();
+
+@EnableWebSecurity
+@Configuration
+public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
+
+  private final SecurityUserService userService;
+  private final PasswordEncoder passwordEncoder;
+
+  public SecurityConfiguration(SecurityUserService userService, PasswordEncoder passwordEncoder) {
+    this.userService = userService;
+    this.passwordEncoder = passwordEncoder;
   }
 
 
-  // Plus bas, pour activer cors et l'auth //
-  
-  //     @Bean
-  //     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-  //     http
-  //         .csrf().disable()
-  //         .cors() // Supprimer cette ligne pour désactiver la configuration CORS
-  //         .and()
-  //         .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
-  //         .httpBasic(Customizer.withDefaults());
-  //     return http.build();
-  // }
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-  //     @Bean
-  //     public CorsConfigurationSource corsConfigurationSource() {
-  //         CorsConfiguration configuration = new CorsConfiguration();
-  //         configuration.addAllowedOrigin("http://localhost:4200"); // Remplacez par l'URL de votre frontend Angular
-  //         configuration.addAllowedHeader("*");
-  //         configuration.addAllowedMethod("*");
-  //         configuration.setAllowCredentials(true);
+    http.authorizeRequests()
+        .anyRequest().permitAll();
 
-  //         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-  //         source.registerCorsConfiguration("/**", configuration);
+    return http.build();
+  }
 
-  //         return source;
-  //     }
+  @Bean
+  public AuthenticationProvider authProvider() {
+    DaoAuthenticationProvider authProvider = new DaoOverride();
+    authProvider.setUserDetailsService(userService);
+    authProvider.setPasswordEncoder(passwordEncoder);
+    return authProvider;
+  }
+
+
+
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.addAllowedOrigin("http://localhost:4200");
+    configuration.addAllowedHeader("*");
+    configuration.addAllowedMethod("*");
+    configuration.setAllowCredentials(true);
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+
+    return source;
+  }
+
+  // pour se protéger des attaques de falsification de requêtes entre sites.
+  @Bean
+  public CsrfTokenRepository csrfTokenRepository() {
+    HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+    repository.setSessionAttributeName("_csrf");
+    return repository;
+  }
 
 }

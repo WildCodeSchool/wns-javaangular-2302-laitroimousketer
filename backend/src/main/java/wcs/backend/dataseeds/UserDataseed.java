@@ -62,6 +62,16 @@ public class UserDataseed {
     userManagerCreated.setRole(roleManagerUsed);
     this.userService.createUser(userManagerCreated);
 
+    User userDevCreated = new User();
+    userDevCreated.setFirstname("dev");
+    userDevCreated.setLastname("dev");
+    userDevCreated.setEmail("dev" + "@wcs.fr");
+    userDevCreated.setPassword("dev");
+    userDevCreated.setRole(null);
+    Role roleDevUsed = roleRepository.findByTitle(Title.DEVELOPER).get(0);
+    userDevCreated.setRole(roleDevUsed);
+    this.userService.createUser(userDevCreated);
+
   }
 }
 

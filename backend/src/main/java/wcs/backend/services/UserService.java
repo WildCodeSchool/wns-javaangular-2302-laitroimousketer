@@ -9,7 +9,7 @@ import wcs.backend.entities.User;
 import wcs.backend.entities.Role;
 import wcs.backend.repositories.RoleRepository;
 import wcs.backend.repositories.UserRepository;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 @AllArgsConstructor
@@ -19,9 +19,12 @@ public class UserService {
   private RoleRepository roleRepository;
 
   public User createUser(User user) {
-    return userRepository.save(user);
-}
-
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    String encryptedPassword = passwordEncoder.encode(user.getPassword());
+    user.setPassword(encryptedPassword);
+    User savedUser = userRepository.save(user);
+    return savedUser;
+  }
 
   public User getUserById(Long userId) {
     Optional<User> optionalUser = userRepository.findById(userId);
@@ -43,16 +46,23 @@ public class UserService {
   }
 
   public User updateUser(User user) {
-    User existingUser = userRepository.findById(user.getId()).get();
-    existingUser.setEmail(user.getEmail());
-    existingUser.setFirstname(user.getFirstname());
-    existingUser.setLastname(user.getLastname());
-    existingUser.setPassword(user.getPassword());
-    existingUser.setRole(user.getRole());
-    User updatedUser = userRepository.save(existingUser);
-    return updatedUser;
-}
+    User existingUser = userRepository.findById(user.getId()).orElse(null);
 
+    if (existingUser != null) {
+      existingUser.setEmail(user.getEmail());
+      existingUser.setFirstname(user.getFirstname());
+      existingUser.setLastname(user.getLastname());
+      existingUser.setRole(user.getRole());
+
+      BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+      String encryptedPassword = passwordEncoder.encode(user.getPassword());
+      existingUser.setPassword(encryptedPassword);
+
+      User updatedUser = userRepository.save(existingUser);
+      return updatedUser;
+    }
+    return null;
+  }
 
   public void deleteUser(Long userId) {
     userRepository.deleteById(userId);
@@ -60,18 +70,17 @@ public class UserService {
 
   public List<User> getUsersByName(String name) {
     return userRepository.findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name, name);
-  } 
+  }
 
   public User updateUserRole(Long userId, Long roleId) {
     User user = userRepository.findById(userId).orElse(null);
     Role role = roleRepository.findById(roleId).orElse(null);
 
     if (user != null && role != null) {
-        user.setRole(role);
-        return userRepository.save(user);
+      user.setRole(role);
+      return userRepository.save(user);
     }
-
     return null;
-}
-  
+  }
+
 }
