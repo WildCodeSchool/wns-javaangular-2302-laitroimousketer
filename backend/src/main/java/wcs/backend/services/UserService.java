@@ -4,14 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
-
 import wcs.backend.entities.User;
 import wcs.backend.entities.Role;
+import wcs.backend.entities.Role.Title;
 import wcs.backend.repositories.RoleRepository;
 import wcs.backend.repositories.UserRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
@@ -20,12 +17,17 @@ public class UserService {
 
   private UserRepository userRepository;
   private RoleRepository roleRepository;
+  private PasswordEncoder passwordEncoder;
 
-@Autowired
-private PasswordEncoder passwordEncoder;
   public User createUser(User user) {
     String encryptedPassword = passwordEncoder.encode(user.getPassword());
     user.setPassword(encryptedPassword);
+
+    // Définir le rôle par défaut (CLIENT)
+    Role defaultRole = roleRepository.findByTitle(Title.CLIENT).get(0);
+    if (defaultRole != null) {
+      user.setRole(defaultRole);
+    }
     User savedUser = userRepository.save(user);
     return savedUser;
   }
