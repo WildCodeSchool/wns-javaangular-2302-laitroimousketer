@@ -18,11 +18,19 @@ public class AuthController {
     // Build Login REST API
     @PostMapping("/login")
     public ResponseEntity<JWTAuthResponse> authenticate(@RequestBody LoginDto loginDto){
+      
+      try {
+      System.out.println("LoginDto: " + loginDto.getEmail() + " " + loginDto.getPassword());
         String token = authService.login(loginDto);
 
         JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
         jwtAuthResponse.setAccessToken(token);
-
         return ResponseEntity.ok(jwtAuthResponse);
+      } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.badRequest().build();
     }
+
+  }
+
 }

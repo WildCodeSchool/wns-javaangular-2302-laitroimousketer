@@ -39,7 +39,6 @@ public class JwtTokenProvider {
                 .setExpiration(expireDate)
                 .signWith(key())
                 .compact();
-                System.out.println("JWT Secret Key: " + jwtSecret);
         return token;
     }
 
@@ -48,7 +47,7 @@ public class JwtTokenProvider {
                 Decoders.BASE64.decode(jwtSecret)
         );
     }
-
+    
     // get username from Jwt token
     public String getUsername(String token){
         Claims claims = Jwts.parserBuilder()

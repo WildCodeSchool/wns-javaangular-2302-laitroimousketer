@@ -9,7 +9,10 @@ import wcs.backend.entities.User;
 import wcs.backend.entities.Role;
 import wcs.backend.repositories.RoleRepository;
 import wcs.backend.repositories.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 @AllArgsConstructor
@@ -18,8 +21,9 @@ public class UserService {
   private UserRepository userRepository;
   private RoleRepository roleRepository;
 
+@Autowired
+private PasswordEncoder passwordEncoder;
   public User createUser(User user) {
-    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     String encryptedPassword = passwordEncoder.encode(user.getPassword());
     user.setPassword(encryptedPassword);
     User savedUser = userRepository.save(user);
@@ -54,7 +58,6 @@ public class UserService {
       existingUser.setLastname(user.getLastname());
       existingUser.setRole(user.getRole());
 
-      BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
       String encryptedPassword = passwordEncoder.encode(user.getPassword());
       existingUser.setPassword(encryptedPassword);
 
