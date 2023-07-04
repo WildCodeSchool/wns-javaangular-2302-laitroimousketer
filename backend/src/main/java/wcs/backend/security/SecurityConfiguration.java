@@ -1,14 +1,12 @@
 package wcs.backend.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
@@ -17,38 +15,36 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import lombok.AllArgsConstructor;
 
-@EnableWebSecurity
 @Configuration
-public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
+@AllArgsConstructor
+public class SecurityConfiguration {
 
-  private final SecurityUserService userService;
-  private final PasswordEncoder passwordEncoder;
-
-  public SecurityConfiguration(SecurityUserService userService, PasswordEncoder passwordEncoder) {
-    this.userService = userService;
-    this.passwordEncoder = passwordEncoder;
-  }
-
+  private UserDetailsService userDetailsService;
 
   @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-    http.authorizeRequests()
-        .anyRequest().permitAll();
-
-    return http.build();
+  public static PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
+
+ @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http.csrf().disable()
+                .cors().disable()
+                .authorizeHttpRequests((authorize) -> {    
+                  authorize.requestMatchers("/api/auth/**").permitAll();
+                  authorize.requestMatchers("/api/users/**").permitAll();
+                  authorize.requestMatchers("/api/**").authenticated();    
+                });
+        return http.build();
+    }
 
   @Bean
-  public AuthenticationProvider authProvider() {
-    DaoAuthenticationProvider authProvider = new DaoOverride();
-    authProvider.setUserDetailsService(userService);
-    authProvider.setPasswordEncoder(passwordEncoder);
-    return authProvider;
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+    return configuration.getAuthenticationManager();
   }
-
-
 
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
@@ -73,3 +69,6 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
   }
 
 }
+
+
+

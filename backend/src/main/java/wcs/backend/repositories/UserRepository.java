@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(String firstname, String lastname);
-
     Optional<User> findByEmail(String email);
+    Optional<User> findByfirstnameOrLastnameOrEmail(String firstname, String lastname, String email);
+    Boolean existsByEmail(String email);
 }

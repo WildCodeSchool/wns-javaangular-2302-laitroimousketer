@@ -3,6 +3,7 @@ package wcs.backend.dataseeds;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import wcs.backend.entities.User;
@@ -24,56 +25,54 @@ public class UserDataseed {
   @Autowired
   private RoleRepository roleRepository;
 
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+
   final int client_NB = 2;
 
   public void resetData() {
     cleanData();
     loadData();
   }
-  
+
   private void cleanData() {
     List<User> users = userService.getAllUsers();
     for (User user : users) {
       userService.deleteUser(user.getId());
     }
   }
-  
+
   private void loadData() {
 
     for (int i = 0; i < this.client_NB; i++) {
-        User userCreated = new User();
-        userCreated.setFirstname("jesapel");
-        userCreated.setLastname("groot" + i);
-        userCreated.setEmail("client" + i + "@wcs.fr");
-        userCreated.setPassword("client" + i);
-        userCreated.setRole(null);
-        Role roleUsed = roleRepository.findByTitle(Title.CLIENT).get(0);
-        userCreated.setRole(roleUsed);
-        this.userService.createUser(userCreated);
+      User userCreated = new User();
+      userCreated.setFirstname("jesapel");
+      userCreated.setLastname("groot" + i);
+      userCreated.setEmail("client" + i + "@wcs.com");
+      userCreated.setPassword("client" + i);
+      userCreated.setRole(null);
+      Role roleUsed = roleRepository.findByTitle(Title.CLIENT).get(0);
+      userCreated.setRole(roleUsed);
+      this.userService.createUser(userCreated);
     }
 
-    User userManagerCreated = new User();
-    userManagerCreated.setFirstname("manager");
-    userManagerCreated.setLastname("manager");
-    userManagerCreated.setEmail("manager" + "@wcs.fr");
-    userManagerCreated.setPassword("manager");
-    userManagerCreated.setRole(null);
-    Role roleManagerUsed = roleRepository.findByTitle(Title.MANAGER).get(0);
-    userManagerCreated.setRole(roleManagerUsed);
-    this.userService.createUser(userManagerCreated);
+User dev = new User();
+dev.setEmail("dev@wcs.com");
+dev.setFirstname("Dave");
+dev.setLastname("Grohl");
+dev.setPassword(passwordEncoder.encode("Alayd3!dev"));
+Role roleDev = roleRepository.findByTitle(Title.DEVELOPER).get(0);
+dev.setRole(roleDev);
+userService.createUser(dev);
 
-    User userDevCreated = new User();
-    userDevCreated.setFirstname("dev");
-    userDevCreated.setLastname("dev");
-    userDevCreated.setEmail("dev" + "@wcs.fr");
-    userDevCreated.setPassword("dev");
-    userDevCreated.setRole(null);
-    Role roleDevUsed = roleRepository.findByTitle(Title.DEVELOPER).get(0);
-    userDevCreated.setRole(roleDevUsed);
-    this.userService.createUser(userDevCreated);
 
-  }
+User manager = new User();
+manager.setEmail("manager@wcs.com");
+manager.setFirstname("manager");
+manager.setLastname("manager");
+manager.setPassword(passwordEncoder.encode("Alayd3!manager"));
+Role roleManager = roleRepository.findByTitle(Title.MANAGER).get(0);
+manager.setRole(roleManager);
+userService.createUser(manager);
 }
-
-
-
+}
