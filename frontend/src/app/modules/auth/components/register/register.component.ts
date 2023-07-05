@@ -1,18 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+  private apiUrl = environment.apiUrl;
   registerForm: FormGroup = new FormGroup({});
   errorMessage: string = '';
   private registerSubscription: Subscription = new Subscription();
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -50,6 +52,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         .subscribe(
           () => {
             console.log('Enregistrement réussi !');
+            this.router.navigate([`${this.apiUrl}/tickets/list`]);
             // Effectuer les actions supplémentaires après l'enregistrement réussi, si nécessaire
           },
           (error) => {
