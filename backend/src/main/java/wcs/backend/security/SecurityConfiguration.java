@@ -12,6 +12,9 @@ import wcs.backend.services.CustomUserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+
+import java.util.Arrays;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -59,23 +62,24 @@ public class SecurityConfiguration {
                   ex.getMessage());
             }));
     http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+    http.cors(withDefaults()); // Activation de la configuration CORS
     return http.build();
   }
 
-  @Bean
-  public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-    configuration.addAllowedOrigin("*");
-    configuration.addAllowedHeader("*");
-    configuration.addAllowedMethod("*");
-    configuration.setAllowCredentials(true);
+@Bean
+public CorsConfigurationSource corsConfigurationSource() {
+  CorsConfiguration configuration = new CorsConfiguration();
+  configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+  configuration.addAllowedHeader("*");
+  configuration.addAllowedMethod("*");
+  configuration.setAllowCredentials(true);
 
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
+  UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+  source.registerCorsConfiguration("/**", configuration);
 
-    return source;
-  }
+  return source;
+}
+
 
   // Pour se protéger des attaques de falsification de requêtes entre sites.
   @Bean
