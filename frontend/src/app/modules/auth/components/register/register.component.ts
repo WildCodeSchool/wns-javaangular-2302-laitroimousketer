@@ -16,16 +16,16 @@ export class RegisterComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  register() {
-    this.authService.register(this.email, this.password, this.firstName + ' ' + this.lastName)
-      .subscribe(
-        (response) => {
-          this.router.navigate(['/tickets/list']);
-        },
-        (error) => {
-          // Traitement en cas d'erreur de l'enregistrement
-          // Affichage d'un message d'erreur, gestion des erreurs, etc.
-        }
-      );
-  }
+  // register() {
+  //   this.authService.register(this.email, this.password, this.firstName + ' ' + this.lastName)
+  //     .subscribe(
+  //       (response) => {
+  //         this.router.navigate(['/tickets/list']);
+  //       },
+  //       (error) => {
+  //         // Traitement en cas d'erreur de l'enregistrement
+  //         // Affichage d'un message d'erreur, gestion des erreurs, etc.
+  //       }
+  //     );
+  // }
 }
