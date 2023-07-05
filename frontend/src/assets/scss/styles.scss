@@ -2,3 +2,27 @@
 @import "bootstrap/scss/bootstrap";
 @import './template.scss';
 
+//MODALS STYLES
+
+/// modal style par défaut
+.modal-header {
+  padding: 2%;
+}
+.modal-header,.modal-footer {
+  background-color: $primaryColor;
+  color: white;
+}
+.close {
+  background-color: $thirdColor;
+  color: $primaryColor;
+  border-radius: 5px;
+  border-color: $secondaryColor;
+  font-size: 2.5rem;
+  padding: 0px 40px;
+  margin: 0;
+}
+.modal-close-icon {
+  color: $secondaryColor;
+  font-size: 2.5rem;
+  cursor: pointer;
+}

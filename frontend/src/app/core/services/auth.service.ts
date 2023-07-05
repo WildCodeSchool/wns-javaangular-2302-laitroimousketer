@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject, map, take, throwError } from 'rxjs';
+import { Observable, BehaviorSubject, map, take, throwError, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
@@ -8,7 +8,6 @@ import { environment } from 'src/environments/environment';
 interface LoginResponse {
   accessToken: string;
 }
-
 @Injectable({
   providedIn: 'root',
 })
@@ -20,14 +19,14 @@ export class AuthService {
     }),
   };
 
-  public isLog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public $isLog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private httpClient: HttpClient, private router: Router) {
     const storedToken = this.getAuthToken();
     this.isAuthenticated()
       .pipe(take(1))
       .subscribe((isAuthenticated: boolean) => {
-        this.isLog.next(isAuthenticated);
+        this.$isLog.next(isAuthenticated);
       });
   }
   
@@ -41,13 +40,33 @@ export class AuthService {
       .pipe(
         map((response: LoginResponse) => {
           this.setAuthToken(response.accessToken);
-          this.isLog.next(true);
+          this.$isLog.next(true);
           console.log('token reçu',response.accessToken)
           return response.accessToken;
         })
       );
   }
-
+  
+  register(firstName: string, lastName: string, email: string, password: string): Observable<any> {
+    const url = `${this.apiUrl}/auth/register`;
+  
+    const registerData = {
+      firstname: firstName,
+      lastname: lastName,
+      email: email,
+      password: password
+    };
+  
+    return this.httpClient.post(url, registerData, this.httpOptions)
+      .pipe(
+        tap(() => {
+          // Effectuer les actions nécessaires après l'enregistrement réussi, si nécessaire
+          console.log('register', registerData);
+        })
+      );
+  }
+  
+  
   public setAuthToken(token: string) {
     localStorage.setItem('auth_token', token);
   }
@@ -57,17 +76,18 @@ export class AuthService {
   }
 
   public isAuthenticated(): Observable<boolean> {
-    return this.isLog.asObservable();
+    return this.$isLog.asObservable();
   }
 
 
   logout() {
-    localStorage.removeItem('auth_token');
-    console.log('logout',localStorage.getItem('auth_token'));
-    this.isLog.next(false);
-    this.router.navigate(['/']); // Redirige vers la page d'accueil ou une autre page appropriée
+    this.$isLog.next(false); // Indiquer que l'utilisateur n'est plus connecté
+    localStorage.removeItem('auth_token'); // Supprimer le jeton d'authentification
+    console.log('logout', localStorage.getItem('auth_token'));
+    console.log('local storage',localStorage)
   }
   
+ 
 
   // Error
   handleError(error: HttpErrorResponse) {

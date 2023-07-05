@@ -5,10 +5,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor';
 
 const routes: Routes = [
-  // canActivateChild: [AuthGuard] bloque tout le module si pas autorisé, canActivate bloque juste la route d'une page, ici c'est des modules donc on utilise canActivateChild
-  {path: '', redirectTo: 'tickets/list', pathMatch: 'full'},
-  {path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)},
-  {path: 'tickets',loadChildren: () => import('./modules/ticket/ticket.module').then(m => m.TicketModule), canActivateChild: [AuthGuard]}, 
+  { path: '', redirectTo: 'tickets/list', pathMatch: 'full' },
+  { path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule) },
+  { path: 'tickets', loadChildren: () => import('./modules/ticket/ticket.module').then(m => m.TicketModule), canActivateChild: [AuthGuard] },
 ];
 
 @NgModule({
@@ -19,4 +18,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule { 
+
+}

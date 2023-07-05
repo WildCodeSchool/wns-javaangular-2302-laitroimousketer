@@ -1,43 +1,43 @@
-<section class="container">
+<section class="login container row justify-content-center">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <div class="card">
-        <div class="card-header">Connexion</div>
-        <div class="card-body">
-          <form #loginForm="ngForm" (ngSubmit)="login()" novalidate>
-            <div class="form-group">
-              <label for="username">Email</label>
-              <input type="text" class="form-control" id="username" name="username" required
-                [(ngModel)]="email" #emailInput="ngModel">
-              <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)"
-                class="text-danger">
-                <div *ngIf="emailInput.errors?.['required']">L'email est requis.</div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="password">Mot de passe</label>
-              <input type="password" class="form-control" id="password" name="password" required
-                [(ngModel)]="password" #passwordInput="ngModel">
-              <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)"
-                class="text-danger">
-                <div *ngIf="passwordInput.errors?.['required']">Le mot de passe est requis.</div>
-              </div>
-            </div>
-            <div class="mt-3">
-              <button type="submit" class="btn btn-primary">Se connecter</button>
-              <button class="btn btn-secondary ml-1" (click)="logout()">Se déconnecter</button>
-            </div>
-          </form>
-        </div>
-        <div class="card-footer">
-          <p class="text-center">
-            Pas encore inscrit ? <a routerLink="/auth/register">Cliquez ici !</a>
-          </p>
-          <p *ngIf="errorMessage" class="pl-4 text-danger">
-            {{ errorMessage }}
-          </p>
-        </div>
-      </div>
+<div class="card">
+  <div class="card-header d-flex justify-content-center">
+  <p class="connexion">Connexion</p>
+</div>
+  <form class="card-body" [formGroup]="loginForm" (ngSubmit)="login()" novalidate >
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" formControlName="email">
+      <ng-container *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)">
+        <div class="text-danger"*ngIf="loginForm.get('email')?.errors?.['required']">L'email est requis.</div>
+        <div class="text-danger"*ngIf="loginForm.get('email')?.errors?.['email']">L'email doit être valide.</div>
+      </ng-container>
     </div>
-  </div>
+
+    <div class="form-group mt-2 mb-5">
+      <label for="password">Mot de passe</label>
+      <input type="password" class="form-control" id="password" formControlName="password">
+      <ng-container *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)">
+        <div class="text-danger"*ngIf="loginForm.get('password')?.errors?.['required']">Le mot de passe est requis.</div>
+        <div class="text-danger"*ngIf="loginForm.get('password')?.errors?.['minlength']">Le mot de passe doit faire au moins 6 caractères.</div>
+        <div class="text-danger" *ngIf="loginForm.get('password')?.errors?.['pattern']">Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un caractère spécial.</div>
+      </ng-container>
+    </div>
+    <button type="submit" class="btn btn-primary d-flex justify-content-center"[disabled]="!loginForm.valid">Se connecter</button>
+
+  </form>
+  
+  <div class="card-footer">
+  <p class="text-center">
+    Pas encore inscrit ?<a routerLink="/auth/register">Cliquez ici !</a>
+    <span class="ml-10"> ou </span><a class='deconnexion'(click)="logout()">Se déconnecter</a>
+  </p>
+ 
+  <p *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</p>
+</div>
+</div>
+</div>
+</div>
 </section>
+

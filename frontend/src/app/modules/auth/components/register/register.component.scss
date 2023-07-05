@@ -1,0 +1,76 @@
+@import 'src/assets/scss/template.scss';
+
+.login {
+
+}
+.card-header {
+  
+  background-color: $primaryColor;
+  color: white;
+  font-weight: 600;
+  font-size: 24px;
+  @include tablet {font-size: 20px;}
+  @include mobile {font-size: 18px;}
+  p{
+    position: relative;
+  }
+  p::after {
+    content: '';
+    position: absolute;
+    z-index: 100;
+    left: -10%;
+    top: 40px;
+    width: 120%;
+    height: 4px;
+    background-color: $secondaryColor;
+  }
+}
+.card-body {
+  padding: 4% 2%;
+  font-size: 15;
+  @include tablet {font-size: 14px;}
+  @include mobile {font-size: 13px;}
+
+}
+.card-footer {
+  background-color: $primaryColor;
+  color: white;
+  font-size: 15px;
+  @include tablet {font-size: 14px;}
+  @include mobile {font-size: 13px;}
+  a {
+    font-size: 15;
+    @include tablet {font-size: 14px;}
+    @include mobile {font-size: 13px;}
+    color: $secondaryColor;
+    font-weight: 600;
+    &:hover {
+      color: $thirdColor;
+    }
+    
+  }
+}
+input {
+  background-color: $thirdColor;
+}
+button {
+  background-color: $primaryColor;
+}
+
+.btn {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 6px 20px;
+  @include mobile {font-size: 16px;}
+  font-size: 20px;
+  &:hover {
+    background-color: $secondaryColor;
+  }
+}
