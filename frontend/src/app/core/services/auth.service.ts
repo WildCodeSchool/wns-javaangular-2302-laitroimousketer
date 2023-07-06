@@ -20,6 +20,9 @@ export class AuthService {
   };
 
   public $isLog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  
+  private activeTabSource: BehaviorSubject<'login' | 'register'> = new BehaviorSubject<'login' | 'register'>('login');
+  public activeTab$ = this.activeTabSource.asObservable();
 
   constructor(private httpClient: HttpClient, private router: Router) {
     const storedToken = this.getAuthToken();
@@ -28,6 +31,14 @@ export class AuthService {
       .subscribe((isAuthenticated: boolean) => {
         this.$isLog.next(isAuthenticated);
       });
+  }
+
+  switchToLogin(): void {
+    this.activeTabSource.next('login');
+  }
+
+  switchToRegister(): void {
+    this.activeTabSource.next('register');
   }
   
   public login(email: string, password: string): Observable<string> {
@@ -45,6 +56,7 @@ export class AuthService {
           return response.accessToken;
         })
       );
+      
   }
   
   register(firstName: string, lastName: string, email: string, password: string): Observable<any> {
@@ -61,8 +73,8 @@ export class AuthService {
       .pipe(
         tap(() => {
           // Effectuer les actions nécessaires après l'enregistrement réussi, si nécessaire
-          console.log('register', registerData);
-        })
+          console.log('enregistrement réussi: ', registerData);
+          })
       );
   }
   
@@ -83,8 +95,6 @@ export class AuthService {
   logout() {
     this.$isLog.next(false); // Indiquer que l'utilisateur n'est plus connecté
     localStorage.removeItem('auth_token'); // Supprimer le jeton d'authentification
-    console.log('logout', localStorage.getItem('auth_token'));
-    console.log('local storage',localStorage)
   }
   
  
@@ -98,7 +108,10 @@ export class AuthService {
     } else {
       // server-side error
       msg = `Error Code: ${error.status}\nMessage: ${error.message}`;
+     
     }
     return throwError(msg);
   }
+
 }
+

@@ -1,26 +1,26 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { ModalLogoutComponent } from 'src/app/core/components/modals/modal-logout/modal-logout.component';
+import { AlertService } from 'src/app/core/services/alert.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  
   loginForm: FormGroup = new FormGroup({});
-  errorMessage: string = '';
   private subscriptionLogin: Subscription = new Subscription();
-  private modalRef?: BsModalRef;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private modalService: BsModalService
+    private alertService: AlertService
+
   ) {}
 
   ngOnInit(): void {
@@ -47,10 +47,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.subscriptionLogin = this.authService.login(email, password).subscribe({
         next: () => {
           this.router.navigate(['/tickets/list']);
+          this.alertService.showSuccessAlert('Vous êtes connecté !');
         },
         error: (error: any) => {
-          this.errorMessage = 'Erreur lors de la connexion. Veuillez réessayer.';
           console.error('Login error:', error);
+          this.alertService.showErrorAlert('Erreur lors de la connexion !');
         }
       });
     }
@@ -59,14 +60,16 @@ export class LoginComponent implements OnInit, OnDestroy {
   
 
   logout(): void {
-    this.authService.logout();
-    this.showLogoutPopup();    
+    this.authService.logout(); 
+    this.alertService.showSuccessAlert('Vous êtes déconnecté !');
   }
   ngOnDestroy(): void {
     // Désabonnez-vous des abonnements ici
     this.subscriptionLogin.unsubscribe();
   }
-  showLogoutPopup(): void {
-    this.modalRef = this.modalService.show(ModalLogoutComponent);
+
+  switchToRegister(): void {
+    this.authService.switchToRegister();
   }
+
 }

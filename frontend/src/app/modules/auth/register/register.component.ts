@@ -3,18 +3,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { environment } from 'src/environments/environment';
+import { AlertService } from 'src/app/core/services/alert.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  private apiUrl = environment.apiUrl;
+ 
   registerForm: FormGroup = new FormGroup({});
-  errorMessage: string = '';
-  private registerSubscription: Subscription = new Subscription();
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {}
+
+  private subscriptionRegister: Subscription = new Subscription();
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private alertService: AlertService, private router: Router) {}
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -48,25 +48,33 @@ export class RegisterComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.registerSubscription = this.authService.register(firstName, lastName, email, password)
-        .subscribe(
-          () => {
-            console.log('Enregistrement réussi !');
-            this.router.navigate([`${this.apiUrl}/tickets/list`]);
+      this.subscriptionRegister= this.authService.register(firstName, lastName, email, password)
+        .subscribe({
+          next: () => {
+            this.switchToLogin();
             // Effectuer les actions supplémentaires après l'enregistrement réussi, si nécessaire
+            this.alertService.showSuccessAlert('Votre compte a été créé avec succès !');
           },
-          (error) => {
+          error: (error: any) => {
             console.error('Erreur lors de l\'enregistrement :', error);
+            this.alertService.showErrorAlert('Erreur lors de l\'enregistrement !');
             // Gérer l'erreur d'enregistrement, si nécessaire
           }
-        );
+    });
     }
   }
 
   ngOnDestroy(): void {
     // Se désabonner des abonnements ici
-    this.registerSubscription.unsubscribe();
+    this.subscriptionRegister.unsubscribe();
   }
+
+
+
+  switchToLogin(): void {
+    this.authService.switchToLogin();
+  }
+  
 }
   
 

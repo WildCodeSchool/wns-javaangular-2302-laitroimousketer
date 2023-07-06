@@ -30,11 +30,9 @@
   
   <div class="card-footer">
   <p class="text-center">
-    Pas encore inscrit ?<a routerLink="/auth/register">Cliquez ici !</a>
+    Pas encore inscrit ?<a (click)="switchToRegister()">Cliquez ici !</a>
     <span class="ml-10"> ou </span><a class='deconnexion'(click)="logout()">Se déconnecter</a>
   </p>
- 
-  <p *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</p>
 </div>
 </div>
 </div>
