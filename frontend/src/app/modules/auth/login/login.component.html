@@ -1,13 +1,13 @@
-<section class="login container row justify-content-center">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
+<section class="login container d-flex justify-content-center align-items-center">
+
+    <div class="col-md-4">
 <div class="card">
   <div class="card-header d-flex justify-content-center">
   <p class="connexion">Connexion</p>
 </div>
   <form class="card-body" [formGroup]="loginForm" (ngSubmit)="login()" novalidate >
     <div class="form-group">
-      <mat-form-field appearance="outline" color="accent" class="small-input">
+      <mat-form-field appearance="outline" color="accent">
       <mat-label for="email">Email</mat-label >
       <input matInput type="email" class="form-control" id="email" formControlName="email">
       <mat-icon matSuffix class="bi bi-envelope-at-fill"></mat-icon>
@@ -39,6 +39,6 @@
 </div>
 </div>
 </div>
-</div>
+
 </section>
 

@@ -40,9 +40,13 @@ $angular-frontend-ticketing-theme: mat.define-light-theme((
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import './template.scss';
 
+// reset css
 * {box-sizing: border-box;}
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+p,h1,h2,h3,h4,h5,h6 {margin: 0;}
+
+
 
 // remove bootstrap border because we have mat form field for that
 input,.input {border: none!important; border-color: none!important; box-shadow: none!important;font-size: 16px; @include tablet {font-size: 15px;} @include mobile {font-size: 14px;}}
@@ -62,14 +66,10 @@ mat-icon {
 }
 mat-form-field {
   width: 100%;
-  font-size: 16px;
-  @include tablet {font-size: 15px;}
-  @include mobile {font-size: 14px;}
+
 }
 mat-label {
-  font-size: 14px;
-  @include tablet {font-size: 13px;}
-  @include mobile {font-size: 12px;}
+  
 }
 mat-error {
   font-size: 11px;
@@ -88,8 +88,14 @@ mat-label {
 }
 /* Cible le champ d'entrée lorsque les informations sont pré-remplies */
 input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
   /* Remplacez "white" par la couleur de fond souhaitée */
+}
+
+.btn:disabled {
+  background-color: #dddddd;
+  color: rgb(0,0,0,0.9)!important /* Remplacez cette valeur par la couleur souhaitée */
+  /* Autres styles que vous souhaitez appliquer au bouton désactivé */
 }
 
 
