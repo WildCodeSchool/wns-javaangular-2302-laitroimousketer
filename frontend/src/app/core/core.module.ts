@@ -8,13 +8,9 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 @NgModule({
   declarations: [
     FooterComponent,
-<<<<<<< HEAD
     AlertComponent,
-
     // HeaderComponent,
-=======
 
->>>>>>> develop
   ],
   imports: [
     CommonModule,
