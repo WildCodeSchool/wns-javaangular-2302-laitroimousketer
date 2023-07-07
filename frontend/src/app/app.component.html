@@ -1,7 +1,6 @@
 <app-alert></app-alert>
-<app-headband></app-headband>
+<app-headband *ngIf ='!isOnAuthPage'></app-headband>
+<app-header *ngIf ='!isOnAuthPage'></app-header>
 
-<app-header></app-header>
-
-
-<router-outlet></router-outlet>
+<router-outlet>
+</router-outlet>
