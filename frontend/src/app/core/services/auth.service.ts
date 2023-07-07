@@ -1,65 +1,117 @@
-import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, map } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject, map, take, throwError, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
+//accessToken est le nom de la propriete du token renvoyée par le serveur
 interface LoginResponse {
-  token: string;
+  accessToken: string;
 }
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly baseAPI = "http://localhost:3306";
+  private apiUrl = environment.apiUrl;
   private readonly httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
   };
 
-  public isLog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public isLog$: Observable<boolean> = this.isLog.asObservable();
+  public $isLog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  
+  private activeTabSource: BehaviorSubject<'login' | 'register'> = new BehaviorSubject<'login' | 'register'>('login');
+  public activeTab$ = this.activeTabSource.asObservable();
 
   constructor(private httpClient: HttpClient, private router: Router) {
-    const storedToken = localStorage.getItem('auth_token');
-    this.isLog.next(this.isAuthenticated());
+    const storedToken = this.getAuthToken();
+    this.isAuthenticated()
+      .pipe(take(1))
+      .subscribe((isAuthenticated: boolean) => {
+        this.$isLog.next(isAuthenticated);
+      });
   }
 
-  public login(login: string, password: string): Observable<string> {
+  switchToLogin(): void {
+    this.activeTabSource.next('login');
+  }
+
+  switchToRegister(): void {
+    this.activeTabSource.next('register');
+  }
+  
+  public login(email: string, password: string): Observable<string> {
     return this.httpClient
-      .post<LoginResponse>(`${this.baseAPI}/login`, { login, password }, this.httpOptions)
+      .post<LoginResponse>(
+        `${this.apiUrl}/auth/login`,
+        { email, password },
+        this.httpOptions
+      )
       .pipe(
         map((response: LoginResponse) => {
-          localStorage.setItem('auth_token', response.token);
-          this.isLog.next(true);
-          return response.token;
+          this.setAuthToken(response.accessToken);
+          this.$isLog.next(true);
+          console.log('token reçu',response.accessToken)
+          return response.accessToken;
         })
       );
+      
+  }
+  
+  register(firstName: string, lastName: string, email: string, password: string): Observable<any> {
+    const url = `${this.apiUrl}/auth/register`;
+  
+    const registerData = {
+      firstname: firstName,
+      lastname: lastName,
+      email: email,
+      password: password
+    };
+  
+    return this.httpClient.post(url, registerData, this.httpOptions)
+      .pipe(
+        tap(() => {
+          // Effectuer les actions nécessaires après l'enregistrement réussi, si nécessaire
+          console.log('enregistrement réussi: ', registerData);
+          })
+      );
+  }
+  
+  
+  public setAuthToken(token: string) {
+    localStorage.setItem('auth_token', token);
   }
 
-  public register(username: string, email: string, password: string): Observable<any> {
-    return this.httpClient.post(
-      `${this.baseAPI}/register`,
-      { username, email, password },
-      this.httpOptions
-    );
+  public getAuthToken(): string | null {
+    return localStorage.getItem('auth_token');
   }
 
-  public logout(): Observable<void> {
-    this.router.navigate(['login']);
-    return this.httpClient.post<void>(`${this.baseAPI}/logout`, {}, this.httpOptions).pipe(
-      map(() => {
-        localStorage.removeItem('auth_token');
-        this.isLog.next(false);
-      })
-    );
+  public isAuthenticated(): Observable<boolean> {
+    return this.$isLog.asObservable();
   }
 
-  public isAuthenticated(): boolean {
-    const storedToken = localStorage.getItem('auth_token');
-    // pour tester le jeton et l'afficher dans la console //
-    console.log('jwt token',storedToken);
-    return storedToken !== null;
+
+  logout() {
+    this.$isLog.next(false); // Indiquer que l'utilisateur n'est plus connecté
+    localStorage.removeItem('auth_token'); // Supprimer le jeton d'authentification
   }
+  
+ 
+
+  // Error
+  handleError(error: HttpErrorResponse) {
+    let msg = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      msg = error.error.message;
+    } else {
+      // server-side error
+      msg = `Error Code: ${error.status}\nMessage: ${error.message}`;
+     
+    }
+    return throwError(msg);
+  }
+
 }
+

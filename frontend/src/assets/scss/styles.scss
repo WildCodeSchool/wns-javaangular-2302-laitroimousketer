@@ -1,4 +1,101 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$angular-frontend-ticketing-primary: mat.define-palette(mat.$indigo-palette);
+$angular-frontend-ticketing-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$angular-frontend-ticketing-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$angular-frontend-ticketing-theme: mat.define-light-theme((
+  color: (
+    primary: $angular-frontend-ticketing-primary,
+    accent: $angular-frontend-ticketing-accent,
+    warn: $angular-frontend-ticketing-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($angular-frontend-ticketing-theme);
+
 /* You can add global styles to this file, and also import other style files */
-@import "bootstrap/scss/bootstrap";
+// @import "bootstrap/scss/bootstrap";
+//https://icons.getbootstrap.com
+@import "bootstrap/scss/bootstrap.scss";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 @import './template.scss';
+
+// reset css
+* {box-sizing: border-box;}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+p,h1,h2,h3,h4,h5,h6 {margin: 0;}
+
+
+
+// remove bootstrap border because we have mat form field for that
+input,.input {border: none!important; border-color: none!important; box-shadow: none!important;font-size: 16px; @include tablet {font-size: 15px;} @include mobile {font-size: 14px;}}
+
+// mat-form-field //
+
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+}
+
+.mat-mdc-form-field-infix {
+  min-height: 16px !important;
+}
+mat-icon {
+  margin-right: 4px;
+}
+mat-form-field {
+  width: 100%;
+
+}
+mat-label {
+  
+}
+mat-error {
+  font-size: 11px;
+}
+mat-label {
+  padding-bottom: 8px!important;
+}
+.mat-focused mat-label
+{
+  font-style: italic;
+}
+.mat-form-field {
+  color: black;
+  font-weight: 400;
+  padding: 0;
+}
+/* Cible le champ d'entrée lorsque les informations sont pré-remplies */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  /* Remplacez "white" par la couleur de fond souhaitée */
+}
+
+.btn:disabled {
+  background-color: #dddddd;
+  color: rgb(0,0,0,0.9)!important /* Remplacez cette valeur par la couleur souhaitée */
+  /* Autres styles que vous souhaitez appliquer au bouton désactivé */
+}
+
 
