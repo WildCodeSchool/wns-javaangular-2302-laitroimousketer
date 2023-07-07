@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
+import { HeadbandComponent } from './core/components/headband/headband.component';
 import { HeaderComponent } from './core/components/header/header.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
@@ -14,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
+    HeadbandComponent,
     HeaderComponent,
   ],
   imports: [

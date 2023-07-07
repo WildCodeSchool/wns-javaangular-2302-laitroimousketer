@@ -1,1 +1,50 @@
+<<<<<<< HEAD
 @import 'src/assets/scss/template.scss';
+=======
+.headermob{
+  background-color:  #004463;
+  padding: 15px;
+}
+
+.picto {
+  transition: transform 0.3s ease-in-out;
+}
+
+.picto:hover {
+  transform: scale(1.2);
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+   .headermob {
+     padding: 40px;
+     padding-left: 130px;
+     padding-right: 130px;
+   }
+}
+
+.headerdesk {
+  background-color:  #004463;
+  padding: 15px;
+  padding-left: 50px;
+  float: left;
+  min-width: 18%;
+  min-height: 100vh;
+}
+
+.menulink {
+    color: white;
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out;
+  }
+
+.menulink:hover {
+    transform: scale(1.2);
+  }
+
+@media (min-width: 991.99px) {
+   .picto {
+      max-width: 50px;
+   }
+}
+
+>>>>>>> develop
