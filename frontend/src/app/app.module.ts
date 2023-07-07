@@ -8,6 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { ErrorInterceptor } from './core/interceptors/error-interceptor';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { AuthInterceptor } from './core/interceptors/auth-interceptor';
     ReactiveFormsModule,
     CoreModule,
     HttpClientModule,
+    BrowserAnimationsModule,
    
   ],
   providers: [

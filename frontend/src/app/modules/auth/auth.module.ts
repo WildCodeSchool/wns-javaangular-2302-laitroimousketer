@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 import { CoreModule } from 'src/app/core/core.module';
 import { AuthComponent } from './auth.component';
 import { AuthRoutingModule } from './auth-routing.module';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,11 @@ import { AuthRoutingModule } from './auth-routing.module';
     ReactiveFormsModule,
     RouterModule,
     AuthRoutingModule,
+    MatFormFieldModule,
+    MatInputModule,
+
+
+  
   ],
   exports: [
   ],

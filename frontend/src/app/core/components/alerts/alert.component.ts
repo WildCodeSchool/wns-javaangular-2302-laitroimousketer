@@ -37,7 +37,16 @@ export class AlertComponent implements OnInit {
       }
     });
   }
-
+ // Méthode pour obtenir les classes CSS spécifiques pour chaque icône Bootstrap en fonction du type d'alerte
+ getIconForType(type: string): string {
+  if (type === 'success') {
+    return 'bi bi-check-circle-fill';
+  } else if (type === 'danger') {
+    return 'bi bi-exclamation-circle-fill';
+  } else {
+    return ''; // Retourne une chaîne vide si aucun type d'alerte correspondant n'est trouvé
+  }
+}
   removeAlert(message: SafeHtml | null): void {
     this.alerts = this.alerts.filter((alert) => alert.msg !== message);
   }

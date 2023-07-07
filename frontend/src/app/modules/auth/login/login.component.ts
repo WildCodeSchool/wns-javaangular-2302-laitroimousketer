@@ -4,7 +4,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/services/alert.service';
-
+import {MatFormFieldModule} from '@angular/material/form-field';  
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   
   loginForm: FormGroup = new FormGroup({});
   private subscriptionLogin: Subscription = new Subscription();
-
+  
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,

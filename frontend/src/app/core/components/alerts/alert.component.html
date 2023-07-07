@@ -1,5 +1,8 @@
 <div *ngFor="let alert of alerts">
-  <div [ngClass]="['alert', 'alert-' + alert.type]" *ngIf="alert.msg">
+  <div [ngClass]="['alert', 'alert-' + alert.type, 'alert-custom']" *ngIf="alert.msg">
+    <span class="icon-container">
+      <i [ngClass]="getIconForType(alert.type)"></i>
+    </span>
     <span [innerHTML]="alert.msg"></span>
   </div>
 </div>
