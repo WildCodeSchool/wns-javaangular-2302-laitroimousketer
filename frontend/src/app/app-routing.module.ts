@@ -7,6 +7,7 @@ const routes: Routes = [
   {path: '', redirectTo: 'tickets/list', pathMatch: 'full'},
   {path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)},
   {path: 'tickets',loadChildren: () => import('./modules/ticket/ticket.module').then(m => m.TicketModule)},
+  {path: 'profile',loadChildren: () => import('./modules/profile/profile.module').then(m => m.ProfileModule)},
 ];
 
 @NgModule({
