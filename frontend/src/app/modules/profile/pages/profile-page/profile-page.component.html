@@ -1,0 +1,59 @@
+<section class="d-flex m-auto p-top-20">
+  <div class="container">
+    <div class="card">
+      <div class="profile-header">
+        <img src="https://www.logiquetechno.com/wp-content/uploads/2020/11/retirer-photo-de-profil-facebook.png" class="profile-icon">
+        <div class="profile-title">
+          <div  class="profile-name">
+            <strong>Jhon Doe</strong>
+          </div>
+          <div class="dash"></div>
+          <div class="profile-job">
+            <span>Assistant RH</span>
+          </div>
+        </div>
+      </div>
+      <div class="separator"></div>
+      <div class="profile-infos">
+        <div>
+          <h2>Mes informations personnelles</h2>
+        </div>
+        <div class="row">
+          <div class="column col">
+            <div class="column-item"><span>Email</span></div>
+            <input type="email" class="input-fielde"disabled placeholder="JhonDoe@gmail.com">
+            <div class="column-item">Mot de passe</div>
+            <input type="password"class="input-fielde" disabled placeholder="********">
+          </div>
+          <div class="column col">
+            <div class="column-item form-group">
+              <mat-form-field appearance="outline" >
+              <mat-label for="email">Modifier email</mat-label >
+              <input matInput type="email" class="form-control" id="email" formControlName="email">
+              <mat-icon matSuffix class="bi bi-envelope-at-fill"></mat-icon>
+            </mat-form-field>
+            </div>
+            <div class="column-item form-group mt-2 mb-5">
+              <mat-form-field appearance="outline" >
+                <mat-label for="password">Modifier mot de passe</mat-label>
+                <input matInput type="password" id="password" formControlName="password">
+                <mat-icon matSuffix class="bi bi-key-fill"></mat-icon>
+
+              </mat-form-field>
+            </div>
+          </div>
+
+        </div>
+        <div class=" valid-button">
+          <button class="btn btn-register">Enregistrer</button>
+        </div>
+      </div>
+      <div class="separator"></div>
+      <div class="empty-box">
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
