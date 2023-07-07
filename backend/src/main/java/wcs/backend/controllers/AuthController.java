@@ -6,6 +6,7 @@ import wcs.backend.entities.User;
 import wcs.backend.services.AuthService;
 import wcs.backend.services.UserService;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,15 +37,17 @@ public class AuthController {
     }
   }
 
-  @PostMapping("/register")
-  public ResponseEntity<User> registerUser(@RequestBody User user) {
-    try {
-      User createdUser = userService.createUser(user);
-      return ResponseEntity.status(HttpStatus.CREATED).body(createdUser); // HttpStatus.CREATED (201)
-    } catch (Exception e) {
-      e.printStackTrace();
-      return ResponseEntity.badRequest().build();
-    }
+@PostMapping("/register")
+public ResponseEntity<Object> registerUser(@RequestBody User user) {
+  try {
+    User createdUser = userService.createUser(user);
+    return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+  } catch (DataIntegrityViolationException e) {
+    return ResponseEntity.status(HttpStatus.CONFLICT).body("Email déjà existant");
+  } catch (Exception e) {
+    e.printStackTrace();
+    return ResponseEntity.badRequest().build();
   }
+}
 
 }
