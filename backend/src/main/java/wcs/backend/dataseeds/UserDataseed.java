@@ -28,7 +28,7 @@ public class UserDataseed {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  final int client_NB = 2;
+  final int client_NB = 20;
 
   public void resetData() {
     cleanData();
