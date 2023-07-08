@@ -53,7 +53,7 @@ public class UserDataseed {
       userCreated.setRole(null);
       Role roleUsed = roleRepository.findByTitle(Title.CLIENT).get(0);
       userCreated.setRole(roleUsed);
-      this.userService.createUser(userCreated);
+      userService.createUser(userCreated);
     }
 
 User dev = new User();
