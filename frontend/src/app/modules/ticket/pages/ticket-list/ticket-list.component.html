@@ -1,33 +1,43 @@
-<div class="container-fluid">
-    <h2 class="text-center">Ticket List</h2>
-    <button routerLink="/tickets/create" class="btn btn-success p-2 m-2">Create New Ticket</button>
-
-    <div *ngFor="let ticket of tickets" class="card p-2 m-2">
-        <div class="container card d-flex m-3 border border-3 rounded-4 border-secondary">
-            <div class="row">
-                <div class="col-sm-2 d-flex justify-content-center align-center p-2 ">
-                    <img class="rounded-circle shadow-4-strong m-2 " alt="avatar2" src="./../../../../../assets/images/avatar.png" width="30px" />
+<section class="ticket-list-c">
+  <div class="tickets-list">
+<h2 routerLink="/tickets/create">Créer un nouveau ticket<span class="bi bi-plus-circle-fill"></span></h2>
+    
+    <div class="search-bar">
+      <input type="text" placeholder="Rechercher un ticket par son numéro, nom, auteur..." />
+      <button type="submit">Rechercher</button>
+    </div>
+    
+    <div class="card-c">
+    <div *ngFor="let ticket of tickets">
+      <div class="card">
+     
+                <div class="avatar">
+                    <img class="rounded-circle" alt="avatar2" src="./../../../../../assets/images/avatar.png" width="50px" />
+                    <p class="author"> Mister x</p>
+                  </div>
+                <div class="description">
+                    <p><span>Ticket N°:</span> {{ticket.id}}</p>
+                    <p><span>Nom Ticket:</span> {{ticket.title}}</p>
+                    
+                    <p><span>Category:</span> {{ticket.category?.title}}</p>
+              
+            
+                    <p><span>Date:</span> 14/07/2023</p>
+                    <p><span>Priorité:</span> Urgent</p>
+                    <p><span>Dev:</span> Mister Dupond</p>
                 </div>
-                <div class="col-sm-4 d-flex flex-column justify-content-evenly align-start p-2  ">
-                    <div class="m-2">Ticket N°: {{ticket.id}}</div>
-                    <div class="m-2">Nom Ticket: {{ticket.title}}</div>
-                    <div class="m-2">Crée par : Mister X</div>
-                    <div class="m-2">Category: {{ticket.category?.title}}</div>
-                </div>
-                <div class="col-sm-4 d-flex flex-column justify-content-evenly align-start p-2  ">
-                    <div class="m-2">Date : 14/07/2023</div>
-                    <div class="m-2">Priorité: <span class="badge text-bg-warning p-2 m-2">Urgent</span></div>
-                    <div class="m-2">Dev : Mister Dupond</div>
-                </div>
-                <div class="col-sm-2 d-flex flex-column justify-content-evenly align-start p-2  ">
-                    <button routerLink="/tickets/edit/{{ticket.id}}" class="btn btn-info p-2 m-2">Edit</button>
-                    <button  (click)="openDeleteModal(ticket.id)" class="btn btn-danger p-2 m-2">Delete</button>
+                <div class="edit">
+                    <button routerLink="/tickets/edit/{{ticket.id}}" class="btn">Edit</button>
+                    <button  (click)="openDeleteModal(ticket.id)" class="btn">Delete</button>
                 </div>
             </div>
         </div>
+      </div>
+    </div>
+
 
         <!-- delete modal -->
-<div id="deleteModal{{ticket.id}}" class="modal d-none">
+<!-- <div id="deleteModal{{ticket.id}}" class="modal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -43,7 +53,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
         <!-- end delete modal -->
-    </div>    
-</div>
+    </section>    

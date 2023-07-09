@@ -3,20 +3,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { HeadbandComponent } from './core/components/headband/headband.component';
-import { HeaderComponent } from './core/components/header/header.component';
+import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { ErrorInterceptor } from './core/interceptors/error-interceptor';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SidebarComponent } from './core/components/sidebar/sidebar.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeadbandComponent,
-    HeaderComponent,
+
+    NavbarComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,

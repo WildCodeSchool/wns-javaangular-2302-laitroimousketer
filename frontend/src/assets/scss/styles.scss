@@ -36,20 +36,68 @@ $angular-frontend-ticketing-theme: mat.define-light-theme((
 /* You can add global styles to this file, and also import other style files */
 // @import "bootstrap/scss/bootstrap";
 //https://icons.getbootstrap.com
-@import "bootstrap/scss/bootstrap.scss";
+
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import './template.scss';
 
 // reset css
+/* http://meyerweb.com/eric/tools/css/reset/ 
+v2.0 | 20110126
+License: none (public domain)
+*/
+
 * {box-sizing: border-box;}
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-p,h1,h2,h3,h4,h5,h6 {margin: 0;}
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+  font-family: 'Roboto', sans-serif;
+}
 
-
-
-// remove bootstrap border because we have mat form field for that
-input,.input {border: none!important; border-color: none!important; box-shadow: none!important;font-size: 16px; @include tablet {font-size: 15px;} @include mobile {font-size: 14px;}}
+.btn
+{
+  cursor: pointer;
+  background-color:#F2F2F2;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  font-weight:400;
+  font-family: 'Open Sans', sans-serif;
+  box-shadow: $boxShadowBtn;
+  width: fit-content;
+  padding: 6px 12px;
+  @include mobile {padding: 5px 10px;}
+}
+.btn [class^="icon-"]
+{
+  font-size: 22px;
+  @include tablet {font-size: 18px; margin-right: 4px;}
+  @include mobile {font-size: 16px;margin-right: 2px;}
+  margin-right: 6px;
+  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(180deg, rgb(44, 44, 44) 0%, rgb(160, 160, 160) 100%);
+  background-clip: text;
+  -webkit-background-clip:text;
+  color: transparent;
+}
 
 // mat-form-field //
 
@@ -94,8 +142,7 @@ input:-webkit-autofill {
 
 .btn:disabled {
   background-color: #dddddd;
-  color: rgb(0,0,0,0.9)!important /* Remplacez cette valeur par la couleur souhaitée */
-  /* Autres styles que vous souhaitez appliquer au bouton désactivé */
+  color: rgb(0,0,0,0.9)!important 
 }
 
 

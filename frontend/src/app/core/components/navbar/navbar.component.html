@@ -1,0 +1,32 @@
+<!-- navbar desktop-->
+<div id="body">
+<nav class="navbar">
+  <div class="logo">
+    <img routerLink="/ "src="{{ logo }}" alt="Logo">
+  </div>
+  <ul class="links">
+ 
+    <li class="ticket" routerLink="/tickets/list" >
+      <a class="bi bi-ticket-fill"></a>
+    </li>
+ 
+  <li>
+  <a class="bi bi-search"></a>
+</li>
+<li *ngIf="userRole !== 'client'">
+  <a class="bi bi-people"></a>
+</li>
+<li *ngIf="userRole !== 'client'">
+  <a class="bi bi-speedometer"></a>
+</li>
+<li *ngIf="userRole !== 'client'" routerLink="/" class="menulink">
+ <a class="bi bi-activity" (click)="openSidebar()"></a>
+</li>
+</ul>
+<div class="avatar">
+  <img src="{{ avatar }}" class="avatar" />
+
+</div>
+<p class="corporation" (click)="test()">Alayde INC  ©</p>
+</nav>
+</div>

@@ -1,46 +1,71 @@
-.headermob{
-  background-color:  #004463;
-  padding: 15px;
-}
+@import 'src/assets/scss/template.scss';
+.header-c {
+  display: flex;
+  position: fixed;
+  right: 10vw;
+  width: 100%;
+  padding-top: 10px;
 
-.picto {
-  transition: transform 0.3s ease-in-out;
-}
 
-.picto:hover {
-  transform: scale(1.2);
-}
-
-@media (min-width: 768px) and (max-width: 991.98px) {
-   .headermob {
-     padding: 40px;
-     padding-left: 130px;
-     padding-right: 130px;
-   }
-}
-
-.headerdesk {
-  background-color:  #004463;
-  padding: 15px;
-  padding-left: 50px;
-  float: left;
-  min-width: 18%;
-  min-height: 100vh;
-}
-
-.menulink {
-    color: white;
-    text-decoration: none;
-    transition: transform 0.3s ease-in-out;
+  h1 {
+    margin-left: 55%;
+    margin-right: auto;
+    font-size: 4rem;
+    position: relative;
+    animation: titleBarAnimation 0.4s ease-in-out forwards, opacityAnimation 0.8s ease-in-out forwards;
   }
-
-.menulink:hover {
-    transform: scale(1.2);
+}
+h1::after {
+  content: '';
+  display: block;
+  position: inherit;
+  width: 120%;
+  right: 10%;
+  height: 5px;
+  background: $redColor;
+  margin-top: 10px;
+}
+.avatar {
+  width: 80px;
+  margin-right: 20px;
+  img {
+    width: 100%;
   }
+}
+.alert {
+  font-size: 2.5rem;
 
-@media (min-width: 991.99px) {
-   .picto {
-      max-width: 50px;
-   }
+}
+.bi-bell-slash {
+  color: $secondaryColor;
+}
+.bi-bell {
+  color: $redColor;
+  cursor: pointer;
+  }
+.bi-search {
+  font-size: 2.5rem;
+  color: $primaryColor;
+  font-weight: 600;
+  margin-left: 16px;
+  cursor: pointer;
 }
 
+
+
+@keyframes titleBarAnimation {
+  from {
+    width: 0;
+  }
+  to {
+    width: 12%;
+  }
+}
+@keyframes opacityAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
