@@ -23,7 +23,12 @@
  <a class="bi bi-activity" (click)="openSidebar()"></a>
 </li>
 </ul>
-<div class="avatar">
+<mat-menu #menu="matMenu" >
+  <button mat-menu-item>Voir son profil</button>
+  <button mat-menu-item (click)="logout()">Se déconnecter</button>
+</mat-menu>
+
+<div class="avatar"  [matMenuTriggerFor]="menu" (click)="sendSuccessAlert()">
   <img src="{{ avatar }}" class="avatar" />
 
 </div>

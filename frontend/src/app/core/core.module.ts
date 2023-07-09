@@ -6,8 +6,9 @@ import { AlertComponent } from './components/alerts/alert.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { FormsModule } from '@angular/forms';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
+import { MatMenuModule} from '@angular/material/menu';
+import { MatDialogModule} from '@angular/material/dialog';
 @NgModule({
   declarations: [
     FooterComponent,
@@ -22,6 +23,9 @@ import { HeaderComponent } from './components/header/header.component';
     AlertModule.forRoot(),
     MatSidenavModule,
     FormsModule,
+    MatMenuModule,
+    MatDialogModule,
+
 
   ],
   exports: [
@@ -29,6 +33,7 @@ import { HeaderComponent } from './components/header/header.component';
     MatSidenavModule,
     FormsModule,
     HeaderComponent,
+    MatMenuModule,
   ],
   providers: [ 
   ],

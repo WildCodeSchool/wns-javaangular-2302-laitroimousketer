@@ -8,6 +8,7 @@ import { User } from '../models/user.model';
 import { UserService } from './user.service';
 import { catchError, switchMap } from 'rxjs/operators';
 import { Role } from '../models/role.model';
+import { AlertService } from './alert.service';
 
 //accessToken est le nom de la propriete du token renvoyée par le serveur
 interface LoginResponse {
@@ -29,7 +30,7 @@ export class AuthService {
   private activeTabSource: BehaviorSubject<'login' | 'register'> = new BehaviorSubject<'login' | 'register'>('login');
   public activeTab$ = this.activeTabSource.asObservable();
 
-  constructor(private httpClient: HttpClient, private router: Router, private userService: UserService) {
+  constructor(private alertService: AlertService, private httpClient: HttpClient, private router: Router, private userService: UserService) {
     const storedToken = this.getAuthToken();
     this.isAuthenticated()
       .pipe(take(1))
@@ -79,6 +80,7 @@ export class AuthService {
         tap(() => {
           // Effectuer les actions nécessaires après l'enregistrement réussi, si nécessaire
           console.log('enregistrement réussi: ', registerData);
+          this.alertService.showSuccessAlert('Votre compte a été créé avec succès');
           })
       );
   }
@@ -101,6 +103,7 @@ export class AuthService {
   logout() {
     this.$isLog.next(false); // Indiquer que l'utilisateur n'est plus connecté
     localStorage.removeItem('auth_token'); // Supprimer le jeton d'authentification
+    this.alertService.showSuccessAlert('Vous êtes maintenant déconnecté'); // Afficher une alerte de déconnexion
   }
 
   // Error

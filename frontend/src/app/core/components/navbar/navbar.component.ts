@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
 import { SharedService } from '../../services/shared.service';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,14 +12,30 @@ import { SharedService } from '../../services/shared.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+  @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
+
+
+  openMenu() {
+    this.trigger.openMenu();
+  }
+  sendSuccessAlert(): void {
+    const msg = 'Succès !';
+
+    this.alertService.showSuccessAlert(msg);
+  }
+
   logo: string = 'assets/images/alayde.png';
   ticket: string = 'assets/images/tickets.png';
   avatar: string = 'assets/images/avatar.png';
   userRole: string = ''; // Ajoute cette ligne pour déclarer la propriété userRole
 
-  constructor(private userService: UserService, private authService: AuthService,private sharedService: SharedService){ 
+  constructor(private alertService: AlertService, private userService: UserService, private authService: AuthService,private sharedService: SharedService){ 
     this.getUserProfile();
   }
+logout(){
+  this.authService.logout();
+}
+
 
   getUserProfile(): void {
     const userEmail = this.authService.getUserMailFromToken(this.authService.getAuthToken());
