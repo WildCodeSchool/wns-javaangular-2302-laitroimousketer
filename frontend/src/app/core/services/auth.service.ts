@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, map, take, throwError, tap } from 'rxjs';
 import { Router } from '@angular/router';
@@ -17,7 +17,7 @@ interface LoginResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements OnInit {
   private apiUrl = environment.apiUrl;
   private readonly httpOptions = {
     headers: new HttpHeaders({
@@ -30,6 +30,11 @@ export class AuthService {
   private activeTabSource: BehaviorSubject<'login' | 'register'> = new BehaviorSubject<'login' | 'register'>('login');
   public activeTab$ = this.activeTabSource.asObservable();
 
+  userEmail: string ='';
+  userFirstName: string = '';
+  userLastName: string = '';
+  userRole: string = '';
+
   constructor(private alertService: AlertService, private httpClient: HttpClient, private router: Router, private userService: UserService) {
     const storedToken = this.getAuthToken();
     this.isAuthenticated()
@@ -38,7 +43,10 @@ export class AuthService {
         this.$isLog.next(isAuthenticated);
       });
   }
-
+ngOnInit(): void {
+  this.getUserProfile();
+   
+}
   switchToLogin(): void {
     this.activeTabSource.next('login');
   }
@@ -134,6 +142,14 @@ export class AuthService {
   
     if (userEmail) {
       return this.userService.getUserByEmail(userEmail).pipe(
+        map((user: User) => {
+          this.userEmail = userEmail; // Définis l'e-mail de l'utilisateur
+          this.userFirstName = user.firstname;
+          this.userLastName = user.lastname // Définis le nom de l'utilisateur à partir des données de l'utilisateur
+          this.userRole = user.role.title;
+          console.log('Infos utilisateur récupérées:', this.userEmail, this.userFirstName, this.userLastName);
+          return user;
+        }),
         catchError((error: any) => {
           console.error('Erreur lors de la récupération du profil utilisateur :', error);
           return throwError(error);
@@ -143,6 +159,7 @@ export class AuthService {
       return throwError('Adresse e-mail de l\'utilisateur non valide');
     }
   }
+  
 
   
 }

@@ -11,9 +11,9 @@
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$angular-frontend-ticketing-primary: mat.define-palette(mat.$indigo-palette);
-$angular-frontend-ticketing-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
+// hue. Available color palettes: https://material.io/design/color/ OU https://www.materialpalette.com/colors
+$angular-frontend-ticketing-primary: mat.define-palette(mat.$blue-palette, 900);
+$angular-frontend-ticketing-accent: mat.define-palette(mat.$amber-palette, A200);
 
 // The warn palette is optional (defaults to red).
 $angular-frontend-ticketing-warn: mat.define-palette(mat.$red-palette);
@@ -71,78 +71,62 @@ time, mark, audio, video {
 
 .btn
 {
-  cursor: pointer;
-  background-color:#F2F2F2;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  font-weight:400;
-  font-family: 'Open Sans', sans-serif;
-  box-shadow: $boxShadowBtn;
-  width: fit-content;
-  padding: 6px 12px;
-  @include mobile {padding: 5px 10px;}
-}
-.btn [class^="icon-"]
-{
-  font-size: 22px;
-  @include tablet {font-size: 18px; margin-right: 4px;}
-  @include mobile {font-size: 16px;margin-right: 2px;}
-  margin-right: 6px;
-  vertical-align: middle;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: linear-gradient(180deg, rgb(44, 44, 44) 0%, rgb(160, 160, 160) 100%);
-  background-clip: text;
-  -webkit-background-clip:text;
-  color: transparent;
+  font-size: 16px;
+  @include tablet {font-size: 15px}
+  @include mobile {font-size: 14px}
 }
 
 // mat-form-field //
 
-.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
-  padding-top: 6px !important;
-  padding-bottom: 6px !important;
+
+.mat-mdc-form-field-flex  {
+  background-color: white;
+}
+.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper  {
+  background-color: white;
+}  
+.mat-mdc-form-field-infix {
+  // background-color: white;
 }
 
-.mat-mdc-form-field-infix {
-  min-height: 16px !important;
-}
-mat-icon {
-  margin-right: 4px;
+mat-icon {   
+
 }
 mat-form-field {
   width: 100%;
 
+
 }
+
 mat-label {
-  
+
 }
 mat-error {
   font-size: 11px;
 }
-mat-label {
-  padding-bottom: 8px!important;
-}
+
 .mat-focused mat-label
 {
   font-style: italic;
 }
-.mat-form-field {
-  color: black;
-  font-weight: 400;
-  padding: 0;
+.disabled {
+  background-color: #dddddd!important;
+  color: black!important;
+  pointer-events: none;
+  opacity: 0.5;
 }
-/* Cible le champ d'entrée lorsque les informations sont pré-remplies */
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 30px white inset !important;
-  /* Remplacez "white" par la couleur de fond souhaitée */
+mat-icon {
+  padding-right: 10px;
+  font-size: 20px;
+}
+/* Remove color of autofiull by the navigators*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-.btn:disabled {
-  background-color: #dddddd;
-  color: rgb(0,0,0,0.9)!important 
-}
+
 
 

@@ -10,10 +10,6 @@
   background: linear-gradient(105deg, $thirdColor 0%, $thirdColor 100%);
   z-index:2;
   border-radius: 50px 0 0 50px;
-  @include mobiletablet {border-radius: 0!important}
-  @media (max-height: 700px) {
-    border-radius: 0!important;
-  }
 }
 ::ng-deep .content{
   height: 100%;

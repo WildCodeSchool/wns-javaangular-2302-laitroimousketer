@@ -57,12 +57,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
   
-  
-
-  logout(): void {
-    this.alertService.showSuccessAlert('Vous êtes déconnecté !');
-    this.authService.logout();
-  }
   ngOnDestroy(): void {
     // Désabonnez-vous des abonnements ici
     this.subscriptionLogin.unsubscribe();

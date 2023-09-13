@@ -1,12 +1,7 @@
-<div class="video-container">
-  <video autoplay loop muted playsinline id="bgVideo" preload="auto">
-    <source src="../../../assets/videos/video_login.mp4" type="video/mp4" />
-  </video>
-  <div class="row justify-content-center">
-    <div class="logo">
-    <img src = "../../../assets/images/logo.png" class="logo" alt="logo">
+<section class="auth-container">
+  <div class="logo">
+    <img src="../../../assets/images/logo.png" class="logo" alt="logo">
   </div>
   <app-login *ngIf="activeTab === 'login'" class="login"></app-login>
   <app-register *ngIf="activeTab === 'register'" class="register"></app-register>
-  </div>
-</div>
+</section>

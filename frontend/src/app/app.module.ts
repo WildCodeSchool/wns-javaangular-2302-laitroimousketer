@@ -10,14 +10,16 @@ import { ErrorInterceptor } from './core/interceptors/error-interceptor';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidebarComponent } from './core/components/sidebar/sidebar.component';
+import { RouterModule } from '@angular/router';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-
     NavbarComponent,
     SidebarComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -26,6 +28,8 @@ import { SidebarComponent } from './core/components/sidebar/sidebar.component';
     CoreModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    RouterModule,
+    
    
   ],
   providers: [

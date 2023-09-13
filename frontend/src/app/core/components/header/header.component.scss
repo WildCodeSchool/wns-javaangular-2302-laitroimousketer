@@ -1,29 +1,37 @@
 @import 'src/assets/scss/template.scss';
 .header-c {
   display: flex;
-  position: fixed;
-  right: 10vw;
+  justify-content: center;
   width: 100%;
   padding-top: 10px;
+  margin-bottom: 20px;
 
 
   h1 {
-    margin-left: 55%;
-    margin-right: auto;
-    font-size: 4rem;
+    display: flex;
+    justify-content: center;
     position: relative;
+    font-size: 4rem;
+    margin: auto;
     animation: titleBarAnimation 0.4s ease-in-out forwards, opacityAnimation 0.8s ease-in-out forwards;
   }
 }
 h1::after {
   content: '';
   display: block;
-  position: inherit;
-  width: 120%;
-  right: 10%;
-  height: 5px;
+  position: absolute;
+  width: 100%;
+  right: 0%;
+  left: 0%;
+  bottom: 0px;
+  height: 4px;
   background: $redColor;
   margin-top: 10px;
+}
+.header-icons {
+  position: fixed;
+  right: 10vw;
+
 }
 .avatar {
   width: 80px;
@@ -38,6 +46,7 @@ h1::after {
 }
 .bi-bell-slash {
   color: $secondaryColor;
+  cursor: pointer;
 }
 .bi-bell {
   color: $redColor;
