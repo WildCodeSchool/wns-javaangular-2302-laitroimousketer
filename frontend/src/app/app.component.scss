@@ -1,6 +1,13 @@
 @import 'src/assets/scss/template.scss';
-#main
-{
+#body {
+  display: flex;
+  height: 100vh;
+  background: $primaryColor;
+  z-index: 2;
+  border-radius: 50px;
+}
+
+#main {
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
@@ -8,18 +15,9 @@
   width: 100%;
   height: 100vh;
   background: linear-gradient(105deg, $thirdColor 0%, $thirdColor 100%);
-  z-index:2;
+  z-index:1;
   border-radius: 50px 0 0 50px;
 }
-::ng-deep .content{
-  height: 100%;
-}
 
-#body {
-  display: flex;
-  height: 100vh;
-  transition: transform 0.3s ease;
-  background: $primaryColor;
-  z-index: 1;
-  border-radius: 50px;
-}
+
+

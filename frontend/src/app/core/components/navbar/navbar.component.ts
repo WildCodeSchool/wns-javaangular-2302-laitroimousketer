@@ -6,6 +6,7 @@ import { SharedService } from '../../services/shared.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { AlertService } from '../../services/alert.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +19,8 @@ export class NavbarComponent {
   openMenu() {
     this.trigger.openMenu();
   }
-
+  private sidebarSubscription: Subscription | undefined;
+  
   logo: string = 'assets/images/alayde.png';
   ticket: string = 'assets/images/tickets.png';
   avatar: string = 'assets/images/avatar.png';
@@ -26,6 +28,7 @@ export class NavbarComponent {
   userEmail: string = '';
   userFirstName: string = '';
   userLastName: string = '';
+  opened: boolean = false;
 
   constructor(
     private alertService: AlertService,
@@ -36,6 +39,9 @@ export class NavbarComponent {
   ) {}
   ngOnInit(): void {
     // Appelle getUserProfile() pour récupérer les données de l'utilisateur
+    this.sidebarSubscription = this.sharedService.sidebarOpened$.subscribe(opened => {
+      this.opened = opened;
+    });
     this.authService.getUserProfile().subscribe((user) => {
       this.userEmail = this.authService.userEmail;
       this.userFirstName = this.authService.userFirstName;
@@ -49,7 +55,7 @@ export class NavbarComponent {
     this.router.navigate(['/auth']);
   }
 
-  openSidebar() {
+   toggleSidenav(): void {
     this.sharedService.toggleSidebar();
   }
 }

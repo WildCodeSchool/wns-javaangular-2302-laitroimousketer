@@ -9,6 +9,7 @@ export class SharedService {
   sidebarOpened$ = this.sidebarOpenedSubject.asObservable();
 constructor() { }
 toggleSidebar(): void {
+  console.log('toggleSidebar() called', !this.sidebarOpenedSubject.value);
   this.sidebarOpenedSubject.next(!this.sidebarOpenedSubject.value);
 }
 }
