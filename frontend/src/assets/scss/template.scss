@@ -33,7 +33,7 @@ $mobile : 767px;
   }
 
 @mixin desktop {
-  @media (min-width : ($laptop + 1)) {
+  @media (min-width : ($laptop + 1)) and (max-width : $qhd) {
     @content;
   }
 }

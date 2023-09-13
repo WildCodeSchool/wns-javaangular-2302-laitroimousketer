@@ -11,7 +11,7 @@ export class SearchBarComponent implements OnInit {
   constructor() { }
   searchControl!: FormControl;
 
-  placerholder : string = 'Rechercher un ticket par son numéro, nom, auteur...'
+  placerholder : string = "Rechercher un ticket par son numéro, nom de l'auteur, mail..."
   ngOnInit() {
   }
 

@@ -16,8 +16,9 @@
   height: 100vh;
   background: linear-gradient(105deg, $thirdColor 0%, $thirdColor 100%);
   z-index:1;
-  border-radius: 50px 0 0 50px;
 }
-
+.main-radius {
+border-radius: 50px 0 0 50px;
+}
 
 

@@ -1,7 +1,7 @@
 <div id="body">
   <app-alert></app-alert>
   <app-navbar *ngIf='!isOnAuthPage'></app-navbar>
-  <div id="main">
+  <div id="main" [ngClass]="{'main-radius': !isOnAuthPage}">
     <app-header *ngIf='!isOnAuthPage' class="header"></app-header>
     <app-sidebar *ngIf='!isOnAuthPage'></app-sidebar>
     <router-outlet>
