@@ -1,8 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, map, take, throwError, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import jwt_decode from 'jwt-decode';
+import { User } from '../models/user.model';
+import { UserService } from './user.service';
+import { catchError, switchMap } from 'rxjs/operators';
+import { Role } from '../models/role.model';
+import { AlertService } from './alert.service';
 
 //accessToken est le nom de la propriete du token renvoyée par le serveur
 interface LoginResponse {
@@ -11,7 +17,7 @@ interface LoginResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements OnInit {
   private apiUrl = environment.apiUrl;
   private readonly httpOptions = {
     headers: new HttpHeaders({
@@ -24,7 +30,12 @@ export class AuthService {
   private activeTabSource: BehaviorSubject<'login' | 'register'> = new BehaviorSubject<'login' | 'register'>('login');
   public activeTab$ = this.activeTabSource.asObservable();
 
-  constructor(private httpClient: HttpClient, private router: Router) {
+  userEmail: string ='';
+  userFirstName: string = '';
+  userLastName: string = '';
+  userRole: string = '';
+
+  constructor(private alertService: AlertService, private httpClient: HttpClient, private router: Router, private userService: UserService) {
     const storedToken = this.getAuthToken();
     this.isAuthenticated()
       .pipe(take(1))
@@ -32,7 +43,10 @@ export class AuthService {
         this.$isLog.next(isAuthenticated);
       });
   }
-
+ngOnInit(): void {
+  this.getUserProfile();
+   
+}
   switchToLogin(): void {
     this.activeTabSource.next('login');
   }
@@ -74,6 +88,7 @@ export class AuthService {
         tap(() => {
           // Effectuer les actions nécessaires après l'enregistrement réussi, si nécessaire
           console.log('enregistrement réussi: ', registerData);
+          this.alertService.showSuccessAlert('Votre compte a été créé avec succès');
           })
       );
   }
@@ -84,7 +99,8 @@ export class AuthService {
   }
 
   public getAuthToken(): string | null {
-    return localStorage.getItem('auth_token');
+    const token = localStorage.getItem('auth_token');
+    return token !== null ? token : null;
   }
 
   public isAuthenticated(): Observable<boolean> {
@@ -95,9 +111,8 @@ export class AuthService {
   logout() {
     this.$isLog.next(false); // Indiquer que l'utilisateur n'est plus connecté
     localStorage.removeItem('auth_token'); // Supprimer le jeton d'authentification
+    this.alertService.showSuccessAlert('Vous êtes maintenant déconnecté'); // Afficher une alerte de déconnexion
   }
-  
- 
 
   // Error
   handleError(error: HttpErrorResponse) {
@@ -112,6 +127,40 @@ export class AuthService {
     }
     return throwError(msg);
   }
+  public getUserMailFromToken(token: string | null): string | null {
+    if (token) {
+      const decodedToken: any = jwt_decode(token);
+      console.log('decodedToken', decodedToken.sub);
+      return decodedToken.sub;
+    }
+    return null;
+  }
+  
+  getUserProfile(): Observable<User> {
+    const token = this.getAuthToken();
+    const userEmail = this.getUserMailFromToken(token);
+  
+    if (userEmail) {
+      return this.userService.getUserByEmail(userEmail).pipe(
+        map((user: User) => {
+          this.userEmail = userEmail; // Définis l'e-mail de l'utilisateur
+          this.userFirstName = user.firstname;
+          this.userLastName = user.lastname // Définis le nom de l'utilisateur à partir des données de l'utilisateur
+          this.userRole = user.role.title;
+          console.log('Infos utilisateur récupérées:', this.userEmail, this.userFirstName, this.userLastName);
+          return user;
+        }),
+        catchError((error: any) => {
+          console.error('Erreur lors de la récupération du profil utilisateur :', error);
+          return throwError(error);
+        })
+      );
+    } else {
+      return throwError('Adresse e-mail de l\'utilisateur non valide');
+    }
+  }
+  
 
+  
 }
 

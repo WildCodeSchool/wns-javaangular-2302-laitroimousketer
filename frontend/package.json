@@ -23,6 +23,7 @@
     "@material/form-field": "^15.0.0-canary.684e33d25.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.5",
+    "jwt-decode": "^3.1.2",
     "ngx-bootstrap": "^10.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

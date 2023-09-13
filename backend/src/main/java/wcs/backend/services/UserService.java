@@ -25,7 +25,7 @@ public class UserService {
 
     // Définir le rôle par défaut (CLIENT)
     Role defaultRole = roleRepository.findByTitle(Title.CLIENT).get(0);
-    if (defaultRole != null) {
+    if (defaultRole == null) {
       user.setRole(defaultRole);
     }
     User savedUser = userRepository.save(user);
@@ -87,5 +87,8 @@ public class UserService {
     }
     return null;
   }
+  public Optional<User> getUserByEmail(String email) {
+    return userRepository.findByEmail(email);
+}
 
 }

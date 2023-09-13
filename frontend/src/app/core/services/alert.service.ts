@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class AlertService {
+
   successMsg$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   errorMsg$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 

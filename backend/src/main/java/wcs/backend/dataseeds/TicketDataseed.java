@@ -23,7 +23,7 @@ public class TicketDataseed {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    final int TICKET_NB = 3;
+    final int TICKET_NB = 20;
 
     public void resetData(){
         cleanData();

@@ -1,0 +1,87 @@
+@import 'src/assets/scss/template.scss';
+.tickets-list-c {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2%;
+}
+.tickets-list {
+  box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.5);
+  background-color: $primaryColor;
+  border-radius: 10px;
+  width: 100%;
+  height: 74vh;
+  @include mobile {
+    height: 70vh
+  }
+  @include qhd {
+    height: 86vh
+  }
+}
+h2 {
+  font-size: 2rem;
+  font-weight: 400;
+  color: white;
+  cursor: pointer;
+  span {
+    font-size: 2rem;
+    margin-left: 6px;
+    color: $secondaryColor;
+  }
+  
+}
+.card-c {
+  display: flex;
+  justify-content: center;
+
+  margin:  auto;
+  gap: 40px;
+
+}
+.card {
+  
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  padding: 20px 10px;
+  box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.3);
+  color: $blackColor;
+}
+.edit {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+.author {
+  color: $secondaryColor;
+  font-size: 2rem;
+  margin-left: 10px;
+}
+.avatar {
+  display: flex;
+  align-items: center;
+  
+  span {
+    margin-left: 10px;
+    font-size: 1.2rem;
+    font-family: 'Arial', sans-serif;
+    font-style: italic;
+  }
+}
+.description {
+  span {
+    font-style: italic;
+    color: $blackColor;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+ margin: 10px 0px 20px 0;
+ p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+ }
+
+}
+

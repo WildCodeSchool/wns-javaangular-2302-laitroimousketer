@@ -1,6 +1,7 @@
 package wcs.backend.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,4 +61,15 @@ public class UserController {
         List<User> users = userService.getUsersByName(name);
         return ResponseEntity.ok(users);  // HttpStatus.OK (200)
     }
+
+    @GetMapping("/email")
+    public ResponseEntity<User> getUserByEmail(@RequestParam("email") String email) {
+      Optional<User> user = userService.getUserByEmail(email);
+      if (user.isPresent()) {
+        return ResponseEntity.ok(user.get());
+      } else {
+        return ResponseEntity.notFound().build();
+      }
+    }
+    
 }

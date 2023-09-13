@@ -11,9 +11,9 @@
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$angular-frontend-ticketing-primary: mat.define-palette(mat.$indigo-palette);
-$angular-frontend-ticketing-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
+// hue. Available color palettes: https://material.io/design/color/ OU https://www.materialpalette.com/colors
+$angular-frontend-ticketing-primary: mat.define-palette(mat.$blue-palette, 900);
+$angular-frontend-ticketing-accent: mat.define-palette(mat.$amber-palette, A200);
 
 // The warn palette is optional (defaults to red).
 $angular-frontend-ticketing-warn: mat.define-palette(mat.$red-palette);
@@ -36,66 +36,97 @@ $angular-frontend-ticketing-theme: mat.define-light-theme((
 /* You can add global styles to this file, and also import other style files */
 // @import "bootstrap/scss/bootstrap";
 //https://icons.getbootstrap.com
-@import "bootstrap/scss/bootstrap.scss";
+
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import './template.scss';
 
 // reset css
+/* http://meyerweb.com/eric/tools/css/reset/ 
+v2.0 | 20110126
+License: none (public domain)
+*/
+
 * {box-sizing: border-box;}
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-p,h1,h2,h3,h4,h5,h6 {margin: 0;}
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+  font-family: 'Roboto', sans-serif;
+}
 
-
-
-// remove bootstrap border because we have mat form field for that
-input,.input {border: none!important; border-color: none!important; box-shadow: none!important;font-size: 16px; @include tablet {font-size: 15px;} @include mobile {font-size: 14px;}}
+.btn
+{
+  font-size: 16px;
+  @include tablet {font-size: 15px}
+  @include mobile {font-size: 14px}
+}
 
 // mat-form-field //
 
-.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
-  padding-top: 6px !important;
-  padding-bottom: 6px !important;
+
+.mat-mdc-form-field-flex  {
+  background-color: white;
+}
+.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper  {
+  background-color: white;
+}  
+.mat-mdc-form-field-infix {
+  // background-color: white;
 }
 
-.mat-mdc-form-field-infix {
-  min-height: 16px !important;
-}
-mat-icon {
-  margin-right: 4px;
+mat-icon {   
+
 }
 mat-form-field {
   width: 100%;
 
+
 }
+
 mat-label {
-  
+
 }
 mat-error {
   font-size: 11px;
 }
-mat-label {
-  padding-bottom: 8px!important;
-}
+
 .mat-focused mat-label
 {
   font-style: italic;
 }
-.mat-form-field {
-  color: black;
-  font-weight: 400;
-  padding: 0;
+.disabled {
+  background-color: #dddddd!important;
+  color: black!important;
+  pointer-events: none;
+  opacity: 0.5;
 }
-/* Cible le champ d'entrée lorsque les informations sont pré-remplies */
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 30px white inset !important;
-  /* Remplacez "white" par la couleur de fond souhaitée */
+mat-icon {
+  padding-right: 10px;
+  font-size: 20px;
+}
+/* Remove color of autofiull by the navigators*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-.btn:disabled {
-  background-color: #dddddd;
-  color: rgb(0,0,0,0.9)!important /* Remplacez cette valeur par la couleur souhaitée */
-  /* Autres styles que vous souhaitez appliquer au bouton désactivé */
-}
+
 
 

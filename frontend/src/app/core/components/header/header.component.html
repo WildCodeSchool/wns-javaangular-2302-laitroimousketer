@@ -1,38 +1,7 @@
-<!-- navbar mobile-->
-<div class="headermob d-flex justify-content-between d-lg-none fixed-bottom">
-  <a routerLink="/">
-    <img src="{{ accueil }}" alt="accueil" class="picto">
-  </a>
-  <a routerLink="/tickets/list">
-    <img src="{{ vue }}" alt="vue" class="picto">
-  </a>
-  <a routerLink="">
-    <img src="{{ tickets }}" alt="tickets" class="picto">
-  </a>
-  <a routerLink="auth/login">
-    <img src="{{ profil }}" alt="profil" class="picto">
-  </a>
-</div>
-
-<!-- navbar desktop-->
-<div class="headerdesk d-none d-lg-block">
-  <h1 class="text-white fs-3 py-3">Menu</h1>
-  <div class="d-flex flex-column">
-    <a routerLink="/" class="menulink">
-      <img src="{{ accueil }}" alt="accueil" class="picto py-2">
-      Accueil
-    </a>
-    <a routerLink="/tickets/list" class="menulink">
-      <img src="{{ vue }}" alt="vue" class="picto py-2">
-      Tickets
-    </a>
-    <a routerLink="" class="menulink">
-      <img src="{{ tickets }}" alt="tickets" class="picto py-2">
-      Vue
-    </a>
-    <a routerLink="auth/login" class="menulink">
-      <img src="{{ profil }}" alt="profil" class="picto py-2">
-      Profil
-    </a>
+<section class="header-c">
+  <h1>{{title}}</h1>
+  <div class="header-icons">
+    <span class="alert {{alert}}"> </span>
+    <span class="bi-search"> </span>
   </div>
-</div>
+</section>

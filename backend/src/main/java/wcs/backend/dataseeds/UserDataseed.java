@@ -28,7 +28,7 @@ public class UserDataseed {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  final int client_NB = 2;
+  final int client_NB = 20;
 
   public void resetData() {
     cleanData();
@@ -53,7 +53,7 @@ public class UserDataseed {
       userCreated.setRole(null);
       Role roleUsed = roleRepository.findByTitle(Title.CLIENT).get(0);
       userCreated.setRole(roleUsed);
-      this.userService.createUser(userCreated);
+      userService.createUser(userCreated);
     }
 
 User dev = new User();
