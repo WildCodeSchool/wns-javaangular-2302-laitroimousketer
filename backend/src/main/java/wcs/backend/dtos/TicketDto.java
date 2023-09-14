@@ -1,14 +1,21 @@
 package wcs.backend.dtos;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class TicketDto {
 
-    private Long id;
-
-    private String title;
-
-    private String description;
-
-    String category = "toto_category";
+  private Long id;
+  private String title;
+  private String description;
+  private String status;
+  private Long statusId;
+  private String category;
+  
 
     
 }

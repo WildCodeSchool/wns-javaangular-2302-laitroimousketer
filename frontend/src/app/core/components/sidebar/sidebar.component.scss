@@ -1,124 +1,49 @@
 @import 'src/assets/scss/template.scss';
-.burger {
-  margin-top: 1.5rem;
-  margin-right: 0.5em;
-  cursor: pointer;
-}
-
 
 .sidenav-c {
   position: fixed;
+  width: 100%;
   top: 0;
   right: 0;
+  left: 0;
   height: 100vh;
-  z-index: 1;
+  z-index: 9999;
   background-color: transparent;
-
+}
+.hide {
+  display: none;
 }
 
 .sidenav {
-  width: 300px;
+  width: 30vw;
+  z-index: 100;
+  @include qhd {
+    width: 25vw;
+  }
+  @include laptop {
+    width: 35vw;
+  }
+  @include mobile {
+    width: 100%;
+  }
+  @include tablet {
+    width: 60vw;
+  }
   border-radius: 20px 0 0 20px;
   padding: 10px;
   box-shadow: -5px 5px 15px 0px rgba(0, 0, 0, 0.2);
 }
-
-.btn-c {
-  height: 80px;
-  overflow: hidden;
-  width: fit-content;
-  height: fit-content;
+.bi-x-circle {
+  font-size: 28px;
+  justify-content: flex-end;
+  display: none;
+  color: $primaryColor;
+  @include mobile { display: flex;}
 }
-
-
-
-
-
-
-
-
-
-
-/*=========code pour l'icone de burger et croix=================*/
-
-
-.croix span {
-  width: 100%;
-  height: 4px;
-  border-radius: 12px;
-  display: block;
-}
-
-.croix span::before,
-.croix span::after {
-  content: "";
-  width: 30px;
-  background-color: black;
-  display: block;
-  border-radius: 12px;
-  height: 4px;
-}
-
-.croix span::before {
-  transform: translateY(-10px);
-  transform: rotate(45deg);
-}
-
-.croix span::after {
-  transform: translateY(10px);
-  transform: rotate(-45deg);
-  margin-top: -4px;
-
-}
-
-/*===============================*/
-
-.burger {
-  width: 32px;
-  height: 24px;
+.bi-x-circle:hover {
   cursor: pointer;
-  right: 2rem;
-  top: 2rem;
-  z-index: 20;
+  color: $secondaryColor;
+  transition: 0.2s;
 }
+.content {}
 
-.burger span {
-  width: 100%;
-  height: 8px;
-  background-color: $secondaryColor;
-  border-radius: 12px;
-  display: block;
-  transition: background-color 0.4s ease-in-out;
-}
-
-.burger span::before,
-.burger span::after {
-  content: "";
-  width: 100%;
-  background-color: $primaryColor;
-  display: block;
-  transition: all 0.4s ease-in-out;
-  border-radius: 12px;
-  height: 8px;
-}
-
-.burger span::before {
-  transform: translateY(calc(-50% - 8px));
-}
-
-.burger span::after {
-  transform: translateY(calc(50% + 8px));
-  margin-top: -8px;
-}
-
-.burger.active span {
-  background-color: transparent;
-}
-
-.burger.active span::before {
-  transform: rotateZ(45deg) translateY(0);
-}
-
-.burger.active span::after {
-  transform: rotateZ(-45deg) translateY(0);
-}
