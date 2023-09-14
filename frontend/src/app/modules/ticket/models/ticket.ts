@@ -1,10 +1,11 @@
 import { Category } from "./category";
 
 export class Ticket {
-    id: number | undefined | null;
-    title: string | null;
-    description: string  | null;
-    category: Category | undefined;
+    id: number;
+    title: string;
+    description: string;
+    category: Category;
+    
 
     constructor (id: number = 0, title : string = '', description : string = '', category : Category){
         this.id = id;

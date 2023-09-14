@@ -17,13 +17,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Category {
+public class Status {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,12 +32,11 @@ public class Category {
     @Column(nullable = false)
     public String title;
 
-    @OneToMany(mappedBy = "category",
+    @OneToMany(mappedBy = "status",
     cascade = CascadeType.ALL,
     orphanRemoval = true,
-      // fetch = FetchType.LAZY)
-    fetch = FetchType.EAGER)// Utilisation de FetchType.EAGER pour charger les tickets immédiatement
+    fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("status")
     private Set<Ticket> tickets;
-    // @JsonIgnoreProperties("category")
 
 }
