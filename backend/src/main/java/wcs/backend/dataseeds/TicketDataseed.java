@@ -38,10 +38,8 @@ public class TicketDataseed {
       ticketCreated.setDescription("description_" + i);
       // A CHANGER APRES PASSER PAR SERVICE PAS PAR REPOSITORY
       Category categoryUsed = categoryRepository.findByTitle("category_title_1").get(0);
-      ticketCreated.setCategoryTitle(categoryUsed.getTitle());
       ticketCreated.setCategory(categoryUsed);
       Status statusUsed = statusRepository.findByTitle("status_title_1").get(0);
-      ticketCreated.setStatusTitle(statusUsed.getTitle());
       ticketCreated.setStatus(statusUsed);
       this.ticketService.createTicket(ticketCreated);
     }

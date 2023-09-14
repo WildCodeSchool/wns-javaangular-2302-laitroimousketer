@@ -27,7 +27,6 @@ public class Category {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, insertable = false, updatable = false)
     public Long id;
 
     @Column(nullable = false)
@@ -36,9 +35,8 @@ public class Category {
     @OneToMany(mappedBy = "category",
     cascade = CascadeType.ALL,
     orphanRemoval = true,
-      // fetch = FetchType.LAZY)
-    fetch = FetchType.EAGER)// Utilisation de FetchType.EAGER pour charger les tickets immédiatement
+    fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("category")
     private Set<Ticket> tickets;
-    // @JsonIgnoreProperties("category")
 
 }
