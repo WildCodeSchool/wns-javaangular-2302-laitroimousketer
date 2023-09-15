@@ -1,5 +1,5 @@
 @import 'src/assets/scss/template.scss';
-.navbar {
+.-navbar {
   width: 120px;
   height: 100vh;
   background-color: $primaryColor;
@@ -11,7 +11,7 @@
 
 }
 
-.logo {
+.-logo {
   margin-bottom: auto;
   width: 150px;
   transform: translateY(-30px);
@@ -29,7 +29,7 @@ ul {
   height: 100%;
 }
 
-.links {
+.-links {
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -46,7 +46,7 @@ a {
   text-decoration: none;
   color: white;
 }
-.avatar {
+.-avatar {
   width: 80%;
   margin: 0 auto;
   display: flex;

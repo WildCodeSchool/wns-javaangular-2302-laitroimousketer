@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 import { Subscription } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,23 +13,35 @@ export class SidebarComponent implements OnInit {
   events: string[] = [];
   private sidebarSubscription: Subscription | undefined;
   opened: boolean = false;
-  isBurgerActive: boolean = false;
+  mode = new FormControl('over');
 
-  constructor(private sharedService: SharedService) { }
+  constructor(
+    private sharedService: SharedService,
+    private elementRef: ElementRef,
+    ) { }
   
-  ngOnInit() {
-    this.sidebarSubscription = this.sharedService.sidebarOpened$.subscribe(opened => {
-      this.opened = opened;
-      // Mettre à jour la valeur de isBurgerActive avant le changement de sidebarOpened
-      this.isBurgerActive = this.opened;
-    });
+    ngOnInit() {
+      this.sidebarSubscription = this.sharedService.sidebarOpened$.subscribe(opened => {
+        this.opened = opened;
+        console.log('this.opened', this.opened);
+      })
+    }
+    @ViewChild('sidenav') sidenav!: MatSidenav;
+
+  reason = '';
+
+  close(reason: string) {
+    this.reason = reason;
+    this.sidenav.close();
   }
 
-  toggleBurger(): void {
-    this.isBurgerActive = !this.isBurgerActive;
-    setTimeout(() => {
-      this.sharedService.toggleSidebar();
-    }, 100);
-  }
-  
+   toggle(): void {
+    this.sharedService.toggleSidebar();
+   }
+  // @HostListener('document:click', ['$event'])
+  // onDocumentClick(event: Event): void {
+  //   if (this.opened && !this.elementRef.nativeElement.contains(event.target)) {
+  //     this.opened = false;
+  //   }
+  // }
 }

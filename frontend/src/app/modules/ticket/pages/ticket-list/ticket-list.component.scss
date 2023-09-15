@@ -6,19 +6,36 @@
   padding: 2%;
 }
 .tickets-list {
+  padding: 1% 2% 0 2%;
   box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.5);
   background-color: $primaryColor;
   border-radius: 10px;
   width: 100%;
   height: 74vh;
-  @include mobile {
-    height: 70vh
-  }
-  @include qhd {
-    height: 86vh
-  }
+  overflow: hidden;
+  @include mobile {height: 70vh}
+  @include qhd {height: 80vh}
 }
-h2 {
+.viewport {
+  height: 64vh;
+  @include mobile {height: 64vh}
+  @include qhd {height: 73vh}
+  width: 100%; /* Hauteur de la vue virtuelle */
+  overflow: auto;
+}
+.example-viewport {
+  height: 200px;
+  width: 200px;
+  border: 1px solid black;
+}
+
+.example-item {
+  height: 50px;
+}
+.select {
+  width: 200px;
+}
+.new-ticket {
   font-size: 2rem;
   font-weight: 400;
   color: white;
@@ -70,6 +87,13 @@ h2 {
     font-style: italic;
   }
 }
+.long-card{
+  min-width: 80%;
+  margin: auto;
+}
+.spacer{
+  margin: 50px;
+}
 .description {
   span {
     font-style: italic;
@@ -84,4 +108,3 @@ h2 {
  }
 
 }
-

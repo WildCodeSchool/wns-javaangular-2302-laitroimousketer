@@ -1,10 +1,11 @@
-<div id="body">
+<div id="bodyap">
   <app-alert></app-alert>
   <app-navbar *ngIf='!isOnAuthPage'></app-navbar>
-  <div id="main">
+  <div id="mainap">
     <app-header *ngIf='!isOnAuthPage' class="header"></app-header>
     <app-sidebar *ngIf='!isOnAuthPage'></app-sidebar>
     <router-outlet>
     </router-outlet>
   </div>
+  
 </div>

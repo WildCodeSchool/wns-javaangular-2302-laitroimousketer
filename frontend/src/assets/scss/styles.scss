@@ -69,13 +69,38 @@ time, mark, audio, video {
   font-family: 'Roboto', sans-serif;
 }
 
+// overlay sidebar //
+.mat-drawer-backdrop.mat-drawer-shown {
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter:blur(2px);
+}
+
 .btn
 {
   font-size: 16px;
   @include tablet {font-size: 15px}
   @include mobile {font-size: 14px}
 }
+// SCROLLBAR //
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
 
+/* Track */
+::-webkit-scrollbar-track {
+  background: $thirdColor;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $secondaryColor;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $secondaryColor;
+}
 // mat-form-field //
 
 
@@ -88,7 +113,12 @@ time, mark, audio, video {
 .mat-mdc-form-field-infix {
   // background-color: white;
 }
-
+.mdc-text-field--outlined {
+  background-color: white;
+}
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white;
+}
 mat-icon {   
 
 }
