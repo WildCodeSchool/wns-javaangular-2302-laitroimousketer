@@ -20,7 +20,7 @@ public class Role {
     public enum Title {
         DEVELOPER,
         CLIENT,
-        MANAGER
+        MANAGER, DOING
     }
 
     @Id
@@ -32,8 +32,8 @@ public class Role {
     @Column(nullable = false)
     private Title title;
 
-    // @JsonIgnoreProperties("role")
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("role")
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> users;
 
     // Constructeurs, getters et setters

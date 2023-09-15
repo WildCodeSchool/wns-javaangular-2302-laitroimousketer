@@ -1,42 +1,60 @@
 package wcs.backend.entities;
 
-import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.Set;
 
-@Setter
-@Getter
+
+
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Status {
-    
+    public enum Title {
+        DOING,
+        TO_DO,
+        DONE
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, insertable = false, updatable = false)
-    public Long id;
+    private Long id;
 
-    @Column(nullable = false)
-    public String title;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private Title title;
 
     @OneToMany(mappedBy = "status",
+    fetch = FetchType.LAZY,
     cascade = CascadeType.ALL,
-    orphanRemoval = true,
-    fetch = FetchType.LAZY)
+    orphanRemoval = true)
     @JsonIgnoreProperties("status")
-    private Set<Ticket> tickets;
+     private Set<Ticket> tickets;
 
+    // Constructeurs, getters et setters
+   
+    public Status(Title title) {
+      this.title = title;
+  }
+  @Override
+  public String toString() {
+    return "Statut [id=" + id + ", title=" + title + "]";
+  }
+  public Status orElseThrow(Object object) {
+    return null;
+  }
+  public void setTitle(Title title) {
+  }
+  
 }
+

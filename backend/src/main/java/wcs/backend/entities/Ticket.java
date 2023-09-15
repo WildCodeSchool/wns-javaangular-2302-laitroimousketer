@@ -15,7 +15,6 @@ public class Ticket {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(insertable = false, updatable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -25,14 +24,17 @@ public class Ticket {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = true)
-    private Category category;
+    @JoinColumn(name="category_id", nullable = false)
+    Category category;
 
     @ManyToOne
-    @JoinColumn(name = "status_id", nullable = true)
-    private Status status;
+    @JoinColumn(name="priority_id", nullable = false)
+    Priority priority;
+    
+    @ManyToOne
+    @JoinColumn(name="status_id", nullable = false)
+    Status status;
 
     public Ticket(){}
+
 }
-
-

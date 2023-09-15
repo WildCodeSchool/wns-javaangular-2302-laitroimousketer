@@ -15,14 +15,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Category {
+public class Priority {
+
 
   public enum Title {
-    TECHNICAL_SUPPORT,
-    FEATURE_REQUEST,
-    BILLING_PAYMENT
+    LOW,
+    MEDIUM,
+    HIGH
   }
-
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +31,19 @@ public class Category {
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   private Title title;
-  @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-  @JsonIgnoreProperties("category")
+  
+
+
+  @OneToMany(mappedBy = "priority", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+  @JsonIgnoreProperties("priority")
   private Set<Ticket> tickets;
+  
   // Getters et setters
-  public Category(Title title) {
+    public Priority(Title title) {
     this.title = title;
 }
+    public void setTitle(Title title) {
+    }
+
+    
 }

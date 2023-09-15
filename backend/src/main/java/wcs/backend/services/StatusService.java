@@ -1,9 +1,8 @@
 package wcs.backend.services;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -14,34 +13,26 @@ import wcs.backend.repositories.StatusRepository;
 @AllArgsConstructor
 public class StatusService {
 
-    @Autowired
     private StatusRepository statusRepository;
 
-    public Status createStatus(Status status){
-        return statusRepository.save(status);
-    }
-
-    public List<Status> getAllStatus(){
+    public List<Status> getAllStatus() {
         return statusRepository.findAll();
     }
- 
-    public Status getStatusById(Long statusId){
-        Optional<Status> status = statusRepository.findById(statusId);
-        return status.get();
+    public Status createStatus(Status status) {
+      return statusRepository.save(status);
     }
-
-    public Status updateStatus(Status status){
-        Status existingStatus = statusRepository.findById(status.getId()).get();
-        existingStatus.setTitle(status.getTitle());
-        Status updatedStatus = statusRepository.save(existingStatus);
-        return updatedStatus;
+    public Status getStatusById(Long id) {
+      return statusRepository.findById(id).orElse(null);
     }
-
-    public void deleteStatus(Long statusId){
-        statusRepository.deleteById(statusId);
+    public Status updateStatus(Status status) {
+      Status existingStatus = statusRepository.findById(status.getId()).orElse(null);
+      existingStatus.setTitle(status.getTitle());
+      return statusRepository.save(existingStatus);
     }
-
-
-
+    public void deleteStatus(Long id) {
+      statusRepository.deleteById(id);
+    }
     
 }
+
+
