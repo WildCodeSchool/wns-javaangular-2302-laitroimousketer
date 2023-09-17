@@ -56,8 +56,8 @@ public class UserService {
 
     if (existingUser != null) {
       existingUser.setEmail(user.getEmail());
-      existingUser.setFirstname(user.getFirstname());
-      existingUser.setLastname(user.getLastname());
+      existingUser.setFirstname(user.getFirstName());
+      existingUser.setLastname(user.getLastName());
       existingUser.setRole(user.getRole());
 
       String encryptedPassword = passwordEncoder.encode(user.getPassword());

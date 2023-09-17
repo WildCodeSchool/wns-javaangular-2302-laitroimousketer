@@ -18,9 +18,11 @@ import lombok.Setter;
 public class Category {
 
   public enum Title {
+    DEFAULT,
     TECHNICAL_SUPPORT,
     FEATURE_REQUEST,
-    BILLING_PAYMENT
+    BILLING_PAYMENT,
+    
   }
 
 
@@ -30,7 +32,7 @@ public class Category {
   private Long id;
 
   @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
+  @Column(nullable = true)
   private Title categoryTitle;
   @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
   @JsonIgnoreProperties("category")

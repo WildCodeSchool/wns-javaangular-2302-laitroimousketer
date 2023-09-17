@@ -13,13 +13,15 @@ public class CategoryDataseed {
   @Autowired
   private CategoryService categoryService;
 
-
   public void resetData() {
     cleanData();
     loadData();
   }
 
   private void loadData() {
+    Category categoryDefaultCreated = new Category();
+    categoryDefaultCreated.setCategoryTitle(Category.Title.DEFAULT);
+    categoryService.createCategory(categoryDefaultCreated);
 
     Category categoryTodoCreated = new Category();
     categoryTodoCreated.setCategoryTitle(Category.Title.TECHNICAL_SUPPORT);

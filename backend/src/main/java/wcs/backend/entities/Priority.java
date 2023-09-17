@@ -19,9 +19,11 @@ public class Priority {
 
 
   public enum Title {
+    DEFAULT,
     LOW,
     MEDIUM,
-    HIGH
+    HIGH,
+    
   }
 
   @Id
@@ -30,7 +32,7 @@ public class Priority {
   private Long id;
 
   @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
+  @Column(nullable = true)
   private Title priorityTitle;
   
 

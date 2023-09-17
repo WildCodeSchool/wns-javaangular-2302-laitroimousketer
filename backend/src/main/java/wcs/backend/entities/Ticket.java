@@ -17,6 +17,7 @@ public class Ticket {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(nullable = false, insertable = false, updatable = false)
   private Long id;
 
   @Column(nullable = false)
@@ -34,11 +35,11 @@ public class Ticket {
   private Date updateDate;
 
   @ManyToOne
-  @JoinColumn(name = "category_id", nullable = false)
+  @JoinColumn(name = "category_id", nullable = true)
   private Category category;
 
   @ManyToOne
-  @JoinColumn(name = "priority_id", nullable = false)
+  @JoinColumn(name = "priority_id", nullable = true)
   private Priority priority;
 
   @ManyToOne
@@ -56,9 +57,11 @@ public class Ticket {
     UserHasTicket userHasTicket = new UserHasTicket(user, this, true);
     user.getUserHasTickets().add(userHasTicket);
   }
+
   public void setTicketTitle(String ticketTitle) {
     this.ticketTitle = ticketTitle;
   }
+
 
   // Autres getters et setters
 }

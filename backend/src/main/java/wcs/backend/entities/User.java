@@ -22,6 +22,7 @@ import lombok.Setter;
 public class User implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(nullable = false, insertable = false, updatable = false)
   private Long id;
 
   @Column(nullable = false)
@@ -83,6 +84,23 @@ public User(String firstname, String lastname, String email, String password, Ro
     this.role = role;
     this.userHasTickets = new ArrayList<>();
 }
+
+public String getFirstName() {
+  return this.firstname;
+}
+
+public String getLastName() {
+  return this.lastname;
+}
+
+public String setFirstname() {
+ return this.firstname;
+}
+
+public String setLastname() {
+  return this.lastname;
+}
+
 
 
 

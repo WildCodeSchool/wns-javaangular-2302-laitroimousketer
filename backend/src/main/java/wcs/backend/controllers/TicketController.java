@@ -73,24 +73,25 @@ public class TicketController {
 
   // build get ticket by id REST API
   // http://localhost:8080/api/tickets/1
-  @GetMapping("{id}")
-  public ResponseEntity<TicketDto> getTicketById(@PathVariable("id") Long ticketId) {
+  @GetMapping("/{id}")
+public ResponseEntity<TicketDto> getTicketById(@PathVariable("id") Long ticketId) {
     Ticket ticket = ticketService.getTicketById(ticketId);
-    TicketDto ticketDto = convertToDto(ticket);
-    return new ResponseEntity<>(ticketDto, HttpStatus.OK);
-  }
+    if (ticket != null) {
+        TicketDto ticketDto = convertToDto(ticket);
+        return new ResponseEntity<>(ticketDto, HttpStatus.OK);
+    } else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+}
 
   // Build Get All Tickets REST API
   // http://localhost:8080/api/tickets
   @GetMapping
-  public ResponseEntity<List<TicketDto>> getAllTickets() {
-    List<Ticket> tickets = ticketService.getAllTickets();
-    List<TicketDto> ticketDtos = tickets.stream()
-        .map(this::convertToDto)
-        .collect(Collectors.toList());
-    return new ResponseEntity<>(ticketDtos, HttpStatus.OK);
+  public ResponseEntity<List<TicketDto>> getAllTicketsDtos() {
+      List<TicketDto> ticketDtos = ticketService.getAllTicketsDtos();
+      return new ResponseEntity<>(ticketDtos, HttpStatus.OK);
   }
-
+  
   // Build Update Ticket REST API
   @PutMapping("{id}")
   // http://localhost:8080/api/tickets/1

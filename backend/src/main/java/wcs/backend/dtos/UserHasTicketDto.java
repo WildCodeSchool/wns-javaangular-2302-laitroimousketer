@@ -11,7 +11,15 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserHasTicketDto {
     private Long id;
-    private Long userId; // L'ID de l'utilisateur
-    private boolean isCreator; // Le boolean isCreator
+    private Long userId; 
+    private boolean isCreator;
+    private String userFirstName;
+    private String userLastName;
+    public void setIsCreator(boolean isCreator) {
+      this.isCreator = isCreator;
+  }
+  
+    // public void setUserName(String string) {
+    // }
 }
 

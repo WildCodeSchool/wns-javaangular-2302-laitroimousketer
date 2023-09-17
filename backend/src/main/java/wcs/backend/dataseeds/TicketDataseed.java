@@ -12,6 +12,7 @@ import wcs.backend.entities.Priority;
 import wcs.backend.entities.Status;
 import wcs.backend.entities.Ticket;
 import wcs.backend.entities.User;
+import wcs.backend.entities.UserHasTicket;
 import wcs.backend.repositories.CategoryRepository;
 import wcs.backend.repositories.PriorityRepository;
 import wcs.backend.repositories.StatusRepository;
@@ -43,7 +44,7 @@ public class TicketDataseed {
     loadData();
   }
 
- private void loadData() {
+private void loadData() {
     Category technicalSupportCategory = categoryRepository.findByCategoryTitle(Category.Title.TECHNICAL_SUPPORT).get(0);
     Status toDoStatus = statusRepository.findByStatusTitle(Status.Title.TO_DO).get(0);
     Priority lowPriority = priorityRepository.findByPriorityTitle(Priority.Title.LOW).get(0);
@@ -68,9 +69,13 @@ public class TicketDataseed {
         // Définissez l'utilisateur créateur pour le ticket
         ticketCreated.setCreatorUser(creator); // Vous devez avoir une méthode setCreatorUser(User user) dans votre entité Ticket.
 
+        // Assurez-vous de définir isCreator sur true pour l'utilisateur créateur
+        UserHasTicket userHasTicket = new UserHasTicket(creator, ticketCreated, true);
+
         this.ticketService.createTicket(ticketCreated, creator);
     }
 }
+
 
   private void cleanData() {
     List<Ticket> tickets = ticketService.getAllTickets();

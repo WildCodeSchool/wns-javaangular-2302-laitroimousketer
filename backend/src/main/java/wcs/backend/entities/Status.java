@@ -20,8 +20,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 public class Status {
     public enum Title {
-        DOING,
         TO_DO,
+        DOING,
         DONE
     }
 

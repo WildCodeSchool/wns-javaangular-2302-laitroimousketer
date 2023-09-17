@@ -19,18 +19,21 @@ public class PriorityDataseed {
   }
 
   private void loadData() {
+    Priority priorityDefaultCreated = new Priority();
+    priorityDefaultCreated.setPriorityTitle(Priority.Title.DEFAULT);
+    priorityService.createPriority(priorityDefaultCreated);
 
-    Priority priorityTodoCreated = new Priority();
-    priorityTodoCreated.setPriorityTitle(Priority.Title.LOW);
-    priorityService.createPriority(priorityTodoCreated);
+    Priority priorityLowCreated = new Priority();
+    priorityLowCreated.setPriorityTitle(Priority.Title.LOW);
+    priorityService.createPriority(priorityLowCreated);
 
-    Priority priorityTodoCreated2 = new Priority();
-    priorityTodoCreated2.setPriorityTitle(Priority.Title.MEDIUM);
-    priorityService.createPriority(priorityTodoCreated2);
+    Priority priorityMediumCreated = new Priority();
+    priorityMediumCreated.setPriorityTitle(Priority.Title.MEDIUM);
+    priorityService.createPriority(priorityMediumCreated);
 
-    Priority priorityTodoCreated3 = new Priority();
-    priorityTodoCreated3.setPriorityTitle(Priority.Title.HIGH);
-    priorityService.createPriority(priorityTodoCreated3);
+    Priority priorityHighCreated = new Priority();
+    priorityHighCreated.setPriorityTitle(Priority.Title.HIGH);
+    priorityService.createPriority(priorityHighCreated);
   }
 
   private void cleanData() {
