@@ -2,4 +2,98 @@
 
 .card {
   display: flex;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px 2% 10px 1%;
+  position: relative;
+  overflow: hidden;
+  font-size: 15px;
+  p{
+    line-height: 2;
+  }
+}
+
+.card::after {
+  content: "";
+  height: 4px;
+  width: 96%;
+  position: absolute;
+  bottom: 0;
+  left: 2%;
+  right: 2%;
+  border-bottom: 1px dashed #707070;
+  pointer-events: none; /* Évitez que les tirets interfèrent avec les interactions */
+}
+
+.prefix {
+  font-style: italic;
+  color:#3d3d3d;
+  font-style: 13px;
+  margin-right:6px;
+}
+.card-left {
+  margin-right: auto;
+}
+
+.card-middle {
+  margin: auto;
+}
+
+.card-right {
+  margin-left: auto;
+}
+
+.context-ticket-card-creator {
+  margin: auto 10px auto 0;
+}
+
+.card-bottom {
+
+  padding: 0 8px;
+  background-color: #E8E8E8;
+  margin-right: 1%;
+  margin-left: 2%;
+  position: relative;
+  font-size: 15px;
+}
+.more {
+  color: $blueColor;
+  text-decoration: underline;
+  margin: auto;
+}
+.desc {
+  width: 70%;
+  text-align: left;
+}
+.dev {
+  width: 30%;
+  text-align: right;
+}
+.low-priority {
+  color: green;
+}
+
+.medium-priority {
+  color: orange;
+}
+
+.high-priority {
+  color: red;
+}
+
+
+mat-expansion-panel, mat-expansion-panel-header, mat-expansion-panel-content {
+  background-color: #E8E8E8;
+  padding: 4px;
+  height: fit-content;
+}
+// host-context pour garder un style générique et faciliter la réutilisation du composant
+:host-context(.context-ticket-list) .card {
+  margin-top: 10px;
+  margin-right: 1%;
+  margin-left: 2%;
+}
+.context-ticket-card-creator {
+  margin-right: 1%;
 }

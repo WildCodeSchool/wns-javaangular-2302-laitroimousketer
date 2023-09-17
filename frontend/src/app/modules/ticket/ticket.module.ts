@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { TicketRoutingModule } from './ticket-routing.module';
@@ -12,6 +12,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AvatarComponent } from 'src/app/core/components/avatar/avatar.component';
 import { TicketCardComponent } from './components/ticket-card/ticket-card.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 @NgModule({
   declarations: [
     TicketListComponent,
@@ -28,7 +29,11 @@ import { TicketCardComponent } from './components/ticket-card/ticket-card.compon
     MatSelectModule,
     CdkVirtualScrollViewport,
     ScrollingModule,
+    MatExpansionModule,
+    DatePipe,
+   
   
-  ]
+  ],
+  providers: [DatePipe], // 
 })
 export class TicketModule { }

@@ -157,6 +157,10 @@ input:-webkit-autofill:active{
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
+//select material//
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.2);
+}
 
 
 

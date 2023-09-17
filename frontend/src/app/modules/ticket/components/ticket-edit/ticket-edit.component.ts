@@ -18,7 +18,7 @@ import { CategoryService } from '../../services/category.service';
 export class TicketEditComponent {
 
   categoryforTicket = new Category();
-  ticketToUpdate = new Ticket(0,'','',this.categoryforTicket);
+  ticketToUpdate = new Ticket();
   categories : Category[] = [];
   ticketId : number = 125;
   selectedCategory : number = 0;
@@ -46,7 +46,7 @@ export class TicketEditComponent {
         data => {
           this.ticketToUpdate = data;
           if(this.ticketToUpdate.category !== undefined) {this.selectedCategory = this.ticketToUpdate.category?.id};
-          this.ticketAdditionForm.setValue({title : this.ticketToUpdate.title,
+          this.ticketAdditionForm.setValue({title : this.ticketToUpdate.ticketTitle,
                                             description : this.ticketToUpdate.description,
                                             selectedCategory : this.selectedCategory});
         }        
@@ -55,7 +55,7 @@ export class TicketEditComponent {
       
       updateTicket(){
         if (this.ticketAdditionForm.value.title != null  ){
-          this.ticketToUpdate.title = this.ticketAdditionForm.value.title;
+          this.ticketToUpdate.ticketTitle = this.ticketAdditionForm.value.title;
           }
         if (this.ticketAdditionForm.value.description != null  ){
           this.ticketToUpdate.description = this.ticketAdditionForm.value.description ;

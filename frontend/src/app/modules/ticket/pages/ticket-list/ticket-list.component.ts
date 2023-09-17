@@ -15,15 +15,14 @@ export class TicketListComponent {
   states: string[] = [
     'Date de création (ascendant)',
     'Date de création (descendant)',
+    'Numéro de ticket',
+    'Statut',
+    'Catégorie',
     'Nom (A-Z)',
     'Nom (Z-A)',
-    'Prénom(A-Z)',
-    'Prénom(Z-A)',
-    'Numéro de ticket',
-    'Catégorie',
-    'Statut',
+    'Prénom (A-Z)',
+    'Prénom (Z-A)',
   ];
-
 
   constructor(
     private ticketService: TicketService,
@@ -59,12 +58,16 @@ export class TicketListComponent {
   }
 
   openDeleteModal(ticketId: any) {
-    document.getElementById('deleteModal' + ticketId)?.classList.remove('d-none');
+    document
+      .getElementById('deleteModal' + ticketId)
+      ?.classList.remove('d-none');
     document.getElementById('deleteModal' + ticketId)?.classList.add('d-block');
   }
 
   closeDeleteModal(ticketId: any) {
-    document.getElementById('deleteModal' + ticketId)?.classList.remove('d-block');
+    document
+      .getElementById('deleteModal' + ticketId)
+      ?.classList.remove('d-block');
     document.getElementById('deleteModal' + ticketId)?.classList.add('d-none');
   }
 }
