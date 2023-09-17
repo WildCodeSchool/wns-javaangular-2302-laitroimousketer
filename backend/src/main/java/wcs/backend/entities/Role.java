@@ -30,20 +30,20 @@ public class Role {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Title title;
+    private Title roleTitle;
 
     @JsonIgnoreProperties("role")
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> users;
 
     // Constructeurs, getters et setters
    
-    public Role(Title title) {
-      this.title = title;
+    public Role(Title roleTitle) {
+      this.roleTitle = roleTitle;
   }
   @Override
   public String toString() {
-    return "Role [id=" + id + ", title=" + title + "]";
+    return "Role [id=" + id + ", title=" + roleTitle + "]";
   }
 }
 

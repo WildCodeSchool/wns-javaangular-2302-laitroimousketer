@@ -26,7 +26,7 @@ public class StatusService {
     }
     public Status updateStatus(Status status) {
       Status existingStatus = statusRepository.findById(status.getId()).orElse(null);
-      existingStatus.setTitle(status.getTitle());
+      existingStatus.setTitle(status.getStatusTitle());
       return statusRepository.save(existingStatus);
     }
     public void deleteStatus(Long id) {

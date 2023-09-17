@@ -31,8 +31,9 @@ public class Status {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
-    private Title title;
+    @Column(nullable = false)
+    private Title statusTitle;
+;
 
     @OneToMany(mappedBy = "status",
     fetch = FetchType.LAZY,
@@ -43,17 +44,20 @@ public class Status {
 
     // Constructeurs, getters et setters
    
-    public Status(Title title) {
-      this.title = title;
+    public Status(Title statusTitle) {
+      this.statusTitle = statusTitle;
   }
   @Override
   public String toString() {
-    return "Statut [id=" + id + ", title=" + title + "]";
+    return "Statut [id=" + id + ", title=" +  statusTitle
+ + "]";
   }
   public Status orElseThrow(Object object) {
     return null;
   }
   public void setTitle(Title title) {
+  }
+  public Status(Long statusId) {
   }
   
 }

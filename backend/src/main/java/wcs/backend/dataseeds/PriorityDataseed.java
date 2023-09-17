@@ -21,15 +21,15 @@ public class PriorityDataseed {
   private void loadData() {
 
     Priority priorityTodoCreated = new Priority();
-    priorityTodoCreated.setTitle(Priority.Title.LOW);
+    priorityTodoCreated.setPriorityTitle(Priority.Title.LOW);
     priorityService.createPriority(priorityTodoCreated);
 
     Priority priorityTodoCreated2 = new Priority();
-    priorityTodoCreated2.setTitle(Priority.Title.MEDIUM);
+    priorityTodoCreated2.setPriorityTitle(Priority.Title.MEDIUM);
     priorityService.createPriority(priorityTodoCreated2);
 
     Priority priorityTodoCreated3 = new Priority();
-    priorityTodoCreated3.setTitle(Priority.Title.HIGH);
+    priorityTodoCreated3.setPriorityTitle(Priority.Title.HIGH);
     priorityService.createPriority(priorityTodoCreated3);
   }
 

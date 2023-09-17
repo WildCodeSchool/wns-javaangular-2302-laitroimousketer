@@ -22,7 +22,7 @@ public class StatusController {
   public ResponseEntity<List<StatusDto>> getAllStatus() {
     List<Status> status = statusService.getAllStatus();
     List<StatusDto> statusDtos = status.stream()
-        .map(statusEntity -> new StatusDto(statusEntity.getId(), statusEntity.getTitle()))
+        .map(statusEntity -> new StatusDto(statusEntity.getId(), statusEntity.getStatusTitle()))
         .collect(Collectors.toList());
     return ResponseEntity.ok(statusDtos);
   }
@@ -30,23 +30,23 @@ public class StatusController {
   @GetMapping("/{id}")
   public ResponseEntity<StatusDto> getStatusById(@PathVariable Long id) {
     Status status = statusService.getStatusById(id);
-    return ResponseEntity.ok(new StatusDto(status.getId(), status.getTitle()));
+    return ResponseEntity.ok(new StatusDto(status.getId(), status.getStatusTitle()));
   }
 
   @PostMapping
   public ResponseEntity<StatusDto> createStatus(@RequestBody StatusDto statusDto) {
     Status status = new Status();
-    status.setTitle(statusDto.getTitle());
+    status.setTitle(statusDto.getStatusTitle());
     Status createdStatus = statusService.createStatus(status);
-    return ResponseEntity.ok(new StatusDto(createdStatus.getId(), createdStatus.getTitle()));
+    return ResponseEntity.ok(new StatusDto(createdStatus.getId(), createdStatus.getStatusTitle()));
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<StatusDto> updateStatus(@PathVariable Long id, @RequestBody StatusDto statusDto) {
     Status existingStatus = statusService.getStatusById(id);
-    existingStatus.setTitle(statusDto.getTitle());
+    existingStatus.setTitle(statusDto.getStatusTitle());
     Status updatedStatus = statusService.updateStatus(existingStatus);
-    return ResponseEntity.ok(new StatusDto(updatedStatus.getId(), updatedStatus.getTitle()));
+    return ResponseEntity.ok(new StatusDto(updatedStatus.getId(), updatedStatus.getStatusTitle()));
   }
 
   @DeleteMapping("/{id}")

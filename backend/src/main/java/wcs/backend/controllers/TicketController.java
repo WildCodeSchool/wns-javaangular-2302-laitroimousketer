@@ -13,9 +13,11 @@ import wcs.backend.entities.Category;
 import wcs.backend.entities.Priority;
 import wcs.backend.entities.Status;
 import wcs.backend.entities.Ticket;
+import wcs.backend.entities.User;
 import wcs.backend.repositories.CategoryRepository;
 import wcs.backend.repositories.PriorityRepository;
 import wcs.backend.repositories.StatusRepository;
+import wcs.backend.repositories.UserRepository;
 import wcs.backend.services.TicketService;
 
 import java.util.List;
@@ -31,35 +33,42 @@ public class TicketController {
   private CategoryRepository categoryRepository;
   private PriorityRepository priorityRepository;
   private StatusRepository statusRepository;
+  private UserRepository userRepository;
   
 
   @Autowired
   private ModelMapper modelMapper; // Utilisez ModelMapper pour simplifier la conversion entre entités et DTO
 
   // build create Ticket REST API
- @PostMapping
-public ResponseEntity<TicketDto> createTicket(@RequestBody TicketDto ticketDto,@RequestParam("statusId") Long statusId, @RequestParam("categoryId") Long categoryId, @RequestParam("priorityId") Long priorityId) {
+  @PostMapping
+  public ResponseEntity<TicketDto> createTicket(@RequestBody TicketDto ticketDto, @RequestParam("statusId") Long statusId, @RequestParam("categoryId") Long categoryId, @RequestParam("priorityId") Long priorityId, @RequestParam("creatorId") Long creatorId) {
     // Créez un nouveau ticket à partir des données du DTO
     Ticket ticket = convertToEntity(ticketDto);
 
-    // Utilisez le categoryId passé en paramètre pour récupérer la catégorie associée
+    // Utilisez le categoryId, priorityId et statusId passés en paramètres pour récupérer les entités associées
     Category category = categoryRepository.findById(categoryId)
             .orElseThrow(() -> new EntityNotFoundException("Category not found with ID: " + categoryId));
     Priority priority = priorityRepository.findById(priorityId)
             .orElseThrow(() -> new EntityNotFoundException("Priority not found with ID: " + priorityId));
-    Status  status = statusRepository.findById(statusId)
-            .orElseThrow(() -> new EntityNotFoundException("Status not found with ID: " + statusId));        
-    // Associez le ticket à la catégorie et prioritée sélectionnée
+    Status status = statusRepository.findById(statusId)
+            .orElseThrow(() -> new EntityNotFoundException("Status not found with ID: " + statusId));
+    
+    // Utilisez le creatorId pour récupérer l'utilisateur créateur
+    User creator = userRepository.findById(creatorId)
+            .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + creatorId));
+
+    // Associez le ticket à la catégorie, la priorité et le statut sélectionnés
     ticket.setCategory(category);
     ticket.setPriority(priority);
     ticket.setStatus(status);
 
+    // Enregistrez le ticket et l'utilisateur créateur
+    Ticket savedTicket = ticketService.createTicket(ticket, creator);
     
-    Ticket savedTicket = ticketService.createTicket(ticket);
     TicketDto savedTicketDto = convertToDto(savedTicket);
 
     return new ResponseEntity<>(savedTicketDto, HttpStatus.CREATED);
-}
+  }
 
 
   // build get ticket by id REST API

@@ -17,11 +17,11 @@ import java.util.Optional;
 
 public class PriorityDto {
   private Long id;
-  private Title title;
+  private Title priorityTitle;
   private List<Ticket> tickets; // Utilisez List<Ticket> pour stocker plusieurs tickets
-  public PriorityDto(Long id, Title title) {
+  public PriorityDto(Long id, Title priorityTitle) {
   }
-  public PriorityDto(Long id, Title title, Optional<List<TicketDto>> tickets) {
+  public PriorityDto(Long id, Title priorityTitle, Optional<List<TicketDto>> tickets) {
   }
   
 }

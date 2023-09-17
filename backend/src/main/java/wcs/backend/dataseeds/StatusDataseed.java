@@ -29,15 +29,15 @@ public class StatusDataseed {
 
   private void loadData() {
         Status statusTodoCreated = new Status();
-        statusTodoCreated.setTitle(Title.TO_DO);
+        statusTodoCreated.setStatusTitle(Title.TO_DO);
         statusService.createStatus(statusTodoCreated);
 
         Status statusDoingCreated = new Status();
-        statusDoingCreated.setTitle(Title.DOING);
+        statusDoingCreated.setStatusTitle(Title.DOING);
         statusService.createStatus(statusDoingCreated);
 
         Status statusDoneCreated = new Status();
-        statusDoneCreated.setTitle(Title.DONE);
+        statusDoneCreated.setStatusTitle(Title.DONE);
         statusService.createStatus(statusDoneCreated);
 
       }

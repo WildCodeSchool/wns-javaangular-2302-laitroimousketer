@@ -26,16 +26,19 @@ public class Category {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(nullable = false, insertable = false, updatable = false)
   private Long id;
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private Title title;
+  private Title categoryTitle;
   @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
   @JsonIgnoreProperties("category")
   private Set<Ticket> tickets;
   // Getters et setters
-  public Category(Title title) {
-    this.title = title;
+  public Category(Title categoryTitle) {
+    this.categoryTitle = categoryTitle;
 }
+  public Category(Long categoryId) {
+  }
 }

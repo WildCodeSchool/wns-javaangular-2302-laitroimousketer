@@ -15,10 +15,10 @@ import java.util.List;
 @NoArgsConstructor
 public class CategoryDto {
     private Long id;
-    private Title title;
+    private Title categoryTitle;
     private List<Ticket> tickets; // Utilisez List<Ticket> pour stocker plusieurs tickets
     
-    public CategoryDto(Long id, Title title) {
+    public CategoryDto(Long id, Title categoryTitle) {
       
     }
     

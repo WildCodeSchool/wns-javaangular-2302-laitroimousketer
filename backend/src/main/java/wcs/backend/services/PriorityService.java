@@ -26,7 +26,7 @@ public class PriorityService {
     }
     public Priority updatePriority(Priority priority) {
       Priority existingPriority = priorityRepository.findById(priority.getId()).orElse(null);
-      existingPriority.setTitle(priority.getTitle());
+      existingPriority.setTitle(priority.getPriorityTitle());
       return priorityRepository.save(existingPriority);
     }
     public void deletePriority(Long id) {

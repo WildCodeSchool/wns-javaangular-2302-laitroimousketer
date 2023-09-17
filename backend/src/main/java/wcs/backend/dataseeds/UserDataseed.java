@@ -51,7 +51,7 @@ public class UserDataseed {
       userCreated.setEmail("client" + i + "@wcs.com");
       userCreated.setPassword("client" + i);
       userCreated.setRole(null);
-      Role roleUsed = roleRepository.findByTitle(Title.CLIENT).get(0);
+      Role roleUsed = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
       userCreated.setRole(roleUsed);
       userService.createUser(userCreated);
     }
@@ -61,7 +61,7 @@ dev.setEmail("dev@wcs.com");
 dev.setFirstname("Dave");
 dev.setLastname("Grohl");
 dev.setPassword("Alayd3!dev");
-Role roleDev = roleRepository.findByTitle(Title.DEVELOPER).get(0);
+Role roleDev = roleRepository.findByRoleTitle(Title.DEVELOPER).get(0);
 dev.setRole(roleDev);
 userService.createUser(dev);
 
@@ -71,7 +71,7 @@ manager.setEmail("manager@wcs.com");
 manager.setFirstname("manager");
 manager.setLastname("manager");
 manager.setPassword("Alayd3!manager");
-Role roleManager = roleRepository.findByTitle(Title.MANAGER).get(0);
+Role roleManager = roleRepository.findByRoleTitle(Title.MANAGER).get(0);
 manager.setRole(roleManager);
 userService.createUser(manager);
 }

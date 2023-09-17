@@ -26,11 +26,12 @@ public class Priority {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(nullable = false, insertable = false, updatable = false)
   private Long id;
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private Title title;
+  private Title priorityTitle;
   
 
 
@@ -39,10 +40,12 @@ public class Priority {
   private Set<Ticket> tickets;
   
   // Getters et setters
-    public Priority(Title title) {
-    this.title = title;
+    public Priority(Title priorityTitle) {
+    this.priorityTitle = priorityTitle;
 }
-    public void setTitle(Title title) {
+    public void setTitle(Title priorityTitle) {
+    }
+    public Priority(Long priorityId) {
     }
 
     

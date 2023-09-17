@@ -15,15 +15,16 @@ import java.util.Optional;
 @NoArgsConstructor
 public class StatusDto {
   private Long id;
-  private Title title;
+  private Title  statusTitle
+;
   private List<TicketDto> tickets;
 
-  public StatusDto(Long id, Title title, Optional<List<TicketDto>> tickets) {
+  public StatusDto(Long id, Title statusTitle, Optional<List<TicketDto>> tickets) {
   
   }
 
  
-  public StatusDto(Long id, Title title) {
+  public StatusDto(Long id, Title statusTitle) {
     
   }
 

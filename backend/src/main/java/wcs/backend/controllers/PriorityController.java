@@ -22,7 +22,7 @@ public class PriorityController {
   public ResponseEntity<List<PriorityDto>> getAllPriority() {
     List<Priority> priority = priorityService.getAllPriority();
     List<PriorityDto> priorityDtos = priority.stream()
-        .map(priorityEntity -> new PriorityDto(priorityEntity.getId(), priorityEntity.getTitle()))
+        .map(priorityEntity -> new PriorityDto(priorityEntity.getId(), priorityEntity.getPriorityTitle()))
         .collect(Collectors.toList());
     return ResponseEntity.ok(priorityDtos);
   }
@@ -30,23 +30,23 @@ public class PriorityController {
   @GetMapping("/{id}")
   public ResponseEntity<PriorityDto> getPriorityById(@PathVariable Long id) {
     Priority priority = priorityService.getPriorityById(id);
-    return ResponseEntity.ok(new PriorityDto(priority.getId(), priority.getTitle()));
+    return ResponseEntity.ok(new PriorityDto(priority.getId(), priority.getPriorityTitle()));
   }
 
   @PostMapping
   public ResponseEntity<PriorityDto> createPriority(@RequestBody PriorityDto priorityDto) {
     Priority priority = new Priority();
-    priority.setTitle(priorityDto.getTitle());
+    priority.setTitle(priorityDto.getPriorityTitle());
     Priority createdPriority = priorityService.createPriority(priority);
-    return ResponseEntity.ok(new PriorityDto(createdPriority.getId(), createdPriority.getTitle()));
+    return ResponseEntity.ok(new PriorityDto(createdPriority.getId(), createdPriority.getPriorityTitle()));
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<PriorityDto> updatePriority(@PathVariable Long id, @RequestBody PriorityDto priorityDto) {
     Priority existingPriority = priorityService.getPriorityById(id);
-    existingPriority.setTitle(priorityDto.getTitle());
+    existingPriority.setTitle(priorityDto.getPriorityTitle());
     Priority updatedPriority = priorityService.updatePriority(existingPriority);
-    return ResponseEntity.ok(new PriorityDto(updatedPriority.getId(), updatedPriority.getTitle()));
+    return ResponseEntity.ok(new PriorityDto(updatedPriority.getId(), updatedPriority.getPriorityTitle()));
   }
 
   @DeleteMapping("/{id}")

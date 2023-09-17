@@ -22,16 +22,16 @@ public class CategoryDataseed {
   private void loadData() {
 
     Category categoryTodoCreated = new Category();
-    categoryTodoCreated.setTitle(Category.Title.TECHNICAL_SUPPORT);
+    categoryTodoCreated.setCategoryTitle(Category.Title.TECHNICAL_SUPPORT);
     categoryService.createCategory(categoryTodoCreated);
 
     Category categoryTodoCreated2 = new Category();
-    categoryTodoCreated2.setTitle(Category.Title.FEATURE_REQUEST);
+    categoryTodoCreated2.setCategoryTitle(Category.Title.FEATURE_REQUEST);
     categoryService.createCategory(categoryTodoCreated2);
 
     Category categoryTodoCreated3 = new Category();
+    categoryTodoCreated3.setCategoryTitle(Category.Title.BILLING_PAYMENT);
     categoryService.createCategory(categoryTodoCreated3);
-    categoryTodoCreated3.setTitle(Category.Title.BILLING_PAYMENT);
   }
 
   private void cleanData() {
