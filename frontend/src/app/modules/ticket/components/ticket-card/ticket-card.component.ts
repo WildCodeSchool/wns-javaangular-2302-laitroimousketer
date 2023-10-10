@@ -1,19 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Ticket } from '../../models/ticket';
+import { TicketDetails } from '../../models/ticket-details';
+import { SharedService } from 'src/app/core/services/shared.service';
 
-export interface TicketDetails {
-  number: number;
-  name: string;
-  userFirstName: string;
-  userLastName: string;
-  description: string;
-  priority: string;
-  creationDate: string;
-  updateDate?: string;
-  status: string;
-  creator: string;
-  developers: string[];
-}
 @Component({
   selector: 'app-ticket-card',
   templateUrl: './ticket-card.component.html',
@@ -38,7 +27,9 @@ export class TicketCardComponent implements OnInit {
 
   colorPriority : string = '';
 
-  constructor() {}
+  constructor(
+    private sharedService: SharedService,
+    ) {}
 
   ngOnInit() {
     this.loadTicket();
@@ -62,7 +53,7 @@ export class TicketCardComponent implements OnInit {
         this.ticket.userHasTickets.forEach((user) => {
           if (!user.creator) {
             console.log('User is not creator:', user);
-            const developerName = `${user.userFirstName} ${user.userLastName}`;
+            const developerName = `${user.userLastName} ${user.userFirstName}`;
             this.ticketDetails.developers.push(developerName);
           }
         });
@@ -73,7 +64,7 @@ export class TicketCardComponent implements OnInit {
       );
       if (creatorUser) {
         console.log('User is creator:', creatorUser);
-        this.ticketDetails.creator = `${creatorUser.userFirstName} ${creatorUser.userLastName}`;
+        this.ticketDetails.creator = `${creatorUser.userLastName} ${creatorUser.userFirstName}`;
       }
     }
     
@@ -91,5 +82,10 @@ export class TicketCardComponent implements OnInit {
     }
   }
   
-
+  openSidebar() {
+    this.sharedService.toggleSidebar();
+    this.sharedService.setCurrentContent('ticket-details');
+    this.sharedService.setCurrentTicket(this.ticket);
+   
+  }
 }

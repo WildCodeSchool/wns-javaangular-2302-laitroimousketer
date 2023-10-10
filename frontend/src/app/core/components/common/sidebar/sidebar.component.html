@@ -1,0 +1,13 @@
+<mat-sidenav-container class="sidenav-c" [ngClass]="!opened ? 'hide': ''" (backdropClick)="toggle()">
+  <mat-sidenav #sidenav [(opened)]="opened" position="end" disableClose class="sidenav">
+    <span class="bi bi-x-circle" (click)="toggle()"></span>
+
+    <ng-container *ngIf="currentPage$ === 'ticket-details'">
+      <app-ticket-details [ticket]="currentTicket$ | async"></app-ticket-details>
+    </ng-container>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <!-- contenu à gauche de la sidebar -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

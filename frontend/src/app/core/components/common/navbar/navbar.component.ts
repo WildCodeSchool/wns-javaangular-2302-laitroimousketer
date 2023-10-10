@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { UserService } from '../../services/user.service';
-import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/user.model';
-import { SharedService } from '../../services/shared.service';
+import { UserService } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth.service';
+import { User } from '../../../models/user.model';
+import { SharedService } from '../../../services/shared.service';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { AlertService } from '../../services/alert.service';
+import { AlertService } from '../../../services/alert.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 

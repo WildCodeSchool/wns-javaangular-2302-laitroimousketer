@@ -9,6 +9,8 @@
   position: relative;
   overflow: hidden;
   font-size: 15px;
+  border-radius: 5px 5px 0px 0px;
+  cursor:pointer;
   p{
     line-height: 2;
   }
@@ -50,12 +52,12 @@
 
 .card-bottom {
 
-  padding: 0 8px;
   background-color: #E8E8E8;
   margin-right: 1%;
   margin-left: 2%;
   position: relative;
   font-size: 15px;
+  border-radius:  0px 0px 5px 5px;
 }
 .more {
   color: $blueColor;
@@ -95,5 +97,5 @@ mat-expansion-panel, mat-expansion-panel-header, mat-expansion-panel-content {
   margin-left: 2%;
 }
 .context-ticket-card-creator {
-  margin-right: 1%;
+  margin-right: 2%;
 }

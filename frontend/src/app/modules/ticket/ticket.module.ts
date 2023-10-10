@@ -10,15 +10,16 @@ import { CoreModule } from 'src/app/core/core.module';
 import {MatSelectModule} from '@angular/material/select';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { AvatarComponent } from 'src/app/core/components/avatar/avatar.component';
 import { TicketCardComponent } from './components/ticket-card/ticket-card.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+
 @NgModule({
   declarations: [
     TicketListComponent,
     TicketAddComponent,
     TicketEditComponent,
     TicketCardComponent,
+  
 
   ],
   imports: [
@@ -32,8 +33,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatExpansionModule,
     DatePipe,
    
-  
   ],
+  exports:[], 
+  
   providers: [DatePipe], // 
 })
 export class TicketModule { }

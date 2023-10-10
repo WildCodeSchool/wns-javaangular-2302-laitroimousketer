@@ -1,3 +1,4 @@
+import { User } from "src/app/core/models/user.model";
 import { Priority } from "./Priority";
 import { Status } from "./Status";
 import { Category } from "./category";
@@ -18,6 +19,6 @@ export class Ticket {
   public priorityId: number = 0
   public creationDate: string = ''
   public updateDate: string = ''
-  public userHasTickets : UserHasTickets[] = []
+  public userHasTickets : UserHasTickets[] = [];
 }
 
