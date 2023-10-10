@@ -50,7 +50,7 @@ private void loadData() {
     Priority lowPriority = priorityRepository.findByPriorityTitle(Priority.Title.LOW).get(0);
 
     // Récupérez l'utilisateur en fonction du firstname et du lastname
-    User creator = userService.getFirstUserByName("jesapel"); // Assurez-vous d'avoir une méthode pour rechercher un utilisateur par firstname et lastname dans votre service UserService.
+    User creator = userService.getFirstUserByName("groot"); // Assurez-vous d'avoir une méthode pour rechercher un utilisateur par firstname et lastname dans votre service UserService.
 
     if (creator == null) {
         throw new EntityNotFoundException("User not found with firstname: jesapel and lastname: groot");

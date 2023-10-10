@@ -46,8 +46,8 @@ public class UserDataseed {
 
     for (int i = 0; i < this.client_NB; i++) {
       User userCreated = new User();
-      userCreated.setFirstname("jesapel");
-      userCreated.setLastname("groot" + i);
+      userCreated.setFirstname("groot");
+      userCreated.setLastname("jesapel" + i);
       userCreated.setEmail("client" + i + "@wcs.com");
       userCreated.setPassword("client" + i);
       userCreated.setRole(null);
