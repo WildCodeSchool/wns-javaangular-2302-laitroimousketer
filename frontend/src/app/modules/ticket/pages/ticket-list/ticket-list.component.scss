@@ -17,6 +17,24 @@
   @include mobile {height: 70vh}
   @include qhd {height: 80vh}
 }
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  .mat-checkbox {
+    color: white;
+  }
+}
+.checkbox-c {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: auto;
+  padding-right: 20%;
+  
+  gap: 60px;
+}
 .viewport {
   height: 64vh;
   @include mobile {height: 64vh}
@@ -52,19 +70,4 @@
   
 }
 
-
-.description {
-  span {
-    font-style: italic;
-    color: $blackColor;
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
- margin: 10px 0px 20px 0;
- p {
-  font-size: 1.2rem;
-  line-height: 1.5;
- }
-
-}
 

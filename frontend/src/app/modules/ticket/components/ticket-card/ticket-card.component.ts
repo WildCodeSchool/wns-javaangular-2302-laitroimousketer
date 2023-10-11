@@ -26,7 +26,7 @@ export class TicketCardComponent implements OnInit {
   @Input() ticket!: Ticket;
 
   colorPriority : string = '';
-
+  colorStatus : string = '';
   constructor(
     private sharedService: SharedService,
     ) {}
@@ -34,13 +34,14 @@ export class TicketCardComponent implements OnInit {
   ngOnInit() {
     this.loadTicket();
     this.loadColorPriority();
+    this.loadColorStatus();
     // console.log(this.ticketDetails.creator,'CCCCCCCCCCCCCCCCCCCCCCCC')
   }
 
 
   loadTicket() {
     if (this.ticket !== undefined) {
-      console.log(this.ticket);
+      // console.log(this.ticket);
       this.ticketDetails.number = this.ticket.id;
       this.ticketDetails.name = this.ticket.ticketTitle || '';
       this.ticketDetails.description = this.ticket.description || '';
@@ -50,36 +51,41 @@ export class TicketCardComponent implements OnInit {
       this.ticketDetails.status = this.ticket.statusTitle || '';
 
       if (this.ticket.userHasTickets !== undefined) {
-        this.ticket.userHasTickets.forEach((user) => {
-          if (!user.creator) {
-            console.log('User is not creator:', user);
-            const developerName = `${user.userLastName} ${user.userFirstName}`;
-            this.ticketDetails.developers.push(developerName);
-          }
-        });
-      }
-
+     
       const creatorUser = this.ticket.userHasTickets?.find(
         (user) => user.creator
       );
       if (creatorUser) {
-        console.log('User is creator:', creatorUser);
+        // console.log('User is creator:', creatorUser);
         this.ticketDetails.creator = `${creatorUser.userLastName} ${creatorUser.userFirstName}`;
       }
-    }
+    } 
+  }
     
   }
 
   loadColorPriority() {
     if (this.ticketDetails.priority === 'LOW') {
-      this.colorPriority = 'low-priority';
+      this.colorPriority = 'green';
     } else if (this.ticketDetails.priority === 'MEDIUM') {
-      this.colorPriority = 'medium-priority';
+      this.colorPriority = 'yellow';
     } else if (this.ticketDetails.priority === 'HIGH') {
-      this.colorPriority = 'high-priority';
+      this.colorPriority = 'red';
     } else {
       this.colorPriority = ''; // Aucune classe par défaut si la priorité n'est pas définie
     }
+  }
+  loadColorStatus() {
+    if (this.ticketDetails.status === 'TO_DO') {
+      this.colorStatus = 'red';
+  
+    } if (this.ticketDetails.status === 'DOING') {
+      this.colorStatus = 'yellow';
+    }
+    if (this.ticketDetails.status === 'DONE') {
+      this.colorStatus = 'green';
+    }
+
   }
   
   openSidebar() {

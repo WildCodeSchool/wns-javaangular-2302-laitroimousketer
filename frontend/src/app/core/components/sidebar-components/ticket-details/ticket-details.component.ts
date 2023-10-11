@@ -71,15 +71,8 @@ onPageChange(page: string): void {
       this.ticketDetails.status = this.ticket.statusTitle ? this.ticket.statusTitle : '';
       this.checkStatusColorSpan();
       this.checkPriorityColorSpan();
-      const creatorUser = this.ticket.userHasTickets?.find(
-        (user) => user.creator
-      );
-      if (creatorUser) {
-        console.log('User is creator:', creatorUser);
-        this.ticketDetails.creator = `${creatorUser.userLastName} ${creatorUser.userFirstName}`;
-        this.ticketDetails.userFirstName = creatorUser.userFirstName;
-        this.ticketDetails.userLastName = creatorUser.userLastName;
-      }
+      
+      //check les dev assignés au ticket
       if (this.ticket.userHasTickets !== undefined) {
         this.ticket.userHasTickets.forEach((user) => {
           if (!user.creator) {
@@ -88,7 +81,18 @@ onPageChange(page: string): void {
             this.ticketDetails.developers.push(developerName);
           }
         });
+    
+      const creatorUser = this.ticket.userHasTickets?.find(
+        (user) => user.creator
+      );
+      //check le créateur du ticket
+      if (creatorUser) {
+        console.log('User is creator:', creatorUser);
+        this.ticketDetails.creator = `${creatorUser.userLastName} ${creatorUser.userFirstName}`;
+        this.ticketDetails.userFirstName = creatorUser.userFirstName;
+        this.ticketDetails.userLastName = creatorUser.userLastName;
       }
+    }
     }
   }
 

@@ -20,7 +20,9 @@ export class HeaderComponent implements OnInit {
       }
     });
   }
-
+ngAfterViewInit() {
+    this.updateTitle();
+}
   updateTitle() {
     const currentUrl = this.router.url;
     // Logique pour déterminer le titre en fonction de l'URL

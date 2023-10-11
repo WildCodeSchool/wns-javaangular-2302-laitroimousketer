@@ -12,7 +12,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { TicketCardComponent } from './components/ticket-card/ticket-card.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-
+import {MatCheckboxModule} from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     TicketListComponent,
@@ -32,6 +32,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ScrollingModule,
     MatExpansionModule,
     DatePipe,
+    MatCheckboxModule,
    
   ],
   exports:[], 
