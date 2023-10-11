@@ -1,5 +1,8 @@
 @import 'src/assets/scss/template.scss';
+.mat-sidenav {
+  padding: 10px 10px 20px 58px!important;
 
+}
 .sidenav-c {
   position: fixed;
   width: 100%;
@@ -9,25 +12,27 @@
   height: 100vh;
   z-index: 9999;
   background-color: transparent;
+ 
 }
 .hide {
   display: none;
 }
 
 .sidenav {
-  width: 30vw;
+  width: 45%;
   z-index: 100;
+
   @include qhd {
-    width: 25vw;
+    width: 40%;
   }
   @include laptop {
-    width: 35vw;
+    width: 55%;
   }
   @include mobile {
     width: 100%;
   }
   @include tablet {
-    width: 60vw;
+    width: 65%;
   }
   border-radius: 20px 0 0 20px;
   padding: 10px;

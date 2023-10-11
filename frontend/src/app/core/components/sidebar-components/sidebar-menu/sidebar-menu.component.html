@@ -1,0 +1,17 @@
+<nav class="menu">
+  <ul class="navigation-list">
+    <ng-container *ngFor="let menuItem of menuItems; let i = index">
+      <li #blockMenu (click)="setBar(i)" [ngClass]="{'active': positionNav === i}">
+        <i class="{{menuItem.icon}}"></i>
+      </li>
+    </ng-container>
+    <div #activeBloc class="background"></div>
+  </ul>
+
+  <div class="menu-title-c">
+    <div id="gradient"></div>
+    <div class="shadow"></div>
+    <h2 class="menu-title">{{menuTitle}}</h2>
+    <i class="{{menuIcon}} icone"></i>
+  </div>
+</nav>

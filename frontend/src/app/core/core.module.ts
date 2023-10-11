@@ -15,6 +15,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import { AvatarComponent } from './components/common/avatar/avatar.component';
 import { TicketDetailsComponent } from './components/sidebar-components/ticket-details/ticket-details.component';
+import { SidebarMenuComponent } from './components/sidebar-components/sidebar-menu/sidebar-menu.component';
 
 
 @NgModule({
@@ -25,7 +26,7 @@ import { TicketDetailsComponent } from './components/sidebar-components/ticket-d
     SearchBarComponent,
     AvatarComponent,
     TicketDetailsComponent,
-
+    SidebarMenuComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +40,7 @@ import { TicketDetailsComponent } from './components/sidebar-components/ticket-d
     MatIconModule,
     MatButtonModule,
     MatInputModule,
+   
  
     
     
@@ -52,6 +54,7 @@ import { TicketDetailsComponent } from './components/sidebar-components/ticket-d
     SearchBarComponent,
     AvatarComponent,
     TicketDetailsComponent,
+    SidebarMenuComponent,
   ],
   providers: [],
 })

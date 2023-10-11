@@ -1,17 +1,33 @@
-<section class="details">
+<app-sidebar-menu [menuItems]="menuItems" [menuTitle]="menuTitle" [menuIcon]="menuIcon" (page)="onPageChange($event)"></app-sidebar-menu>
+
+<section class="widget details">
   <header>
-    <h1 class="weight-500">Ticket {{ticketDetails.number}}: <span class="weight-400"> {{ticketDetails.name}} </span></h1>
+    <h1 class="weight-500">Ticket {{ticketDetails.number}}: <span class="weight-400"> {{ticketDetails.name}} </span>
+    </h1>
     <div class="details-profil">
       <h2 class="autor">Auteur:</h2>
       <app-avatar [userName]="ticketDetails.creator" class="context-ticket-card-creator"></app-avatar>
       <p class="name"> {{ticketDetails.userLastName}}<span class="firstname">{{ticketDetails.userFirstName}}</span></p>
     </div>
+
     <p class="statut">Statut: <span [ngClass]="statutSpan">{{ticketDetails.status}}</span></p>
     <p class="priority">Priorité: <span [ngClass]="prioritySpan"> {{ticketDetails.priority}} </span></p>
     <p class="date">Date de création: <span>{{ ticketDetails.creationDate | date: 'dd MMMM yyyy' }}</span></p>
-  </header>
 
-  <article class="description"></article>
-  <h3 class="description">Description:</h3>
-  {{ ticketDetails.description}}
+    <ng-container *ngIf="page ==='Info'">
+      <article class="description" [@opacity]="page==='Info'?'active':''">
+        <h3 class="description">Description:</h3>
+        <p>{{ ticketDetails.description}}</p>
+      </article>
+    </ng-container>
+  </header>
 </section>
+
+<container-element [ngSwitch]="page">
+<ng-container *ngSwitchCase="'Chat'">
+  <section class="widget" [@opacity]="page==='Chat'?'active':''" >chat</section>
+</ng-container>
+<ng-container *ngSwitchCase="'Actions'">
+  <section class="widget" [@opacity]="page==='Actions'?'active':''">action</section>
+</ng-container>
+</container-element>

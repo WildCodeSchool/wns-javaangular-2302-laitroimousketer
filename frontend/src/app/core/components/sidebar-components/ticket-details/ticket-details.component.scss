@@ -3,7 +3,10 @@
 .details {
   display: flex;
   flex-direction: column;
+  position: relative;
+  margin-bottom: 20px;
 }
+
 h1 {
   display: flex;
   justify-content: center;
@@ -55,6 +58,15 @@ h1 {
 .date span {
   font-weight: 300;
 }
+.description {
+  padding-top: 4px;
+  max-height: 60vh;
+  overflow: auto;
+  p {
+    font-size: 16px;
+    font-weight: 300;
+  }
+}
 .todo {
   font-weight: 300;
   color: red;
@@ -79,16 +91,20 @@ h1 {
   color: red;
 }
 header {
-  margin-bottom: 14px;
   position: relative;
 }
-header::after {
+.date {
+  position: relative;
+ margin-bottom: 20px;
+}
+.date::after {
   content: "";
   position: absolute;
-  bottom: -10px;
+  bottom: -16px;
   left: 4%; /* Ajustez cette valeur pour définir la position horizontale */
   width: 92%; /* Réglez la largeur à 80% */
   border-bottom: 1px dashed rgba(0, 0, 0, 0.5); 
 }
+
 
 
