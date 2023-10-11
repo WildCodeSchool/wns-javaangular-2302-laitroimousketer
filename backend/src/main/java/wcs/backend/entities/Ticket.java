@@ -23,7 +23,7 @@ public class Ticket {
   @Column(nullable = false)
   private String ticketTitle;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 5000)
   private String description;
 
   @Column(nullable = false)
