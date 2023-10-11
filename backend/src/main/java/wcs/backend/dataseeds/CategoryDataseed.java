@@ -10,29 +10,37 @@ import wcs.backend.services.CategoryService;
 @Component
 public class CategoryDataseed {
 
-    @Autowired
-    private CategoryService categoryService;
-    final int CATEGORY_NB = 3;
+  @Autowired
+  private CategoryService categoryService;
 
-    public void resetData(){
-        cleanData();
-        loadData();
+  public void resetData() {
+    cleanData();
+    loadData();
+  }
+
+  private void loadData() {
+    Category categoryDefaultCreated = new Category();
+    categoryDefaultCreated.setCategoryTitle(Category.Title.DEFAULT);
+    categoryService.createCategory(categoryDefaultCreated);
+
+    Category categoryTodoCreated = new Category();
+    categoryTodoCreated.setCategoryTitle(Category.Title.TECHNICAL_SUPPORT);
+    categoryService.createCategory(categoryTodoCreated);
+
+    Category categoryTodoCreated2 = new Category();
+    categoryTodoCreated2.setCategoryTitle(Category.Title.FEATURE_REQUEST);
+    categoryService.createCategory(categoryTodoCreated2);
+
+    Category categoryTodoCreated3 = new Category();
+    categoryTodoCreated3.setCategoryTitle(Category.Title.BILLING_PAYMENT);
+    categoryService.createCategory(categoryTodoCreated3);
+  }
+
+  private void cleanData() {
+    List<Category> categories = categoryService.getAllCategories();
+    for (Category category : categories) {
+      categoryService.deleteCategory(category.getId());
     }
-
-    private void loadData() {
-        
-        for (int i = 0; i < this.CATEGORY_NB; i++) {
-            Category categoryCreated = new Category();
-            categoryCreated.setTitle("category_title_" + i);
-            this.categoryService.createCategory(categoryCreated);
-        }
-     }
-
-    private void cleanData(){
-        List<Category> categories = categoryService.getAllCategories();
-        for (Category category : categories) {
-            categoryService.deleteCategory(category.getId());
-        }
-    }
+  }
 
 }

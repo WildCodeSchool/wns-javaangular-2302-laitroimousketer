@@ -18,6 +18,8 @@ public class RoleService {
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }
+   
+    
     public Role createRole(Role role) {
       return roleRepository.save(role);
     }
@@ -26,7 +28,7 @@ public class RoleService {
     }
     public Role updateRole(Role role) {
       Role existingRole = roleRepository.findById(role.getId()).orElse(null);
-      existingRole.setTitle(role.getTitle());
+      existingRole.setRoleTitle(role.getRoleTitle());
       return roleRepository.save(existingRole);
     }
     public void deleteRole(Long id) {

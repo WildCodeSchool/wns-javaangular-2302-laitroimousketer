@@ -7,11 +7,12 @@
   width: 30%;
   z-index: 999;
   margin-left: auto;
-  margin-right:1px;
-  margin-top: 1px;
-  border-radius: 10px;
-  padding: 2%;
+  // margin-right:;
+  // margin-top: 0;
+  border-radius: 8px 0 0 8px;
+  padding: 1%;
   font-size: 1.5rem;
+
   @include tablet {width: 40%;}
   @include mobile {width: 60%;}
 }
@@ -20,12 +21,13 @@
   margin-right: 6px;
 }
 .alert-success {
-  background-color: rgb(14, 133, 14, 0.3);
-  color: green;
+  background-color: rgba(0, 150, 0, 0.5);
+  color: rgb(0, 100, 0);
   font-weight: 400;
 }
 
 .alert-danger {
-  background-color: rgba(250, 1, 0, 0.3);
+  background-color: rgba(250, 1, 0, 0.5);
   color: $redColor;
+  font-weight: 400;
 }
