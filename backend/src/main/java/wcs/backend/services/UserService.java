@@ -24,7 +24,7 @@ public class UserService {
     user.setPassword(encryptedPassword);
 
     // Définir le rôle par défaut (CLIENT)
-    Role defaultRole = roleRepository.findByTitle(Title.CLIENT).get(0);
+    Role defaultRole = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
     if (defaultRole == null) {
       user.setRole(defaultRole);
     }
@@ -56,8 +56,8 @@ public class UserService {
 
     if (existingUser != null) {
       existingUser.setEmail(user.getEmail());
-      existingUser.setFirstname(user.getFirstname());
-      existingUser.setLastname(user.getLastname());
+      existingUser.setFirstname(user.getFirstName());
+      existingUser.setLastname(user.getLastName());
       existingUser.setRole(user.getRole());
 
       String encryptedPassword = passwordEncoder.encode(user.getPassword());
@@ -89,6 +89,13 @@ public class UserService {
   }
   public Optional<User> getUserByEmail(String email) {
     return userRepository.findByEmail(email);
+}
+public User getFirstUserByName(String name) {
+  List<User> users = userRepository.findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name, name);
+  if (!users.isEmpty()) {
+      return users.get(0); // Retournez le premier utilisateur correspondant trouvé
+  }
+  return null; // Aucun utilisateur trouvé
 }
 
 }

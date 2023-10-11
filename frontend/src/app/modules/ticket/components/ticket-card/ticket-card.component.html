@@ -1,0 +1,36 @@
+<section class="card" (click)="openSidebar()">
+  <app-avatar [userName]="ticketDetails.creator" class="context-ticket-card-creator"></app-avatar>
+
+  <div class="card-left">
+    <p><span class="prefix">Numéro de ticket:</span> {{ ticketDetails.number }}</p>
+    <p><span class="prefix">Titre:</span> {{ ticketDetails.name }}</p>
+  </div>
+  <div class="card-middle">
+    <p><span class="prefix">Statut:</span> {{ ticketDetails.status }}</p>
+    <p><span class="prefix">Client:</span> {{ ticketDetails.creator }}</p>
+  </div>
+
+  <div class="card-right">
+    <p><span class="prefix">Date de création:</span> {{ ticketDetails.creationDate | date:'dd/MM/yyyy' }}</p>
+
+    <p *ngIf="ticketDetails.updateDate">Date de modification: {{ticketDetails.updateDate | date:'dd/MM/yyyy'  }}</p>
+    <p  [ngClass]="colorPriority"><span class="prefix">Priorité:</span> {{ ticketDetails.priority }}</p>
+  </div>
+</section>
+
+<section class="card-bottom">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <span class="more">Voir plus</span>
+      </mat-expansion-panel-header>
+      <p class="desc">{{ ticketDetails.description }}</p>
+      <ng-container *ngIf="ticketDetails.developers.length >=1" class="dev">
+        <p class="prefix">Développeurs:</p>
+        <ul>
+          <li *ngFor="let developer of ticketDetails.developers">{{ developer }}</li>
+        </ul>
+      </ng-container>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

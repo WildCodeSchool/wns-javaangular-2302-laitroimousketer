@@ -1,5 +1,5 @@
 <!-- navbar desktop-->
-<div id="body">
+
 <nav class="navbar">
   <div class="logo">
     <img routerLink="/ "src="{{ logo }}" alt="Logo">
@@ -20,7 +20,7 @@
   <a class="bi bi-speedometer"></a>
 </li>
 <li *ngIf="userRole !== 'client'" routerLink="/" class="menulink">
- <a class="bi bi-activity" (click)="openSidebar()"></a>
+ <a class="bi bi-activity" (click)=" toggleSidenav()"></a>
 </li>
 </ul>
 <mat-menu #menu="matMenu" >
@@ -34,4 +34,3 @@
 </div>
 <p class="corporation">Alayde INC  ©</p>
 </nav>
-</div>

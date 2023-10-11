@@ -2,62 +2,23 @@
   <app-search-bar></app-search-bar>
 
   <div class="tickets-list">
-    <h2 routerLink="/tickets/create">
-      Créer un nouveau ticket<span class="bi bi-plus-circle-fill"></span>
-    </h2>
+    <header>
+      <mat-form-field class="select">
+        <mat-label>Trier par</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <a class="new-ticket" *ngIf="role == 'CLIENT'">Créer un nouveau ticket<span class="bi bi-plus-circle-fill"></span></a>
+    </header>
 
-    <div class="card-c">
-      <div *ngFor="let ticket of tickets">
-        <div class="card">
-          <div class="avatar">
-            <img
-              class="rounded-circle"
-              alt="avatar2"
-              src="./../../../../../assets/images/avatar.png"
-              width="50px"
-            />
-            <p class="author">Mister x</p>
-          </div>
-          <div class="description">
-            <p><span>Ticket N°:</span> {{ ticket.id }}</p>
-            <p><span>Nom Ticket:</span> {{ ticket.title }}</p>
-
-            <p><span>Category:</span> {{ ticket.category?.title }}</p>
-
-            <p><span>Date:</span> 14/07/2023</p>
-            <p><span>Priorité:</span> Urgent</p>
-            <p><span>Dev:</span> Mister Dupond</p>
-          </div>
-          <div class="edit">
-            <button routerLink="/tickets/edit/{{ ticket.id }}" class="btn">
-              Edit
-            </button>
-            <button (click)="openDeleteModal(ticket.id)" class="btn">
-              Delete
-            </button>
-          </div>
+  
+      <cdk-virtual-scroll-viewport  itemSize="10" class="viewport">
+        <div *cdkVirtualFor="let ticket of tickets" >
+          <app-ticket-card class="context-ticket-list" [ticket]="ticket"></app-ticket-card>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- delete modal -->
-  <!-- <div id="deleteModal{{ticket.id}}" class="modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Delete confirmation N° Ticket: {{ticket.id}}</h5>
-          <button (click)="closeDeleteModal(ticket.id)" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Are you sure you want to delete ?</p>
-        </div>
-        <div class="modal-footer">
-          <button (click)="closeDeleteModal(ticket.id)" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button (click)="deleteTicket(ticket.id)" type="button" class="btn btn-danger">Delete</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <!-- end delete modal -->
+      </cdk-virtual-scroll-viewport>
+    </div> 
+ 
 </section>

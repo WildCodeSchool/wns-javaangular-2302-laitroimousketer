@@ -22,7 +22,7 @@ export class TicketAddComponent {
     private router : Router){}
     
     categoryforTicket = new Category();
-    ticketToCreate = new Ticket(0,'','',this.categoryforTicket);
+    ticketToCreate = new Ticket();
     categories : Category[] = [];
     selectedCategory : number = 0;
 
@@ -39,7 +39,7 @@ export class TicketAddComponent {
   }
    addTicket(){
       if (this.ticketAdditionForm.value.title != null){
-        this.ticketToCreate.title = this.ticketAdditionForm.value.title;
+        this.ticketToCreate.ticketTitle = this.ticketAdditionForm.value.title;
       }
       if (this.ticketAdditionForm.value.description != null){
         this.ticketToCreate.description = this.ticketAdditionForm.value.description;

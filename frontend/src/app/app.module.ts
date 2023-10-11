@@ -3,13 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { NavbarComponent } from './core/components/navbar/navbar.component';
+import { NavbarComponent } from './core/components/common/navbar/navbar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { ErrorInterceptor } from './core/interceptors/error-interceptor';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SidebarComponent } from './core/components/sidebar/sidebar.component';
+import { SidebarComponent } from './core/components/common/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 
 

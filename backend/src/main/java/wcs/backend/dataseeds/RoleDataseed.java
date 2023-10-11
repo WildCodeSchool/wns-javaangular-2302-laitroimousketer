@@ -29,15 +29,15 @@ public class RoleDataseed {
 
   private void loadData() {
         Role roleClientCreated = new Role();
-        roleClientCreated.setTitle(Title.CLIENT);
+        roleClientCreated.setRoleTitle(Title.CLIENT);
         roleService.createRole(roleClientCreated);
 
         Role roleDevCreated = new Role();
-        roleDevCreated.setTitle(Title.DEVELOPER);
+        roleDevCreated.setRoleTitle(Title.DEVELOPER);
         roleService.createRole(roleDevCreated);
 
         Role roleManagerCreated = new Role();
-        roleManagerCreated.setTitle(Title.MANAGER);
+        roleManagerCreated.setRoleTitle(Title.MANAGER);
         roleService.createRole(roleManagerCreated);
 
       }
