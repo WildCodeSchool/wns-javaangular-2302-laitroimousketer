@@ -4,6 +4,21 @@ import { Ticket } from '../../models/ticket';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
+import { UserHasTickets } from '../../models/userHasTickets';
+
+interface TicketFilter {
+  todo: boolean;
+  doing: boolean;
+  finish: boolean;
+  low: boolean;
+  medium: boolean;
+  high: boolean;
+}
+
+interface SortOption {
+  label: string;
+  value: string;
+}
 
 @Component({
   selector: 'app-ticket-list',
@@ -12,7 +27,9 @@ import { MatSelectChange } from '@angular/material/select';
 })
 export class TicketListComponent {
   tickets: Ticket[] | undefined;
+  originalTickets: Ticket[] | undefined;
   role: string = this.authService.userRole;
+
   currentSortBy: string = '';
   states: string[] = [
     'Date de création (ascendant)',
@@ -24,22 +41,21 @@ export class TicketListComponent {
     'Prénom (A-Z)',
     'Prénom (Z-A)',
   ];
-//checkbox
-doing = false;
-todo = false;
-finish = false;
-low = false;
-medium = false;
-high = false;
-labelPosition: 'before' | 'after' = 'after';
-disabled = false;
+  filters: TicketFilter = {
+    todo: false,
+    doing: false,
+    finish: false,
+    low: false,
+    medium: false,
+    high: false,
+  };
 
   constructor(
     private ticketService: TicketService,
     private router: Router,
     private authService: AuthService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.checkRole();
@@ -53,97 +69,127 @@ disabled = false;
 
   getTicketList() {
     this.ticketService.getTicketList().subscribe((data) => {
-      this.tickets = data;
-      // console.log(data);
-      this.sortTickets(this.currentSortBy);
+      this.originalTickets = data;
+      this.updateTicketList();
       this.cdr.detectChanges();
     });
   }
 
   deleteTicket(ticketId: any) {
     if (Number.isInteger(ticketId)) {
-      this.ticketService.deleteTicket(ticketId).subscribe((data) => {
-        this.getTicketList();
-      });
+      this.ticketService.deleteTicket(ticketId).subscribe(() => this.getTicketList());
     } else {
       console.error('Invalid ticket id:', ticketId);
     }
   }
 
-  openDeleteModal(ticketId: any) {
-    document
-      .getElementById('deleteModal' + ticketId)
-      ?.classList.remove('d-none');
-    document.getElementById('deleteModal' + ticketId)?.classList.add('d-block');
+  onSortChange(event: MatSelectChange) {
+    this.currentSortBy = event.value;
+    this.updateTicketList();
   }
 
-  closeDeleteModal(ticketId: any) {
-    document
-      .getElementById('deleteModal' + ticketId)
-      ?.classList.remove('d-block');
-    document.getElementById('deleteModal' + ticketId)?.classList.add('d-none');
+  onCheckboxChange(filterName: string) {
+    // Logique de gestion des filtres du changement de la checkbox
+    console.log(`${filterName}:`, this.filters[filterName as keyof TicketFilter]);
+    this.updateTicketList();
   }
-  onSortChange(event: MatSelectChange) {
-    this.currentSortBy = event.value; // Mettre à jour le critère de tri actuel
-    console.log(this.currentSortBy,'onsortchanges');
+
+  private updateTicketList() {
+    if (!this.originalTickets) {
+      return;
+    }
+
+    this.tickets = [...this.originalTickets];
     this.sortTickets(this.currentSortBy);
+    this.applyFilters();
   }
-  sortTickets(sortBy: string) {
+
+
+  private applyFilters() {
+    if (!this.tickets) {
+      return;
+    }
+
+    const isFilterApplied =
+      this.applyStatusFilter() ||
+      this.applyPriorityFilter();
+
+    if (isFilterApplied) {
+      console.log('Au moins un filtre est appliqué.');
+    }
+  }
+
+  private applyStatusFilter(): boolean {
+    if (this.tickets && (this.filters.todo || this.filters.doing || this.filters.finish)) {
+      this.tickets = (this.tickets || []).filter(ticket => {
+        if (this.filters.todo && ticket.statusTitle === 'TO_DO') {
+          return true;
+        }
+        if (this.filters.doing && ticket.statusTitle === 'DOING') {
+          return true;
+        }
+        return this.filters.finish && ticket.statusTitle === 'DONE';
+      });
+      return true;
+    }
+    return false;
+  }
+
+  private applyPriorityFilter(): boolean {
+    if (this.tickets && (this.filters.low || this.filters.medium || this.filters.high)) {
+      this.tickets = (this.tickets || []).filter(ticket => {
+        if (this.filters.low && ticket.priorityTitle === 'LOW') {
+          return true;
+        }
+        if (this.filters.medium && ticket.priorityTitle === 'MEDIUM') {
+          return true;
+        }
+        return this.filters.high && ticket.priorityTitle === 'HIGH';
+      });
+      return true;
+    }
+    return false;
+  }
+
+  private sortTickets(sortBy: string) {
+    if (!this.tickets) {
+      return;
+    }
+
     switch (sortBy) {
       case 'Date de création (ascendant)':
-        this.tickets?.sort((a, b) => a.creationDate.localeCompare(b.creationDate));
+        this.tickets.sort((a, b) => a.creationDate.localeCompare(b.creationDate));
         break;
       case 'Date de création (descendant)':
-        this.tickets?.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
+        this.tickets.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
         break;
       case 'Numéro de ticket (ascendant)':
-        this.tickets?.sort((a, b) => a.id.toString().localeCompare(b.id.toString()));
+        this.tickets.sort((a, b) => a.id.toString().localeCompare(b.id.toString()));
         break;
-        case 'Numéro de ticket (descendant)':
-        this.tickets?.sort((a, b) => b.id.toString().localeCompare(a.id.toString()));
+      case 'Numéro de ticket (descendant)':
+        this.tickets.sort((a, b) => b.id.toString().localeCompare(a.id.toString()));
         break;
-        case 'Statut':
-          this.tickets?.sort((a, b) => +a.status - +b.status);
-          break;
-        case 'Catégorie':
-          this.tickets?.sort((a, b) => +a.category - +b.category);
-          break;
-          case 'Nom (A-Z)':
-            this.tickets?.sort((a, b) => {
-              const nameA = a.userHasTickets[0].userLastName + ' ' + a.userHasTickets[0].userFirstName;
-              const nameB = b.userHasTickets[0].userLastName + ' ' + b.userHasTickets[0].userFirstName;
-              return nameA.localeCompare(nameB);
-            });
-            break;
-      
-          case 'Nom (Z-A)':
-            this.tickets?.sort((a, b) => {
-              const nameA = a.userHasTickets[0].userLastName + ' ' + a.userHasTickets[0].userFirstName;
-              const nameB = b.userHasTickets[0].userLastName + ' ' + b.userHasTickets[0].userFirstName;
-              return nameB.localeCompare(nameA);
-            });
-            break;
-      
-          case 'Prénom (A-Z)':
-            this.tickets?.sort((a, b) => {
-              const nameA = a.userHasTickets[0].userFirstName + ' ' + a.userHasTickets[0].userLastName;
-              const nameB = b.userHasTickets[0].userFirstName + ' ' + b.userHasTickets[0].userLastName;
-              return nameA.localeCompare(nameB);
-            });
-            break;
-      
-          case 'Prénom (Z-A)':
-            this.tickets?.sort((a, b) => {
-              const nameA = a.userHasTickets[0].userFirstName + ' ' + a.userHasTickets[0].userLastName;
-              const nameB = b.userHasTickets[0].userFirstName + ' ' + b.userHasTickets[0].userLastName;
-              return nameB.localeCompare(nameA);
-            });
-            break;
+      case 'Nom (A-Z)':
+        this.tickets.sort((a, b) => this.compareNames(a, b, 'userLastName', 'userFirstName'));
+        break;
+      case 'Nom (Z-A)':
+        this.tickets.sort((a, b) => this.compareNames(b, a, 'userLastName', 'userFirstName'));
+        break;
+      case 'Prénom (A-Z)':
+        this.tickets.sort((a, b) => this.compareNames(a, b, 'userFirstName', 'userLastName'));
+        break;
+      case 'Prénom (Z-A)':
+        this.tickets.sort((a, b) => this.compareNames(b, a, 'userFirstName', 'userLastName'));
+        break;
       // Add more cases as needed
       default:
         break;
     }
   }
-  
 
+  private compareNames(a: Ticket, b: Ticket, key1: keyof UserHasTickets, key2: keyof UserHasTickets): number {
+    const nameA = `${a.userHasTickets?.[0]?.[key1]} ${a.userHasTickets?.[0]?.[key2]}`;
+    const nameB = `${b.userHasTickets?.[0]?.[key1]} ${b.userHasTickets?.[0]?.[key2]}`;
+    return nameA.localeCompare(nameB);
+  }
 }

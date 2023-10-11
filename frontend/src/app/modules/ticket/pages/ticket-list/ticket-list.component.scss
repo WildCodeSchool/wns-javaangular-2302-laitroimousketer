@@ -26,15 +26,21 @@ header {
   }
 }
 .checkbox-c {
-  color: white;
+  color: $secondaryColor;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: auto;
   padding-right: 20%;
-  
-  gap: 60px;
+  gap: 20%;
 }
+.statut {
+  white-space: nowrap;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
 .viewport {
   height: 64vh;
   @include mobile {height: 64vh}

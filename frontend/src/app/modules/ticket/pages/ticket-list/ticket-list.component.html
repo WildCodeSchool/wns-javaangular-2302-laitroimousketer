@@ -12,16 +12,18 @@
       </mat-form-field>
       <div class="checkbox-c">
         <div class="statut">Statut:
-        <mat-checkbox class="example-margin" [(ngModel)]="todo">à faire</mat-checkbox>
-        <mat-checkbox class="example-margin" [(ngModel)]="doing">en cours</mat-checkbox>
-        <mat-checkbox class="example-margin" [(ngModel)]="finish">terminé</mat-checkbox>
+          <mat-checkbox class="checkbox" [(ngModel)]="filters.todo" (change)="onCheckboxChange('todo')">à faire</mat-checkbox>
+          <mat-checkbox class="checkbox" [(ngModel)]="filters.doing" (change)="onCheckboxChange('doing')">en cours</mat-checkbox>
+          <mat-checkbox class="checkbox" [(ngModel)]="filters.finish" (change)="onCheckboxChange('finish')">terminé</mat-checkbox>
+          
+        </div>
+        <div class="statut">Priorité:
+          <mat-checkbox class="checkbox" [(ngModel)]="filters.low" (change)="onCheckboxChange('low')">faible</mat-checkbox>
+          <mat-checkbox class="checkbox" [(ngModel)]="filters.medium" (change)="onCheckboxChange('medium')">moyenne</mat-checkbox>
+          <mat-checkbox class="checkbox" [(ngModel)]="filters.high" (change)="onCheckboxChange('high')">élevée</mat-checkbox>
+          
+        </div>
       </div>
-      <div class="statut">Priorité:
-        <mat-checkbox class="example-margin" [(ngModel)]="low">faible</mat-checkbox>
-        <mat-checkbox class="example-margin" [(ngModel)]="medium">moyenne</mat-checkbox>
-        <mat-checkbox class="example-margin" [(ngModel)]="high">élevée</mat-checkbox>
-      </div>
-    </div>
     </header>
 
 
