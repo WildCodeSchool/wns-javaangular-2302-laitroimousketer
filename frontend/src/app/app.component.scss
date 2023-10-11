@@ -1,5 +1,5 @@
 @import 'src/assets/scss/template.scss';
-#mainap
+#main-app
 {
   display: flex;
   flex-direction: column;
@@ -15,7 +15,7 @@
   height: 100%;
 }
 
-#bodyap {
+#body-app {
   display: flex;
   height: 100vh;
   transition: transform 0.3s ease;
