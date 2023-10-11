@@ -171,3 +171,11 @@ input:-webkit-autofill:active{
 .mat-expansion-panel:not([class*=mat-elevation-z]) {
   box-shadow: none;
 }
+
+.widget {
+  background-color: $thirdColor;
+  border-radius: 5px;
+  box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.2);
+  padding: 2% 1%;
+  margin: 10px;
+}

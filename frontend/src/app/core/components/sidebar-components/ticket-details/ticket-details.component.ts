@@ -1,10 +1,23 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Ticket } from '../../../../modules/ticket/models/ticket';
 import { TicketDetails } from 'src/app/modules/ticket/models/ticket-details';
+import { MenuItems } from '../sidebar-menu/menu-items.model';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 @Component({
   selector: 'app-ticket-details',
   templateUrl: './ticket-details.component.html',
   styleUrls: ['./ticket-details.component.scss'],
+  animations: [
+    trigger('opacity', [
+      transition('void => active', [
+        style({ opacity: '0' }),
+        animate('0.7s', style({ opacity: '1' }))
+      ]),
+      transition('* => void', [
+        animate(70, style({ opacity: '0' }))
+      ])
+    ])
+  ]
 })
 export class TicketDetailsComponent implements OnInit {
   @Input() ticket!: Ticket | null;
@@ -23,6 +36,16 @@ export class TicketDetailsComponent implements OnInit {
     developers: [],
   };
 
+  menuItems : MenuItems[] = [
+    { page: 'Info', icon: 'bi bi-info-square-fill'},
+    { page: 'Chat', icon: 'bi bi-chat-left-dots-fill' },
+    { page: 'Actions', icon: 'bi bi-pencil-square'}
+  ];
+  menuTitle: string = 'Ticket';
+  menuIcon: string = 'bi bi-ticket-fill';
+
+  page: string = 'Info';
+
   statutSpan: string = '';
   prioritySpan: string = '';
   constructor() { }
@@ -30,6 +53,10 @@ export class TicketDetailsComponent implements OnInit {
   ngOnInit() {
     this.loadTicket();
   }
+onPageChange(page: string): void {
+  this.page = page;
+  console.log('Page changed to:', this.page);
+}
 
   loadTicket() {
     if (this.ticket !== undefined && this.ticket !== null) {
