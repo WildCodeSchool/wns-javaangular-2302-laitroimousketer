@@ -4,7 +4,8 @@ import { Ticket } from '../../models/ticket';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
-import { UserHasTickets } from '../../models/userHasTickets';
+import { TicketHaveUsers } from '../../models/ticketHaveUsers';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 interface TicketFilter {
   status: {
@@ -31,6 +32,17 @@ interface SortOption {
   selector: 'app-ticket-list',
   templateUrl: './ticket-list.component.html',
   styleUrls: ['./ticket-list.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('0.2s ease-out', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('0.2s ease-in', style({ opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class TicketListComponent implements OnInit, DoCheck {
   tickets: Ticket[] | undefined;
@@ -141,11 +153,11 @@ export class TicketListComponent implements OnInit, DoCheck {
       }
     }
 
-    console.log('Filters:', filters);
+    // console.log('Filters:', filters);
 
     this.ticketService.getTicketsByFilters(filters.join('&')).subscribe((tickets) => {
-      console.log('Returned data from server:', tickets);
-      console.log('Current client-side tickets:', this.tickets);
+      // console.log('Returned data from server:', tickets);
+      // console.log('Current client-side tickets:', this.tickets);
 
       this.isUpdatingTickets = true;
       const sortedTickets = [...tickets]; // Créez une copie triée
@@ -154,7 +166,7 @@ export class TicketListComponent implements OnInit, DoCheck {
       this.cdr.detectChanges();
       this.isUpdatingTickets = false;
 
-      console.log('Updated client-side tickets:', this.tickets);
+      // console.log('Updated client-side tickets:', this.tickets);
     });
   }
 
@@ -208,9 +220,9 @@ export class TicketListComponent implements OnInit, DoCheck {
     this.updateTicketList();
   }
 
-  private compareNames(a: Ticket, b: Ticket, key1: keyof UserHasTickets, key2: keyof UserHasTickets): number {
-    const nameA = `${a.userHasTickets?.[0]?.[key1]} ${a.userHasTickets?.[0]?.[key2]}`;
-    const nameB = `${b.userHasTickets?.[0]?.[key1]} ${b.userHasTickets?.[0]?.[key2]}`;
+  private compareNames(a: Ticket, b: Ticket, key1: keyof TicketHaveUsers, key2: keyof TicketHaveUsers): number {
+    const nameA = `${a.ticketHaveUsers?.[0]?.[key1]} ${a.ticketHaveUsers?.[0]?.[key2]}`;
+    const nameB = `${b.ticketHaveUsers?.[0]?.[key1]} ${b.ticketHaveUsers?.[0]?.[key2]}`;
     return nameA.localeCompare(nameB);
   }
 }

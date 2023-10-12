@@ -13,7 +13,7 @@
   border-radius: 10px;
   width: 100%;
   height: 74vh;
-  overflow: hidden;
+  overflow: auto;
   @include mobile {height: 70vh}
   @include qhd {height: 80vh}
 }
@@ -40,7 +40,10 @@ header {
   display: flex;
   align-items: center;
 }
-
+.ticketss {
+  height: 70vh;
+  overflow: auto;
+}
 .viewport {
   height: 64vh;
   @include mobile {height: 64vh}

@@ -1,5 +1,5 @@
 <!-- PARTIE DEV ET MANAGER -->
-<section class="tickets-list-c" *ngIf="role !== 'CLIENT'">
+<section class="tickets-list-c" *ngIf="role !== 'CLIENT'" [@fadeInOut]>
   <app-search-bar></app-search-bar>
 
   <div class="tickets-list">
@@ -43,7 +43,7 @@
 
 
 <!-- PARTIE CLIENT -->
-<section class="tickets-list-c" *ngIf="role === 'CLIENT'">
+<section class="tickets-list-c" *ngIf="role === 'CLIENT'" [@fadeInOut]>
   <header>
     <a class="new-ticket">Créer un nouveau ticket<span class="bi bi-plus-circle-fill"></span></a>
   </header>

@@ -7,8 +7,8 @@
     </h1>
     <div class="details-profil">
       <h2 class="autor">Auteur:</h2>
-      <app-avatar [userName]="ticketDetails.creator" class="context-ticket-card-creator"></app-avatar>
-      <p class="name"> {{ticketDetails.userLastName}}<span class="firstname">{{ticketDetails.userFirstName}}</span></p>
+      <app-avatar [userName]="ticketDetails.fullnameAuthor" class="context-ticket-card-creator"></app-avatar>
+      <p class="name"> {{ticketDetails.authorLastname}}<span class="firstname">{{ticketDetails.authorFirstname}}</span></p>
     </div>
 
     <p class="statut">Statut: <span [ngClass]="statutSpan">{{ticketDetails.status}}</span></p>

@@ -38,7 +38,7 @@ export class TicketService {
   // TicketService
 
   getTicketsByFilters(filter : string): Observable<Ticket[]> {
-    console.log('filters: ',filter);
+    // console.log('filters: ',filter);
     return this.httpClient.get<Ticket[]>(`http://localhost:8080/api/tickets/filter?${filter}`);
   }
   

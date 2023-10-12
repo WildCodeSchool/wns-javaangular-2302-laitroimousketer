@@ -32,14 +32,18 @@ export class TicketDetailsComponent implements OnInit {
     creationDate: '',
     updateDate: '',
     status: '',
-    creator: '',
-    developers: [],
+    authorId: 0,
+    authorFirstname: '',
+    authorLastname: '',
+    authorEmail: '',
+    developers:[] = [],
+    fullnameAuthor: '',
   };
 
-  menuItems : MenuItems[] = [
-    { page: 'Info', icon: 'bi bi-info-square-fill'},
+  menuItems: MenuItems[] = [
+    { page: 'Info', icon: 'bi bi-info-square-fill' },
     { page: 'Chat', icon: 'bi bi-chat-left-dots-fill' },
-    { page: 'Actions', icon: 'bi bi-pencil-square'}
+    { page: 'Actions', icon: 'bi bi-pencil-square' }
   ];
   menuTitle: string = 'Ticket';
   menuIcon: string = 'bi bi-ticket-fill';
@@ -53,16 +57,16 @@ export class TicketDetailsComponent implements OnInit {
   ngOnInit() {
     this.loadTicket();
   }
-  
-onPageChange(page: string): void {
-  this.page = page;
-  console.log('Page changed to:', this.page);
-}
+
+  onPageChange(page: string): void {
+    this.page = page;
+    console.log('Page changed to:', this.page);
+  }
 
   loadTicket() {
     if (this.ticket !== undefined && this.ticket !== null) {
       console.log('ticket details:', this.ticket);
-    
+
       this.ticketDetails.number = this.ticket.id ? this.ticket.id : 0;
       this.ticketDetails.name = this.ticket.ticketTitle ? this.ticket.ticketTitle : '';
       this.ticketDetails.description = this.ticket.description ? this.ticket.description : '';
@@ -70,37 +74,22 @@ onPageChange(page: string): void {
       this.ticketDetails.creationDate = this.ticket.creationDate ? this.ticket.creationDate : '';
       this.ticketDetails.updateDate = this.ticket.updateDate ? this.ticket.updateDate : '';
       this.ticketDetails.status = this.ticket.statusTitle ? this.ticket.statusTitle : '';
+      this.ticketDetails.authorId = this.ticket.authorId ? this.ticket.authorId : 0;
+      this.ticketDetails.authorFirstname = this.ticket.authorFirstname ? this.ticket.authorFirstname : '';
+      this.ticketDetails.authorLastname = this.ticket.authorLastname ? this.ticket.authorLastname : '';
+      this.ticketDetails.fullnameAuthor = this.ticket.authorFirstname + ' ' + this.ticket.authorLastname || '';
+      this.ticketDetails.authorEmail = this.ticket.authorEmail ? this.ticket.authorEmail : '';
+      this.ticketDetails.developers = this.ticket.ticketHaveUsers ? this.ticket.ticketHaveUsers : [];
       this.checkStatusColorSpan();
       this.checkPriorityColorSpan();
-      
-      //check les dev assignés au ticket
-      if (this.ticket.userHasTickets !== undefined) {
-        this.ticket.userHasTickets.forEach((user) => {
-          if (!user.creator) {
-            console.log('User is not creator:', user);
-            const developerName = `${user.userLastName} ${user.userFirstName} `;
-            this.ticketDetails.developers.push(developerName);
-          }
-        });
-    
-      const creatorUser = this.ticket.userHasTickets?.find(
-        (user) => user.creator
-      );
-      //check le créateur du ticket
-      if (creatorUser) {
-        console.log('User is creator:', creatorUser);
-        this.ticketDetails.creator = `${creatorUser.userLastName} ${creatorUser.userFirstName}`;
-        this.ticketDetails.userFirstName = creatorUser.userFirstName;
-        this.ticketDetails.userLastName = creatorUser.userLastName;
-      }
-    }
     }
   }
 
-  checkStatusColorSpan(){
+
+  checkStatusColorSpan() {
     if (this.ticketDetails.status === 'TO_DO') {
       this.statutSpan = 'todo';
-  
+
     } if (this.ticketDetails.status === 'DOING') {
       this.statutSpan = 'done';
     }
@@ -108,8 +97,8 @@ onPageChange(page: string): void {
       this.statutSpan = 'done';
     }
   }
-  
-  checkPriorityColorSpan(){
+
+  checkPriorityColorSpan() {
     if (this.ticketDetails.priority === 'LOW') {
       this.prioritySpan = 'low';
     }

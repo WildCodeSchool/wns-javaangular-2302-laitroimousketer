@@ -31,8 +31,8 @@ export class AuthService implements OnInit {
   public activeTab$ = this.activeTabSource.asObservable();
 
   userEmail: string ='';
-  userFirstName: string = '';
-  userLastName: string = '';
+  userFirstname: string = '';
+  userLastname: string = '';
   userRole: string = '';
 
   constructor(private alertService: AlertService, private httpClient: HttpClient, private router: Router, private userService: UserService) {
@@ -66,19 +66,19 @@ ngOnInit(): void {
         map((response: LoginResponse) => {
           this.setAuthToken(response.accessToken);
           this.$isLog.next(true);
-          console.log('token reçu',response.accessToken)
+          // console.log('token reçu',response.accessToken)
           return response.accessToken;
         })
       );
       
   }
   
-  register(firstName: string, lastName: string, email: string, password: string): Observable<any> {
+  register(firstname: string, lastname: string, email: string, password: string): Observable<any> {
     const url = `${this.apiUrl}/auth/register`;
   
     const registerData = {
-      firstname: firstName,
-      lastname: lastName,
+      firstname: firstname,
+      lastname: lastname,
       email: email,
       password: password
     };
@@ -87,7 +87,7 @@ ngOnInit(): void {
       .pipe(
         tap(() => {
           // Effectuer les actions nécessaires après l'enregistrement réussi, si nécessaire
-          console.log('enregistrement réussi: ', registerData);
+          // console.log('enregistrement réussi: ', registerData);
           this.alertService.showSuccessAlert('Votre compte a été créé avec succès');
           })
       );
@@ -130,7 +130,7 @@ ngOnInit(): void {
   public getUserMailFromToken(token: string | null): string | null {
     if (token) {
       const decodedToken: any = jwt_decode(token);
-      console.log('decodedToken', decodedToken.sub);
+      // console.log('decodedToken', decodedToken.sub);
       return decodedToken.sub;
     }
     return null;
@@ -144,10 +144,10 @@ ngOnInit(): void {
       return this.userService.getUserByEmail(userEmail).pipe(
         map((user: User) => {
           this.userEmail = userEmail; // Définis l'e-mail de l'utilisateur
-          this.userFirstName = user.firstname;
-          this.userLastName = user.lastname // Définis le nom de l'utilisateur à partir des données de l'utilisateur
-          this.userRole = user.role.title;
-          console.log('Infos utilisateur récupérées:', this.userEmail, this.userFirstName, this.userLastName);
+          this.userFirstname = user.firstname;
+          this.userLastname = user.lastname // Définis le nom de l'utilisateur à partir des données de l'utilisateur
+          this.userRole = user.roleTitle;
+          // console.log('Infos utilisateur récupérées:', this.userEmail, this.userFirstName, this.userLastName);
           return user;
         }),
         catchError((error: any) => {

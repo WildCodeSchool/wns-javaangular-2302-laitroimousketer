@@ -19,8 +19,12 @@ export class TicketCardComponent implements OnInit {
     creationDate: '',
     updateDate: '',
     status: '',
-    creator: '',
+    fullnameAuthor: '',
     developers: [],
+    authorId: 0,
+    authorEmail: '',
+    authorFirstname: '',
+    authorLastname: '',
   };
 
   @Input() ticket!: Ticket;
@@ -49,17 +53,12 @@ export class TicketCardComponent implements OnInit {
       this.ticketDetails.creationDate = this.ticket.creationDate || '';
       this.ticketDetails.updateDate = this.ticket.updateDate || '';
       this.ticketDetails.status = this.ticket.statusTitle || '';
-
-      if (this.ticket.userHasTickets !== undefined) {
-     
-      const creatorUser = this.ticket.userHasTickets?.find(
-        (user) => user.creator
-      );
-      if (creatorUser) {
-        // console.log('User is creator:', creatorUser);
-        this.ticketDetails.creator = `${creatorUser.userLastName} ${creatorUser.userFirstName}`;
-      }
-    } 
+      this.ticketDetails.authorId = this.ticket.authorId || 0;
+      this.ticketDetails.authorEmail = this.ticket.authorEmail || '';
+      this.ticketDetails.authorFirstname = this.ticket.authorFirstname || '';
+      this.ticketDetails.authorLastname = this.ticket.authorLastname || '';
+      this.ticketDetails.fullnameAuthor = this.ticket.authorFirstname + ' ' + this.ticket.authorLastname || '';
+    
   }
     
   }

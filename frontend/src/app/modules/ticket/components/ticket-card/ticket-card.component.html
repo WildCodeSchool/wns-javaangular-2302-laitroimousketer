@@ -1,7 +1,7 @@
 <section class="card" (click)="openSidebar()">
   <div class="client">
-  <app-avatar [userName]="ticketDetails.creator" class="context-ticket-card-creator"></app-avatar>
-    <p><span class="prefix">Client:</span> {{ ticketDetails.creator }}</p>
+  <app-avatar [userName]="ticketDetails.fullnameAuthor" class="context-ticket-card-fullnameAuthor"></app-avatar>
+    <p><span class="prefix">Client:</span> {{ ticketDetails.fullnameAuthor }}</p>
   </div>
   
     <p class="date"><span class="prefix">Date de création:</span> {{ ticketDetails.creationDate | date:'dd/MM/yyyy' }}</p>

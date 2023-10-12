@@ -10,24 +10,25 @@
   h1 {
     display: flex;
     justify-content: center;
+    width: fit-content;
     position: relative;
     font-size: 4rem;
     margin: auto;
-    animation: titleBarAnimation 0.4s ease-in-out forwards, opacityAnimation 0.8s ease-in-out forwards;
+    z-index: 2; /* Increase the z-index */
   }
-}
-h1::after {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 100%;
-  right: 0%;
-  left: 0%;
-  bottom: 0px;
-  height: 4px;
-  background: $redColor;
-  margin-top: 10px;
-}
+  
+  h1::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 4px;
+    background: $redColor;
+    margin-top: 10px;
+    position: absolute;
+    bottom: 0;
+    z-index: 1; /* Decrease the z-index to position it behind h1 */
+  }
+  
 .header-icons {
   position: fixed;
   right: 10vw;
@@ -59,18 +60,13 @@ h1::after {
   margin-left: 16px;
   cursor: pointer;
 }
-
-
-
-@keyframes titleBarAnimation {
-  from {
-    width: 0;
-  }
-  to {
-    width: 12%;
-  }
 }
-@keyframes opacityAnimation {
+
+.animate {
+  animation: fadeInOut 0.2s ease-in-out;
+}
+
+@keyframes fadeInOut {
   from {
     opacity: 0;
   }
@@ -78,3 +74,5 @@ h1::after {
     opacity: 1;
   }
 }
+
+

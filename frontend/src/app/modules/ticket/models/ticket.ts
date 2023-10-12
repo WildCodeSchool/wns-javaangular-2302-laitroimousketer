@@ -2,7 +2,7 @@ import { User } from "src/app/core/models/user.model";
 import { Priority } from "./Priority";
 import { Status } from "./Status";
 import { Category } from "./category";
-import { UserHasTickets } from "./userHasTickets";
+import { TicketHaveUsers } from "./ticketHaveUsers";
 
 export class Ticket {
   public id: number = 0
@@ -19,6 +19,10 @@ export class Ticket {
   public priorityId: number = 0
   public creationDate: string = ''
   public updateDate: string = ''
-  public userHasTickets : UserHasTickets[] = [];
+  public ticketHaveUsers : TicketHaveUsers[] = [];
+  public  authorId = 0;
+  public  authorFirstname = '';
+  public  authorLastname = '';
+  public  authorEmail = '';
 }
 
