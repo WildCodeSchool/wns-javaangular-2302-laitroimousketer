@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import wcs.backend.dtos.TicketDto;
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("api/tickets")
 @CrossOrigin(origins = "*")
+@Tag(name = "Tickets", description = "Ticket Management Controller")
 public class TicketController {
 
   private TicketService ticketService;
@@ -38,11 +41,11 @@ public class TicketController {
   @Autowired
   private ModelMapper modelMapper; // Utilisez ModelMapper pour simplifier la conversion entre entités et DTO
 
-  // build create Ticket REST API
   @PostMapping
+  @Operation(summary = "Create a Ticket", description = "Create a new ticket with details.")
   public ResponseEntity<TicketDto> createTicket(@RequestBody TicketDto ticketDto,
-      @RequestParam("statusId") Long statusId, @RequestParam("categoryId") Long categoryId,
-      @RequestParam("priorityId") Long priorityId, @RequestParam("creatorId") Long creatorId) {
+      @RequestParam Long statusId, @RequestParam Long categoryId,
+      @RequestParam Long priorityId, @RequestParam Long creatorId) {
     // Créez un nouveau ticket à partir des données du DTO
     Ticket ticket = convertToEntity(ticketDto);
 
@@ -72,9 +75,8 @@ public class TicketController {
     return new ResponseEntity<>(savedTicketDto, HttpStatus.CREATED);
   }
 
-  // build get ticket by id REST API
-  // http://localhost:8080/api/tickets/1
   @GetMapping("/{id}")
+  @Operation(summary = "Get Ticket by ID", description = "Get ticket details by its ID.")
   public ResponseEntity<TicketDto> getTicketById(@PathVariable("id") Long ticketId) {
     Ticket ticket = ticketService.getTicketById(ticketId);
     if (ticket != null) {
@@ -85,16 +87,17 @@ public class TicketController {
     }
   }
 
-  // Build Get All Tickets REST API
-  // http://localhost:8080/api/tickets
+
   @GetMapping
+  @Operation(summary = "Get All Tickets", description = "Get details of all available tickets.")
   public ResponseEntity<List<TicketDto>> getAllTicketsDtos() {
     List<TicketDto> ticketDtos = ticketService.getAllTicketsDtos();
     return new ResponseEntity<>(ticketDtos, HttpStatus.OK);
   }
 
-  // Build Update Ticket REST API
+
   @PutMapping("/{id}")
+  @Operation(summary = "Update Ticket", description = "Update details of an existing ticket.")
   // http://localhost:8080/api/tickets/1
   public ResponseEntity<TicketDto> updateTicket(@PathVariable("id") Long ticketId,
       @RequestBody TicketDto ticketDto) {
@@ -105,8 +108,9 @@ public class TicketController {
     return new ResponseEntity<>(updatedTicketDto, HttpStatus.OK);
   }
 
-  // Build Delete Ticket REST API
-  @DeleteMapping("{id}")
+
+  @DeleteMapping("/{id}")
+  @Operation(summary = "Delete Ticket", description = "Delete a ticket by its ID.")
   public ResponseEntity<String> deleteTicket(@PathVariable("id") Long ticketId) {
     ticketService.deleteTicket(ticketId);
     return new ResponseEntity<>(HttpStatus.OK);
@@ -121,20 +125,25 @@ public class TicketController {
   }
 
   @GetMapping("/filter")
-  public ResponseEntity<List<TicketDto>> getFilteredTickets(
-          @RequestParam(name = "statusId", required = false) Long statusId,
-          @RequestParam(name = "priorityId", required = false) Long priorityId,
-          @RequestParam(name = "categoryId", required = false) Long categoryId) {
+  @Operation(
+    summary = "Filter Tickets",
+    description = "Get a list of tickets based on optional status, priority, and category filters."
+)
+public ResponseEntity<List<TicketDto>> getFilteredTickets(
+        @RequestParam(name = "status", required = false) Status.Title statusTitle,
+        @RequestParam(name = "priority", required = false) Priority.Title priorityTitle,
+        @RequestParam(name = "category", required = false) Category.Title categoryTitle) {
+
+    // Utilize these parameters to build specifications in the service
+    List<Ticket> filteredTickets = ticketService.getFilteredTickets(statusTitle, priorityTitle, categoryTitle);
+
+    // Convert filtered entities to DTOs
+    List<TicketDto> ticketDtos = filteredTickets.stream()
+            .map(this::convertToDto)
+            .collect(Collectors.toList());
+
+    return new ResponseEntity<>(ticketDtos, HttpStatus.OK);
+}
   
-      // Utilisez ces paramètres pour filtrer les résultats dans le service
-      List<Ticket> filteredTickets = ticketService.getFilteredTickets(statusId, priorityId, categoryId);
-  
-      // Convertissez les entités filtrées en DTO
-      List<TicketDto> ticketDtos = filteredTickets.stream()
-              .map(this::convertToDto)
-              .collect(Collectors.toList());
-  
-      return new ResponseEntity<>(ticketDtos, HttpStatus.OK);
-  }
 
 }

@@ -1,14 +1,19 @@
 package wcs.backend.services;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import wcs.backend.dtos.CategoryDto;
+import wcs.backend.dtos.PriorityDto;
+import wcs.backend.dtos.StatusDto;
 import wcs.backend.dtos.TicketDto;
 import wcs.backend.dtos.UserHasTicketDto;
 import wcs.backend.entities.Category;
@@ -180,17 +185,52 @@ public class TicketService {
     ticketRepository.deleteById(ticketId);
   }
 
-  public List<Ticket> getFilteredTickets(Long statusId, Long priorityId, Long categoryId) {
-    Status status = statusId != null ? statusRepository.findById(statusId)
-            .orElseThrow(() -> new EntityNotFoundException("Status not found with ID: " + statusId)) : null;
 
-    Priority priority = priorityId != null ? priorityRepository.findById(priorityId)
-            .orElseThrow(() -> new EntityNotFoundException("Priority not found with ID: " + priorityId)) : null;
+  public List<Ticket> getFilteredTickets(Status.Title statusTitle, Priority.Title priorityTitle, Category.Title categoryTitle) {
+    Specification<Ticket> spec = Specification.where(null);
 
-    Category category = categoryId != null ? categoryRepository.findById(categoryId)
-            .orElseThrow(() -> new EntityNotFoundException("Category not found with ID: " + categoryId)) : null;
+    if (statusTitle != null) {
+        Status status = getStatusByTitle(statusTitle);
+        spec = spec.and((root, query, builder) -> builder.equal(root.get("status"), status));
+    }
 
-    return ticketRepository.findByStatusAndPriorityAndCategory(status, priority, category);
+    if (priorityTitle != null) {
+        Priority priority = getPriorityByTitle(priorityTitle);
+        spec = spec.and((root, query, builder) -> builder.equal(root.get("priority"), priority));
+    }
+
+    if (categoryTitle != null) {
+        Category category = getCategoryByTitle(categoryTitle);
+        spec = spec.and((root, query, builder) -> builder.equal(root.get("category"), category));
+    }
+
+    return ticketRepository.findAll(spec);
 }
+
+
+private Status getStatusByTitle(Status.Title title) {
+    List<Status> statuses = statusRepository.findByStatusTitle(title);
+    if (statuses.isEmpty()) {
+        throw new EntityNotFoundException("Status not found with title: " + title);
+    }
+    return statuses.get(0);
+}
+
+private Priority getPriorityByTitle(Priority.Title title) {
+    List<Priority> priorities = priorityRepository.findByPriorityTitle(title);
+    if (priorities.isEmpty()) {
+        throw new EntityNotFoundException("Priority not found with title: " + title);
+    }
+    return priorities.get(0);
+}
+
+private Category getCategoryByTitle(Category.Title title) {
+    List<Category> categories = categoryRepository.findByCategoryTitle(title);
+    if (categories.isEmpty()) {
+        throw new EntityNotFoundException("Category not found with title: " + title);
+    }
+    return categories.get(0);
+}
+  
 
 }

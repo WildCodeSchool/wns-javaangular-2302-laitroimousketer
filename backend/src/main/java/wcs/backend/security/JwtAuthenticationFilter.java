@@ -16,8 +16,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -58,15 +56,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     filterChain.doFilter(request, response);
   }
 
-  // private String getTokenFromRequest(HttpServletRequest request) {
-  //   String bearerToken = request.getHeader("Authorization");
-
-  //   if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-  //     System.out.println("bearerToken : " + bearerToken);
-  //     return bearerToken.substring(7);
-  //   }
-
-  //   return null;
   // }
 private String getTokenFromRequest(HttpServletRequest request) {
     String bearerToken = request.getHeader("Authorization");
