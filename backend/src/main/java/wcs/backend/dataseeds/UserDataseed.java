@@ -38,7 +38,7 @@ public class UserDataseed {
   private void cleanData() {
     List<User> users = userService.getAllUsers();
     for (User user : users) {
-      userService.deleteUser(user.getId());
+      userService.deleteUserById(user.getId());
     }
   }
 

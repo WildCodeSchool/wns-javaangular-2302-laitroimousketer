@@ -15,18 +15,18 @@ import wcs.backend.dtos.CategoryDto;
 import wcs.backend.dtos.PriorityDto;
 import wcs.backend.dtos.StatusDto;
 import wcs.backend.dtos.TicketDto;
-import wcs.backend.dtos.UserHasTicketDto;
+import wcs.backend.dtos.TicketHaveUsersDto;
 import wcs.backend.entities.Category;
 import wcs.backend.entities.Priority;
 import wcs.backend.entities.Status;
 import wcs.backend.entities.Ticket;
 import wcs.backend.entities.User;
-import wcs.backend.entities.UserHasTicket;
+import wcs.backend.entities.TicketHaveUsers;
 import wcs.backend.repositories.CategoryRepository;
 import wcs.backend.repositories.PriorityRepository;
 import wcs.backend.repositories.StatusRepository;
 import wcs.backend.repositories.TicketRepository;
-import wcs.backend.repositories.UserHasTicketRepository;
+import wcs.backend.repositories.TicketHaveUsersRepository;
 
 @Service
 @AllArgsConstructor
@@ -36,7 +36,7 @@ public class TicketService {
   private CategoryRepository categoryRepository;
   private StatusRepository statusRepository;
   private PriorityRepository priorityRepository;
-  private UserHasTicketRepository userHasTicketRepository;
+  private TicketHaveUsersRepository ticketHaveUsersRepository;
 
   // public Ticket createTicket(Ticket ticket) {
   // return ticketRepository.save(ticket);
@@ -46,7 +46,7 @@ public class TicketService {
     // Sélectionnez la statut par défaut
     List<Status> defaultStatusList = statusRepository.findByStatusTitle(Status.Title.TO_DO);
     if (defaultStatusList.isEmpty()) {
-      throw new EntityNotFoundException("Default status not found");
+        throw new EntityNotFoundException("Default status not found");
     }
     Status defaultStatus = defaultStatusList.get(0);
     Priority defaultPriority = priorityRepository.findByPriorityTitle(Priority.Title.DEFAULT).get(0);
@@ -54,48 +54,59 @@ public class TicketService {
 
     // Si le statut spécifié dans le ticket est nul, utilisez le statut par défaut
     if (ticket.getStatus() == null) {
-      ticket.setStatus(defaultStatus);
+        ticket.setStatus(defaultStatus);
     }
-
     // Si la catégorie spécifiée dans le ticket est nulle, utilisez "non renseigné"
     // (ou une autre valeur par défaut)
     if (ticket.getCategory() == null) {
-      ticket.setCategory(defaultCategory);
+        ticket.setCategory(defaultCategory);
     }
-
     // Si la priorité spécifiée dans le ticket est nulle, utilisez "non renseigné"
     // (ou une autre valeur par défaut)
     if (ticket.getPriority() == null) {
-      ticket.setPriority(defaultPriority);
+        ticket.setPriority(defaultPriority);
     }
-
     // Définissez la date de création sur la date actuelle
     ticket.setCreationDate(new Date());
-
+    // Ajoutez l'auteur au ticket
+    ticket.setAuthor(creator);
     // Enregistrez d'abord le ticket
     Ticket savedTicket = ticketRepository.save(ticket);
 
-    // Créez une instance de UserHasTicket pour l'utilisateur créateur
-    UserHasTicket userHasTicket = new UserHasTicket(creator, savedTicket, true);
+    // Créez une instance de ticketHaveUsers pour l'utilisateur créateur
+    TicketHaveUsers ticketHaveUsers = new TicketHaveUsers(creator, savedTicket);
+    
+    // Ajoutez l'association à la liste userAssociations du ticket
+    savedTicket.getUserAssociations().add(ticketHaveUsers);
 
-    // Enregistrez UserHasTicket
-    userHasTicketRepository.save(userHasTicket);
+    // Enregistrez le ticket mis à jour
+    ticketRepository.save(savedTicket);
 
     return savedTicket;
-  }
+}
+
+
 
   public void addUserToTicket(Ticket ticket, User user) {
-    // Créez une instance de UserHasTicket pour l'utilisateur ajouté
-    UserHasTicket userHasTicket = new UserHasTicket(user, ticket, false);
+    // Créez une instance de ticketHaveUsers pour l'utilisateur ajouté
+    TicketHaveUsers ticketHaveUsers = new TicketHaveUsers(user, ticket);
 
-    // Enregistrez UserHasTicket pour l'utilisateur ajouté
-    userHasTicketRepository.save(userHasTicket);
+    // Enregistrez ticketHaveUsers pour l'utilisateur ajouté
+    ticketHaveUsersRepository.save(ticketHaveUsers);
   }
 
-  public Ticket getTicketById(Long ticketId) {
+public Ticket getTicketById(Long ticketId) {
     Optional<Ticket> optionalTicket = ticketRepository.findById(ticketId);
-    return optionalTicket.get();
-  }
+
+    // Vérifier si l'Optional contient une valeur
+    if (optionalTicket.isPresent()) {
+        return optionalTicket.get(); // Retourner la valeur si présente
+    } else {
+        // Gérer le cas où l'Optional est vide, par exemple, en retournant null ou en lançant une exception
+        throw new EntityNotFoundException("Ticket not found with ID: " + ticketId);
+    }
+}
+
 
   public List<Ticket> getAllTickets() {
     return ticketRepository.findAll();
@@ -134,28 +145,27 @@ public class TicketService {
 
     // Récupérez les informations sur les utilisateurs associés à partir de
     // userAssociations
-    List<UserHasTicketDto> userHasTickets = ticket.getUserAssociations().stream()
-        .map(this::convertUserHasTicketToDto)
+    List<TicketHaveUsersDto> ticketHaveUsers = ticket.getUserAssociations().stream()
+        .map(this::convertTicketHaveUsersToDto)
         .collect(Collectors.toList());
-    ticketDto.setUserHasTickets(userHasTickets);
+    ticketDto.setTicketHaveUsers(ticketHaveUsers);
 
     return ticketDto;
   }
 
-  private UserHasTicketDto convertUserHasTicketToDto(UserHasTicket userHasTicket) {
-    UserHasTicketDto userHasTicketDto = new UserHasTicketDto();
-    userHasTicketDto.setId(userHasTicket.getId()); // Assurez-vous que l'ID est copié ici
-    userHasTicketDto.setUserId(userHasTicket.getUser().getId());
-    userHasTicketDto.setIsCreator(userHasTicket.isCreator());
+  private TicketHaveUsersDto convertTicketHaveUsersToDto(TicketHaveUsers ticketHaveUsers) {
+    TicketHaveUsersDto TicketHaveUsersDto = new TicketHaveUsersDto();
+    TicketHaveUsersDto.setId(ticketHaveUsers.getId()); // Assurez-vous que l'ID est copié ici
+    TicketHaveUsersDto.setUserId(ticketHaveUsers.getUser().getId());
 
     // Obtenez le prénom et le nom de l'utilisateur
-    String userFirstName = userHasTicket.getUser().getFirstName();
-    String userLastName = userHasTicket.getUser().getLastName();
+    String userFirstname = ticketHaveUsers.getUser().getFirstname();
+    String userLastname = ticketHaveUsers.getUser().getLastname();
 
-    userHasTicketDto.setUserFirstName(userFirstName);
-    userHasTicketDto.setUserLastName(userLastName);
+    TicketHaveUsersDto.setUserFirstname(userFirstname);
+    TicketHaveUsersDto.setUserLastname(userLastname);
 
-    return userHasTicketDto;
+    return TicketHaveUsersDto;
   }
 
   public Ticket updateTicket(Ticket ticket) {

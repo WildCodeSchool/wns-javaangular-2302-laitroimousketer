@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import wcs.backend.dtos.TicketDto;
+import wcs.backend.dtos.TicketHaveUsersDto;
+import wcs.backend.dtos.UserDto;
 import wcs.backend.entities.Category;
 import wcs.backend.entities.Priority;
 import wcs.backend.entities.Status;
@@ -87,14 +89,12 @@ public class TicketController {
     }
   }
 
-
   @GetMapping
   @Operation(summary = "Get All Tickets", description = "Get details of all available tickets.")
   public ResponseEntity<List<TicketDto>> getAllTicketsDtos() {
     List<TicketDto> ticketDtos = ticketService.getAllTicketsDtos();
     return new ResponseEntity<>(ticketDtos, HttpStatus.OK);
   }
-
 
   @PutMapping("/{id}")
   @Operation(summary = "Update Ticket", description = "Update details of an existing ticket.")
@@ -108,42 +108,61 @@ public class TicketController {
     return new ResponseEntity<>(updatedTicketDto, HttpStatus.OK);
   }
 
-
   @DeleteMapping("/{id}")
   @Operation(summary = "Delete Ticket", description = "Delete a ticket by its ID.")
-  public ResponseEntity<String> deleteTicket(@PathVariable("id") Long ticketId) {
+  public ResponseEntity<String> deleteTicketAndAssociations(@PathVariable("id") Long ticketId) {
     ticketService.deleteTicket(ticketId);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   private TicketDto convertToDto(Ticket ticket) {
-    return modelMapper.map(ticket, TicketDto.class);
-  }
+    TicketDto ticketDto = modelMapper.map(ticket, TicketDto.class);
+
+    // Convertir la liste d'associations utilisateur de l'entité Ticket vers DTO
+    List<TicketHaveUsersDto> ticketHaveUsersDto = ticket.getUserAssociations().stream()
+            .map(ticketHaveUsers -> modelMapper.map(ticketHaveUsers, TicketHaveUsersDto.class))
+            .collect(Collectors.toList());
+
+    ticketDto.setTicketHaveUsers(ticketHaveUsersDto);
+
+    // Ajouter les détails de l'auteur
+    if (!ticket.getUserAssociations().isEmpty()) {
+        User creator = ticket.getUserAssociations().get(0).getUser();
+        UserDto authorDto = new UserDto(creator);
+        ticketDto.setAuthor(authorDto);
+    } else if (ticket.getAuthor() != null) {
+        // Si la liste d'associations utilisateur est vide mais l'auteur n'est pas null, utilisez les informations de l'auteur directement
+        UserDto authorDto = new UserDto(ticket.getAuthor());
+        ticketDto.setAuthor(authorDto);
+    }
+
+    return ticketDto;
+}
+
+
+
+
 
   private Ticket convertToEntity(TicketDto ticketDto) {
     return modelMapper.map(ticketDto, Ticket.class);
   }
 
   @GetMapping("/filter")
-  @Operation(
-    summary = "Filter Tickets",
-    description = "Get a list of tickets based on optional status, priority, and category filters."
-)
-public ResponseEntity<List<TicketDto>> getFilteredTickets(
-        @RequestParam(name = "status", required = false) Status.Title statusTitle,
-        @RequestParam(name = "priority", required = false) Priority.Title priorityTitle,
-        @RequestParam(name = "category", required = false) Category.Title categoryTitle) {
+  @Operation(summary = "Filter Tickets", description = "Get a list of tickets based on optional status, priority, and category filters.")
+  public ResponseEntity<List<TicketDto>> getFilteredTickets(
+      @RequestParam(name = "status", required = false) Status.Title statusTitle,
+      @RequestParam(name = "priority", required = false) Priority.Title priorityTitle,
+      @RequestParam(name = "category", required = false) Category.Title categoryTitle) {
 
     // Utilize these parameters to build specifications in the service
     List<Ticket> filteredTickets = ticketService.getFilteredTickets(statusTitle, priorityTitle, categoryTitle);
 
     // Convert filtered entities to DTOs
     List<TicketDto> ticketDtos = filteredTickets.stream()
-            .map(this::convertToDto)
-            .collect(Collectors.toList());
+        .map(this::convertToDto)
+        .collect(Collectors.toList());
 
     return new ResponseEntity<>(ticketDtos, HttpStatus.OK);
-}
-  
+  }
 
 }

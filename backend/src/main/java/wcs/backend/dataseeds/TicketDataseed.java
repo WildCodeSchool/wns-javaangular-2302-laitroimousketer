@@ -2,7 +2,6 @@ package wcs.backend.dataseeds;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import wcs.backend.entities.Role.Title;
 import wcs.backend.entities.Status;
 import wcs.backend.entities.Ticket;
 import wcs.backend.entities.User;
-import wcs.backend.entities.UserHasTicket;
 import wcs.backend.repositories.CategoryRepository;
 import wcs.backend.repositories.PriorityRepository;
 import wcs.backend.repositories.RoleRepository;
@@ -115,12 +113,6 @@ public class TicketDataseed {
       ticketCreated.setCreationDate(new Date());
 
       User creator = getRandomClientUser();
-
-      // Définissez l'utilisateur créateur pour le ticket
-      ticketCreated.setCreatorUser(creator);
-
-      // Assurez-vous de définir isCreator sur true pour l'utilisateur créateur
-      UserHasTicket userHasTicket = new UserHasTicket(creator, ticketCreated, true);
 
       this.ticketService.createTicket(ticketCreated, creator);
   }

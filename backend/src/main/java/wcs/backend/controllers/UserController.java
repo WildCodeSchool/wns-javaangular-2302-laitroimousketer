@@ -2,6 +2,7 @@ package wcs.backend.controllers;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import wcs.backend.dtos.UserDto;
 import wcs.backend.entities.User;
 import wcs.backend.services.UserService;
 
@@ -21,37 +23,46 @@ import wcs.backend.services.UserService;
 public class UserController {
 
     private UserService userService;
+
     @PostMapping
     @Operation(summary = "Create User", description = "Create a new user")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+        User user = mapDtoToEntity(userDto);
         User createdUser = userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);  // HttpStatus.CREATED (201)
+        UserDto createdUserDto = mapEntityToDto(createdUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUserDto);  // HttpStatus.CREATED (201)
     }
 
     @GetMapping("/{userId}")
     @Operation(summary = "Get User by ID", description = "Get user details by user ID")
-    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long userId) {
         User user = userService.getUserById(userId);
         if (user != null) {
-            return ResponseEntity.ok(user);  // HttpStatus.OK (200)
+            UserDto userDto = mapEntityToDto(user);
+            return ResponseEntity.ok(userDto);  // HttpStatus.OK (200)
         }
         return ResponseEntity.notFound().build();  // HttpStatus.NOT_FOUND (404)
     }
 
     @GetMapping
     @Operation(summary = "Get All Users", description = "Get details of all users")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         List<User> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);  // HttpStatus.OK (200)
+        List<UserDto> userDtos = users.stream()
+                .map(this::mapEntityToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(userDtos);  // HttpStatus.OK (200)
     }
 
     @PutMapping("/{userId}")
     @Operation(summary = "Update User", description = "Update user details by user ID")
-    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User user) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long userId, @RequestBody UserDto userDto) {
+        User user = mapDtoToEntity(userDto);
         user.setId(userId);
         User updatedUser = userService.updateUser(user);
         if (updatedUser != null) {
-            return ResponseEntity.ok(updatedUser);  // HttpStatus.OK (200)
+            UserDto updatedUserDto = mapEntityToDto(updatedUser);
+            return ResponseEntity.ok(updatedUserDto);  // HttpStatus.OK (200)
         }
         return ResponseEntity.notFound().build();  // HttpStatus.NOT_FOUND (404)
     }
@@ -59,26 +70,43 @@ public class UserController {
     @DeleteMapping("/{userId}")
     @Operation(summary = "Delete User", description = "Delete user by user ID")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
-        userService.deleteUser(userId);
+        userService.deleteUserById(userId);
         return ResponseEntity.noContent().build();  // HttpStatus.NO_CONTENT (204)
     }
 
     @GetMapping("/search")
     @Operation(summary = "Search Users by Name", description = "Search users by name")
-    public ResponseEntity<List<User>> getUsersByName(@RequestParam String name) {
+    public ResponseEntity<List<UserDto>> getUsersByName(@RequestParam String name) {
         List<User> users = userService.getUsersByName(name);
-        return ResponseEntity.ok(users);  // HttpStatus.OK (200)
+        List<UserDto> userDtos = users.stream()
+                .map(this::mapEntityToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(userDtos);  // HttpStatus.OK (200)
     }
 
     @GetMapping("/email")
     @Operation(summary = "Get User by Email", description = "Get user details by email")
-    public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
-      Optional<User> user = userService.getUserByEmail(email);
-      if (user.isPresent()) {
-        return ResponseEntity.ok(user.get());
-      } else {
-        return ResponseEntity.notFound().build();
-      }
+    public ResponseEntity<UserDto> getUserByEmail(@RequestParam String email) {
+        Optional<User> user = userService.getUserByEmail(email);
+        if (user.isPresent()) {
+            UserDto userDto = mapEntityToDto(user.get());
+            return ResponseEntity.ok(userDto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
-    
+
+    private UserDto mapEntityToDto(User user) {
+        return new UserDto(user);
+    }
+
+    private User mapDtoToEntity(UserDto userDto) {
+        User user = new User();
+        user.setId(userDto.getId());
+        user.setFirstname(userDto.getFirstname());
+        user.setLastname(userDto.getLastname());
+        user.setEmail(userDto.getEmail());
+        // Map other fields as needed
+        return user;
+    }
 }

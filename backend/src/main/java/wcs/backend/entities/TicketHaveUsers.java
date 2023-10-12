@@ -11,9 +11,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class UserHasTicket {
-
+public class TicketHaveUsers {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(nullable = false, insertable = false, updatable = false)
@@ -27,16 +25,11 @@ public class UserHasTicket {
   @JoinColumn(name = "ticket_id", nullable = false)
   private Ticket ticket;
 
-  @Column(nullable = false)
-  private boolean isCreator;
-
-  public UserHasTicket(User user, Ticket ticket, boolean isCreator) {
+  public TicketHaveUsers(User user, Ticket ticket) {
     this.user = user;
     this.ticket = ticket;
-    this.isCreator = isCreator;
   }
-  public void setIsCreator(boolean isCreator) {
-    this.isCreator = isCreator;
+
 }
-  // Getters and setters
-}
+
+// Getters and setters
