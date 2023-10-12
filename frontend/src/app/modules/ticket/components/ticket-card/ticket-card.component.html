@@ -4,11 +4,11 @@
     <p><span class="prefix">Client:</span> {{ ticketDetails.creator }}</p>
   </div>
   
-    <p><span class="prefix">Date de création:</span> {{ ticketDetails.creationDate | date:'dd/MM/yyyy' }}</p>
-    <p><span class="prefix">Numéro de ticket:</span> {{ ticketDetails.number }}</p>
-    <p><span class="prefix">Titre:</span> {{ ticketDetails.name }}</p>
+    <p class="date"><span class="prefix">Date de création:</span> {{ ticketDetails.creationDate | date:'dd/MM/yyyy' }}</p>
+    <p class="number"><span class="prefix">Numéro de ticket:</span> {{ ticketDetails.number }}</p>
+    <p class="title"><span class="prefix">Titre:</span> {{ ticketDetails.name }}</p>
 
-    <p [ngClass]="colorStatus"><span class="prefix">Statut:</span> {{ ticketDetails.status }}</p>
-    <p [ngClass]="colorPriority"><span class="prefix">Priorité:</span> {{ ticketDetails.priority }}</p>
+    <p class="statut" [ngClass]="colorStatus"><span class="prefix">Statut:</span> {{ ticketDetails.status }}</p>
+    <p class="priority" [ngClass]="colorPriority"><span class="prefix">Priorité:</span> {{ ticketDetails.priority }}</p>
 
 </section>

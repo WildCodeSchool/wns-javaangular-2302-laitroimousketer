@@ -53,6 +53,7 @@ export class TicketDetailsComponent implements OnInit {
   ngOnInit() {
     this.loadTicket();
   }
+  
 onPageChange(page: string): void {
   this.page = page;
   console.log('Page changed to:', this.page);
