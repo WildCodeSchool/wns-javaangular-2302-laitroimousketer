@@ -1,5 +1,6 @@
 package wcs.backend.repositories;
 
+import wcs.backend.entities.Role;
 import wcs.backend.entities.User;
 import java.util.List;
 import java.util.Optional;
@@ -14,4 +15,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     Optional<User> findByfirstnameOrLastnameOrEmail(String firstname, String lastname, String email);
     Boolean existsByEmail(String email);
+    List<User> findByRole(Role role);
 }

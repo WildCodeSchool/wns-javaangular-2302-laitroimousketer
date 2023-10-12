@@ -76,7 +76,9 @@ public class UserService {
   public List<User> getUsersByName(String name) {
     return userRepository.findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name, name);
   }
-
+  public List<User> getUsersByRole(Role role) {
+    return userRepository.findByRole(role);
+}
   public User updateUserRole(Long userId, Long roleId) {
     User user = userRepository.findById(userId).orElse(null);
     Role role = roleRepository.findById(roleId).orElse(null);
