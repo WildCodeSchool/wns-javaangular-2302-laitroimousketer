@@ -16,6 +16,7 @@ import {MatInputModule} from '@angular/material/input';
 import { AvatarComponent } from './components/common/avatar/avatar.component';
 import { TicketDetailsComponent } from './components/sidebar-components/ticket-details/ticket-details.component';
 import { SidebarMenuComponent } from './components/sidebar-components/sidebar-menu/sidebar-menu.component';
+import { TicketChatComponent } from './components/sidebar-components/ticket-chat/ticket-chat.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { SidebarMenuComponent } from './components/sidebar-components/sidebar-me
     AvatarComponent,
     TicketDetailsComponent,
     SidebarMenuComponent,
+    TicketChatComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,11 @@
+<div class="chat-container">
+  <div class="message-list">
+    <div *ngFor="let message of chatMessages" class="message_unique">
+      {{ message.text }}
+    </div>
+  </div>
+  <form class="send-message" (ngSubmit)="sendMessage()">
+    <input class="input-sendmsg" type="text" [(ngModel)]="newMessage" placeholder="Écrivez votre message..." />
+    <button class="button-sendmsg" type="submit">Envoyer</button>
+  </form>
+</div>
