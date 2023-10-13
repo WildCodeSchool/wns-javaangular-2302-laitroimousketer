@@ -1,7 +1,15 @@
 <!-- PARTIE DEV ET MANAGER -->
 <section class="tickets-list-c" [@fadeInOut]>
-  <app-search-bar *ngIf="role !== 'CLIENT'"></app-search-bar >
-
+  <app-search-bar *ngIf="role !== 'CLIENT'"></app-search-bar>
+  {{this.toDoCount}}
+  {{this.doingCount}}
+  {{this.doneCount}}
+  {{this.lowCount}}
+  {{this.mediumCount}}
+  {{this.highCount}}
+  {{this.billingCount}}
+  {{this.featureCount}}
+  {{this.technicalCount}}
   <div class="tickets-list" *ngIf="role !== 'CLIENT'">
     <header>
       <mat-form-field class="select">
@@ -16,18 +24,24 @@
       </mat-form-field>
       <div class="checkbox-c">
         <div class="statut">Statut:
-          <mat-checkbox class="checkbox" [checked]="filters.status.to_do" (change)="onCheckboxChange('status', 'to_do')">à faire</mat-checkbox>
-          <mat-checkbox class="checkbox" [checked]="filters.status.doing" (change)="onCheckboxChange('status', 'doing')">en cours</mat-checkbox>
-          <mat-checkbox class="checkbox" [checked]="filters.status.done" (change)="onCheckboxChange('status', 'done')">terminé</mat-checkbox>
-          
-          
-          
+          <mat-checkbox class="checkbox" [checked]="filters.status.to_do"
+            (change)="onCheckboxChange('status', 'to_do')">à faire</mat-checkbox>
+          <mat-checkbox class="checkbox" [checked]="filters.status.doing"
+            (change)="onCheckboxChange('status', 'doing')">en cours</mat-checkbox>
+          <mat-checkbox class="checkbox" [checked]="filters.status.done"
+            (change)="onCheckboxChange('status', 'done')">terminé</mat-checkbox>
+
+
+
         </div>
         <div class="statut">Priorité:
-          <mat-checkbox class="checkbox" [checked]="filters.priority.low" (change)="onCheckboxChange('priority', 'low')">faible</mat-checkbox>
-          <mat-checkbox class="checkbox" [checked]="filters.priority.medium" (change)="onCheckboxChange('priority', 'medium')">moyenne</mat-checkbox>
-          <mat-checkbox class="checkbox" [checked]="filters.priority.high" (change)="onCheckboxChange('priority', 'high')">élevée</mat-checkbox>
-          
+          <mat-checkbox class="checkbox" [checked]="filters.priority.low"
+            (change)="onCheckboxChange('priority', 'low')">faible</mat-checkbox>
+          <mat-checkbox class="checkbox" [checked]="filters.priority.medium"
+            (change)="onCheckboxChange('priority', 'medium')">moyenne</mat-checkbox>
+          <mat-checkbox class="checkbox" [checked]="filters.priority.high"
+            (change)="onCheckboxChange('priority', 'high')">élevée</mat-checkbox>
+
         </div>
       </div>
     </header>
@@ -40,4 +54,3 @@
 
   <app-tickets-list-client></app-tickets-list-client>
 </section>
-
