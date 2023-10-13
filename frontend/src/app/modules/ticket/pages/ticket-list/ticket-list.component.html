@@ -14,7 +14,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="checkbox-c" *ngIf="role !== 'CLIENT'" >
+      <div class="checkbox-c" >
         <div class="statut">Statut:
           <mat-checkbox class="checkbox" [(ngModel)]="filters.status.to_do" (change)="onCheckboxChange('status', 'to_do')">à faire</mat-checkbox>
           <mat-checkbox class="checkbox" [(ngModel)]="filters.status.doing" (change)="onCheckboxChange('status', 'doing')">en cours</mat-checkbox>
