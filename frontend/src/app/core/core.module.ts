@@ -19,6 +19,7 @@ import { SidebarMenuComponent } from './components/sidebar-components/sidebar-me
 import { ActivityComponent } from './components/sidebar-components/activity/activity.component';
 import { TicketAddComponent } from './components/sidebar-components/ticket-add/ticket-add.component';
 import { TicketEditComponent } from './components/sidebar-components/ticket-edit/ticket-edit.component';
+import { TicketChatComponent } from './components/sidebar-components/ticket-chat/ticket-chat.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { TicketEditComponent } from './components/sidebar-components/ticket-edit
     ActivityComponent,
     TicketAddComponent,
     TicketEditComponent,
+    TicketChatComponent,
   ],
   imports: [
     CommonModule,

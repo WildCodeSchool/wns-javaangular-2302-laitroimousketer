@@ -35,7 +35,9 @@
 
 <container-element [ngSwitch]="page">
   <ng-container *ngSwitchCase="'Chat'">
-    <section class="widget" [@opacity]="page==='Chat'?'active':''">chat</section>
+    <section class="widget" [@opacity]="page==='Chat'?'active':''" >
+      <app-ticket-chat></app-ticket-chat>
+    </section>
   </ng-container>
   <ng-container *ngSwitchCase="'Actions'">
     <section class="widget actions" [@opacity]="page==='Actions'?'active':''">
@@ -48,3 +50,4 @@
     </section>
   </ng-container>
 </container-element>
+

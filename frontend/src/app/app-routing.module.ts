@@ -16,6 +16,6 @@ const routes: Routes = [
   providers: [],
   exports: [RouterModule]
 })
-export class AppRoutingModule { 
+export class AppRoutingModule {
 
 }
