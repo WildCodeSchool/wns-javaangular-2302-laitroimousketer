@@ -1,4 +1,4 @@
-<section>
+<section class="d-flex m-auto p-top-20">
   <div class="container">
     <div class="card">
       <div class="profile-header">
@@ -20,16 +20,27 @@
         </div>
         <div class="row">
           <div class="column col">
-            <div class="column-item">Email</div>
-            <input type="email" class="input-field"disabled placeholder="JhonDoe@gmail.com">
+            <div class="column-item"><span>Email</span></div>
+            <input type="email" class="input-fielde"disabled placeholder="JhonDoe@gmail.com">
             <div class="column-item">Mot de passe</div>
-            <input type="password"class="input-field" disabled placeholder="********">
+            <input type="password"class="input-fielde" disabled placeholder="********">
           </div>
           <div class="column col">
-            <div class="column-item">Modifier Email</div>
-            <input type="email"class="input-field">
-            <div class="column-item">Modifier Mot de passe</div>
-            <input type="password"class="input-field">
+            <div class="column-item form-group">
+              <mat-form-field appearance="outline" >
+              <mat-label for="email">Modifier email</mat-label >
+              <input matInput type="email" class="form-control" id="email" formControlName="email">
+              <mat-icon matSuffix class="bi bi-envelope-at-fill"></mat-icon>
+            </mat-form-field>
+            </div>
+            <div class="column-item form-group mt-2 mb-5">
+              <mat-form-field appearance="outline" >
+                <mat-label for="password">Modifier mot de passe</mat-label>
+                <input matInput type="password" id="password" formControlName="password">
+                <mat-icon matSuffix class="bi bi-key-fill"></mat-icon>
+
+              </mat-form-field>
+            </div>
           </div>
 
         </div>

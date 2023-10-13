@@ -1,0 +1,94 @@
+@import 'src/assets/scss/template.scss';
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+h1 {
+  display: flex;
+  justify-content: center;
+  font-size: 28px;
+  margin-left: 8px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  span {
+    margin-left: 4px;
+    font-weight: 300;
+  }
+}
+.name {
+ margin-left: 4px;
+}
+.firstname {
+ font-weight: 500;
+ margin-left: 4px;
+}
+
+.details-profil {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 20px;
+  margin-bottom: 20px;
+ 
+  p {
+    font-size: 20px;
+    span {
+      font-weight: 500;
+    }
+  }
+}
+
+.statut,.date,.autor,.priority,.description {
+  font-size: 20px;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.priority {
+  margin-left: auto;
+  span {
+    font-weight: 300;
+  }
+}
+
+.date span {
+  font-weight: 300;
+}
+.todo {
+  font-weight: 300;
+  color: red;
+}
+.doing {
+  font-weight: 300;
+  color: #F5B445}
+.done {
+  font-weight: 300;
+  color: green;
+}
+.low {
+  font-weight: 300;
+  color: green;
+}
+.medium {
+  font-weight: 300;
+  color: #F5B445;
+}
+.high {
+  font-weight: 300;
+  color: red;
+}
+header {
+  margin-bottom: 14px;
+  position: relative;
+}
+header::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 4%; /* Ajustez cette valeur pour définir la position horizontale */
+  width: 92%; /* Réglez la largeur à 80% */
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.5); 
+}
+
+

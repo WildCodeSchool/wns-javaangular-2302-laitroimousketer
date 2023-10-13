@@ -21,12 +21,20 @@ public class Seeder implements CommandLineRunner{
     @Autowired
     private CategoryDataseed categoryDataseed;
 
+    @Autowired
+    private StatusDataseed statusDataseed;
+
+    @Autowired
+    private PriorityDataseed priorityDataseed;
+
 
     public void run(String...args)  throws Exception {
     // The order of the entities seeded is IMPORTANT !
         roleDataseed.resetData();
         userDataseed.resetData();
+        statusDataseed.resetData();
         categoryDataseed.resetData();
+        priorityDataseed.resetData();
         ticketDataseed.resetData();
      }    
 }
