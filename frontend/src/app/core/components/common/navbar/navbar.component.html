@@ -10,19 +10,19 @@
       <a class="bi bi-bookmarks-fill"></a>
     </li>
 
-    <li *ngIf="userRole !== 'client'" class="ticket" (click)="toggleSidenavNewTicket()">
+    <li *ngIf="userRole === 'CLIENT'" class="ticket" (click)="toggleSidenavNewTicket()">
       <a class="bi bi-bookmark-plus-fill"></a>
     </li>
 
-    <li *ngIf="userRole !== 'client'" >
+    <li *ngIf="userRole !== 'CLIENT'" >
       <a class="bi bi-people" routerLink="users/list"></a>
     </li>
 
-    <li *ngIf="userRole !== 'client'" r>
+    <li *ngIf="userRole !== 'CLIENT'" r>
       <a class="bi bi-speedometer" routerLink="dashboard"></a>
     </li>
 
-    <li *ngIf="userRole !== 'client'" class="menulink">
+    <li *ngIf="userRole !== 'CLIENT'" class="menulink">
       <a class="bi bi-activity" (click)=" toggleSidenavActivity()"></a>
     </li>
 

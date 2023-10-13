@@ -20,18 +20,15 @@ interface TicketFilter {
   };
   [key: string]: any; // Ajout de la signature d'index
 }
-
-
-
 interface SortOption {
   label: string;
   value: string;
 }
 
 @Component({
-  selector: 'app-ticket-list',
-  templateUrl: './ticket-list.component.html',
-  styleUrls: ['./ticket-list.component.scss'],
+  selector: 'app-tickets-list-client',
+  templateUrl: './tickets-list-client.component.html',
+  styleUrls: ['./tickets-list-client.component.scss'],
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
@@ -44,10 +41,12 @@ interface SortOption {
     ]),
   ],
 })
-export class TicketListComponent implements OnInit {
+export class TicketListClientComponent implements OnInit {
   tickets: Ticket[] | undefined;
+  ticketsClient: Ticket[] | undefined;
   originalTickets: Ticket[] | undefined;
   isUpdatingTickets: boolean = false;
+
   role: string = this.authService.userRole;
   userId: number = this.authService.userId;
 
@@ -84,35 +83,20 @@ export class TicketListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.checkRole();
-    this.getTicketList();
     this.initializeStates();
+    this.getTicketList();
     this.updateTicketList();
+  }
 
-  }
   private initializeStates() {
-    // Si le rôle est 'client', filtrez les états pour ne contenir que ceux pertinents
-    if (this.role === 'CLIENT') {
-      this.states = [
-        'Date de création (asc)',
-        'Date de création (desc)',
-        'Numéro de ticket (asc)',
-        'Numéro de ticket (desc)',
-      ];
-    } else {
-      // Si le rôle n'est pas 'client', conservez toutes les options
-      this.states = [
-        'Date de création (asc)',
-        'Date de création (desc)',
-        'Numéro de ticket (asc)',
-        'Numéro de ticket (desc)',
-        'Nom (A-Z)',
-        'Nom (Z-A)',
-        'Prénom (A-Z)',
-        'Prénom (Z-A)',
-      ];
-    }
+    this.states = [
+      'Date de création (asc)',
+      'Date de création (desc)',
+      'Numéro de ticket (asc)',
+      'Numéro de ticket (desc)',
+    ];
   }
+
   checkRole() {
     this.authService.getUserProfile();
     console.log(this.authService.userRole);
@@ -121,7 +105,11 @@ export class TicketListComponent implements OnInit {
 
   getTicketList() {
     this.ticketService.getTicketList().subscribe((data) => {
-      this.originalTickets = [...data]; // Copie des tickets originaux
+      // Filtrer les tickets pour l'utilisateur actuel
+      this.tickets = data!.filter(ticket => ticket.authorId === this.userId);
+      
+      // Utiliser la liste filtrée comme base pour les futurs filtrages
+      this.originalTickets = [...this.tickets];
       this.updateTicketList();
     });
   }
@@ -130,81 +118,88 @@ export class TicketListComponent implements OnInit {
     if (!this.originalTickets) {
       return;
     }
-  
-    if (this.role === 'CLIENT') {
-      // If the user has the 'CLIENT' role, filter tickets to show only those associated with this user
-      this.tickets = this.originalTickets.filter(ticket => ticket.authorId === this.userId);
-  
-      // Log the authorId of each ticket
-      console.log('userId', this.userId);
-      this.tickets.forEach(ticket => {
-        console.log('Ticket authorId:', ticket.authorId);
-      });
-    } else {
-      // If the role is not 'CLIENT', show all tickets
-      this.tickets = [...this.originalTickets];
-    }
-  
+    
+    // Copie des tickets originaux
+    this.tickets = [...this.originalTickets];
+    console.log('this.tickets before filter', this.tickets);
     this.applyFilters();
+    console.log('this.tickets after filter', this.tickets);
     this.sortTickets(this.currentSortBy, this.tickets);
   }
-  
-  deleteTicket(ticketId: any) {
-    if (Number.isInteger(ticketId)) {
-      this.ticketService.deleteTicket(ticketId).subscribe(() => this.getTicketList());
-    } else {
-      console.error('Invalid ticket id:', ticketId);
-    }
-  }
-
 
   // FILTERS //
   onCheckboxChange(group: string, filterName: string) {
-    console.log(`${filterName}:`, this.filters[group as keyof TicketFilter][filterName]);
-
-    for (const key in this.filters[group as keyof TicketFilter]) {
-      if (key !== filterName) {
-        // Désactiver les autres filtres dans le groupe
-        this.filters[group as keyof TicketFilter][key] = false;
-      }
-    }
-    this.applyFilters();
-    this.updateTicketList();
-  }
-
-
-
-
+    // Inversez l'état du filtre sélectionné
+    this.filters[group as keyof TicketFilter][filterName] = !this.filters[group as keyof TicketFilter][filterName];
   
-  applyFilters() {
-    const filters: string[] = [];
-
-    for (const groupKey in this.filters) {
-      if (this.filters.hasOwnProperty(groupKey) && groupKey !== 'filters') {
-        for (const key in this.filters[groupKey]) {
-          if (this.filters[groupKey].hasOwnProperty(key) && this.filters[groupKey][key]) {
-            filters.push(`${groupKey}=${key.toUpperCase()}`);
-          }
+    // Si le filtre est activé, désactivez tous les autres filtres dans le groupe
+    if (this.filters[group as keyof TicketFilter][filterName]) {
+      for (const key in this.filters[group as keyof TicketFilter]) {
+        if (key !== filterName) {
+          this.filters[group as keyof TicketFilter][key] = false;
         }
       }
     }
+  
+    // Appliquer les filtres
+    this.applyFilters();
 
-    // console.log('Filters:', filters);
-
-    this.ticketService.getTicketsByFilters(filters.join('&')).subscribe((tickets) => {
-      // console.log('Returned data from server:', tickets);
-      // console.log('Current client-side tickets:', this.tickets);
-
-      this.isUpdatingTickets = true;
-      const sortedTickets = [...tickets]; // Créez une copie triée
-      this.sortTickets(this.currentSortBy, sortedTickets); // Triez la copie
-      this.tickets = sortedTickets; // Affectez le tableau trié
-      this.cdr.detectChanges();
-      this.isUpdatingTickets = false;
-
-      // console.log('Updated client-side tickets:', this.tickets);
-    });
   }
+  applyFilters() {
+    if (!this.originalTickets) {
+      return;
+    }
+  
+    console.log('Filters:', this.filters);
+    console.log('Original Tickets before filter:', this.originalTickets);
+  
+    // Filtrez les tickets en fonction des états et priorités sélectionnés
+    const filteredTickets = this.originalTickets.filter(ticket => {
+      // Fonction de filtre pour le statut
+      const statusFilter = (t: Ticket) => {
+        return (
+          (!this.filters.status.to_do || t.statusTitle === 'TO_DO') &&
+          (!this.filters.status.doing || t.statusTitle === 'DOING') &&
+          (!this.filters.status.done || t.statusTitle === 'DONE')
+        );
+      };
+  
+      // Fonction de filtre pour la priorité
+      const priorityFilter = (t: Ticket) => {
+        return (
+          (!this.filters.priority.low || t.priorityTitle === 'LOW') &&
+          (!this.filters.priority.medium || t.priorityTitle === 'MEDIUM') &&
+          (!this.filters.priority.high || t.priorityTitle === 'HIGH')
+        );
+      };
+  
+      // Appliquer les filtres en fonction des filtres actifs
+      const result = statusFilter(ticket) && priorityFilter(ticket) && ticket.authorId === this.userId;
+  
+      console.log('Result:', result);
+  
+      return result;
+    });
+  
+    // Mettez à jour la liste des tickets
+    this.tickets = filteredTickets;
+  
+    // Tri des tickets
+    this.sortTickets(this.currentSortBy, this.tickets);
+  
+    console.log('Filtered Tickets:', this.tickets);
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
 
   // TRI //
   private sortTickets(sortBy: string, tickets: Ticket[]) {

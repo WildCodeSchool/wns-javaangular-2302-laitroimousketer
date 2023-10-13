@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TicketListComponent } from './pages/ticket-list/ticket-list.component';
+import { TicketsListComponent } from './pages/tickets-list/tickets-list.component';
 
 
 const routes: Routes = [
   {
     path:'list',
-    component: TicketListComponent
+    component: TicketsListComponent
   },
 
 ];

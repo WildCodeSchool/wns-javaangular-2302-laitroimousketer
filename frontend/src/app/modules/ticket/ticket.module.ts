@@ -3,7 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { TicketRoutingModule } from './ticket-routing.module';
-import { TicketListComponent } from './pages/ticket-list/ticket-list.component';
+import { TicketsListComponent } from './pages/tickets-list/tickets-list.component';
 
 import { CoreModule } from 'src/app/core/core.module';
 import { MatSelectModule } from '@angular/material/select';
@@ -12,11 +12,13 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TicketCardComponent } from 'src/app/core/components/sidebar-components/ticket-card/ticket-card.component';
+import { TicketListClientComponent } from './pages/tickets-list-client/tickets-list-client.component';
 
 
 @NgModule({
   declarations: [
-    TicketListComponent,
+    TicketsListComponent,
+    TicketListClientComponent,
     TicketCardComponent,
 
 
