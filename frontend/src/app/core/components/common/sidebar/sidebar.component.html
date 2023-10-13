@@ -2,10 +2,25 @@
   <mat-sidenav #sidenav [(opened)]="opened" position="end" disableClose class="sidenav">
     <span class="bi bi-x-circle" (click)="toggle()"></span>
 
+     <!-- page ticket details dans sidebar -->
     <ng-container *ngIf="currentPage$ === 'ticket-details'">
       <app-ticket-details [ticket]="currentTicket$ | async"></app-ticket-details>
     </ng-container>
+
+    <!-- page activity dans sidebar -->
+    <ng-container *ngIf="currentPage$ === 'activity'">
+      <app-activity></app-activity>
+    </ng-container>
+
+    <ng-container *ngIf="currentPage$ === 'ticket-add'">
+      <app-ticket-add></app-ticket-add>
+    </ng-container>
+
+
   </mat-sidenav>
+
+  
+
 
   <mat-sidenav-content>
     <!-- contenu à gauche de la sidebar -->

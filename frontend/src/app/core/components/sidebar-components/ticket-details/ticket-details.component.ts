@@ -11,10 +11,10 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     trigger('opacity', [
       transition('void => active', [
         style({ opacity: '0' }),
-        animate('0.7s', style({ opacity: '1' }))
+        animate('0.4s', style({ opacity: '1' }))
       ]),
       transition('* => void', [
-        animate(70, style({ opacity: '0' }))
+        animate(40, style({ opacity: '0' }))
       ])
     ])
   ]
@@ -46,7 +46,7 @@ export class TicketDetailsComponent implements OnInit {
     { page: 'Actions', icon: 'bi bi-pencil-square' }
   ];
   menuTitle: string = 'Ticket';
-  menuIcon: string = 'bi bi-ticket-fill';
+  menuIcon: string = 'bi bi-tag-fill';
 
   page: string = 'Info';
 
@@ -77,7 +77,7 @@ export class TicketDetailsComponent implements OnInit {
       this.ticketDetails.authorId = this.ticket.authorId ? this.ticket.authorId : 0;
       this.ticketDetails.authorFirstname = this.ticket.authorFirstname ? this.ticket.authorFirstname : '';
       this.ticketDetails.authorLastname = this.ticket.authorLastname ? this.ticket.authorLastname : '';
-      this.ticketDetails.fullnameAuthor = this.ticket.authorFirstname + ' ' + this.ticket.authorLastname || '';
+      this.ticketDetails.fullnameAuthor = this.ticket.authorLastname + ' ' + this.ticket.authorFirstname || '';
       this.ticketDetails.authorEmail = this.ticket.authorEmail ? this.ticket.authorEmail : '';
       this.ticketDetails.developers = this.ticket.ticketHaveUsers ? this.ticket.ticketHaveUsers : [];
       this.checkStatusColorSpan();

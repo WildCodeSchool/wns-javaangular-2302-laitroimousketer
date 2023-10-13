@@ -55,7 +55,18 @@ export class NavbarComponent {
     this.router.navigate(['/auth']);
   }
 
-   toggleSidenav(): void {
+   toggleSidenavActivity(): void {
     this.sharedService.toggleSidebar();
+    this.sharedService.setCurrentContent('activity');
+  }
+  toggleSidenavNewTicket(): void {
+    this.sharedService.toggleSidebar();
+    this.sharedService.setCurrentContent('ticket-add');
+  }
+
+  openSidebar() {
+    this.sharedService.toggleSidebar();
+
+   
   }
 }

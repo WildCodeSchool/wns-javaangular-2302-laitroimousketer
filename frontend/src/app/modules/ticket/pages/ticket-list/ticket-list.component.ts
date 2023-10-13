@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, DoCheck, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TicketService } from '../../services/ticket.service';
 import { Ticket } from '../../models/ticket';
 import { Router } from '@angular/router';
@@ -44,18 +44,19 @@ interface SortOption {
     ]),
   ],
 })
-export class TicketListComponent implements OnInit, DoCheck {
+export class TicketListComponent implements OnInit {
   tickets: Ticket[] | undefined;
   originalTickets: Ticket[] | undefined;
   isUpdatingTickets: boolean = false;
   role: string = this.authService.userRole;
+  userId: number = this.authService.userId;
 
   currentSortBy: string = '';
   states: string[] = [
-    'Date de création (ascendant)',
-    'Date de création (descendant)',
-    'Numéro de ticket (ascendant)',
-    'Numéro de ticket (descendant)',
+    'Date de création (asc)',
+    'Date de création (desc)',
+    'Numéro de ticket (asc)',
+    'Numéro de ticket (desc)',
     'Nom (A-Z)',
     'Nom (Z-A)',
     'Prénom (A-Z)',
@@ -85,16 +86,36 @@ export class TicketListComponent implements OnInit, DoCheck {
   ngOnInit() {
     this.checkRole();
     this.getTicketList();
+    this.initializeStates();
+    this.updateTicketList();
 
   }
-  ngDoCheck(): void {
-    // Vérifiez que la mise à jour n'est pas déclenchée par la logique elle-même
-    // if (!this.isUpdatingTickets && this.originalTickets?.length !== this.tickets?.length) {
-    //   this.updateTicketList();
-    // }
+  private initializeStates() {
+    // Si le rôle est 'client', filtrez les états pour ne contenir que ceux pertinents
+    if (this.role === 'CLIENT') {
+      this.states = [
+        'Date de création (asc)',
+        'Date de création (desc)',
+        'Numéro de ticket (asc)',
+        'Numéro de ticket (desc)',
+      ];
+    } else {
+      // Si le rôle n'est pas 'client', conservez toutes les options
+      this.states = [
+        'Date de création (asc)',
+        'Date de création (desc)',
+        'Numéro de ticket (asc)',
+        'Numéro de ticket (desc)',
+        'Nom (A-Z)',
+        'Nom (Z-A)',
+        'Prénom (A-Z)',
+        'Prénom (Z-A)',
+      ];
+    }
   }
   checkRole() {
     this.authService.getUserProfile();
+    console.log(this.authService.userRole);
     return this.authService.userRole;
   }
 
@@ -105,7 +126,29 @@ export class TicketListComponent implements OnInit, DoCheck {
     });
   }
 
-
+  private updateTicketList() {
+    if (!this.originalTickets) {
+      return;
+    }
+  
+    if (this.role === 'CLIENT') {
+      // If the user has the 'CLIENT' role, filter tickets to show only those associated with this user
+      this.tickets = this.originalTickets.filter(ticket => ticket.authorId === this.userId);
+  
+      // Log the authorId of each ticket
+      console.log('userId', this.userId);
+      this.tickets.forEach(ticket => {
+        console.log('Ticket authorId:', ticket.authorId);
+      });
+    } else {
+      // If the role is not 'CLIENT', show all tickets
+      this.tickets = [...this.originalTickets];
+    }
+  
+    this.applyFilters();
+    this.sortTickets(this.currentSortBy, this.tickets);
+  }
+  
   deleteTicket(ticketId: any) {
     if (Number.isInteger(ticketId)) {
       this.ticketService.deleteTicket(ticketId).subscribe(() => this.getTicketList());
@@ -130,15 +173,8 @@ export class TicketListComponent implements OnInit, DoCheck {
   }
 
 
-  private updateTicketList() {
-    if (!this.originalTickets) {
-      return;
-    }
-  
-    this.tickets = [...this.originalTickets];
-    this.applyFilters();
-    this.sortTickets(this.currentSortBy, this.tickets); // Ajoutez le deuxième argument ici
-  }
+
+
   
   applyFilters() {
     const filters: string[] = [];
@@ -170,49 +206,39 @@ export class TicketListComponent implements OnInit, DoCheck {
     });
   }
 
-
-
-
-
-
-
-
-
   // TRI //
   private sortTickets(sortBy: string, tickets: Ticket[]) {
     if (!tickets) {
       return;
     }
-    if (this.tickets) {
-      switch (sortBy) {
-        case 'Date de création (ascendant)':
-          this.tickets.sort((a, b) => a.creationDate.localeCompare(b.creationDate));
-          break;
-        case 'Date de création (descendant)':
-          this.tickets.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
-          break;
-        case 'Numéro de ticket (ascendant)':
-          this.tickets.sort((a, b) => a.id.toString().localeCompare(b.id.toString()));
-          break;
-        case 'Numéro de ticket (descendant)':
-          this.tickets.sort((a, b) => b.id.toString().localeCompare(a.id.toString()));
-          break;
-        case 'Nom (A-Z)':
-          this.tickets.sort((a, b) => this.compareNames(a, b, 'userLastName', 'userFirstName'));
-          break;
-        case 'Nom (Z-A)':
-          this.tickets.sort((a, b) => this.compareNames(b, a, 'userLastName', 'userFirstName'));
-          break;
-        case 'Prénom (A-Z)':
-          this.tickets.sort((a, b) => this.compareNames(a, b, 'userFirstName', 'userLastName'));
-          break;
-        case 'Prénom (Z-A)':
-          this.tickets.sort((a, b) => this.compareNames(b, a, 'userFirstName', 'userLastName'));
-          break;
-        // Add more cases as needed
-        default:
-          break;
-      }
+    switch (sortBy) {
+      case 'Date de création (ascendant)':
+        tickets.sort((a, b) => a.creationDate.localeCompare(b.creationDate));
+        break;
+      case 'Date de création (descendant)':
+        tickets.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
+        break;
+      case 'Numéro de ticket (ascendant)':
+        tickets.sort((a, b) => a.id.toString().localeCompare(b.id.toString()));
+        break;
+      case 'Numéro de ticket (descendant)':
+        tickets.sort((a, b) => b.id.toString().localeCompare(a.id.toString()));
+        break;
+      case 'Nom (A-Z)':
+        tickets.sort((a, b) => this.compareNames(a, b, 'userLastName', 'userFirstName'));
+        break;
+      case 'Nom (Z-A)':
+        tickets.sort((a, b) => this.compareNames(b, a, 'userLastName', 'userFirstName'));
+        break;
+      case 'Prénom (A-Z)':
+        tickets.sort((a, b) => this.compareNames(a, b, 'userFirstName', 'userLastName'));
+        break;
+      case 'Prénom (Z-A)':
+        tickets.sort((a, b) => this.compareNames(b, a, 'userFirstName', 'userLastName'));
+        break;
+      // Add more cases as needed
+      default:
+        break;
     }
   }
   onSortChange(event: MatSelectChange) {

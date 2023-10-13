@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { TicketService } from '../../services/ticket.service';
-import { Ticket } from '../../models/ticket';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CategoryService } from '../../services/category.service';
-import { Category } from '../../models/category';
+import { Category } from 'src/app/modules/ticket/models/category';
+import { Ticket } from 'src/app/modules/ticket/models/ticket';
+import { CategoryService } from 'src/app/modules/ticket/services/category.service';
+import { TicketService } from 'src/app/modules/ticket/services/ticket.service';
+
 
 @Component({
   selector: 'app-ticket-add',

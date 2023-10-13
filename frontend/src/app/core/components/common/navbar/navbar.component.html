@@ -7,7 +7,11 @@
   <ul class="links">
 
     <li class="ticket" routerLink="/tickets/list">
-      <a class="bi bi-ticket-fill"></a>
+      <a class="bi bi-bookmarks-fill"></a>
+    </li>
+
+    <li *ngIf="userRole !== 'client'" class="ticket" (click)="toggleSidenavNewTicket()">
+      <a class="bi bi-bookmark-plus-fill"></a>
     </li>
 
     <li *ngIf="userRole !== 'client'" >
@@ -19,7 +23,7 @@
     </li>
 
     <li *ngIf="userRole !== 'client'" class="menulink">
-      <a class="bi bi-activity" (click)=" toggleSidenav()"></a>
+      <a class="bi bi-activity" (click)=" toggleSidenavActivity()"></a>
     </li>
 
   </ul>

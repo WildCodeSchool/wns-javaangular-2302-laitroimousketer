@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Ticket } from '../../models/ticket';
-import { TicketDetails } from '../../models/ticket-details';
+
 import { SharedService } from 'src/app/core/services/shared.service';
+import { Ticket } from 'src/app/modules/ticket/models/ticket';
+import { TicketDetails } from 'src/app/modules/ticket/models/ticket-details';
 
 @Component({
   selector: 'app-ticket-card',
@@ -57,7 +58,7 @@ export class TicketCardComponent implements OnInit {
       this.ticketDetails.authorEmail = this.ticket.authorEmail || '';
       this.ticketDetails.authorFirstname = this.ticket.authorFirstname || '';
       this.ticketDetails.authorLastname = this.ticket.authorLastname || '';
-      this.ticketDetails.fullnameAuthor = this.ticket.authorFirstname + ' ' + this.ticket.authorLastname || '';
+      this.ticketDetails.fullnameAuthor = this.ticket.authorLastname + ' ' + this.ticket.authorFirstname || '';
     
   }
     

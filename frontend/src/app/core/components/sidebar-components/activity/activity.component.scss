@@ -1,0 +1,17 @@
+@import 'src/assets/scss/template.scss';
+
+.header {
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  span {
+    font-size: 64px;
+    color: $primaryColor;
+  }
+
+  h1 {
+    font-weight: 500;
+  }
+}
