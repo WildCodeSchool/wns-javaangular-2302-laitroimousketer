@@ -41,8 +41,11 @@ public class User implements UserDetails {
   @JoinColumn(name = "role_id", nullable = false)
   private Role role;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  private List<UserHasTicket> userHasTickets;
+  @OneToMany(mappedBy = "author",cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+  private List<Ticket> authoredTickets;
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+  private List<TicketHaveUsers> ticketHaveUsers;
 
 
   @Override
@@ -82,14 +85,15 @@ public User(String firstname, String lastname, String email, String password, Ro
     this.email = email;
     this.password = password;
     this.role = role;
-    this.userHasTickets = new ArrayList<>();
+    this.authoredTickets = new ArrayList<>();
+    this.ticketHaveUsers = new ArrayList<>();
 }
 
-public String getFirstName() {
+public String getFirstname() {
   return this.firstname;
 }
 
-public String getLastName() {
+public String getLastname() {
   return this.lastname;
 }
 
@@ -100,6 +104,7 @@ public String setFirstname() {
 public String setLastname() {
   return this.lastname;
 }
+
 
 
 

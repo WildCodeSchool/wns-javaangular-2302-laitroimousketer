@@ -23,7 +23,7 @@ public class Ticket {
   @Column(nullable = false)
   private String ticketTitle;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 5000)
   private String description;
 
   @Column(nullable = false)
@@ -46,22 +46,26 @@ public class Ticket {
   @JoinColumn(name = "status_id", nullable = false)
   private Status status;
 
-  @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<UserHasTicket> userAssociations = new ArrayList<>();
+  @ManyToOne
+  @JoinColumn(name = "author_id", nullable = true)
+  private User author;
+
+  @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+  private List<TicketHaveUsers> userAssociations = new ArrayList<>();
 
   public Ticket() {
-  }
-
-  // Méthode pour définir l'utilisateur créateur lors de la création du ticket
-  public void setCreatorUser(User user) {
-    UserHasTicket userHasTicket = new UserHasTicket(user, this, true);
-    user.getUserHasTickets().add(userHasTicket);
   }
 
   public void setTicketTitle(String ticketTitle) {
     this.ticketTitle = ticketTitle;
   }
 
+  public void setAuthor(User author) {
+    this.author = author;
+  }
+  public User getAuthor() {
+    return author;
+  }
 
   // Autres getters et setters
 }

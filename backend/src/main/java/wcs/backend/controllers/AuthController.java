@@ -11,18 +11,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @AllArgsConstructor
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "User Authentication and Registration Controller")
+
 public class AuthController {
 
   // pas besoin de @Autowired avec @AllArgsConstructor
   private AuthService authService;
   private UserService userService;
 
-  // Build Login REST API
+  
   @PostMapping("/login")
+  @Operation(summary = "User Login", description = "Authenticate a user and generate an access token.")
   public ResponseEntity<JWTAuthResponse> authenticate(@RequestBody LoginDto loginDto) {
 
     try {
@@ -38,6 +44,7 @@ public class AuthController {
   }
 
 @PostMapping("/register")
+@Operation(summary = "User Registration", description = "Register a new user.")
 public ResponseEntity<Object> registerUser(@RequestBody User user) {
   try {
     User createdUser = userService.createUser(user);

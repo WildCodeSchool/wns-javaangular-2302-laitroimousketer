@@ -16,6 +16,9 @@ import {MatInputModule} from '@angular/material/input';
 import { AvatarComponent } from './components/common/avatar/avatar.component';
 import { TicketDetailsComponent } from './components/sidebar-components/ticket-details/ticket-details.component';
 import { SidebarMenuComponent } from './components/sidebar-components/sidebar-menu/sidebar-menu.component';
+import { ActivityComponent } from './components/sidebar-components/activity/activity.component';
+import { TicketAddComponent } from './components/sidebar-components/ticket-add/ticket-add.component';
+import { TicketEditComponent } from './components/sidebar-components/ticket-edit/ticket-edit.component';
 import { TicketChatComponent } from './components/sidebar-components/ticket-chat/ticket-chat.component';
 
 
@@ -28,6 +31,9 @@ import { TicketChatComponent } from './components/sidebar-components/ticket-chat
     AvatarComponent,
     TicketDetailsComponent,
     SidebarMenuComponent,
+    ActivityComponent,
+    TicketAddComponent,
+    TicketEditComponent,
     TicketChatComponent,
   ],
   imports: [
@@ -56,7 +62,10 @@ import { TicketChatComponent } from './components/sidebar-components/ticket-chat
     SearchBarComponent,
     AvatarComponent,
     TicketDetailsComponent,
+    TicketAddComponent,
+    TicketEditComponent,
     SidebarMenuComponent,
+    ActivityComponent,
   ],
   providers: [],
 })

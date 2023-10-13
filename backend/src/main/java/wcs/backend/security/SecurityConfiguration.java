@@ -46,24 +46,28 @@ public class SecurityConfiguration {
 
   @Bean
   public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-    http.csrf(csrf -> csrf.disable());
-    http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-    http.authorizeHttpRequests()
-        // On autorise les requêtes vers auth/**, donc login et register
-        .requestMatchers("api/auth/**").permitAll()
-        // puis tout le reste requiert le token jwt
-        .anyRequest().authenticated();
-    http.exceptionHandling(handling -> handling
-        .authenticationEntryPoint(
-            (request, response, ex) -> {
-              response.sendError(
-                  HttpServletResponse.SC_UNAUTHORIZED,
-                  ex.getMessage());
-            }));
-    http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-    http.cors(withDefaults()); // Activation de la configuration CORS
+    http
+        .csrf(csrf -> csrf.disable())
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(authorizeRequests ->
+            authorizeRequests
+                .requestMatchers("/api/auth/**","/swagger-ui/**","/api-docs/**").permitAll()
+                .anyRequest().authenticated()
+        )
+        .exceptionHandling(exceptionHandling ->
+            exceptionHandling
+                .authenticationEntryPoint(
+                    (request, response, ex) -> {
+                        response.sendError(
+                            HttpServletResponse.SC_UNAUTHORIZED,
+                            ex.getMessage());
+                    })
+        )
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+        .cors(withDefaults());
+
     return http.build();
-  }
+}
 
 @Bean
 public CorsConfigurationSource corsConfigurationSource() {

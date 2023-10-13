@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UsersRoutingModule } from './users-routing.module';
 
-import { HomeRoutingModule } from './home-routing.module';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+
+  ],
   imports: [
     CommonModule,
-    HomeRoutingModule
+    UsersRoutingModule
   ]
 })
-export class HomeModule { }
+export class UsersModule { }

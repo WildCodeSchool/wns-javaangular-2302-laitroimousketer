@@ -1,8 +1,8 @@
 package wcs.backend.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import wcs.backend.entities.UserHasTicket;
+import wcs.backend.entities.TicketHaveUsers;
 
-public interface UserHasTicketRepository extends JpaRepository<UserHasTicket, Long> {
+public interface TicketHaveUsersRepository extends JpaRepository<TicketHaveUsers, Long> {
     // Ajoutez des méthodes personnalisées si nécessaire
 }

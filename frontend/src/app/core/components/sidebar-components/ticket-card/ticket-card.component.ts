@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Ticket } from '../../models/ticket';
-import { TicketDetails } from '../../models/ticket-details';
+
 import { SharedService } from 'src/app/core/services/shared.service';
+import { Ticket } from 'src/app/modules/ticket/models/ticket';
+import { TicketDetails } from 'src/app/modules/ticket/models/ticket-details';
 
 @Component({
   selector: 'app-ticket-card',
@@ -19,14 +20,18 @@ export class TicketCardComponent implements OnInit {
     creationDate: '',
     updateDate: '',
     status: '',
-    creator: '',
+    fullnameAuthor: '',
     developers: [],
+    authorId: 0,
+    authorEmail: '',
+    authorFirstname: '',
+    authorLastname: '',
   };
 
   @Input() ticket!: Ticket;
 
   colorPriority : string = '';
-
+  colorStatus : string = '';
   constructor(
     private sharedService: SharedService,
     ) {}
@@ -34,13 +39,14 @@ export class TicketCardComponent implements OnInit {
   ngOnInit() {
     this.loadTicket();
     this.loadColorPriority();
+    this.loadColorStatus();
     // console.log(this.ticketDetails.creator,'CCCCCCCCCCCCCCCCCCCCCCCC')
   }
 
 
   loadTicket() {
     if (this.ticket !== undefined) {
-      console.log(this.ticket);
+      // console.log(this.ticket);
       this.ticketDetails.number = this.ticket.id;
       this.ticketDetails.name = this.ticket.ticketTitle || '';
       this.ticketDetails.description = this.ticket.description || '';
@@ -48,38 +54,38 @@ export class TicketCardComponent implements OnInit {
       this.ticketDetails.creationDate = this.ticket.creationDate || '';
       this.ticketDetails.updateDate = this.ticket.updateDate || '';
       this.ticketDetails.status = this.ticket.statusTitle || '';
-
-      if (this.ticket.userHasTickets !== undefined) {
-        this.ticket.userHasTickets.forEach((user) => {
-          if (!user.creator) {
-            console.log('User is not creator:', user);
-            const developerName = `${user.userLastName} ${user.userFirstName}`;
-            this.ticketDetails.developers.push(developerName);
-          }
-        });
-      }
-
-      const creatorUser = this.ticket.userHasTickets?.find(
-        (user) => user.creator
-      );
-      if (creatorUser) {
-        console.log('User is creator:', creatorUser);
-        this.ticketDetails.creator = `${creatorUser.userLastName} ${creatorUser.userFirstName}`;
-      }
-    }
+      this.ticketDetails.authorId = this.ticket.authorId || 0;
+      this.ticketDetails.authorEmail = this.ticket.authorEmail || '';
+      this.ticketDetails.authorFirstname = this.ticket.authorFirstname || '';
+      this.ticketDetails.authorLastname = this.ticket.authorLastname || '';
+      this.ticketDetails.fullnameAuthor = this.ticket.authorLastname + ' ' + this.ticket.authorFirstname || '';
+    
+  }
     
   }
 
   loadColorPriority() {
     if (this.ticketDetails.priority === 'LOW') {
-      this.colorPriority = 'low-priority';
+      this.colorPriority = 'green';
     } else if (this.ticketDetails.priority === 'MEDIUM') {
-      this.colorPriority = 'medium-priority';
+      this.colorPriority = 'yellow';
     } else if (this.ticketDetails.priority === 'HIGH') {
-      this.colorPriority = 'high-priority';
+      this.colorPriority = 'red';
     } else {
       this.colorPriority = ''; // Aucune classe par défaut si la priorité n'est pas définie
     }
+  }
+  loadColorStatus() {
+    if (this.ticketDetails.status === 'TO_DO') {
+      this.colorStatus = 'red';
+  
+    } if (this.ticketDetails.status === 'DOING') {
+      this.colorStatus = 'yellow';
+    }
+    if (this.ticketDetails.status === 'DONE') {
+      this.colorStatus = 'green';
+    }
+
   }
   
   openSidebar() {

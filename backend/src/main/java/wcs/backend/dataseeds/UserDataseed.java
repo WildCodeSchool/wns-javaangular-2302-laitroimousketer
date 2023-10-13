@@ -38,7 +38,7 @@ public class UserDataseed {
   private void cleanData() {
     List<User> users = userService.getAllUsers();
     for (User user : users) {
-      userService.deleteUser(user.getId());
+      userService.deleteUserById(user.getId());
     }
   }
 
@@ -46,10 +46,10 @@ public class UserDataseed {
 
     for (int i = 0; i < this.client_NB; i++) {
       User userCreated = new User();
-      userCreated.setFirstname("groot");
-      userCreated.setLastname("jesapel" + i);
-      userCreated.setEmail("client" + i + "@wcs.com");
-      userCreated.setPassword("client" + i);
+      userCreated.setLastname("jesapel");
+      userCreated.setFirstname("groot" + i);
+      userCreated.setEmail("client"+i+"@wcs.com");
+      userCreated.setPassword("Alayd3!client"+i);
       userCreated.setRole(null);
       Role roleUsed = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
       userCreated.setRole(roleUsed);
@@ -68,7 +68,7 @@ userService.createUser(dev);
 
 User manager = new User();
 manager.setEmail("manager@wcs.com");
-manager.setFirstname("manager");
+manager.setFirstname("le");
 manager.setLastname("manager");
 manager.setPassword("Alayd3!manager");
 Role roleManager = roleRepository.findByRoleTitle(Title.MANAGER).get(0);

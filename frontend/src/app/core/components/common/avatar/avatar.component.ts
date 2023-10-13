@@ -15,7 +15,7 @@ export class AvatarComponent implements OnInit {
   ngOnInit() {
     this.extractInitials();
     this.generateBackgroundColor();
-    console.log(this.bgColor);
+    // console.log(this.bgColor);
   }
 
   // Méthode pour extraire les initiales à partir du nom d'utilisateur

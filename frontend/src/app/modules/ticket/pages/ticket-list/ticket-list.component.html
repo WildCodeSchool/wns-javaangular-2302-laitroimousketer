@@ -1,24 +1,47 @@
-<section class="tickets-list-c">
+<!-- PARTIE DEV ET MANAGER -->
+<section class="tickets-list-c"  [@fadeInOut]>
   <app-search-bar></app-search-bar>
 
   <div class="tickets-list">
     <header>
       <mat-form-field class="select">
         <mat-label>Trier par</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+        <mat-select class="select" (selectionChange)="onSortChange($event)">
+          <mat-option *ngFor="let state of states" [value]="state">
+            {{state}}
+            <span *ngIf="state.includes('asc') || state.includes('A-Z')" class="icone-select bi bi-sort-down"></span>
+            <span *ngIf="state.includes('desc') || state.includes('Z-A')" class="icone-select bi bi-sort-up"> </span>
+          </mat-option>
         </mat-select>
       </mat-form-field>
-      
-      <a class="new-ticket" *ngIf="role == 'CLIENT'">Créer un nouveau ticket<span class="bi bi-plus-circle-fill"></span></a>
+      <div class="checkbox-c" >
+        <div class="statut">Statut:
+          <mat-checkbox class="checkbox" [(ngModel)]="filters.status.to_do" (change)="onCheckboxChange('status', 'to_do')">à faire</mat-checkbox>
+          <mat-checkbox class="checkbox" [(ngModel)]="filters.status.doing" (change)="onCheckboxChange('status', 'doing')">en cours</mat-checkbox>
+          <mat-checkbox class="checkbox" [(ngModel)]="filters.status.done" (change)="onCheckboxChange('status', 'done')">terminé</mat-checkbox>
+        </div>
+        
+        <div class="statut">Priorité:
+          <mat-checkbox class="checkbox" [(ngModel)]="filters.priority.low" (change)="onCheckboxChange('priority', 'low')">faible</mat-checkbox>
+          <mat-checkbox class="checkbox" [(ngModel)]="filters.priority.medium" (change)="onCheckboxChange('priority', 'medium')">moyenne</mat-checkbox>
+          <mat-checkbox class="checkbox" [(ngModel)]="filters.priority.high" (change)="onCheckboxChange('priority', 'high')">élevée</mat-checkbox>
+        </div>
+        
+        
+      </div>
     </header>
 
-  
-      <cdk-virtual-scroll-viewport  itemSize="10" class="viewport">
-        <div *cdkVirtualFor="let ticket of tickets" >
-          <app-ticket-card class="context-ticket-list" [ticket]="ticket"></app-ticket-card>
-        </div>
-      </cdk-virtual-scroll-viewport>
-    </div> 
- 
+      <div *ngFor="let ticket of tickets">
+        <app-ticket-card class="context-ticket-list" [ticket]="ticket"></app-ticket-card>
+      </div>
+   
+  <!-- <cdk-virtual-scroll-viewport itemSize="10" class="viewport">
+    <div *ngFor="let ticket of tickets">
+      <app-ticket-card class="context-ticket-list" [ticket]="ticket"></app-ticket-card>
+    </div>
+  </cdk-virtual-scroll-viewport> -->
+
+</div>
+
 </section>
+

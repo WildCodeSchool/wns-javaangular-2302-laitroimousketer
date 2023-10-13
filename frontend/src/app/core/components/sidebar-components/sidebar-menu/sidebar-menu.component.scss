@@ -61,7 +61,7 @@
     margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
     background-color: $primaryColor;
     z-index: 20;
@@ -103,6 +103,7 @@
     bottom: 100px;
     color: $secondaryColor;
     z-index: 20;
+
   }
   
   .icone {

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Ticket } from '../models/ticket';
@@ -35,6 +35,13 @@ export class TicketService {
   deleteTicket(ticketId : number): Observable<Ticket[]>{
     return this.httpClient.delete<Ticket[]>("http://localhost:8080/api/tickets/"+ticketId);  
   }
+  // TicketService
+
+  getTicketsByFilters(filter : string): Observable<Ticket[]> {
+    // console.log('filters: ',filter);
+    return this.httpClient.get<Ticket[]>(`http://localhost:8080/api/tickets/filter?${filter}`);
+  }
+  
 
 
 }

@@ -179,3 +179,9 @@ input:-webkit-autofill:active{
   padding: 2% 1%;
   margin: 10px;
 }
+//label checbox material//
+.mat-mdc-checkbox label {
+  color: white;
+  margin-left: -10px!important;
+  font-weight: 400;
+}

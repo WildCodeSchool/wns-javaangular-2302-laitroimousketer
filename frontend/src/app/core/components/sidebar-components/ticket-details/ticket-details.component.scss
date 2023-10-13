@@ -42,16 +42,16 @@ h1 {
   }
 }
 
-.statut,.date,.autor,.priority,.description {
+.statut,.date,.autor,.priority,.description,.developers {
   font-size: 20px;
   font-weight: 500;
   margin-right: 8px;
+  line-height: 1.5;
 }
 
 .priority {
-  margin-left: auto;
   span {
-    font-weight: 300;
+    font-weight: 400;
   }
 }
 
@@ -68,26 +68,26 @@ h1 {
   }
 }
 .todo {
-  font-weight: 300;
+  font-weight: 400;
   color: red;
 }
 .doing {
-  font-weight: 300;
+  font-weight: 400;
   color: #F5B445}
 .done {
-  font-weight: 300;
+  font-weight: 400;
   color: green;
 }
 .low {
-  font-weight: 300;
+  font-weight: 400;
   color: green;
 }
 .medium {
-  font-weight: 300;
+  font-weight: 400;
   color: #F5B445;
 }
 .high {
-  font-weight: 300;
+  font-weight: 400;
   color: red;
 }
 header {
@@ -105,6 +105,23 @@ header {
   width: 92%; /* Réglez la largeur à 80% */
   border-bottom: 1px dashed rgba(0, 0, 0, 0.5); 
 }
+.actions {
+  h1 {
+    margin-bottom: 40px;
+  }
+}
+.actions-btn {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10%;
+  justify-content: center;
+  align-items: center;
 
+}
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
 

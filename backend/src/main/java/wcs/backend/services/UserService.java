@@ -3,11 +3,15 @@ package wcs.backend.services;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import wcs.backend.entities.User;
+import wcs.backend.entities.TicketHaveUsers;
 import wcs.backend.entities.Role;
 import wcs.backend.entities.Role.Title;
 import wcs.backend.repositories.RoleRepository;
+import wcs.backend.repositories.TicketHaveUsersRepository;
 import wcs.backend.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -18,6 +22,7 @@ public class UserService {
   private UserRepository userRepository;
   private RoleRepository roleRepository;
   private PasswordEncoder passwordEncoder;
+  private TicketHaveUsersRepository ticketHaveUsersRepository;
 
   public User createUser(User user) {
     String encryptedPassword = passwordEncoder.encode(user.getPassword());
@@ -56,8 +61,8 @@ public class UserService {
 
     if (existingUser != null) {
       existingUser.setEmail(user.getEmail());
-      existingUser.setFirstname(user.getFirstName());
-      existingUser.setLastname(user.getLastName());
+      existingUser.setFirstname(user.getFirstname());
+      existingUser.setLastname(user.getLastname());
       existingUser.setRole(user.getRole());
 
       String encryptedPassword = passwordEncoder.encode(user.getPassword());
@@ -69,12 +74,23 @@ public class UserService {
     return null;
   }
 
-  public void deleteUser(Long userId) {
+  public void deleteUserById(Long userId) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+    // Supprimer manuellement les enregistrements dans user_has_ticket
+    for (TicketHaveUsers ticketHaveUsers : user.getTicketHaveUsers()) {
+      ticketHaveUsersRepository.deleteById(ticketHaveUsers.getId());
+    }
+    // Ensuite, supprimez l'utilisateur
     userRepository.deleteById(userId);
   }
 
   public List<User> getUsersByName(String name) {
     return userRepository.findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name, name);
+  }
+
+  public List<User> getUsersByRole(Role role) {
+    return userRepository.findByRole(role);
   }
 
   public User updateUserRole(Long userId, Long roleId) {
@@ -87,15 +103,18 @@ public class UserService {
     }
     return null;
   }
+
   public Optional<User> getUserByEmail(String email) {
     return userRepository.findByEmail(email);
-}
-public User getFirstUserByName(String name) {
-  List<User> users = userRepository.findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name, name);
-  if (!users.isEmpty()) {
-      return users.get(0); // Retournez le premier utilisateur correspondant trouvé
   }
-  return null; // Aucun utilisateur trouvé
-}
+
+  public User getFirstUserByName(String name) {
+    List<User> users = userRepository.findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name, name);
+    if (!users.isEmpty()) {
+      return users.get(0); // Retournez le premier utilisateur correspondant trouvé
+    }
+    return null; // Aucun utilisateur trouvé
+  }
+  
 
 }

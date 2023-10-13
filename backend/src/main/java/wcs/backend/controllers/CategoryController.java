@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import wcs.backend.dtos.CategoryDto;
 import wcs.backend.entities.Category;
@@ -25,13 +27,15 @@ import wcs.backend.services.CategoryService;
 @RestController
 @RequestMapping("api/categories")
 @CrossOrigin(origins = "*")
+@Tag(name = "Categories", description = "Category Management Controller")
+
 public class CategoryController {
 
   private CategoryService categoryService;
   private ModelMapper modelMapper;
 
-  // build create category REST API
   @PostMapping
+  @Operation(summary = "Create Category", description = "Create a new category.")
   public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto) {
     Category category = modelMapper.map(categoryDto, Category.class);
     Category savedCategory = categoryService.createCategory(category);
@@ -39,18 +43,16 @@ public class CategoryController {
     return new ResponseEntity<>(savedCategoryDto, HttpStatus.CREATED);
   }
 
-  // build get category by id REST API
-  // http://localhost:8080/api/categories/1
   @GetMapping("{id}")
+  @Operation(summary = "Get Category by ID", description = "Get details of a category by its ID.")
   public ResponseEntity<CategoryDto> getCategoryById(@PathVariable("id") Long categoryId) {
     Category category = categoryService.getCategoryById(categoryId);
     CategoryDto categoryDto = modelMapper.map(category, CategoryDto.class);
     return new ResponseEntity<>(categoryDto, HttpStatus.OK);
   }
 
-  // Build Get All categories REST API
-  // http://localhost:8080/api/categories
   @GetMapping
+  @Operation(summary = "Get All Categories", description = "Get details of all available categories.")
   public ResponseEntity<List<CategoryDto>> getAllCategories() {
     List<Category> categories = categoryService.getAllCategories();
     List<CategoryDto> categoryDtos = categories.stream()
@@ -59,9 +61,8 @@ public class CategoryController {
     return new ResponseEntity<>(categoryDtos, HttpStatus.OK);
   }
 
-  // Build Update category REST API
   @PutMapping("{id}")
-  // http://localhost:8080/api/categories/1
+  @Operation(summary = "Update Category", description = "Update an existing category.")
   public ResponseEntity<CategoryDto> updateCategory(@PathVariable("id") Long categoryId,
       @RequestBody CategoryDto categoryDto) {
     Category category = modelMapper.map(categoryDto, Category.class);
@@ -71,11 +72,10 @@ public class CategoryController {
     return new ResponseEntity<>(updatedCategoryDto, HttpStatus.OK);
   }
 
-  // Build Delete category REST API
   @DeleteMapping("{id}")
+  @Operation(summary = "Delete Category", description = "Delete a category by its ID.")
   public ResponseEntity<String> deleteCategory(@PathVariable("id") Long categoryId) {
     categoryService.deleteCategory(categoryId);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 }
-

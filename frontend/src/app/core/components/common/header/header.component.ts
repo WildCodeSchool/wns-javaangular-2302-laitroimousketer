@@ -10,22 +10,36 @@ export class HeaderComponent implements OnInit {
   avatar: string = 'assets/images/avatar.png';
   alert: string = 'bi bi-bell-slash';
   title: string = '';
+  animateTitle: boolean = false;
+
   constructor(private router: Router) {}
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        // Mettre à jour le titre en fonction de l'URL
         this.updateTitle();
       }
     });
+    this.updateTitle();
   }
 
   updateTitle() {
     const currentUrl = this.router.url;
-    // Logique pour déterminer le titre en fonction de l'URL
-    this.title = this.getTitleFromUrl(currentUrl);
+    const newTitle = this.getTitleFromUrl(currentUrl);
+
+    // Check if the title has changed
+    if (this.title !== newTitle) {
+      // Update the title and trigger the animation
+      this.title = newTitle;
+      this.animateTitle = true;
+
+      // Set animateTitle back to false after the animation duration (200ms)
+      setTimeout(() => {
+        this.animateTitle = false;
+      }, 200);
+    }
   }
+
   getTitleFromUrl(url: string): string {
     switch (url) {
       case '/tickets/list':
@@ -34,13 +48,14 @@ export class HeaderComponent implements OnInit {
         return 'Dashboard';
       case '/profil':
         return 'Profil';
+      case '/users/list':
+        return 'Contacts';
       default:
         return '';
     }
   }
 
   getAlertStatus(userRole: string) {
-    // Utilise le UserService pour récupérer le statut d'alerte en fonction du rôle de l'utilisateur
     this.alert = 'bi bi-bell';
     // TODO: Code pour récupérer le statut d'alerte en fonction du rôle de l'utilisateur
   }

@@ -1,3 +1,5 @@
+import { TicketHaveUsers } from "./ticketHaveUsers";
+
 export interface TicketDetails {
   number: number;
   name: string;
@@ -8,6 +10,10 @@ export interface TicketDetails {
   creationDate: string;
   updateDate?: string;
   status: string;
-  creator: string;
-  developers: string[];
+  authorId: number;
+  authorFirstname: string;
+  authorLastname: string;
+  authorEmail: string;
+  developers: TicketHaveUsers[];
+  fullnameAuthor: string;
 }

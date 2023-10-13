@@ -21,7 +21,7 @@ export class NavbarComponent {
   }
   private sidebarSubscription: Subscription | undefined;
   
-  logo: string = 'assets/images/alayde.png';
+  logo: string = 'assets/images/Alayde.png';
   ticket: string = 'assets/images/tickets.png';
   avatar: string = 'assets/images/avatar.png';
   userRole: string = ''; // Ajoute cette ligne pour déclarer la propriété userRole
@@ -44,10 +44,10 @@ export class NavbarComponent {
     });
     this.authService.getUserProfile().subscribe((user) => {
       this.userEmail = this.authService.userEmail;
-      this.userFirstName = this.authService.userFirstName;
-      this.userLastName = this.authService.userLastName;
+      this.userFirstName = this.authService.userFirstname;
+      this.userLastName = this.authService.userLastname;
       this.userRole = this.authService.userRole;
-      console.log('Infos utilisateur from navbar component :','mail:', this.userEmail,'firstName:', this.userFirstName,'lastName:', this.userLastName,'Role:', this.userRole);
+      // console.log('Infos utilisateur from navbar component :','mail:', this.userEmail,'firstName:', this.userFirstName,'lastName:', this.userLastName,'Role:', this.userRole);
     });
   }
   logout() {
@@ -55,7 +55,18 @@ export class NavbarComponent {
     this.router.navigate(['/auth']);
   }
 
-   toggleSidenav(): void {
+   toggleSidenavActivity(): void {
     this.sharedService.toggleSidebar();
+    this.sharedService.setCurrentContent('activity');
+  }
+  toggleSidenavNewTicket(): void {
+    this.sharedService.toggleSidebar();
+    this.sharedService.setCurrentContent('ticket-add');
+  }
+
+  openSidebar() {
+    this.sharedService.toggleSidebar();
+
+   
   }
 }

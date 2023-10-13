@@ -20,7 +20,7 @@ public class Role {
     public enum Title {
         DEVELOPER,
         CLIENT,
-        MANAGER, DOING
+        MANAGER
     }
 
     @Id

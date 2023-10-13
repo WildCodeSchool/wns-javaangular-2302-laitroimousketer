@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { NavbarComponent } from './core/components/common/navbar/navbar.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { ErrorInterceptor } from './core/interceptors/error-interceptor';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor';
@@ -24,13 +23,11 @@ import { RouterModule } from '@angular/router';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
     CoreModule,
     HttpClientModule,
     BrowserAnimationsModule,
     RouterModule,
     
-   
   ],
   providers: [
     HttpClient,

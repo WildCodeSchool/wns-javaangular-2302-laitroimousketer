@@ -1,27 +1,26 @@
-<p>ticket-add works!</p>
 
-<div class="container-fluid mb-3">
-    <h2 class="text-center">Ticket Add</h2>
-    <form class="container-fluid" [formGroup]="ticketAdditionForm">
-        <div class="mb-3">
+<section class="formulaire">
+    <h1 class="">Créer un  nouveau ticket</h1>
+    <form  [formGroup]="ticketAdditionForm">
+        <div>
             <label class="form-label" for="title">Title</label>
             <input class="form-control" id="title" type="text" formControlName="title" required>
         </div>
-        <div class="mb-3">
+        <div>
             <label class="form-label" for="description">Description</label>
             <input class="form-control" id="description" type="text" formControlName="description" required>
         </div>
-        <div class="mb-3">
+        <div>
             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" formControlName="selectedCategory">
                 <option *ngFor="let category of categories" [ngValue]="category.id">
                 {{ category.title }}
                 </option>
             </select>
         </div>
-        <div class="mb-3">
+       
             <button class="btn btn-primary" type="button" [disabled]="!ticketAdditionForm.valid" (click)="addTicket()">Create</button>
-        </div>
+       
     </form>
-</div>
+</section>
 
 <p>Form Status: {{ ticketAdditionForm.status }}</p>
