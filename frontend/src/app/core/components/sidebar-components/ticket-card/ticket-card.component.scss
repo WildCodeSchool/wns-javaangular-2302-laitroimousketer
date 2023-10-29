@@ -2,7 +2,7 @@
 
 .card {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   align-items: center;
   justify-content: space-between;
   background-color: white;
@@ -27,7 +27,7 @@
     text-align: end;
   }
 }
-.date,.priority,.statut,.number,.title {
+.date,.priority,.statut,.number,.title,.category {
   display: flex;
   text-align: end;
   justify-content: flex-end;

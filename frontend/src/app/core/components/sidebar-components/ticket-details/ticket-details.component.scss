@@ -42,7 +42,7 @@ h1 {
   }
 }
 
-.statut,.date,.autor,.priority,.description,.developers {
+.statut,.date,.autor,.priority,.category,.description,.developers {
   font-size: 20px;
   font-weight: 500;
   margin-right: 8px;
@@ -54,7 +54,9 @@ h1 {
     font-weight: 400;
   }
 }
-
+.category span {
+  font-weight: 300;
+}
 .date span {
   font-weight: 300;
 }

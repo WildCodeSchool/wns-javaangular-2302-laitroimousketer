@@ -38,6 +38,7 @@ export class TicketDetailsComponent implements OnInit {
     authorEmail: '',
     developers:[] = [],
     fullnameAuthor: '',
+    category: '',
   };
 
   menuItems: MenuItems[] = [
@@ -56,6 +57,7 @@ export class TicketDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.loadTicket();
+    this.changeNameCategory();
   }
 
   onPageChange(page: string): void {
@@ -71,6 +73,7 @@ export class TicketDetailsComponent implements OnInit {
       this.ticketDetails.name = this.ticket.ticketTitle ? this.ticket.ticketTitle : '';
       this.ticketDetails.description = this.ticket.description ? this.ticket.description : '';
       this.ticketDetails.priority = this.ticket.priorityTitle ? this.ticket.priorityTitle : '';
+      this.ticketDetails.category = this.ticket.categoryTitle ? this.ticket.categoryTitle : '';
       this.ticketDetails.creationDate = this.ticket.creationDate ? this.ticket.creationDate : '';
       this.ticketDetails.updateDate = this.ticket.updateDate ? this.ticket.updateDate : '';
       this.ticketDetails.status = this.ticket.statusTitle ? this.ticket.statusTitle : '';
@@ -107,6 +110,16 @@ export class TicketDetailsComponent implements OnInit {
     }
     if (this.ticketDetails.priority === 'HIGH') {
       this.prioritySpan = 'high';
+    }
+  }
+  changeNameCategory(){
+    if (this.ticketDetails.category === 'BILLING') {
+      this.ticketDetails.category = 'Facturation';
+    } if (this.ticketDetails.category === 'FEATURE') {
+      this.ticketDetails.category = 'Fonctionnalité';
+    }
+    if (this.ticketDetails.category === 'TECHNICAL') {
+      this.ticketDetails.category = 'Technique';
     }
   }
 

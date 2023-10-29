@@ -19,6 +19,11 @@ interface TicketFilter {
     medium: boolean;
     high: boolean;
   };
+  category: {
+    billing: boolean;
+    feature: boolean;
+    technical: boolean
+  };
   [key: string]: any; // Ajout de la signature d'index
 }
 
@@ -53,7 +58,7 @@ export class TicketsListComponent implements OnInit {
 
   role: string = this.authService.userRole;
 
-// COUNT TICKET //
+  // COUNT TICKET //
   billingCount: number = 0;
   featureCount: number = 0;
   technicalCount: number = 0;
@@ -63,7 +68,7 @@ export class TicketsListComponent implements OnInit {
   toDoCount: number = 0;
   doingCount: number = 0;
   doneCount: number = 0;
-  
+
 
   currentSortBy: string = '';
   states: string[] = [
@@ -76,6 +81,7 @@ export class TicketsListComponent implements OnInit {
     'Prénom (A-Z)',
     'Prénom (Z-A)',
   ];
+
   filters: TicketFilter = {
     status: {
       to_do: false,
@@ -86,6 +92,11 @@ export class TicketsListComponent implements OnInit {
       low: false,
       medium: false,
       high: false,
+    },
+    category: {
+      billing: false,
+      feature: false,
+      technical: false,
     },
   };
   subscriptions = new Subscription();
@@ -107,16 +118,16 @@ export class TicketsListComponent implements OnInit {
   }
 
   private initializeStates() {
-      this.states = [
-        'Date de création (asc)',
-        'Date de création (desc)',
-        'Numéro de ticket (asc)',
-        'Numéro de ticket (desc)',
-        'Nom (A-Z)',
-        'Nom (Z-A)',
-        'Prénom (A-Z)',
-        'Prénom (Z-A)',
-      ];
+    this.states = [
+      'Date de création (asc)',
+      'Date de création (desc)',
+      'Numéro de ticket (asc)',
+      'Numéro de ticket (desc)',
+      'Nom (A-Z)',
+      'Nom (Z-A)',
+      'Prénom (A-Z)',
+      'Prénom (Z-A)',
+    ];
   }
 
   checkRole() {
@@ -139,13 +150,13 @@ export class TicketsListComponent implements OnInit {
     this.tickets = [...this.originalTickets];
     this.applyFilters();
     this.sortTickets(this.currentSortBy, this.tickets);
-}
+  }
 
   // FILTERS //
   onCheckboxChange(group: string, filterName: string) {
     // Inversez l'état du filtre sélectionné
     this.filters[group as keyof TicketFilter][filterName] = !this.filters[group as keyof TicketFilter][filterName];
-  
+
     // Si le filtre est activé, désactivez tous les autres filtres dans le groupe
     if (this.filters[group as keyof TicketFilter][filterName]) {
       for (const key in this.filters[group as keyof TicketFilter]) {
@@ -154,19 +165,19 @@ export class TicketsListComponent implements OnInit {
         }
       }
     }
-  
+
     // Appliquer les filtres
     this.applyFilters();
     this.updateTicketList();
   }
-  
-  
-  
-  
+
+
+
+
 
   applyFilters() {
     const filters: string[] = [];
-  
+
     for (const groupKey in this.filters) {
       if (this.filters.hasOwnProperty(groupKey) && groupKey !== 'filters') {
         for (const key in this.filters[groupKey]) {
@@ -176,7 +187,7 @@ export class TicketsListComponent implements OnInit {
         }
       }
     }
-  
+
     // Appel au service pour construire la requête et retourner les tickets filtrés
     this.ticketService.getTicketsByFilters(filters.join('&')).subscribe((tickets) => {
       // Mettez à jour les tickets locaux avec les tickets filtrés
@@ -188,7 +199,7 @@ export class TicketsListComponent implements OnInit {
       this.isUpdatingTickets = false;
     });
   }
-  
+
 
   // TRI //
   private sortTickets(sortBy: string, tickets: Ticket[]) {
@@ -236,10 +247,9 @@ export class TicketsListComponent implements OnInit {
     const nameB = `${b.ticketHaveUsers?.[0]?.[key1]} ${b.ticketHaveUsers?.[0]?.[key2]}`;
     return nameA.localeCompare(nameB);
   }
-  
+
   getCounts(): void {
     const subscriptions = new Subscription();
-  //TODO take until au lieu de take 1
     const toDoCount$ = this.ticketService.getCountTicketsByStatusToDo().pipe(take(1));
     const doingCount$ = this.ticketService.getCountTicketsByStatusDoing().pipe(take(1));
     const doneCount$ = this.ticketService.getCountTicketsByStatusDone().pipe(take(1));
@@ -249,7 +259,7 @@ export class TicketsListComponent implements OnInit {
     const billingCount$ = this.ticketService.getCountTicketsByCategoryBilling().pipe(take(1));
     const featureCount$ = this.ticketService.getCountTicketsByCategoryFeature().pipe(take(1));
     const technicalCount$ = this.ticketService.getCountTicketsByCategoryTechnical().pipe(take(1));
-  
+
     subscriptions.add(
       forkJoin({
         toDoCount: toDoCount$,
@@ -284,14 +294,11 @@ export class TicketsListComponent implements OnInit {
         },
       })
     );
-  
-  
-    // Nettoyez les abonnements lorsque le composant est détruit
     this.subscriptions.add(subscriptions);
   }
-  
 
   ngOnDestroy() {
+       // Nettoyez les abonnements lorsque le composant est détruit
     this.subscriptions.unsubscribe();
   }
 }

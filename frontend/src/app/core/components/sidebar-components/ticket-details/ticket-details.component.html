@@ -10,7 +10,7 @@
     <p class="name"> {{ticketDetails.authorLastname}}<span class="firstname">{{ticketDetails.authorFirstname}}</span>
     </p>
   </div>
-
+  <p class="category">Catégorie: <span>{{ticketDetails.category}}</span></p>
   <p class="statut">Statut: <span [ngClass]="statutSpan">{{ticketDetails.status}}</span></p>
   <p class="priority">Priorité: <span [ngClass]="prioritySpan"> {{ticketDetails.priority}} </span></p>
   <p class="date">Date de création: <span>{{ ticketDetails.creationDate | date: 'dd MMMM yyyy' }}</span></p>

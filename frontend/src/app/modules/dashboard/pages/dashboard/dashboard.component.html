@@ -1,3 +1,22 @@
-<section class="dashboard" [@fadeInOut]>
-<div class="img"></div>
+<section class="chart-wrapper" *ngIf="chartIsUpdated">
+  <div class="chart">
+    <h1>Priorités</h1>
+    <canvas baseChart [labels]="labelsPriority" [datasets]="dataPriority" [options]="Options" [legend]="true"
+      [type]="'doughnut'">
+    </canvas>
+  </div>
+
+  <div class="chart">
+    <h1>Statuts</h1>
+    <canvas baseChart [labels]="labelsStatus" [datasets]="dataStatus" [options]="Options" [legend]="true"
+      [type]="'doughnut'">
+    </canvas>
+  </div>
+
+  <div class="chart">
+    <h1>Catégories</h1>
+    <canvas baseChart [labels]="labelsCategory" [datasets]="dataCategory" [options]="Options" [legend]="true"
+      [type]="'doughnut'">
+    </canvas>
+  </div>
 </section>

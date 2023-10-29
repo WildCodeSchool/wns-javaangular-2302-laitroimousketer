@@ -28,18 +28,36 @@ header {
 .checkbox-c {
   color: $secondaryColor;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  margin: auto;
-  padding-right: 20%;
-  gap: 20%;
+  width: 100%;
+  justify-content: space-around;
+  gap: 5%;
 }
-.statut {
-  white-space: nowrap;
+.statut,.priority,.category {
+
   font-weight: 500;
   display: flex;
   align-items: center;
+  position: relative;
 }
+.checkbox {
+  margin-right: 6px;
+}
+.badge {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  background-color: #007BFF; 
+  color: #fff; 
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  margin-left: 4px;
+}
+
 .ticketss {
   height: 70vh;
   overflow: auto;

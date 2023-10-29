@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
 import { TicketHaveUsers } from '../../models/ticketHaveUsers';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { Subscription, forkJoin, take } from 'rxjs';
 
 interface TicketFilter {
   status: {
@@ -18,8 +19,14 @@ interface TicketFilter {
     medium: boolean;
     high: boolean;
   };
+  category: {
+    billing: boolean;
+    feature: boolean;
+    technical: boolean
+  };
   [key: string]: any; // Ajout de la signature d'index
 }
+
 interface SortOption {
   label: string;
   value: string;
@@ -72,8 +79,25 @@ export class TicketListClientComponent implements OnInit {
       medium: false,
       high: false,
     },
+    category: {
+      billing: false,
+      feature: false,
+      technical: false,
+    },
   };
+  
+  subscriptions = new Subscription();
 
+  // COUNT TICKET //
+  billingCount: number = 0;
+  featureCount: number = 0;
+  technicalCount: number = 0;
+  lowCount: number = 0;
+  mediumCount: number = 0;
+  highCount: number = 0;
+  toDoCount: number = 0;
+  doingCount: number = 0;
+  doneCount: number = 0;
 
   constructor(
     private ticketService: TicketService,
@@ -83,6 +107,7 @@ export class TicketListClientComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getCounts();
     this.initializeStates();
     this.getTicketList();
     this.updateTicketList();
@@ -189,17 +214,6 @@ export class TicketListClientComponent implements OnInit {
   
     console.log('Filtered Tickets:', this.tickets);
   }
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-
 
   // TRI //
   private sortTickets(sortBy: string, tickets: Ticket[]) {
@@ -246,4 +260,57 @@ export class TicketListClientComponent implements OnInit {
     const nameB = `${b.ticketHaveUsers?.[0]?.[key1]} ${b.ticketHaveUsers?.[0]?.[key2]}`;
     return nameA.localeCompare(nameB);
   }
+
+  getCounts(): void {
+    const subscriptions = new Subscription();
+    const toDoCount$ = this.ticketService.getCountTicketsByStatusToDo().pipe(take(1));
+    const doingCount$ = this.ticketService.getCountTicketsByStatusDoing().pipe(take(1));
+    const doneCount$ = this.ticketService.getCountTicketsByStatusDone().pipe(take(1));
+    const lowCount$ = this.ticketService.getCountTicketsByPriorityLow().pipe(take(1));
+    const mediumCount$ = this.ticketService.getCountTicketsByPriorityMedium().pipe(take(1));
+    const highCount$ = this.ticketService.getCountTicketsByPriorityHigh().pipe(take(1));
+    const billingCount$ = this.ticketService.getCountTicketsByCategoryBilling().pipe(take(1));
+    const featureCount$ = this.ticketService.getCountTicketsByCategoryFeature().pipe(take(1));
+    const technicalCount$ = this.ticketService.getCountTicketsByCategoryTechnical().pipe(take(1));
+
+    subscriptions.add(
+      forkJoin({
+        toDoCount: toDoCount$,
+        doingCount: doingCount$,
+        doneCount: doneCount$,
+        lowCount: lowCount$,
+        mediumCount: mediumCount$,
+        highCount: highCount$,
+        billingCount: billingCount$,
+        featureCount: featureCount$,
+        technicalCount: technicalCount$,
+      }).subscribe({
+        next: counts => {
+          // Mettez à jour les variables après avoir obtenu toutes les valeurs
+          this.toDoCount = counts.toDoCount;
+          this.doingCount = counts.doingCount;
+          this.doneCount = counts.doneCount;
+          this.lowCount = counts.lowCount;
+          this.mediumCount = counts.mediumCount;
+          this.highCount = counts.highCount;
+          this.billingCount = counts.billingCount;
+          this.featureCount = counts.featureCount;
+          this.technicalCount = counts.technicalCount;
+        },
+        error: error => {
+          // Gérez les erreurs ici
+          console.error('Error getting counts:', error);
+        },
+        complete: () => {
+          // Effectuez des actions après que l'observable est complète
+          // Libérez les ressources ici si nécessaire
+        },
+      })
+    );
+
+
+    // Nettoyez les abonnements lorsque le composant est détruit
+    this.subscriptions.add(subscriptions);
+  }
+
 }

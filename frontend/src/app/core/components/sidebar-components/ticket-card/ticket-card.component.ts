@@ -26,6 +26,7 @@ export class TicketCardComponent implements OnInit {
     authorEmail: '',
     authorFirstname: '',
     authorLastname: '',
+    category: '',
   };
 
   @Input() ticket!: Ticket;
@@ -40,6 +41,7 @@ export class TicketCardComponent implements OnInit {
     this.loadTicket();
     this.loadColorPriority();
     this.loadColorStatus();
+    this.changeNameCategory();
     // console.log(this.ticketDetails.creator,'CCCCCCCCCCCCCCCCCCCCCCCC')
   }
 
@@ -54,6 +56,7 @@ export class TicketCardComponent implements OnInit {
       this.ticketDetails.creationDate = this.ticket.creationDate || '';
       this.ticketDetails.updateDate = this.ticket.updateDate || '';
       this.ticketDetails.status = this.ticket.statusTitle || '';
+      this.ticketDetails.category = this.ticket.categoryTitle || '';
       this.ticketDetails.authorId = this.ticket.authorId || 0;
       this.ticketDetails.authorEmail = this.ticket.authorEmail || '';
       this.ticketDetails.authorFirstname = this.ticket.authorFirstname || '';
@@ -93,5 +96,15 @@ export class TicketCardComponent implements OnInit {
     this.sharedService.setCurrentContent('ticket-details');
     this.sharedService.setCurrentTicket(this.ticket);
    
+  }
+  changeNameCategory(){
+    if (this.ticketDetails.category === 'BILLING') {
+      this.ticketDetails.category = 'Facturation';
+    } if (this.ticketDetails.category === 'FEATURE') {
+      this.ticketDetails.category = 'Fonctionnalité';
+    }
+    if (this.ticketDetails.category === 'TECHNICAL') {
+      this.ticketDetails.category = 'Technique';
+    }
   }
 }
