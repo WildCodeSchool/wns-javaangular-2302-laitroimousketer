@@ -1,10 +1,10 @@
 <section class="card" (click)="openSidebar()">
+
   <div class="client">
   <app-avatar [userName]="ticketDetails.fullnameAuthor" class="context-ticket-card-fullnameAuthor"></app-avatar>
     <p><span class="prefix">Client:</span> {{ ticketDetails.fullnameAuthor }}</p>
   </div>
-  
- 
+
     <p class="number"><span class="prefix">Numéro de ticket:</span> {{ ticketDetails.number }}</p>
     <p class="title"><span class="prefix">Titre:</span> {{ ticketDetails.name }}</p>
     <p class="category"><span class="prefix">Catégorie:</span> {{ ticketDetails.category }}</p>

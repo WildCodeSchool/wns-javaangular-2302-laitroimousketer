@@ -10,9 +10,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SearchBarComponent } from './components/common/search-bar/search-bar.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 import { AvatarComponent } from './components/common/avatar/avatar.component';
 import { TicketDetailsComponent } from './components/sidebar-components/ticket-details/ticket-details.component';
 import { SidebarMenuComponent } from './components/sidebar-components/sidebar-menu/sidebar-menu.component';
@@ -35,6 +35,7 @@ import { TicketChatComponent } from './components/sidebar-components/ticket-chat
     TicketAddComponent,
     TicketEditComponent,
     TicketChatComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -48,10 +49,7 @@ import { TicketChatComponent } from './components/sidebar-components/ticket-chat
     MatIconModule,
     MatButtonModule,
     MatInputModule,
-   
- 
-    
-    
+
   ],
   exports: [
     AlertComponent,
@@ -69,4 +67,4 @@ import { TicketChatComponent } from './components/sidebar-components/ticket-chat
   ],
   providers: [],
 })
-export class CoreModule {}
+export class CoreModule { }

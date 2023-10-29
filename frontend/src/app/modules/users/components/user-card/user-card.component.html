@@ -1,0 +1,10 @@
+<section class="card">
+
+  <div class="user">
+    <app-avatar [userName]="user.firstname + user.lastname" class="context-ticket-card-fullnameAuthor"></app-avatar>
+    <p><span class="prefix">Client:</span> {{ user.firstname + user.lastname }}</p>
+  </div>
+  <p class="mail"><span class="prefix">Email:</span> {{ user.email }}</p>
+  <p class="role"><span class="prefix">Rôle:</span> {{ user.roleTitle }}</p>
+  
+</section>
