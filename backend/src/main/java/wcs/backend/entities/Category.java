@@ -19,10 +19,9 @@ public class Category {
 
   public enum Title {
     DEFAULT,
-    TECHNICAL_SUPPORT,
-    FEATURE_REQUEST,
-    BILLING_PAYMENT,
-    
+    TECHNICAL,
+    FEATURE,
+    BILLING,
   }
 
 

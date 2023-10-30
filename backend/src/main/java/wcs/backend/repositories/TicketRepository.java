@@ -23,12 +23,17 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecif
   List<Ticket> findByCategory(Category category);
 
   @Query("""
-      SELECT t FROM Ticket t WHERE (:statuses IS NULL OR t.status IN :statuses) \
+      SELECT t FROM Ticket t WHERE (:status IS NULL OR t.status IN :status) \
       AND (:priorities IS NULL OR t.priority IN :priorities) \
       AND (:categories IS NULL OR t.category IN :categories)\
       """)
-  List<Ticket> findByStatusInAndPriorityInAndCategoryIn(@Param("statuses") List<Status> statuses,
+  List<Ticket> findByStatusInAndPriorityInAndCategoryIn(@Param("status") List<Status> status,
       @Param("priorities") List<Priority> priorities,
       @Param("categories") List<Category> categories);
 
+      long countByCategory(Category category);
+
+      long countByPriority(Priority priority);
+    
+      long countByStatus(Status status);
 }

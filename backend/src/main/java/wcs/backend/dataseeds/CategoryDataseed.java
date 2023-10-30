@@ -24,15 +24,15 @@ public class CategoryDataseed {
     categoryService.createCategory(categoryDefaultCreated);
 
     Category categoryTodoCreated = new Category();
-    categoryTodoCreated.setCategoryTitle(Category.Title.TECHNICAL_SUPPORT);
+    categoryTodoCreated.setCategoryTitle(Category.Title.TECHNICAL);
     categoryService.createCategory(categoryTodoCreated);
 
     Category categoryTodoCreated2 = new Category();
-    categoryTodoCreated2.setCategoryTitle(Category.Title.FEATURE_REQUEST);
+    categoryTodoCreated2.setCategoryTitle(Category.Title.FEATURE);
     categoryService.createCategory(categoryTodoCreated2);
 
     Category categoryTodoCreated3 = new Category();
-    categoryTodoCreated3.setCategoryTitle(Category.Title.BILLING_PAYMENT);
+    categoryTodoCreated3.setCategoryTitle(Category.Title.BILLING);
     categoryService.createCategory(categoryTodoCreated3);
   }
 

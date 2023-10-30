@@ -16,6 +16,7 @@ import wcs.backend.dtos.PriorityDto;
 import wcs.backend.dtos.StatusDto;
 import wcs.backend.dtos.TicketDto;
 import wcs.backend.dtos.TicketHaveUsersDto;
+import wcs.backend.dtos.UserDto;
 import wcs.backend.entities.Category;
 import wcs.backend.entities.Priority;
 import wcs.backend.entities.Status;
@@ -128,23 +129,23 @@ public Ticket getTicketById(Long ticketId) {
     ticketDto.setCategoryId(ticket.getCategory().getId());
 
     // Obtenez le titre de la catégorie depuis l'entité Category
-    ticketDto.setCategoryTitle(ticket.getCategory().getCategoryTitle().toString()); // Convertir en chaîne
+    ticketDto.setCategoryTitle(ticket.getCategory().getCategoryTitle().toString());
 
     ticketDto.setStatusId(ticket.getStatus().getId());
 
     // Obtenez le titre du statut depuis l'entité Status
-    ticketDto.setStatusTitle(ticket.getStatus().getStatusTitle().toString()); // Convertir en chaîne
-
+    ticketDto.setStatusTitle(ticket.getStatus().getStatusTitle().toString());
     ticketDto.setPriorityId(ticket.getPriority().getId());
-
     // Obtenez le titre de la priorité depuis l'entité Priority
-    ticketDto.setPriorityTitle(ticket.getPriority().getPriorityTitle().toString()); // Convertir en chaîne
-
+    ticketDto.setPriorityTitle(ticket.getPriority().getPriorityTitle().toString());
     ticketDto.setCreationDate(ticket.getCreationDate());
     ticketDto.setUpdateDate(ticket.getUpdateDate());
-
-    // Récupérez les informations sur les utilisateurs associés à partir de
-    // userAssociations
+   //obtenir l'auteur du ticket
+    if (ticket.getAuthor() != null) {
+        UserDto authorDto = new UserDto(ticket.getAuthor());
+        ticketDto.setAuthor(authorDto);
+    }
+    // Récupérez les informations sur les utilisateurs associés à partir de userAssociations
     List<TicketHaveUsersDto> ticketHaveUsers = ticket.getUserAssociations().stream()
         .map(this::convertTicketHaveUsersToDto)
         .collect(Collectors.toList());
@@ -219,11 +220,11 @@ public Ticket getTicketById(Long ticketId) {
 
 
 private Status getStatusByTitle(Status.Title title) {
-    List<Status> statuses = statusRepository.findByStatusTitle(title);
-    if (statuses.isEmpty()) {
+    List<Status> status = statusRepository.findByStatusTitle(title);
+    if (status.isEmpty()) {
         throw new EntityNotFoundException("Status not found with title: " + title);
     }
-    return statuses.get(0);
+    return status.get(0);
 }
 
 private Priority getPriorityByTitle(Priority.Title title) {
@@ -241,6 +242,21 @@ private Category getCategoryByTitle(Category.Title title) {
     }
     return categories.get(0);
 }
-  
+  // COUNT //
+
+  public long countTicketsByCategory(Category.Title categoryTitle) {
+    Category category = getCategoryByTitle(categoryTitle);
+    return ticketRepository.countByCategory(category);
+  }
+
+  public long countTicketsByPriority(Priority.Title priorityTitle) {
+    Priority priority = getPriorityByTitle(priorityTitle);
+    return ticketRepository.countByPriority(priority);
+  }
+
+  public long countTicketsByStatus(Status.Title statusTitle) {
+    Status status = getStatusByTitle(statusTitle);
+    return ticketRepository.countByStatus(status);
+  }
 
 }

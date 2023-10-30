@@ -70,13 +70,13 @@ public class TicketDataseed {
 
 
   private void loadData() {
-    List<Category> technicalSupportCategories = categoryRepository.findByCategoryTitle(Category.Title.TECHNICAL_SUPPORT);
-    List<Category> featureRequestCategories = categoryRepository.findByCategoryTitle(Category.Title.FEATURE_REQUEST);
-    List<Category> billingPaymentCategories = categoryRepository.findByCategoryTitle(Category.Title.BILLING_PAYMENT);
+    List<Category> technicalCategories = categoryRepository.findByCategoryTitle(Category.Title.TECHNICAL);
+    List<Category> featureCategories = categoryRepository.findByCategoryTitle(Category.Title.FEATURE);
+    List<Category> billingCategories = categoryRepository.findByCategoryTitle(Category.Title.BILLING);
 
-    List<Status> toDoStatuses = statusRepository.findByStatusTitle(Status.Title.TO_DO);
-    List<Status> doingStatuses = statusRepository.findByStatusTitle(Status.Title.DOING);
-    List<Status> doneStatuses = statusRepository.findByStatusTitle(Status.Title.DONE);
+    List<Status> toDoStatus = statusRepository.findByStatusTitle(Status.Title.TO_DO);
+    List<Status> doingStatus = statusRepository.findByStatusTitle(Status.Title.DOING);
+    List<Status> doneStatus = statusRepository.findByStatusTitle(Status.Title.DONE);
 
     List<Priority> lowPriorities = priorityRepository.findByPriorityTitle(Priority.Title.LOW);
     List<Priority> mediumPriorities = priorityRepository.findByPriorityTitle(Priority.Title.MEDIUM);
@@ -90,18 +90,18 @@ public class TicketDataseed {
 
       // Utilisation de valeurs aléatoires pour la catégorie, le statut et la priorité
       Category[] categories = {
-          getRandomElement(technicalSupportCategories),
-          getRandomElement(featureRequestCategories),
-          getRandomElement(billingPaymentCategories)
+          getRandomElement(technicalCategories),
+          getRandomElement(featureCategories),
+          getRandomElement(billingCategories)
       };
       ticketCreated.setCategory(categories[random.nextInt(categories.length)]);
 
-      Status[] statuses = {
-          getRandomElement(toDoStatuses),
-          getRandomElement(doingStatuses),
-          getRandomElement(doneStatuses)
+      Status[] status = {
+          getRandomElement(toDoStatus),
+          getRandomElement(doingStatus),
+          getRandomElement(doneStatus)
       };
-      ticketCreated.setStatus(statuses[random.nextInt(statuses.length)]);
+      ticketCreated.setStatus(status[random.nextInt(status.length)]);
 
       Priority[] priorities = {
           getRandomElement(lowPriorities),
