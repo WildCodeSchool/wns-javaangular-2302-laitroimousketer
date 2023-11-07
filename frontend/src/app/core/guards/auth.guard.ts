@@ -12,14 +12,13 @@ export class AuthGuard {
     private router: Router,
   ) { }
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean | UrlTree | Observable<boolean | UrlTree> {
+  canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> {
     const authToken = this.authService.getAuthToken();
-    if (!authToken) {
+    // console.log('authToken', authToken);
+    this.authService.checkTokenExpiration();
+    if (!authToken || this.authService.isTokenExpired()) {
       // Utilisateur non authentifié ou pas de token, rediriger vers la page de connexion
-      return this.router.parseUrl('/auth'); // Redirection vers la page de connexion
+      return this.router.createUrlTree(['/auth']); // Utilisez createUrlTree pour créer une URL Tree
     }
     return true; // L'utilisateur est authentifié, autoriser l'accès à la route
   }

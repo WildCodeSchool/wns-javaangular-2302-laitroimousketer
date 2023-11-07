@@ -46,12 +46,8 @@ export class AuthService implements OnInit {
       .subscribe((isAuthenticated: boolean) => {
         this.isLog$.next(isAuthenticated);
       });
-      // check tte les 5 minutes si le token est valide
-      setInterval(() => {
-        this.checkTokenValidity();
-      }, 300000);
-    
   }
+
   ngOnInit(): void {
     this.getUserProfile();
 
@@ -79,39 +75,30 @@ export class AuthService implements OnInit {
           return response.accessToken;
         })
       );
-
   }
-  checkTokenValidity() {
+  
+  isTokenExpired(): boolean {
     const token = this.getAuthToken();
-    if (this.isTokenValid(token)) {
-      const decodedToken: any = jwt_decode(token!);
-      const expirationTime = decodedToken.exp * 1000; // Convertir la date d'expiration en millisecondes
-      const currentTime = Date.now();
-  
-      // Vérifie si le token expire dans les 5 prochaines minutes
-      if (expirationTime - currentTime <= 300000) {
-        // Déclenche une alerte ou toute autre action nécessaire
-        this.showTokenExpirationAlert();
+    if (token) {
+      try {
+        const decodedToken: any = jwt_decode(token);
+        const expirationTime = decodedToken.exp * 1000;
+        return expirationTime <= Date.now();
+      } catch (error) {
+        console.error('Erreur lors du décodage du jeton :', error);
+        return true; // En cas d'erreur, considérez le jeton comme expiré
       }
-    } else {
-      // Si le token n'est pas valide, déconnectez l'utilisateur
-      this.logout();
     }
+    return true; // Si le token est nul, considérez-le comme expiré
   }
   
-
-  showTokenExpirationAlert() {
-    this.alertService.showErrorAlert('Votre session va expirer dans 5 minutes');
-  }
-
-  isTokenValid(token: string | null): boolean {
-    if (!token) {
-      return false; // Le token est invalide s'il est nul
+  checkTokenExpiration() {
+    const isTokenExpired = this.isTokenExpired();
+    if (isTokenExpired) {
+      // console.log('Le jeton est expiré.');
+    } else {
+      // console.log('Le jeton est valide.');
     }
-    const decodedToken: any = jwt_decode(token);
-    const expirationTime = decodedToken.exp * 1000; // Convertir la date d'expiration en millisecondes
-
-    return expirationTime > Date.now(); // Vérifiez si la date d'expiration est supérieure à l'heure actuelle
   }
 
   register(firstname: string, lastname: string, email: string, password: string): Observable<any> {
@@ -139,6 +126,7 @@ export class AuthService implements OnInit {
 
   public getAuthToken(): string | null {
     const token = localStorage.getItem('auth_token');
+    // console.log('token', token);
     return token !== null ? token : null;
   }
 
