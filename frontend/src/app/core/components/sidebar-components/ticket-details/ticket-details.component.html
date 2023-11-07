@@ -2,29 +2,29 @@
   (page)="onPageChange($event)"></app-sidebar-menu>
 
 <header class="widget details">
-  <h1 class="weight-500">Ticket {{ticketDetails.number}}: <span class="weight-400"> {{ticketDetails.name}} </span>
+  <h1 class="title">Ticket {{ticketDetails.number}}:<span class="title-name"> {{ticketDetails.name}} </span>
   </h1>
   <div class="details-profil">
-    <h2 class="autor">Auteur:</h2>
+    <p class="suffix">Auteur:</p>
     <app-avatar [userName]="ticketDetails.fullnameAuthor" class="context-ticket-card-creator"></app-avatar>
     <p class="name"> {{ticketDetails.authorLastname}}<span class="firstname">{{ticketDetails.authorFirstname}}</span>
     </p>
   </div>
-  <p class="category">Catégorie: <span>{{ticketDetails.category}}</span></p>
-  <p class="statut">Statut: <span [ngClass]="statutSpan">{{ticketDetails.status}}</span></p>
-  <p class="priority">Priorité: <span [ngClass]="prioritySpan"> {{ticketDetails.priority}} </span></p>
-  <p class="date">Date de création: <span>{{ ticketDetails.creationDate | date: 'dd MMMM yyyy' }}</span></p>
+  <p class="suffix">Catégorie: <span class="category-span">{{ticketDetails.category}}</span></p>
+  <p class="suffix">Statut: <span [ngClass]="statutSpan">{{ticketDetails.status}}</span></p>
+  <p class="suffix">Priorité: <span [ngClass]="prioritySpan"> {{ticketDetails.priority}} </span></p>
+  <p class="suffix date">Date de création: <span>{{ ticketDetails.creationDate | date: 'dd MMMM yyyy' }}</span></p>
   <p *ngIf="ticketDetails.updateDate">Date de modification: {{ticketDetails.updateDate | date:'dd/MM/yyyy' }}</p>
   <ng-container *ngIf="page ==='Info'">
-    <article class="description" [@opacity]="page==='Info'?'active':''">
-      <h3 class="description">Description:</h3>
+    <article [@opacity]="page==='Info'?'active':''">
+      <p class="suffix description">Description:</p>
       <p>{{ ticketDetails.description}}</p>
     </article>
   </ng-container>
 
   <section class="card-bottom">
     <ng-container *ngIf="ticketDetails.developers.length >=1">
-      <h4 class="developers">Développeurs:</h4>
+      <p class="suffix">Développeurs:</p>
       <ul>
         <li *ngFor="let developer of ticketDetails.developers">{{ developer }}</li>
       </ul>

@@ -66,14 +66,17 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+  font-family: 'Open sans', sans-serif;
+}
+h1,h2,h3,h4,h5,h6 {
   font-family: 'Roboto', sans-serif;
 }
-
 // overlay sidebar //
 .mat-drawer-backdrop.mat-drawer-shown {
   background-color: rgba(0, 0, 0, 0.2);
   backdrop-filter:blur(2px);
 }
+//fonts//
 
 .btn
 {

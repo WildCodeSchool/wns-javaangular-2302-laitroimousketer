@@ -7,60 +7,62 @@
   margin-bottom: 20px;
 }
 
-h1 {
+.title {
   display: flex;
   justify-content: center;
-  font-size: 28px;
+  align-items: center;
+  font-size: 36px;
   margin-left: 8px;
   margin-bottom: 20px;
-  font-weight: 600;
-  span {
+  font-weight: 500;
+  .title-name {
     margin-left: 4px;
     font-weight: 300;
+    font-size: 34px;
   }
+ 
 }
-.name {
- margin-left: 4px;
-}
-.firstname {
- font-weight: 500;
- margin-left: 4px;
-}
-
 .details-profil {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 20px;
   margin-bottom: 20px;
- 
-  p {
+  .name,.firstname {
+    margin-left: 4px;
     font-size: 20px;
-    span {
-      font-weight: 500;
-    }
-  }
+    font-weight: 500;
+    color: black;
+   }
+  
 }
 
-.statut,.date,.autor,.priority,.category,.description,.developers {
-  font-size: 20px;
-  font-weight: 500;
+header {
+  span {
+    font-style: normal;
+    font-family: 'Roboto', sans-serif;
+    opacity: 1;
+    font-size: 20px;
+  }
+.suffix {
+  font-size: 16px;
+  font-weight: 100;
   margin-right: 8px;
   line-height: 1.5;
+  font-style: italic;
+  font-weight: 100!important;
+  color: gray
 }
 
-.priority {
-  span {
-    font-weight: 400;
-  }
-}
-.category span {
-  font-weight: 400;
-  color: $primaryColor;
 }
 .date span {
-  font-weight: 300;
+  font-weight: 400;
+  color: black;
 }
+.category-span {
+  color: $primaryColor;
+  font-weight: 400;
+}
+
 .description {
   padding-top: 4px;
   max-height: 60vh;
@@ -98,8 +100,9 @@ header {
 }
 .date {
   position: relative;
- margin-bottom: 20px;
+  margin-bottom: 20px;
 }
+
 .date::after {
   content: "";
   position: absolute;

@@ -25,8 +25,8 @@ export class UsersListComponent implements OnInit {
 users: User[] = [];  
 user!: User
 states: string[] = [
-  'Mail (asc)',
-  'Mail (desc)',
+  'Mail (A-Z)',
+  'Mail (Z-A)',
   'Nom (A-Z)',
   'Nom (Z-A)',
   'Prénom (A-Z)',
@@ -44,6 +44,7 @@ states: string[] = [
   loadUsers() {
     this.userService.getAllUsers().subscribe((users) => {
       this.users = users;
+      console.log('users',this.users);
     });
   }
   openSidebar() {
