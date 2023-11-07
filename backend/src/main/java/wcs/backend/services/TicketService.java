@@ -244,6 +244,10 @@ private Category getCategoryByTitle(Category.Title title) {
 }
   // COUNT //
 
+  public long countAllTickets() {
+    return ticketRepository.count();
+  }
+
   public long countTicketsByCategory(Category.Title categoryTitle) {
     Category category = getCategoryByTitle(categoryTitle);
     return ticketRepository.countByCategory(category);

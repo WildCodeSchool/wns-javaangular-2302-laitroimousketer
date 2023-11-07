@@ -166,6 +166,12 @@ public class TicketController {
   }
 
   //GET COUNT//
+  @GetMapping("/count")
+  @Operation(summary = "Count all Tickets", description = "Get the number of all tickets.")
+  public ResponseEntity<Long> countAllTickets() {
+    long count = ticketService.countAllTickets();
+    return ResponseEntity.ok(count);
+  }
 
   @GetMapping("/countByCategory/{categoryTitle}")
   @Operation(summary = "Count Tickets by Category", description = "Get the number of tickets in a category.")
