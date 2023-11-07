@@ -39,7 +39,7 @@ export class TicketService {
 
   getTicketsByFilters(filter : string): Observable<Ticket[]> {
     // console.log('filters: ',filter);
-    console.log(`http://localhost:8080/api/tickets/filter?${filter}`)
+
     return this.httpClient.get<Ticket[]>(`http://localhost:8080/api/tickets/filter?${filter}`);
   }
   getCountTicketsByStatus(filter : string): Observable<number> {

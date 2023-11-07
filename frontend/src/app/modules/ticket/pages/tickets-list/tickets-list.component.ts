@@ -132,7 +132,7 @@ export class TicketsListComponent implements OnInit {
 
   checkRole() {
     this.authService.getUserProfile();
-    console.log(this.authService.userRole);
+    // console.log(this.authService.userRole);
     return this.authService.userRole;
   }
 

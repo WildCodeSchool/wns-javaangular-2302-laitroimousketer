@@ -23,7 +23,7 @@
   </ng-container>
 
   <section class="card-bottom">
-    <ng-container *ngIf="ticketDetails.developers.length >=1" class="dev">
+    <ng-container *ngIf="ticketDetails.developers.length >=1">
       <h4 class="developers">Développeurs:</h4>
       <ul>
         <li *ngFor="let developer of ticketDetails.developers">{{ developer }}</li>

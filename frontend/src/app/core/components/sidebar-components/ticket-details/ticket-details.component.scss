@@ -55,7 +55,8 @@ h1 {
   }
 }
 .category span {
-  font-weight: 300;
+  font-weight: 400;
+  color: $primaryColor;
 }
 .date span {
   font-weight: 300;
@@ -66,7 +67,7 @@ h1 {
   overflow: auto;
   p {
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
   }
 }
 .todo {

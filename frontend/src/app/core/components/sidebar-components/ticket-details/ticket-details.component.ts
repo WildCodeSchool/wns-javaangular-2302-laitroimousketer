@@ -3,6 +3,7 @@ import { Ticket } from '../../../../modules/ticket/models/ticket';
 import { TicketDetails } from 'src/app/modules/ticket/models/ticket-details';
 import { MenuItems } from '../sidebar-menu/menu-items.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { RenamingService } from 'src/app/core/services/renaming.service';
 @Component({
   selector: 'app-ticket-details',
   templateUrl: './ticket-details.component.html',
@@ -53,21 +54,21 @@ export class TicketDetailsComponent implements OnInit {
 
   statutSpan: string = '';
   prioritySpan: string = '';
-  constructor() { }
+  constructor(private renamingService : RenamingService) { }
 
   ngOnInit() {
     this.loadTicket();
-    this.changeNameCategory();
+    this.rename();
   }
 
   onPageChange(page: string): void {
     this.page = page;
-    console.log('Page changed to:', this.page);
+    // console.log('Page changed to:', this.page);
   }
 
   loadTicket() {
     if (this.ticket !== undefined && this.ticket !== null) {
-      console.log('ticket details:', this.ticket);
+      // console.log('ticket details:', this.ticket);
 
       this.ticketDetails.number = this.ticket.id ? this.ticket.id : 0;
       this.ticketDetails.name = this.ticket.ticketTitle ? this.ticket.ticketTitle : '';
@@ -112,15 +113,10 @@ export class TicketDetailsComponent implements OnInit {
       this.prioritySpan = 'high';
     }
   }
-  changeNameCategory(){
-    if (this.ticketDetails.category === 'BILLING') {
-      this.ticketDetails.category = 'Facturation';
-    } if (this.ticketDetails.category === 'FEATURE') {
-      this.ticketDetails.category = 'Fonctionnalité';
-    }
-    if (this.ticketDetails.category === 'TECHNICAL') {
-      this.ticketDetails.category = 'Technique';
-    }
-  }
+rename() {
+    this.ticketDetails.category = this.renamingService.renameCategory(this.ticketDetails.category);
+    this.ticketDetails.status = this.renamingService.renameStatus(this.ticketDetails.status);
+    this.ticketDetails.priority = this.renamingService.renamePriority(this.ticketDetails.priority);
+}
 
 }

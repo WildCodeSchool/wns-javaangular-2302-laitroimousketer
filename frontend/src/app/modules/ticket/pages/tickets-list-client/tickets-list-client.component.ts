@@ -124,7 +124,7 @@ export class TicketListClientComponent implements OnInit {
 
   checkRole() {
     this.authService.getUserProfile();
-    console.log(this.authService.userRole);
+    // console.log(this.authService.userRole);
     return this.authService.userRole;
   }
 
@@ -146,9 +146,9 @@ export class TicketListClientComponent implements OnInit {
     
     // Copie des tickets originaux
     this.tickets = [...this.originalTickets];
-    console.log('this.tickets before filter', this.tickets);
+    // console.log('this.tickets before filter', this.tickets);
     this.applyFilters();
-    console.log('this.tickets after filter', this.tickets);
+    // console.log('this.tickets after filter', this.tickets);
     this.sortTickets(this.currentSortBy, this.tickets);
   }
 
@@ -175,8 +175,8 @@ export class TicketListClientComponent implements OnInit {
       return;
     }
   
-    console.log('Filters:', this.filters);
-    console.log('Original Tickets before filter:', this.originalTickets);
+    // console.log('Filters:', this.filters);
+    // console.log('Original Tickets before filter:', this.originalTickets);
   
     // Filtrez les tickets en fonction des états et priorités sélectionnés
     const filteredTickets = this.originalTickets.filter(ticket => {
@@ -201,7 +201,7 @@ export class TicketListClientComponent implements OnInit {
       // Appliquer les filtres en fonction des filtres actifs
       const result = statusFilter(ticket) && priorityFilter(ticket) && ticket.authorId === this.userId;
   
-      console.log('Result:', result);
+      // console.log('Result:', result);
   
       return result;
     });
@@ -212,7 +212,7 @@ export class TicketListClientComponent implements OnInit {
     // Tri des tickets
     this.sortTickets(this.currentSortBy, this.tickets);
   
-    console.log('Filtered Tickets:', this.tickets);
+    // console.log('Filtered Tickets:', this.tickets);
   }
 
   // TRI //

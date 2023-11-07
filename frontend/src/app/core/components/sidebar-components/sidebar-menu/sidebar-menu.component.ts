@@ -30,7 +30,7 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   onMenuItemClick(menuItem: MenuItems, index: number): void {
-    console.log('click', menuItem.page);
+    // console.log('click', menuItem.page);
     this.page.emit(menuItem.page);
   }
 

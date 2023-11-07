@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { RenamingService } from 'src/app/core/services/renaming.service';
 
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Ticket } from 'src/app/modules/ticket/models/ticket';
@@ -31,17 +32,18 @@ export class TicketCardComponent implements OnInit {
 
   @Input() ticket!: Ticket;
 
-  colorPriority : string = '';
-  colorStatus : string = '';
+  colorPriority: string = '';
+  colorStatus: string = '';
   constructor(
     private sharedService: SharedService,
-    ) {}
+    private renamingService: RenamingService,
+  ) { }
 
   ngOnInit() {
     this.loadTicket();
     this.loadColorPriority();
     this.loadColorStatus();
-    this.changeNameCategory();
+    this.rename();
     // console.log(this.ticketDetails.creator,'CCCCCCCCCCCCCCCCCCCCCCCC')
   }
 
@@ -62,9 +64,9 @@ export class TicketCardComponent implements OnInit {
       this.ticketDetails.authorFirstname = this.ticket.authorFirstname || '';
       this.ticketDetails.authorLastname = this.ticket.authorLastname || '';
       this.ticketDetails.fullnameAuthor = this.ticket.authorLastname + ' ' + this.ticket.authorFirstname || '';
-    
-  }
-    
+
+    }
+
   }
 
   loadColorPriority() {
@@ -81,7 +83,7 @@ export class TicketCardComponent implements OnInit {
   loadColorStatus() {
     if (this.ticketDetails.status === 'TO_DO') {
       this.colorStatus = 'red';
-  
+
     } if (this.ticketDetails.status === 'DOING') {
       this.colorStatus = 'yellow';
     }
@@ -90,21 +92,18 @@ export class TicketCardComponent implements OnInit {
     }
 
   }
-  
+
   openSidebar() {
     this.sharedService.toggleSidebar();
     this.sharedService.setCurrentContent('ticket-details');
     this.sharedService.setCurrentTicket(this.ticket);
-   
+
   }
-  changeNameCategory(){
-    if (this.ticketDetails.category === 'BILLING') {
-      this.ticketDetails.category = 'Facturation';
-    } if (this.ticketDetails.category === 'FEATURE') {
-      this.ticketDetails.category = 'Fonctionnalité';
-    }
-    if (this.ticketDetails.category === 'TECHNICAL') {
-      this.ticketDetails.category = 'Technique';
-    }
+  rename() {
+    this.ticketDetails.category = this.renamingService.renameCategory(this.ticketDetails.category);
+    this.ticketDetails.status = this.renamingService.renameStatus(this.ticketDetails.status);
+    this.ticketDetails.priority = this.renamingService.renamePriority(this.ticketDetails.priority);
   }
+
+
 }
