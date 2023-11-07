@@ -56,7 +56,9 @@ export class TicketService {
   }
   
 
-
+  getAllCountTickets(): Observable<number> {
+    return this.httpClient.get<number>(`http://localhost:8080/api/tickets/count`);
+  }
 
   getCountTicketsByStatusToDo(): Observable<number> {
     return this.getCountTicketsByStatus('TO_DO');

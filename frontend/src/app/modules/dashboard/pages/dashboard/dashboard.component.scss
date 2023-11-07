@@ -1,36 +1,58 @@
-@import 'src/assets/scss/template.scss';
+@import "src/assets/scss/template.scss";
 
-.dashboard {
-
+article {
+  padding-top: 8vh;
+  padding: 8vh 0 2% 2%;
 }
+
+header {
+  h1,h2 {
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 400;
+    color: $primaryColor;
+  }
+
+  .ticket-number,
+  .ticket-user {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
+
+  span {
+    font-size: 22px;
+    font-weight: 500;
+    color: $secondaryColor;
+    margin-left: 8px;
+  }
+
+  .over-0 {
+    color: orangered;
+    font-weight: 500;
+  }
+}
+
 .chart-wrapper {
-  margin-top: 10vh;
- display: flex;
- height: 100%;
- justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  padding-bottom: 10vh;
+
+  h3 {
+    font-size: 22px;
+    font-weight: 500;
+    color: $primaryColor;
+  }
 }
+
 .chart {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 5%;
-  width: 100%;
-}
-h1 {
-  font-size: 1.5rem;
-  font-weight: 400;
-  margin-bottom: 2rem;
-  text-align: center;
-  width: 100%;
-  color: $secondaryColor;
-}
-.priorityChart {
-  z-index: 9999;
-  height: 400px;
-  width: 400px;
-}
-.canvas {
-
-  
-  
+  width: fit-content;
 }
