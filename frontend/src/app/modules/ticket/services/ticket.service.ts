@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, of, switchMap } from 'rxjs';
 import { Ticket } from '../models/ticket';
 import { Category } from '../models/category';
 
@@ -27,9 +27,16 @@ export class TicketService {
     return this.httpClient.get<Ticket>(this.baseUrl+'tickets/'+ticketId);
   }
 
-  updateTicket(ticketId: number, ticket: Ticket, ): Observable<Ticket> {
+  updateTicket(ticketId: number, ticket: Ticket): Observable<Ticket> {
     return this.httpClient.put<Ticket>(this.baseUrl+'tickets/'+ticketId,ticket);
   }
+
+  updateAndFetchTicket(ticketId: number, ticket: Ticket): Observable<Ticket> {
+    return this.httpClient.put<Ticket>(this.baseUrl + 'tickets/' + ticketId, ticket).pipe(
+      switchMap(() => this.httpClient.get<Ticket>(this.baseUrl + 'tickets/' + ticketId))
+    );
+  }
+  
   archiveTicket(ticketId: number): Observable<HttpResponse<any>> {
     return this.httpClient.put(this.baseUrl+'tickets/archive/'+ ticketId, null, { observe: 'response' });
   }

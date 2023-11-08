@@ -175,16 +175,17 @@ export class TicketDetailsComponent implements OnInit {
   closeTicket() {
     if (this.ticketDetails.status === 'En cours') {
       let updatedTicket: Ticket = this.ticket;
-      // statut done
-      updatedTicket.statusId = 66;
-      this.ticketService.updateTicket(this.ticket.id, updatedTicket).subscribe(
-        updatedTicket => {
+      updatedTicket.statusId = 96;
+  
+      this.ticketService.updateAndFetchTicket(this.ticket.id, updatedTicket).subscribe(
+        (updatedTicket) => {
           this.ticket = updatedTicket;
+          console.log('ticket updated:', this.ticket);
           this.loadTicket();
           this.alertService.showSuccessAlert('Ticket fermé avec succès');
         },
-        error => {
-          this.alertService.showErrorAlert("Erreur lors de la cloture du ticket");
+        (error) => {
+          this.alertService.showErrorAlert("Erreur lors de la clôture du ticket");
         }
       );
     } else {
@@ -192,22 +193,23 @@ export class TicketDetailsComponent implements OnInit {
     }
   }
   
-
   reopenTicket() {
-    if (this.ticketDetails.status === 'DONE') {
+    if (this.ticketDetails.status === 'Terminé') {
       let updatedTicket: Ticket = this.ticket;
-      updatedTicket.statusId = 64;
-      this.ticketService.updateTicket(this.ticket.id, updatedTicket).subscribe(
-        updatedTicket => {
+      updatedTicket.statusId = 94;
+  
+      this.ticketService.updateAndFetchTicket(this.ticket.id, updatedTicket).subscribe(
+        (updatedTicket) => {
           this.ticket = updatedTicket;
           this.loadTicket();
           this.alertService.showSuccessAlert('Ticket réouvert avec succès');
         },
-        error => {
-          this.alertService.showErrorAlert("Erreur lors de la tentative de réouverture ticket");
+        (error) => {
+          this.alertService.showErrorAlert("Erreur lors de la tentative de réouverture du ticket");
         }
       );
     }
   }
+  
 
 }
