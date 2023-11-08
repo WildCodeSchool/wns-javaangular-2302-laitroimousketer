@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Ticket } from '../models/ticket';
@@ -9,55 +9,57 @@ import { Category } from '../models/category';
   providedIn: 'root'
 })
 export class TicketService {
-  private baseUrl = "http://localhost:8080/api/tickets";
+  private baseUrl = "http://localhost:8080/api/";
 
   constructor(private httpClient: HttpClient) { }
 
-  getTicketList(): Observable<Ticket[]>{
-    return this.httpClient.get<Ticket[]>(this.baseUrl);  
+  getTicketList(): Observable<Ticket[]> {
+    return this.httpClient.get<Ticket[]>(this.baseUrl+'tickets');
   }
 
-  createTicket(ticket : Ticket, selectedCategory : number): Observable<Ticket[]>{
-    const ticketWithCategory = {...ticket, category : {id :selectedCategory}};
+  createTicket(ticket: Ticket, selectedCategory: number): Observable<Ticket[]> {
+    const ticketWithCategory = { ...ticket, category: { id: selectedCategory } };
     console.log(ticketWithCategory);
-    return this.httpClient.post<Ticket[]>(this.baseUrl, ticketWithCategory);  
+    return this.httpClient.post<Ticket[]>(this.baseUrl+'tickets', ticketWithCategory);
   }
 
-  getTicket(ticketId : number): Observable<Ticket>{
-    return this.httpClient.get<Ticket>("http://localhost:8080/api/tickets/"+ticketId);  
+  getTicket(ticketId: number): Observable<Ticket> {
+    return this.httpClient.get<Ticket>(this.baseUrl+'tickets/'+ticketId);
   }
 
-  updateTicket(ticket : Ticket, ticketId : number, selectedCategory : number): Observable<Ticket[]>{
-    const ticketWithCategory = {...ticket, category : {id :selectedCategory}};    
-    return this.httpClient.put<Ticket[]>("http://localhost:8080/api/tickets/"+ticketId, ticketWithCategory);  
+  updateTicket(ticketId: number, ticket: Ticket, ): Observable<Ticket> {
+    return this.httpClient.put<Ticket>(this.baseUrl+'tickets/'+ticketId,ticket);
   }
-
-  deleteTicket(ticketId : number): Observable<Ticket[]>{
-    return this.httpClient.delete<Ticket[]>("http://localhost:8080/api/tickets/"+ticketId);  
+  archiveTicket(ticketId: number): Observable<HttpResponse<any>> {
+    return this.httpClient.put(this.baseUrl+'tickets/archive/'+ ticketId, null, { observe: 'response' });
+  }
+  unarchiveTicket(ticketId: number): Observable<HttpResponse<any>> {
+    return this.httpClient.put(this.baseUrl+'tickets/unarchive/'+ ticketId, null, { observe: 'response' });
+  }
+  deleteTicket(ticketId: number): Observable<Ticket[]> {
+    return this.httpClient.delete<Ticket[]>(this.baseUrl+'tickets/'+ticketId);
   }
   // TicketService
+  getTicketsByFilters(filter: string): Observable<Ticket[]> {
+    // console.log('filters: ',filter);
+    return this.httpClient.get<Ticket[]>(this.baseUrl+'tickets/filter?'+filter);
+  }
+  getCountTicketsByStatus(filter: string): Observable<number> {
+    // console.log('filters: ',filter);
+    return this.httpClient.get<number>(this.baseUrl+'tickets/countByStatus/'+filter);
+  }
+  getCountTicketsByPriority(filter: string): Observable<number> {
+    // console.log('filters: ',filter);
+    return this.httpClient.get<number>(this.baseUrl+'tickets/countByPriority/'+filter);
+  }
+  getCountTicketsByCategory(filter: string): Observable<number> {
+    // console.log('filters: ',filter);
+    return this.httpClient.get<number>(this.baseUrl+'tickets/countByCategory/'+filter);
+  }
 
-  getTicketsByFilters(filter : string): Observable<Ticket[]> {
-    // console.log('filters: ',filter);
-
-    return this.httpClient.get<Ticket[]>(`http://localhost:8080/api/tickets/filter?${filter}`);
-  }
-  getCountTicketsByStatus(filter : string): Observable<number> {
-    // console.log('filters: ',filter);
-    return this.httpClient.get<number>(`http://localhost:8080/api/tickets/countByStatus/${filter}`);
-  }
-  getCountTicketsByPriority(filter : string): Observable<number> {
-    // console.log('filters: ',filter);
-    return this.httpClient.get<number>(`http://localhost:8080/api/tickets/countByPriority/${filter}`);
-  }
-  getCountTicketsByCategory(filter : string): Observable<number> {
-    // console.log('filters: ',filter);
-    return this.httpClient.get<number>(`http://localhost:8080/api/tickets/countByCategory/${filter}`);
-  }
-  
 
   getAllCountTickets(): Observable<number> {
-    return this.httpClient.get<number>(`http://localhost:8080/api/tickets/count`);
+    return this.httpClient.get<number>(this.baseUrl+'/tickets/count');
   }
 
   getCountTicketsByStatusToDo(): Observable<number> {

@@ -1,11 +1,11 @@
 import { Role } from "./role.model";
 
-export interface User {
-  id: number;
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  role: Role;
-  roleTitle: string;
+export class User {
+  public id: number = 0;
+  public firstname: string = '';
+  public lastname: string = '';
+  public  email: string = '';
+  public password: string = '';
+  public role!: Role ;
+  public roleTitle: string = '';
 }

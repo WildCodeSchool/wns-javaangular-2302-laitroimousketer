@@ -13,7 +13,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TicketCardComponent } from 'src/app/modules/ticket/components/ticket-card/ticket-card.component';
 import { TicketListClientComponent } from './pages/tickets-list-client/tickets-list-client.component';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -34,6 +34,7 @@ import { TicketListClientComponent } from './pages/tickets-list-client/tickets-l
     MatExpansionModule,
     DatePipe,
     MatCheckboxModule,
+    MatSlideToggleModule,
 
 
   ],

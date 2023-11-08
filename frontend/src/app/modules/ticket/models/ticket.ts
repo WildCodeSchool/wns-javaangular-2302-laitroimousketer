@@ -19,6 +19,7 @@ export class Ticket {
   public priorityId: number = 0
   public creationDate: string = ''
   public updateDate: string = ''
+  public archiveDate: string = ''
   public ticketHaveUsers : TicketHaveUsers[] = [];
   public  authorId = 0;
   public  authorFirstname = '';

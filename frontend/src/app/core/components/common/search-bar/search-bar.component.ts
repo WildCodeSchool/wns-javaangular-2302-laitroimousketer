@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -11,7 +11,7 @@ export class SearchBarComponent implements OnInit {
   constructor() { }
   searchControl: FormControl = new FormControl();
 
-  placerholder : string = "Rechercher un ticket par son numéro, nom de l'auteur, mail..."
+  @Input()placerholder : string = "Rechercher un ticket par son numéro, nom de l'auteur, mail..."
   ngOnInit() {
   }
 

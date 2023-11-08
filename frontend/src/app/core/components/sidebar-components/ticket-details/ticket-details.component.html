@@ -43,9 +43,20 @@
     <section class="widget actions" [@opacity]="page==='Actions'?'active':''">
       <h1 class="weight-500">Actions sur le ticket</h1>
       <div class="actions-btn">
-        <button mat-raised-button color="primary" class="btn bi bi-check-lg">Cloturer</button>
-        <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill">Archiver</button>
-        <button mat-raised-button color="warn"class="btn bi bi-trash-fill">Supprimer</button>
+        <ng-container *ngIf="this.ticketDetails.status !== 'Terminé'">
+        <button mat-raised-button color="primary" class="btn bi bi-check-lg" (click)="closeTicket()">Cloturer</button>
+      </ng-container>
+      <ng-container *ngIf="this.ticketDetails.status === 'Terminé'">
+        <button mat-raised-button color="primary" class="btn bi bi-check-lg" (click)="reopenTicket()">Rouvrir</button>
+      </ng-container>
+
+      <ng-container *ngIf="this.ticketDetails.archiveDate === ''">
+        <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill" (click)="archiveTicket(this.ticket!.id)">Archiver</button>
+        </ng-container>
+
+        <ng-container *ngIf="this.ticketDetails.archiveDate !== ''">
+          <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill" (click)="unarchiveTicket(this.ticket!.id)">Désarchiver</button>
+          </ng-container>
       </div>
     </section>
   </ng-container>

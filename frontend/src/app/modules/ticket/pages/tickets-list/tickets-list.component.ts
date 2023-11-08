@@ -69,7 +69,7 @@ export class TicketsListComponent implements OnInit {
   doingCount: number = 0;
   doneCount: number = 0;
 
-
+  showArchivedTickets : boolean = false;
   currentSortBy: string = '';
   states: string[] = [
     'Date de création (asc)',
@@ -228,6 +228,9 @@ export class TicketsListComponent implements OnInit {
     // Appel au service pour construire la requête et retourner les tickets filtrés
     this.ticketService.getTicketsByFilters(filters.join('&')).subscribe((tickets) => {
     // Mettez à jour les tickets locaux avec les tickets filtrés
+    if (this.showArchivedTickets) {
+      filters.push('status=ARCHIVED'); // Ajoutez ce filtre pour ne pas afficher les tickets archivés
+    }
     this.tickets = tickets; // Affectez le tableau filtré
     this.sortTickets(this.currentSortBy, this.tickets);
     });

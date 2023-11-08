@@ -4,7 +4,7 @@
 
      <!-- page ticket details dans sidebar -->
     <ng-container *ngIf="currentPage$ === 'ticket-details'">
-      <app-ticket-details [ticket]="currentTicket$ | async"></app-ticket-details>
+      <app-ticket-details [ticket]="this.ticket"></app-ticket-details>
     </ng-container>
 
     <!-- page activity dans sidebar -->

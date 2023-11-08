@@ -33,7 +33,7 @@ states: string[] = [
   'Prénom (Z-A)',
 ];
 currentSortBy: string = '';
-
+placeholderSearchbar :string = "Rechercher un utilisateur par son nom, prénom, mail..."
   constructor(
     private sharedService: SharedService,
     private userService: UserService,
