@@ -8,9 +8,9 @@ export class Ticket {
   public id: number = 0
   public ticketTitle: string = ''
   public description: string = ''
-  public category: Category = new Category()
-  public status: Status = new Status()
-  public priority: Priority = new Priority()
+  public category!: Category
+  public status!: Status
+  public priority!: Priority
   public categoryTitle: string = ''
   public categoryId: number = 0
   public statusTitle: string = ''

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Ticket } from 'src/app/modules/ticket/models/ticket';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,10 @@ export class SharedService {
   private currentTicketSubject: BehaviorSubject<Ticket> = new BehaviorSubject<Ticket>(new Ticket);
   currentTicket$ = this.currentTicketSubject.asObservable();
 
+  private currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+
+
+  currentUser$ = this.currentUserSubject.asObservable();
 
   mode: string = '';
   constructor() {}
@@ -35,5 +40,8 @@ export class SharedService {
 
   setCurrentTicket(ticket: Ticket) {
     this.currentTicketSubject.next(ticket);
+  }
+  setCurrentUser(user: User) {
+    this.currentUserSubject.next(user);
   }
 }

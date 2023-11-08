@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
 import { TicketHaveUsers } from '../../models/ticketHaveUsers';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { Subscription, forkJoin, take } from 'rxjs';
 
 interface TicketFilter {
   status: {
@@ -18,6 +19,11 @@ interface TicketFilter {
     medium: boolean;
     high: boolean;
   };
+  category: {
+    billing: boolean;
+    feature: boolean;
+    technical: boolean
+  };
   [key: string]: any; // Ajout de la signature d'index
 }
 
@@ -29,9 +35,9 @@ interface SortOption {
 }
 
 @Component({
-  selector: 'app-ticket-list',
-  templateUrl: './ticket-list.component.html',
-  styleUrls: ['./ticket-list.component.scss'],
+  selector: 'app-tickets-list',
+  templateUrl: './tickets-list.component.html',
+  styleUrls: ['./tickets-list.component.scss'],
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
@@ -44,12 +50,25 @@ interface SortOption {
     ]),
   ],
 })
-export class TicketListComponent implements OnInit {
+export class TicketsListComponent implements OnInit {
   tickets: Ticket[] | undefined;
+  ticketsClient: Ticket[] | undefined;
   originalTickets: Ticket[] | undefined;
   isUpdatingTickets: boolean = false;
+
   role: string = this.authService.userRole;
-  userId: number = this.authService.userId;
+
+  // COUNT TICKET //
+  billingCount: number = 0;
+  featureCount: number = 0;
+  technicalCount: number = 0;
+  lowCount: number = 0;
+  mediumCount: number = 0;
+  highCount: number = 0;
+  toDoCount: number = 0;
+  doingCount: number = 0;
+  doneCount: number = 0;
+
 
   currentSortBy: string = '';
   states: string[] = [
@@ -62,6 +81,7 @@ export class TicketListComponent implements OnInit {
     'Prénom (A-Z)',
     'Prénom (Z-A)',
   ];
+
   filters: TicketFilter = {
     status: {
       to_do: false,
@@ -73,7 +93,13 @@ export class TicketListComponent implements OnInit {
       medium: false,
       high: false,
     },
+    category: {
+      billing: false,
+      feature: false,
+      technical: false,
+    },
   };
+  subscriptions = new Subscription();
 
 
   constructor(
@@ -84,38 +110,29 @@ export class TicketListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getCounts();
     this.checkRole();
     this.getTicketList();
     this.initializeStates();
     this.updateTicketList();
+  }
 
-  }
   private initializeStates() {
-    // Si le rôle est 'client', filtrez les états pour ne contenir que ceux pertinents
-    if (this.role === 'CLIENT') {
-      this.states = [
-        'Date de création (asc)',
-        'Date de création (desc)',
-        'Numéro de ticket (asc)',
-        'Numéro de ticket (desc)',
-      ];
-    } else {
-      // Si le rôle n'est pas 'client', conservez toutes les options
-      this.states = [
-        'Date de création (asc)',
-        'Date de création (desc)',
-        'Numéro de ticket (asc)',
-        'Numéro de ticket (desc)',
-        'Nom (A-Z)',
-        'Nom (Z-A)',
-        'Prénom (A-Z)',
-        'Prénom (Z-A)',
-      ];
-    }
+    this.states = [
+      'Date de création (asc)',
+      'Date de création (desc)',
+      'Numéro de ticket (asc)',
+      'Numéro de ticket (desc)',
+      'Nom (A-Z)',
+      'Nom (Z-A)',
+      'Prénom (A-Z)',
+      'Prénom (Z-A)',
+    ];
   }
+
   checkRole() {
     this.authService.getUserProfile();
-    console.log(this.authService.userRole);
+    // console.log(this.authService.userRole);
     return this.authService.userRole;
   }
 
@@ -130,44 +147,26 @@ export class TicketListComponent implements OnInit {
     if (!this.originalTickets) {
       return;
     }
-  
-    if (this.role === 'CLIENT') {
-      // If the user has the 'CLIENT' role, filter tickets to show only those associated with this user
-      this.tickets = this.originalTickets.filter(ticket => ticket.authorId === this.userId);
-  
-      // Log the authorId of each ticket
-      console.log('userId', this.userId);
-      this.tickets.forEach(ticket => {
-        console.log('Ticket authorId:', ticket.authorId);
-      });
-    } else {
-      // If the role is not 'CLIENT', show all tickets
-      this.tickets = [...this.originalTickets];
-    }
-  
+    this.tickets = [...this.originalTickets];
     this.applyFilters();
     this.sortTickets(this.currentSortBy, this.tickets);
   }
-  
-  deleteTicket(ticketId: any) {
-    if (Number.isInteger(ticketId)) {
-      this.ticketService.deleteTicket(ticketId).subscribe(() => this.getTicketList());
-    } else {
-      console.error('Invalid ticket id:', ticketId);
-    }
-  }
-
 
   // FILTERS //
   onCheckboxChange(group: string, filterName: string) {
-    console.log(`${filterName}:`, this.filters[group as keyof TicketFilter][filterName]);
+    // Inversez l'état du filtre sélectionné
+    this.filters[group as keyof TicketFilter][filterName] = !this.filters[group as keyof TicketFilter][filterName];
 
-    for (const key in this.filters[group as keyof TicketFilter]) {
-      if (key !== filterName) {
-        // Désactiver les autres filtres dans le groupe
-        this.filters[group as keyof TicketFilter][key] = false;
+    // Si le filtre est activé, désactivez tous les autres filtres dans le groupe
+    if (this.filters[group as keyof TicketFilter][filterName]) {
+      for (const key in this.filters[group as keyof TicketFilter]) {
+        if (key !== filterName) {
+          this.filters[group as keyof TicketFilter][key] = false;
+        }
       }
     }
+
+    // Appliquer les filtres
     this.applyFilters();
     this.updateTicketList();
   }
@@ -175,7 +174,7 @@ export class TicketListComponent implements OnInit {
 
 
 
-  
+
   applyFilters() {
     const filters: string[] = [];
 
@@ -189,22 +188,18 @@ export class TicketListComponent implements OnInit {
       }
     }
 
-    // console.log('Filters:', filters);
-
+    // Appel au service pour construire la requête et retourner les tickets filtrés
     this.ticketService.getTicketsByFilters(filters.join('&')).subscribe((tickets) => {
-      // console.log('Returned data from server:', tickets);
-      // console.log('Current client-side tickets:', this.tickets);
-
+      // Mettez à jour les tickets locaux avec les tickets filtrés
       this.isUpdatingTickets = true;
       const sortedTickets = [...tickets]; // Créez une copie triée
       this.sortTickets(this.currentSortBy, sortedTickets); // Triez la copie
       this.tickets = sortedTickets; // Affectez le tableau trié
       this.cdr.detectChanges();
       this.isUpdatingTickets = false;
-
-      // console.log('Updated client-side tickets:', this.tickets);
     });
   }
+
 
   // TRI //
   private sortTickets(sortBy: string, tickets: Ticket[]) {
@@ -241,6 +236,7 @@ export class TicketListComponent implements OnInit {
         break;
     }
   }
+
   onSortChange(event: MatSelectChange) {
     this.currentSortBy = event.value;
     this.updateTicketList();
@@ -250,5 +246,59 @@ export class TicketListComponent implements OnInit {
     const nameA = `${a.ticketHaveUsers?.[0]?.[key1]} ${a.ticketHaveUsers?.[0]?.[key2]}`;
     const nameB = `${b.ticketHaveUsers?.[0]?.[key1]} ${b.ticketHaveUsers?.[0]?.[key2]}`;
     return nameA.localeCompare(nameB);
+  }
+
+  getCounts(): void {
+    const subscriptions = new Subscription();
+    const toDoCount$ = this.ticketService.getCountTicketsByStatusToDo().pipe(take(1));
+    const doingCount$ = this.ticketService.getCountTicketsByStatusDoing().pipe(take(1));
+    const doneCount$ = this.ticketService.getCountTicketsByStatusDone().pipe(take(1));
+    const lowCount$ = this.ticketService.getCountTicketsByPriorityLow().pipe(take(1));
+    const mediumCount$ = this.ticketService.getCountTicketsByPriorityMedium().pipe(take(1));
+    const highCount$ = this.ticketService.getCountTicketsByPriorityHigh().pipe(take(1));
+    const billingCount$ = this.ticketService.getCountTicketsByCategoryBilling().pipe(take(1));
+    const featureCount$ = this.ticketService.getCountTicketsByCategoryFeature().pipe(take(1));
+    const technicalCount$ = this.ticketService.getCountTicketsByCategoryTechnical().pipe(take(1));
+
+    subscriptions.add(
+      forkJoin({
+        toDoCount: toDoCount$,
+        doingCount: doingCount$,
+        doneCount: doneCount$,
+        lowCount: lowCount$,
+        mediumCount: mediumCount$,
+        highCount: highCount$,
+        billingCount: billingCount$,
+        featureCount: featureCount$,
+        technicalCount: technicalCount$,
+      }).subscribe({
+        next: counts => {
+          // Mettez à jour les variables après avoir obtenu toutes les valeurs
+          this.toDoCount = counts.toDoCount;
+          this.doingCount = counts.doingCount;
+          this.doneCount = counts.doneCount;
+          this.lowCount = counts.lowCount;
+          this.mediumCount = counts.mediumCount;
+          this.highCount = counts.highCount;
+          this.billingCount = counts.billingCount;
+          this.featureCount = counts.featureCount;
+          this.technicalCount = counts.technicalCount;
+        },
+        error: error => {
+          // Gérez les erreurs ici
+          console.error('Error getting counts:', error);
+        },
+        complete: () => {
+          // Effectuez des actions après que l'observable est complète
+          // Libérez les ressources ici si nécessaire
+        },
+      })
+    );
+    this.subscriptions.add(subscriptions);
+  }
+
+  ngOnDestroy() {
+       // Nettoyez les abonnements lorsque le composant est détruit
+    this.subscriptions.unsubscribe();
   }
 }

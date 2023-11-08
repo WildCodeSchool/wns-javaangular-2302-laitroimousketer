@@ -3,6 +3,7 @@ import { Ticket } from '../../../../modules/ticket/models/ticket';
 import { TicketDetails } from 'src/app/modules/ticket/models/ticket-details';
 import { MenuItems } from '../sidebar-menu/menu-items.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { RenamingService } from 'src/app/core/services/renaming.service';
 @Component({
   selector: 'app-ticket-details',
   templateUrl: './ticket-details.component.html',
@@ -38,6 +39,7 @@ export class TicketDetailsComponent implements OnInit {
     authorEmail: '',
     developers:[] = [],
     fullnameAuthor: '',
+    category: '',
   };
 
   menuItems: MenuItems[] = [
@@ -52,25 +54,27 @@ export class TicketDetailsComponent implements OnInit {
 
   statutSpan: string = '';
   prioritySpan: string = '';
-  constructor() { }
+  constructor(private renamingService : RenamingService) { }
 
   ngOnInit() {
     this.loadTicket();
+    this.rename();
   }
 
   onPageChange(page: string): void {
     this.page = page;
-    console.log('Page changed to:', this.page);
+    // console.log('Page changed to:', this.page);
   }
 
   loadTicket() {
     if (this.ticket !== undefined && this.ticket !== null) {
-      console.log('ticket details:', this.ticket);
+      // console.log('ticket details:', this.ticket);
 
       this.ticketDetails.number = this.ticket.id ? this.ticket.id : 0;
       this.ticketDetails.name = this.ticket.ticketTitle ? this.ticket.ticketTitle : '';
       this.ticketDetails.description = this.ticket.description ? this.ticket.description : '';
       this.ticketDetails.priority = this.ticket.priorityTitle ? this.ticket.priorityTitle : '';
+      this.ticketDetails.category = this.ticket.categoryTitle ? this.ticket.categoryTitle : '';
       this.ticketDetails.creationDate = this.ticket.creationDate ? this.ticket.creationDate : '';
       this.ticketDetails.updateDate = this.ticket.updateDate ? this.ticket.updateDate : '';
       this.ticketDetails.status = this.ticket.statusTitle ? this.ticket.statusTitle : '';
@@ -109,5 +113,10 @@ export class TicketDetailsComponent implements OnInit {
       this.prioritySpan = 'high';
     }
   }
+rename() {
+    this.ticketDetails.category = this.renamingService.renameCategory(this.ticketDetails.category);
+    this.ticketDetails.status = this.renamingService.renameStatus(this.ticketDetails.status);
+    this.ticketDetails.priority = this.renamingService.renamePriority(this.ticketDetails.priority);
+}
 
 }

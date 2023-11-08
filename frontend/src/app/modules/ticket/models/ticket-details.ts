@@ -16,4 +16,5 @@ export interface TicketDetails {
   authorEmail: string;
   developers: TicketHaveUsers[];
   fullnameAuthor: string;
+  category: string;
 }

@@ -2,7 +2,7 @@
 
 .card {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   align-items: center;
   justify-content: space-between;
   background-color: white;
@@ -12,29 +12,42 @@
   overflow: hidden;
   border-radius: 5px 5px;
   flex-wrap: wrap;
+
   @include laptop {
     display: flex;
     flex-wrap: wrap;
   }
+
   @include mobiletablet {
     display: flex;
     flex-wrap: wrap;
   }
 
   cursor:pointer;
-  p{
+  p {
     line-height: 1.75;
     text-align: end;
   }
 }
-.date,.priority,.statut,.number,.title {
-  display: flex;
-  text-align: end;
-  justify-content: flex-end;
-  align-items: center;
-  font-size:17px;
 
+.date,
+.priority,
+.statut,
+.number,
+.title,
+.category {
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  margin: auto;
+  @include laptop {
+    margin: 0;
+  }
+  @include mobiletablet {
+    margin: 0;
+  }
 }
+
 
 .client {
   display: flex;
@@ -50,9 +63,9 @@
 
 .prefix {
   font-style: italic;
-  color:#757575;
+  color: #757575;
   font-size: 15px;
-  margin-right:6px;
+  margin-right: 6px;
 }
 
 .context-ticket-card-creator {
@@ -77,6 +90,7 @@
   margin-right: 1%;
   margin-left: 2%;
 }
+
 .context-ticket-card-creator {
   margin-right: 2%;
 }

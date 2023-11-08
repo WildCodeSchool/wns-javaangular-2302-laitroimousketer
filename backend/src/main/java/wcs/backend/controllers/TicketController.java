@@ -165,4 +165,33 @@ public class TicketController {
     return new ResponseEntity<>(ticketDtos, HttpStatus.OK);
   }
 
+  //GET COUNT//
+  @GetMapping("/count")
+  @Operation(summary = "Count all Tickets", description = "Get the number of all tickets.")
+  public ResponseEntity<Long> countAllTickets() {
+    long count = ticketService.countAllTickets();
+    return ResponseEntity.ok(count);
+  }
+
+  @GetMapping("/countByCategory/{categoryTitle}")
+  @Operation(summary = "Count Tickets by Category", description = "Get the number of tickets in a category.")
+  public ResponseEntity<Long> countTicketsByCategory(@PathVariable("categoryTitle") Category.Title categoryTitle) {
+    long count = ticketService.countTicketsByCategory(categoryTitle);
+    return ResponseEntity.ok(count);
+  }
+
+  @GetMapping("/countByPriority/{priorityTitle}")
+  @Operation(summary = "Count Tickets by Priority", description = "Get the number of tickets with a priority.")
+  public ResponseEntity<Long> countTicketsByPriority(@PathVariable("priorityTitle") Priority.Title priorityTitle) {
+    long count = ticketService.countTicketsByPriority(priorityTitle);
+    return ResponseEntity.ok(count);
+  }
+
+  @GetMapping("/countByStatus/{statusTitle}")
+  @Operation(summary = "Count Tickets by Status", description = "Get the number of tickets with a status.")
+  public ResponseEntity<Long> countTicketsByStatus(@PathVariable("statusTitle") Status.Title statusTitle) {
+    long count = ticketService.countTicketsByStatus(statusTitle);
+    return ResponseEntity.ok(count);
+  }
+
 }
