@@ -47,7 +47,7 @@ public class TicketService {
     // Sélectionnez la statut par défaut
     List<Status> defaultStatusList = statusRepository.findByStatusTitle(Status.Title.TO_DO);
     if (defaultStatusList.isEmpty()) {
-        throw new EntityNotFoundException("Default status not found");
+      throw new EntityNotFoundException("Default status not found");
     }
     Status defaultStatus = defaultStatusList.get(0);
     Priority defaultPriority = priorityRepository.findByPriorityTitle(Priority.Title.DEFAULT).get(0);
@@ -55,17 +55,17 @@ public class TicketService {
 
     // Si le statut spécifié dans le ticket est nul, utilisez le statut par défaut
     if (ticket.getStatus() == null) {
-        ticket.setStatus(defaultStatus);
+      ticket.setStatus(defaultStatus);
     }
     // Si la catégorie spécifiée dans le ticket est nulle, utilisez "non renseigné"
     // (ou une autre valeur par défaut)
     if (ticket.getCategory() == null) {
-        ticket.setCategory(defaultCategory);
+      ticket.setCategory(defaultCategory);
     }
     // Si la priorité spécifiée dans le ticket est nulle, utilisez "non renseigné"
     // (ou une autre valeur par défaut)
     if (ticket.getPriority() == null) {
-        ticket.setPriority(defaultPriority);
+      ticket.setPriority(defaultPriority);
     }
     // Définissez la date de création sur la date actuelle
     ticket.setCreationDate(new Date());
@@ -76,7 +76,7 @@ public class TicketService {
 
     // Créez une instance de ticketHaveUsers pour l'utilisateur créateur
     TicketHaveUsers ticketHaveUsers = new TicketHaveUsers(creator, savedTicket);
-    
+
     // Ajoutez l'association à la liste userAssociations du ticket
     savedTicket.getUserAssociations().add(ticketHaveUsers);
 
@@ -84,9 +84,7 @@ public class TicketService {
     ticketRepository.save(savedTicket);
 
     return savedTicket;
-}
-
-
+  }
 
   public void addUserToTicket(Ticket ticket, User user) {
     // Créez une instance de ticketHaveUsers pour l'utilisateur ajouté
@@ -96,18 +94,18 @@ public class TicketService {
     ticketHaveUsersRepository.save(ticketHaveUsers);
   }
 
-public Ticket getTicketById(Long ticketId) {
+  public Ticket getTicketById(Long ticketId) {
     Optional<Ticket> optionalTicket = ticketRepository.findById(ticketId);
 
     // Vérifier si l'Optional contient une valeur
     if (optionalTicket.isPresent()) {
-        return optionalTicket.get(); // Retourner la valeur si présente
+      return optionalTicket.get(); // Retourner la valeur si présente
     } else {
-        // Gérer le cas où l'Optional est vide, par exemple, en retournant null ou en lançant une exception
-        throw new EntityNotFoundException("Ticket not found with ID: " + ticketId);
+      // Gérer le cas où l'Optional est vide, par exemple, en retournant null ou en
+      // lançant une exception
+      throw new EntityNotFoundException("Ticket not found with ID: " + ticketId);
     }
-}
-
+  }
 
   public List<Ticket> getAllTickets() {
     return ticketRepository.findAll();
@@ -126,6 +124,7 @@ public Ticket getTicketById(Long ticketId) {
     ticketDto.setId(ticket.getId());
     ticketDto.setTicketTitle(ticket.getTicketTitle());
     ticketDto.setDescription(ticket.getDescription());
+    ticketDto.setArchiveDate(ticket.getArchiveDate());
     ticketDto.setCategoryId(ticket.getCategory().getId());
 
     // Obtenez le titre de la catégorie depuis l'entité Category
@@ -140,12 +139,13 @@ public Ticket getTicketById(Long ticketId) {
     ticketDto.setPriorityTitle(ticket.getPriority().getPriorityTitle().toString());
     ticketDto.setCreationDate(ticket.getCreationDate());
     ticketDto.setUpdateDate(ticket.getUpdateDate());
-   //obtenir l'auteur du ticket
+    // obtenir l'auteur du ticket
     if (ticket.getAuthor() != null) {
-        UserDto authorDto = new UserDto(ticket.getAuthor());
-        ticketDto.setAuthor(authorDto);
+      UserDto authorDto = new UserDto(ticket.getAuthor());
+      ticketDto.setAuthor(authorDto);
     }
-    // Récupérez les informations sur les utilisateurs associés à partir de userAssociations
+    // Récupérez les informations sur les utilisateurs associés à partir de
+    // userAssociations
     List<TicketHaveUsersDto> ticketHaveUsers = ticket.getUserAssociations().stream()
         .map(this::convertTicketHaveUsersToDto)
         .collect(Collectors.toList());
@@ -192,56 +192,67 @@ public Ticket getTicketById(Long ticketId) {
     return updatedTicket;
   }
 
+  public Ticket archiveTicket(Long ticketId) {
+    Ticket existingTicket = getTicketById(ticketId);
+    existingTicket.setArchiveDate(new Date()); // Définissez la date d'archivage sur la date actuelle
+    return ticketRepository.save(existingTicket);
+  }
+
+  public Ticket unarchiveTicket(Long ticketId) {
+    Ticket existingTicket = getTicketById(ticketId);
+    existingTicket.setArchiveDate(null); // Définissez la date d'archivage sur la date actuelle
+    return ticketRepository.save(existingTicket);
+  }
+
   public void deleteTicket(Long ticketId) {
     ticketRepository.deleteById(ticketId);
   }
 
-
-  public List<Ticket> getFilteredTickets(Status.Title statusTitle, Priority.Title priorityTitle, Category.Title categoryTitle) {
+  public List<Ticket> getFilteredTickets(Status.Title statusTitle, Priority.Title priorityTitle,
+      Category.Title categoryTitle) {
     Specification<Ticket> spec = Specification.where(null);
 
     if (statusTitle != null) {
-        Status status = getStatusByTitle(statusTitle);
-        spec = spec.and((root, query, builder) -> builder.equal(root.get("status"), status));
+      Status status = getStatusByTitle(statusTitle);
+      spec = spec.and((root, query, builder) -> builder.equal(root.get("status"), status));
     }
 
     if (priorityTitle != null) {
-        Priority priority = getPriorityByTitle(priorityTitle);
-        spec = spec.and((root, query, builder) -> builder.equal(root.get("priority"), priority));
+      Priority priority = getPriorityByTitle(priorityTitle);
+      spec = spec.and((root, query, builder) -> builder.equal(root.get("priority"), priority));
     }
 
     if (categoryTitle != null) {
-        Category category = getCategoryByTitle(categoryTitle);
-        spec = spec.and((root, query, builder) -> builder.equal(root.get("category"), category));
+      Category category = getCategoryByTitle(categoryTitle);
+      spec = spec.and((root, query, builder) -> builder.equal(root.get("category"), category));
     }
 
     return ticketRepository.findAll(spec);
-}
+  }
 
-
-private Status getStatusByTitle(Status.Title title) {
+  private Status getStatusByTitle(Status.Title title) {
     List<Status> status = statusRepository.findByStatusTitle(title);
     if (status.isEmpty()) {
-        throw new EntityNotFoundException("Status not found with title: " + title);
+      throw new EntityNotFoundException("Status not found with title: " + title);
     }
     return status.get(0);
-}
+  }
 
-private Priority getPriorityByTitle(Priority.Title title) {
+  private Priority getPriorityByTitle(Priority.Title title) {
     List<Priority> priorities = priorityRepository.findByPriorityTitle(title);
     if (priorities.isEmpty()) {
-        throw new EntityNotFoundException("Priority not found with title: " + title);
+      throw new EntityNotFoundException("Priority not found with title: " + title);
     }
     return priorities.get(0);
-}
+  }
 
-private Category getCategoryByTitle(Category.Title title) {
+  private Category getCategoryByTitle(Category.Title title) {
     List<Category> categories = categoryRepository.findByCategoryTitle(title);
     if (categories.isEmpty()) {
-        throw new EntityNotFoundException("Category not found with title: " + title);
+      throw new EntityNotFoundException("Category not found with title: " + title);
     }
     return categories.get(0);
-}
+  }
   // COUNT //
 
   public long countAllTickets() {

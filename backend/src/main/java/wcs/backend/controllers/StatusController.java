@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import wcs.backend.dtos.StatusDto;
-import wcs.backend.entities.Status;
 import wcs.backend.services.StatusService;
 
 @AllArgsConstructor
@@ -25,36 +24,29 @@ public class StatusController {
   @GetMapping
   @Operation(summary = "Get All Status", description = "Get details of all available status.")
   public ResponseEntity<List<StatusDto>> getAllStatus() {
-    List<Status> status = statusService.getAllStatus();
-    List<StatusDto> statusDtos = status.stream()
-        .map(statusEntity -> new StatusDto(statusEntity.getId(), statusEntity.getStatusTitle()))
-        .collect(Collectors.toList());
+    List<StatusDto> statusDtos = statusService.getAllStatus();
     return ResponseEntity.ok(statusDtos);
   }
 
   @GetMapping("/{id}")
   @Operation(summary = "Get Status by ID", description = "Get status details by its ID.")
   public ResponseEntity<StatusDto> getStatusById(@PathVariable Long id) {
-    Status status = statusService.getStatusById(id);
-    return ResponseEntity.ok(new StatusDto(status.getId(), status.getStatusTitle()));
+    StatusDto statusDto = statusService.getStatusById(id);
+    return ResponseEntity.ok(statusDto);
   }
 
   @PostMapping
   @Operation(summary = "Create Status", description = "Create a new status with details.")
   public ResponseEntity<StatusDto> createStatus(@RequestBody StatusDto statusDto) {
-    Status status = new Status();
-    status.setTitle(statusDto.getStatusTitle());
-    Status createdStatus = statusService.createStatus(status);
-    return ResponseEntity.ok(new StatusDto(createdStatus.getId(), createdStatus.getStatusTitle()));
+    StatusDto createdStatusDto = statusService.createStatus(statusDto);
+    return ResponseEntity.ok(createdStatusDto);
   }
 
   @PutMapping("/{id}")
-  @Operation(summary = "Delete Status", description = "Delete a status by its ID.")
+  @Operation(summary = "Update Status", description = "Update a status by its ID.")
   public ResponseEntity<StatusDto> updateStatus(@PathVariable Long id, @RequestBody StatusDto statusDto) {
-    Status existingStatus = statusService.getStatusById(id);
-    existingStatus.setTitle(statusDto.getStatusTitle());
-    Status updatedStatus = statusService.updateStatus(existingStatus);
-    return ResponseEntity.ok(new StatusDto(updatedStatus.getId(), updatedStatus.getStatusTitle()));
+    StatusDto updatedStatusDto = statusService.updateStatus(id, statusDto);
+    return ResponseEntity.ok(updatedStatusDto);
   }
 
   @DeleteMapping("/{id}")
