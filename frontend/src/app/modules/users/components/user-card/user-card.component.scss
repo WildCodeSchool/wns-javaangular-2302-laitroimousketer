@@ -16,6 +16,7 @@
   p {
     line-height: 1.75;
     text-align: end;
+    font-size: 16px;
   }
 }
 
@@ -23,9 +24,7 @@
   display: flex;
   align-items: center;
   white-space: nowrap;
-  p {
-    font-size: 17px;
-  }
+
   app-avatar {
     margin-right: 8px;
   }

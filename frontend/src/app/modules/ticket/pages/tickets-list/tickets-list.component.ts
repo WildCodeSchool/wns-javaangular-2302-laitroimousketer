@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TicketService } from '../../services/ticket.service';
 import { Ticket } from '../../models/ticket';
-import { Router } from '@angular/router';
+
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
 import { TicketHaveUsers } from '../../models/ticketHaveUsers';
@@ -104,9 +104,7 @@ export class TicketsListComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private router: Router,
     private authService: AuthService,
-    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -114,7 +112,6 @@ export class TicketsListComponent implements OnInit {
     this.checkRole();
     this.getTicketList();
     this.initializeStates();
-    this.updateTicketList();
   }
 
   private initializeStates() {
@@ -172,40 +169,12 @@ export class TicketsListComponent implements OnInit {
   }
 
 
-
-
-
-  applyFilters() {
-    const filters: string[] = [];
-
-    for (const groupKey in this.filters) {
-      if (this.filters.hasOwnProperty(groupKey) && groupKey !== 'filters') {
-        for (const key in this.filters[groupKey]) {
-          if (this.filters[groupKey].hasOwnProperty(key) && this.filters[groupKey][key]) {
-            filters.push(`${groupKey}=${key.toUpperCase()}`);
-          }
-        }
-      }
-    }
-
-    // Appel au service pour construire la requête et retourner les tickets filtrés
-    this.ticketService.getTicketsByFilters(filters.join('&')).subscribe((tickets) => {
-      // Mettez à jour les tickets locaux avec les tickets filtrés
-      this.isUpdatingTickets = true;
-      const sortedTickets = [...tickets]; // Créez une copie triée
-      this.sortTickets(this.currentSortBy, sortedTickets); // Triez la copie
-      this.tickets = sortedTickets; // Affectez le tableau trié
-      this.cdr.detectChanges();
-      this.isUpdatingTickets = false;
-    });
-  }
-
-
   // TRI //
-  private sortTickets(sortBy: string, tickets: Ticket[]) {
+  sortTickets(sortBy: string, tickets: Ticket[]) {
     if (!tickets) {
       return;
     }
+    console.log('sortBy', sortBy);
     switch (sortBy) {
       case 'Date de création (ascendant)':
         tickets.sort((a, b) => a.creationDate.localeCompare(b.creationDate));
@@ -236,17 +205,45 @@ export class TicketsListComponent implements OnInit {
         break;
     }
   }
-
   onSortChange(event: MatSelectChange) {
     this.currentSortBy = event.value;
     this.updateTicketList();
   }
+  
 
   private compareNames(a: Ticket, b: Ticket, key1: keyof TicketHaveUsers, key2: keyof TicketHaveUsers): number {
     const nameA = `${a.ticketHaveUsers?.[0]?.[key1]} ${a.ticketHaveUsers?.[0]?.[key2]}`;
     const nameB = `${b.ticketHaveUsers?.[0]?.[key1]} ${b.ticketHaveUsers?.[0]?.[key2]}`;
     return nameA.localeCompare(nameB);
   }
+
+
+
+  applyFilters() {
+    const filters: string[] = [];
+
+    for (const groupKey in this.filters) {
+      if (this.filters.hasOwnProperty(groupKey) && groupKey !== 'filters') {
+        for (const key in this.filters[groupKey]) {
+          if (this.filters[groupKey].hasOwnProperty(key) && this.filters[groupKey][key]) {
+            filters.push(`${groupKey}=${key.toUpperCase()}`);
+          }
+        }
+      }
+    }
+
+    // Appel au service pour construire la requête et retourner les tickets filtrés
+    this.ticketService.getTicketsByFilters(filters.join('&')).subscribe((tickets) => {
+      // Mettez à jour les tickets locaux avec les tickets filtrés
+      this.isUpdatingTickets = true;
+      const sortedTickets = [...tickets]; // Créez une copie triée
+      this.sortTickets(this.currentSortBy, sortedTickets); // Triez la copie
+      this.tickets = sortedTickets; // Affectez le tableau trié
+      this.isUpdatingTickets = false;
+    });
+  }
+
+
 
   getCounts(): void {
     const subscriptions = new Subscription();

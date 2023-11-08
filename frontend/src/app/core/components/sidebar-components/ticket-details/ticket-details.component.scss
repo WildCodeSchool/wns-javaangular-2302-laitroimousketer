@@ -15,25 +15,29 @@
   margin-left: 8px;
   margin-bottom: 20px;
   font-weight: 500;
+
   .title-name {
     margin-left: 4px;
     font-weight: 300;
     font-size: 34px;
   }
- 
+
 }
+
 .details-profil {
   display: flex;
   align-items: center;
   gap: 4px;
   margin-bottom: 20px;
-  .name,.firstname {
+
+  .name,
+  .firstname {
     margin-left: 4px;
     font-size: 20px;
     font-weight: 500;
     color: black;
-   }
-  
+  }
+
 }
 
 header {
@@ -43,21 +47,24 @@ header {
     opacity: 1;
     font-size: 18px;
   }
-.suffix {
-  font-size: 17px;
-  font-weight: 100;
-  margin-right: 8px;
-  line-height: 1.5;
-  font-style: italic;
-  font-weight: 100!important;
-  opacity: 0.7;
-}
+
+  .prefix {
+    font-size: 17px;
+    font-weight: 100;
+    margin-right: 8px;
+    line-height: 1.5;
+    font-style: italic;
+    font-weight: 100 !important;
+    opacity: 0.7;
+  }
 
 }
+
 .date span {
   font-weight: 400;
   color: black;
 }
+
 .category-span {
   color: $primaryColor;
   font-weight: 400;
@@ -67,37 +74,47 @@ header {
   padding-top: 4px;
   max-height: 60vh;
   overflow: auto;
+
   p {
     font-size: 16px;
     font-weight: 400;
   }
 }
+
 .todo {
   font-weight: 400;
   color: red;
 }
+
 .doing {
   font-weight: 400;
-  color: #F5B445}
+  color: #F5B445
+}
+
 .done {
   font-weight: 400;
   color: green;
 }
+
 .low {
   font-weight: 400;
   color: green;
 }
+
 .medium {
   font-weight: 400;
   color: #F5B445;
 }
+
 .high {
   font-weight: 400;
   color: red;
 }
+
 header {
   position: relative;
 }
+
 .date {
   position: relative;
   margin-bottom: 20px;
@@ -107,15 +124,19 @@ header {
   content: "";
   position: absolute;
   bottom: -16px;
-  left: 4%; /* Ajustez cette valeur pour définir la position horizontale */
-  width: 92%; /* Réglez la largeur à 80% */
-  border-bottom: 1px dashed rgba(0, 0, 0, 0.5); 
+  left: 4%;
+  /* Ajustez cette valeur pour définir la position horizontale */
+  width: 92%;
+  /* Réglez la largeur à 80% */
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.5);
 }
+
 .actions {
   h1 {
     margin-bottom: 40px;
   }
 }
+
 .actions-btn {
   display: flex;
   flex-wrap: wrap;
@@ -124,10 +145,9 @@ header {
   align-items: center;
 
 }
+
 .btn {
   display: flex;
   align-items: center;
   gap: 6px;
 }
-
-
