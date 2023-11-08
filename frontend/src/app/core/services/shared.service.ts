@@ -31,7 +31,7 @@ export class SharedService {
   mode: string = '';
   constructor() {}
   toggleSidebar(): void {
-    console.log('toggleSidebar() called', !this.sidebarOpenedSubject.value);
+    // console.log('toggleSidebar() called', !this.sidebarOpenedSubject.value);
     this.sidebarOpenedSubject.next(!this.sidebarOpenedSubject.value);
   }
   setCurrentContent(content: string) {

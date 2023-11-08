@@ -32,6 +32,7 @@ states: string[] = [
   'Prénom (A-Z)',
   'Prénom (Z-A)',
 ];
+currentSortBy: string = '';
 
   constructor(
     private sharedService: SharedService,
@@ -61,9 +62,38 @@ states: string[] = [
   }
   // TRI //
  
-
+  sortUsers(sortBy: string, users: User[]) {
+    if (!this.users) {
+      return;
+    }
+    // console.log('sortBy', sortBy);
+    switch (sortBy) {
+      case 'Mail (A-Z)':
+        this.users.sort((a, b) => a.email.localeCompare(b.email));
+        break;
+      case 'Mail (Z-A)':
+        this.users.sort((a, b) => b.email.localeCompare(a.email));
+        break;
+      case 'Nom (A-Z)':
+        this.users.sort((a, b) => a.firstname.localeCompare(b.firstname));
+        break;
+      case 'Nom (Z-A)':
+        this.users.sort((a, b) => b.firstname.localeCompare(a.firstname));
+        break;
+      case 'Prénom (A-Z)':
+        this.users.sort((a, b) => a.lastname.localeCompare(b.lastname));
+        break;
+      case 'Prénom (Z-A)':
+        this.users.sort((a, b) => b.lastname.localeCompare(a.lastname));
+        break;
+      // Add more cases as needed
+      default:
+        break;
+    }
+  }
   onSortChange(event: MatSelectChange) {
-  
+    this.currentSortBy = event.value;
+    this.sortUsers(this.currentSortBy, this.users);
   }
 
 }

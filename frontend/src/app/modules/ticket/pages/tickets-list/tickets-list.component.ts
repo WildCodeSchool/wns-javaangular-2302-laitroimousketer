@@ -129,7 +129,7 @@ export class TicketsListComponent implements OnInit {
 
   checkRole() {
     this.authService.getUserProfile();
-    // console.log(this.authService.userRole);
+    console.log(this.authService.userRole);
     return this.authService.userRole;
   }
 
@@ -174,8 +174,7 @@ export class TicketsListComponent implements OnInit {
     if (!this.tickets) {
       return;
     }
-    
-    console.log('sortBy', sortBy);
+    // console.log('sortBy', sortBy);
     switch (sortBy) {
       case 'Date de création (asc)':
         this.tickets.sort((a, b) => a.creationDate.localeCompare(b.creationDate));

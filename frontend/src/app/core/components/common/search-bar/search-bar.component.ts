@@ -9,7 +9,7 @@ import { FormControl } from '@angular/forms';
 export class SearchBarComponent implements OnInit {
 
   constructor() { }
-  searchControl!: FormControl;
+  searchControl: FormControl = new FormControl();
 
   placerholder : string = "Rechercher un ticket par son numéro, nom de l'auteur, mail..."
   ngOnInit() {
