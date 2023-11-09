@@ -113,7 +113,7 @@
             <version>3.1.5</version>
             <configuration>
                 <image>
-                    <name>alayde-back</name>
+                    <name>djosh35/alayde-back</name>
                     <builder>paketobuildpacks/builder-jammy-base:latest</builder>
                 </image>
                 <excludes>
