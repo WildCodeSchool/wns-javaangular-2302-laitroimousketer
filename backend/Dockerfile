@@ -12,7 +12,7 @@ COPY src ./src
 RUN mvn clean install -DskipTests
 
 # Use the official OpenJDK image as the base image
-FROM openjdk:21-alpine
+FROM openjdk:21-jdk
 
 # Set the working directory
 WORKDIR /usr/src/app
