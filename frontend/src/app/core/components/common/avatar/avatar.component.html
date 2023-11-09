@@ -1,3 +1,8 @@
 <div class="avatar" [style.background-color]="bgColor">
   <p>{{ initials }}</p>
+  <ng-container *ngIf="isArchive">
+    <div class="avatar-2">
+      <i class="bi bi-archive-fill"></i>
+    </div>
+  </ng-container>
 </div>

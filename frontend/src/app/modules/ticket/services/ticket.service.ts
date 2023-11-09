@@ -30,13 +30,13 @@ export class TicketService {
   updateTicket(ticketId: number, ticket: Ticket): Observable<Ticket> {
     return this.httpClient.put<Ticket>(this.baseUrl+'tickets/'+ticketId,ticket);
   }
-
+//TODO: voir si on peut refresh le ticket avec la réponse du back suite au put ?  le back renvoie l'ancien ticket, pas le nouveau suite au push en réponse, obligé de de refaire un get donc
   updateAndFetchTicket(ticketId: number, ticket: Ticket): Observable<Ticket> {
     return this.httpClient.put<Ticket>(this.baseUrl + 'tickets/' + ticketId, ticket).pipe(
       switchMap(() => this.httpClient.get<Ticket>(this.baseUrl + 'tickets/' + ticketId))
     );
   }
-  
+
   archiveTicket(ticketId: number): Observable<HttpResponse<any>> {
     return this.httpClient.put(this.baseUrl+'tickets/archive/'+ ticketId, null, { observe: 'response' });
   }

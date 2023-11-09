@@ -14,8 +14,17 @@
         </mat-select>
       </mat-form-field>
       </header>
-    <ng-container *ngFor="let user of users">
+    
+      <div class="left">
+      <div *ngFor="let user of users; let i = index"
+        [ngClass]="{'even': isEven(i), 'odd': !isEven(i)}">
       <app-user-card class="context-user-list" [user]="user"></app-user-card>
-    </ng-container>
+    </div>
+  </div>
+
+  <div class="right">
+ <app-map  [options]="mapOptions"></app-map>
+  </div>
+
   </div>
 </section>

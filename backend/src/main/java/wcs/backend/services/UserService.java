@@ -31,22 +31,34 @@ public class UserService {
   private AddressService addressService;
 
   //Creation user
-  public User createUser(User user, AddressDto addressDto) {
+  public User createUser(User user) {
     String encryptedPassword = passwordEncoder.encode(user.getPassword());
     user.setPassword(encryptedPassword);
 
+    // Définir le rôle par défaut (CLIENT)
     Role defaultRole = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
-    if (defaultRole != null) {
+    if (defaultRole == null) {
       user.setRole(defaultRole);
     }
     User savedUser = userRepository.save(user);
-    // Créer et associer une adresse à l'utilisateur
-    Address address = createAddressFromDto(addressDto);
-    UserAddress userAddress = new UserAddress();
-    address.getUserAddresses().add(userAddress);
-    addressRepository.save(address);
     return savedUser;
   }
+  // public User createUser(User user, AddressDto addressDto) {
+  //   String encryptedPassword = passwordEncoder.encode(user.getPassword());
+  //   user.setPassword(encryptedPassword);
+
+  //   Role defaultRole = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
+  //   if (defaultRole != null) {
+  //     user.setRole(defaultRole);
+  //   }
+  //   User savedUser = userRepository.save(user);
+  //   // Créer et associer une adresse à l'utilisateur
+  //   Address address = createAddressFromDto(addressDto);
+  //   UserAddress userAddress = new UserAddress();
+  //   address.getUserAddresses().add(userAddress);
+  //   addressRepository.save(address);
+  //   return savedUser;
+  // }
 
   //creation adresse user
   private Address createAddressFromDto(AddressDto addressDto) {

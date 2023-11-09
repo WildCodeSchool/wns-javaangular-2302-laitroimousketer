@@ -37,6 +37,7 @@ export class TicketCardComponent implements OnInit{
   oldTicket: string = '';
   colorPriority: string = '';
   colorStatus: string = '';
+  isArchive: boolean = false;
   constructor(
     private sharedService: SharedService,
     private ticketService: TicketService,
@@ -69,6 +70,9 @@ export class TicketCardComponent implements OnInit{
       this.ticketDetails.authorFirstname = this.ticket.authorFirstname || '';
       this.ticketDetails.authorLastname = this.ticket.authorLastname || '';
       this.ticketDetails.fullnameAuthor = this.ticket.authorLastname + ' ' + this.ticket.authorFirstname || '';
+      if (this.ticket.archiveDate !== null) {
+        this.isArchive = true;
+      }
     }
 
   }

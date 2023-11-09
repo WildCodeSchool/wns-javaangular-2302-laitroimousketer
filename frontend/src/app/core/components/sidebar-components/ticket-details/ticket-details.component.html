@@ -14,7 +14,13 @@
   <p class="prefix">Statut: <span [ngClass]="statutSpan">{{ticketDetails.status}}</span></p>
   <p class="prefix">Priorité: <span [ngClass]="prioritySpan"> {{ticketDetails.priority}} </span></p>
   <p class="prefix date">Date de création: <span>{{ ticketDetails.creationDate | date: 'dd MMMM yyyy' }}</span></p>
-  <p *ngIf="ticketDetails.updateDate">Date de modification: {{ticketDetails.updateDate | date:'dd/MM/yyyy' }}</p>
+  <div class="date">
+    <p *ngIf="ticket.updateDate !== ''" class="prefix">Dernière édition: <span>{{ ticketDetails.creationDate | date: 'dd
+        MMMM yyyy' }}</span></p>
+    <p *ngIf="ticket.archiveDate !== ''" class="prefix">Date d'archivage: <span>{{ ticketDetails.creationDate | date:
+        'dd MMMM yyyy' }}</span></p>
+    <p *ngIf="ticketDetails.updateDate">Date de modification: {{ticketDetails.updateDate | date:'dd/MM/yyyy' }}</p>
+  </div>
   <ng-container *ngIf="page ==='Info'">
     <article [@opacity]="page==='Info'?'active':''">
       <p class="prefix description">Description:</p>
@@ -35,7 +41,7 @@
 
 <container-element [ngSwitch]="page">
   <ng-container *ngSwitchCase="'Chat'">
-    <section class="widget" [@opacity]="page==='Chat'?'active':''" >
+    <section class="widget" [@opacity]="page==='Chat'?'active':''">
       <app-ticket-chat></app-ticket-chat>
     </section>
   </ng-container>
@@ -44,21 +50,22 @@
       <h1 class="weight-500">Actions sur le ticket</h1>
       <div class="actions-btn">
         <ng-container *ngIf="this.ticketDetails.status !== 'Terminé'">
-        <button mat-raised-button color="primary" class="btn bi bi-check-lg" (click)="closeTicket()">Cloturer</button>
-      </ng-container>
-      <ng-container *ngIf="this.ticketDetails.status === 'Terminé'">
-        <button mat-raised-button color="primary" class="btn bi bi-check-lg" (click)="reopenTicket()">Rouvrir</button>
-      </ng-container>
+          <button mat-raised-button color="primary" class="btn bi bi-check-lg" (click)="closeTicket()">Cloturer</button>
+        </ng-container>
+        <ng-container *ngIf="this.ticketDetails.status === 'Terminé'">
+          <button mat-raised-button color="primary" class="btn bi bi-check-lg" (click)="reopenTicket()">Rouvrir</button>
+        </ng-container>
 
-      <ng-container *ngIf="this.ticketDetails.archiveDate === ''">
-        <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill" (click)="archiveTicket(this.ticket!.id)">Archiver</button>
+        <ng-container *ngIf="this.ticketDetails.archiveDate === ''">
+          <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill"
+            (click)="archiveTicket(this.ticket!.id)">Archiver</button>
         </ng-container>
 
         <ng-container *ngIf="this.ticketDetails.archiveDate !== ''">
-          <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill" (click)="unarchiveTicket(this.ticket!.id)">Désarchiver</button>
-          </ng-container>
+          <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill"
+            (click)="unarchiveTicket(this.ticket!.id)">Désarchiver</button>
+        </ng-container>
       </div>
     </section>
   </ng-container>
 </container-element>
-

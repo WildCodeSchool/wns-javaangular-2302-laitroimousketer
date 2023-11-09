@@ -110,7 +110,12 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+        <version>3.1.4</version>
 				<configuration>
+            <image>
+              <name>alayde:1.0.0</name>
+              <builder>paketobuildpacks/builder-jammy-base:latest</builder>
+            </image>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
@@ -119,6 +124,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
+      
 		</plugins>
 	</build>
 

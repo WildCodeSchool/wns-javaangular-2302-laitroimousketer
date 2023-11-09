@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class AvatarComponent implements OnInit {
   @Input() userName: string = '';
+  @Input() isArchive: boolean = false;
   initials: string = ''; // Pour stocker les initiales
   bgColor: string = ''; // Pour stocker la couleur de fond
 
