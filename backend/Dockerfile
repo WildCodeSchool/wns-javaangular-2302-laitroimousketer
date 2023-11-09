@@ -11,8 +11,8 @@ COPY src ./src
 # Build the application
 RUN mvn clean install -DskipTests
 
-# Use the official OpenJDK image as the base image
-FROM openjdk:11-jre-slim
+# Install OpenJDK 21
+RUN apt-get update && apt-get install -y openjdk-21-jre
 
 # Set the working directory
 WORKDIR /usr/src/app
