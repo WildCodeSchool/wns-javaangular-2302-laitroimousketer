@@ -30,7 +30,6 @@ public class Seeder implements CommandLineRunner{
     @Autowired
     private TicketHaveUsersDataseed ticketHaveUsersDataseed;
 
-
     public void run(String...args)  throws Exception {
     // The order of the entities seeded is IMPORTANT !
         ticketHaveUsersDataseed.cleanData();

@@ -47,6 +47,9 @@ public class User implements UserDetails {
   @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
   private List<TicketHaveUsers> ticketHaveUsers;
 
+  // CASCADE ALL, si user supprimé, useradress supprimé
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private List<UserAddress> userAddresses;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

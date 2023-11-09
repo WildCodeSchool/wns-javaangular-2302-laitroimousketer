@@ -33,7 +33,6 @@ public class AuthController {
 
     try {
       String token = authService.login(loginDto);
-      
       JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
       jwtAuthResponse.setAccessToken(token);
       return ResponseEntity.ok(jwtAuthResponse);

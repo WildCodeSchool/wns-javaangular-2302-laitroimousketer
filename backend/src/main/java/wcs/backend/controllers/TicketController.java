@@ -153,7 +153,6 @@ public class TicketController {
       UserDto authorDto = new UserDto(ticket.getAuthor());
       ticketDto.setAuthor(authorDto);
     }
-
     return ticketDto;
   }
 

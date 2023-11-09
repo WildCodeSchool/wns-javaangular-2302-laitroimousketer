@@ -7,9 +7,13 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import wcs.backend.entities.User;
+import wcs.backend.entities.UserAddress;
 import wcs.backend.entities.TicketHaveUsers;
+import wcs.backend.dtos.AddressDto;
+import wcs.backend.entities.Address;
 import wcs.backend.entities.Role;
 import wcs.backend.entities.Role.Title;
+import wcs.backend.repositories.AddressRepository;
 import wcs.backend.repositories.RoleRepository;
 import wcs.backend.repositories.TicketHaveUsersRepository;
 import wcs.backend.repositories.UserRepository;
@@ -23,20 +27,32 @@ public class UserService {
   private RoleRepository roleRepository;
   private PasswordEncoder passwordEncoder;
   private TicketHaveUsersRepository ticketHaveUsersRepository;
+  private AddressRepository addressRepository;
+  
 
-  public User createUser(User user) {
-    String encryptedPassword = passwordEncoder.encode(user.getPassword());
-    user.setPassword(encryptedPassword);
+public User createUser(User user, AddressDto addressDto) {
+  String encryptedPassword = passwordEncoder.encode(user.getPassword());
+  user.setPassword(encryptedPassword);
 
-    // Définir le rôle par défaut (CLIENT)
-    Role defaultRole = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
-    if (defaultRole == null) {
-      user.setRole(defaultRole);
-    }
-    User savedUser = userRepository.save(user);
-    return savedUser;
+  Role defaultRole = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
+  if (defaultRole != null) {
+    user.setRole(defaultRole);
   }
+  User savedUser = userRepository.save(user);
+  // Créer et associer une adresse à l'utilisateur
+  Address address = createAddressFromDto(addressDto);
+  UserAddress userAddress = new UserAddress(user, address);
+  address.getUserAddresses().add(userAddress);
+  addressRepository.save(address);
 
+  return savedUser;
+}
+private Address createAddressFromDto(AddressDto addressDto) {
+  // Convertir les données de DTO en entité Address
+  Address address = new Address();
+  // ... autres champs
+  return address;
+}
   public User getUserById(Long userId) {
     Optional<User> optionalUser = userRepository.findById(userId);
     return optionalUser.orElse(null);
@@ -115,6 +131,5 @@ public class UserService {
     }
     return null; // Aucun utilisateur trouvé
   }
-  
 
 }
