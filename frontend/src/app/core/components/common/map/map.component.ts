@@ -28,7 +28,6 @@ export class MapComponent implements OnInit {
   constructor() { 
   }
 
-
   ngOnInit() {
     if (this.markersData.length > 0) {
       this.addMarkers();
