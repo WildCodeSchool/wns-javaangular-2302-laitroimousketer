@@ -27,11 +27,3 @@ jobs:
       - name: Push Backend
         run: |
           docker push djosh35/docker-back:${GITHUB_REF##*/}
-
-      # Add steps for building and pushing the frontend
-      - name: Build Frontend
-        run: npm install && npm run build
-
-      - name: Push Frontend
-        run: |
-          docker push djosh35/docker-front:${GITHUB_REF##*/}
