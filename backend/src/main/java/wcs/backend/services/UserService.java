@@ -28,46 +28,70 @@ public class UserService {
   private PasswordEncoder passwordEncoder;
   private TicketHaveUsersRepository ticketHaveUsersRepository;
   private AddressRepository addressRepository;
-  
+  private AddressService addressService;
 
-public User createUser(User user, AddressDto addressDto) {
-  String encryptedPassword = passwordEncoder.encode(user.getPassword());
-  user.setPassword(encryptedPassword);
+  //Creation user
+  public User createUser(User user, AddressDto addressDto) {
+    String encryptedPassword = passwordEncoder.encode(user.getPassword());
+    user.setPassword(encryptedPassword);
 
-  Role defaultRole = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
-  if (defaultRole != null) {
-    user.setRole(defaultRole);
+    Role defaultRole = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
+    if (defaultRole != null) {
+      user.setRole(defaultRole);
+    }
+    User savedUser = userRepository.save(user);
+    // Créer et associer une adresse à l'utilisateur
+    Address address = createAddressFromDto(addressDto);
+    UserAddress userAddress = new UserAddress();
+    address.getUserAddresses().add(userAddress);
+    addressRepository.save(address);
+    return savedUser;
   }
-  User savedUser = userRepository.save(user);
-  // Créer et associer une adresse à l'utilisateur
-  Address address = createAddressFromDto(addressDto);
-  UserAddress userAddress = new UserAddress(user, address);
-  address.getUserAddresses().add(userAddress);
-  addressRepository.save(address);
 
-  return savedUser;
-}
-private Address createAddressFromDto(AddressDto addressDto) {
-  // Convertir les données de DTO en entité Address
-  Address address = new Address();
-  // ... autres champs
-  return address;
-}
+  //creation adresse user
+  private Address createAddressFromDto(AddressDto addressDto) {
+    // Convertir les données de DTO en entité Address
+    Address address = new Address();
+    // ... autres champs
+    return address;
+  }
+//get user by id
   public User getUserById(Long userId) {
     Optional<User> optionalUser = userRepository.findById(userId);
     return optionalUser.orElse(null);
   }
 
+  //get all users
   public List<User> getAllUsers() {
     return userRepository.findAll();
   }
 
-  public User updateUserMail(User user) {
-    Optional<User> optionalExistingUser = userRepository.findById(user.getId());
-    if (optionalExistingUser.isPresent()) {
-      User existingUser = optionalExistingUser.get();
-      existingUser.setEmail(user.getEmail());
-      return userRepository.save(existingUser);
+  // public User updateUserMail(User user) {
+  //   Optional<User> optionalExistingUser = userRepository.findById(user.getId());
+  //   if (optionalExistingUser.isPresent()) {
+  //     User existingUser = optionalExistingUser.get();
+  //     existingUser.setEmail(user.getEmail());
+  //     return userRepository.save(existingUser);
+  //   }
+  //   return null;
+  // }
+
+  public User updateUserAddress(Long userId, AddressDto updatedAddressDto) {
+    User user = userRepository.findById(userId).orElse(null);
+    if (user != null) {
+      // Obtenez l'adresse actuelle de l'utilisateur
+      Address currentAddress = user.getAddress();
+      // Mettez à jour les détails de l'adresse avec ceux du DTO
+      currentAddress.setCity(updatedAddressDto.getCity());
+      currentAddress.setCountry(updatedAddressDto.getCountry());
+      currentAddress.setLatitude(updatedAddressDto.getLatitude());
+      currentAddress.setLongitude(updatedAddressDto.getLongitude());
+      currentAddress.setPostcode(updatedAddressDto.getPostcode());
+      currentAddress.setStreet_l1(updatedAddressDto.getStreet_l1());
+      currentAddress.setStreet_l2(updatedAddressDto.getStreet_l2());
+      // Sauvegardez l'adresse mise à jour
+      addressService.updateAddress(currentAddress);
+      return user;
     }
     return null;
   }

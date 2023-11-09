@@ -108,8 +108,26 @@ public String setLastname() {
   return this.lastname;
 }
 
+public void setUserAddresses(List<UserAddress> userAddresses) {
+  this.userAddresses = userAddresses;
+}
+
+public Address getAddress() {
+  // Vous devez décider comment gérer le cas où un utilisateur peut avoir plusieurs adresses
+  // Pour l'instant, je vais simplement retourner la première adresse s'il y en a une
+  return this.userAddresses != null && !this.userAddresses.isEmpty() ? this.userAddresses.get(0).getAddress() : null;
+}
 
 
+public void setAddress(Address address) {
+  // Vous devez décider comment gérer le cas où un utilisateur peut avoir plusieurs adresses
+  // Pour l'instant, je vais simplement ajouter une nouvelle relation UserAddress
+  if (this.userAddresses == null) {
+    this.userAddresses = new ArrayList<>();
+  }
+  UserAddress userAddress = new UserAddress(this, address);
+  this.userAddresses.add(userAddress);
+}
 
 
 }
