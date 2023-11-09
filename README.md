@@ -4,7 +4,7 @@
 La version d'angular actuelle du projet est en 16.2.8.
 
 
-# Pour le back, il faut avoir java version 21 d'installé au préalable.
+# Pour le back, il faut avoir la version de java 21 d'installée au préalable.
 Ne pas oublier d'avoir la variable d'environnement java qui pointe vers java en version 21.
 Puis lancer le back via la commande sur windows : ./mvnw spring-boot:run.
 
