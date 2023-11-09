@@ -32,5 +32,5 @@ jobs:
       - name: Push Backend
         run: |
           cd backend  # Change the working directory to 'backend'
-          docker build -t alayde-back:${GITHUB_REF##*/} .
-          docker push alayde-back:${GITHUB_REF##*/}
+          docker build -t djosh35/alayde-back:${GITHUB_REF##*/} .
+          docker push djosh35/alayde-back:${GITHUB_REF##*/}
