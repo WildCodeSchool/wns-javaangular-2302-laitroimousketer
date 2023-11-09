@@ -19,9 +19,10 @@ jobs:
           distribution: 'temurin'
 
       - name: Build Backend with Maven
-        run: |
-          cd backend  # Change the working directory to 'backend'
-          mvn --batch-mode --update-snapshots spring-boot:build-image -Dimage.tag=${GITHUB_REF##*/}
+        run: cd backend && ./mvnw clean install
+
+      - name: Build Docker image
+        run: docker build -t djosh35/alayde-back:${GITHUB_REF##*/} backend
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -30,7 +31,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push Backend
-        run: |
-          cd backend  # Change the working directory to 'backend'
-          docker build -t djosh35/alayde-back:${GITHUB_REF##*/} .
-          docker push djosh35/alayde-back:${GITHUB_REF##*/}
+        run: docker push djosh35/alayde-back:${GITHUB_REF##*/}
