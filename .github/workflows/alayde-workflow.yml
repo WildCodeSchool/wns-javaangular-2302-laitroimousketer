@@ -26,7 +26,7 @@ jobs:
 
       - name: Push Backend
         run: |
-          docker push alayde/docker-back:${GITHUB_REF##*/}
+          docker push djosh35/docker-back:${GITHUB_REF##*/}
 
       # Add steps for building and pushing the frontend
       - name: Build Frontend
@@ -34,4 +34,4 @@ jobs:
 
       - name: Push Frontend
         run: |
-          docker push alayde/docker-front:${GITHUB_REF##*/}
+          docker push djosh35/docker-front:${GITHUB_REF##*/}
