@@ -1,6 +1,9 @@
 name: Alayde frontend CI
 
-on: [push]
+on:
+  push:
+    paths:
+      - 'front/**'  # Déclenche uniquement lorsque des changements sont effectués dans le dossier 'front'
 
 jobs:
   build:
@@ -13,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.16.1'  # Utilise la version appropriée
+          node-version: '14'  # Utilise la version appropriée
 
       - name: Install dependencies
         run: npm install
