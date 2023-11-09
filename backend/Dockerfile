@@ -43,4 +43,3 @@ EXPOSE 8080
 
 # Command to run the Spring Boot app
 CMD ["java", "-jar", "target/backend.jar"]
-
