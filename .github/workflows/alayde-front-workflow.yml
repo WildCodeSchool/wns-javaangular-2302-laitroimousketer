@@ -3,7 +3,7 @@ name: Alayde frontend CI
 on:
   push:
     paths:
-      - 'front/**'  # Déclenche uniquement lorsque des changements sont effectués dans le dossier 'front'
+      - 'frontend/**'  # Déclenche uniquement lorsque des changements sont effectués dans le dossier 'front'
 
 jobs:
   build:

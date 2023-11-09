@@ -3,7 +3,7 @@ name: Alayde backend CI
 on:
   push:
     paths:
-      - 'back/**'  # Déclenche uniquement lorsque des changements sont effectués dans le dossier 'back'
+      - 'backend/**'  # Déclenche uniquement lorsque des changements sont effectués dans le dossier 'back'
 jobs:
   build:
     runs-on: ubuntu-latest
