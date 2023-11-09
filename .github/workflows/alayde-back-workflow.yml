@@ -19,7 +19,10 @@ jobs:
           distribution: 'temurin'
 
       - name: Build Backend with Maven
-        run: cd backend && ./mvnw clean install
+        run: |
+          cd backend
+          chmod +x mvnw
+          ./mvnw clean install
 
       - name: Build Docker image
         run: docker build -t djosh35/alayde-back:${GITHUB_REF##*/} backend
