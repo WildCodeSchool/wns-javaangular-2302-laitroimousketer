@@ -1,5 +1,5 @@
 # Use a Maven image that supports Java 21
-FROM maven:3.9.5-openjdk-21 AS build
+FROM maven:3.9.5-eclipse-temurin-11 AS build
 
 # Set the working directory
 WORKDIR /usr/src/app
