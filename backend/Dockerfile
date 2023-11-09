@@ -1,5 +1,5 @@
-# Use the official Maven image as the base image
-FROM maven:3.8.4-openjdk-11-slim AS build
+# Use a Maven image that supports Java 21
+FROM maven:3.8.5-openjdk-17 AS build
 
 # Set the working directory
 WORKDIR /usr/src/app
@@ -9,7 +9,7 @@ COPY pom.xml .
 COPY src ./src
 
 # Build the application
-RUN mvn clean install -DskipTests
+RUN mvn clean install
 
 # Use the official OpenJDK image as the base image
 FROM openjdk:21-jdk
