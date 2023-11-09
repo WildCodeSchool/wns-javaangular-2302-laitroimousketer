@@ -30,7 +30,7 @@ jobs:
 
       # Add steps for building and pushing the frontend
       - name: Build Frontend
-        run: cd client && npm install && npm run build
+        run: npm install && npm run build
 
       - name: Push Frontend
         run: |
