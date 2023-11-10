@@ -1,26 +1,33 @@
-
+<section class="side"></section>
 <section class="formulaire">
-    <h1 class="">Créer un  nouveau ticket</h1>
+    <h1 class="ticketAddTitle">Créer un  nouveau ticket</h1>
     <form  [formGroup]="ticketAdditionForm">
         <div>
-            <label class="form-label" for="title">Title</label>
-            <input class="form-control" id="title" type="text" formControlName="title" required>
+            <label class="form-label" for="title">Titre</label>
+            <input class="form-control" id="title" type="text" required placeholder="Renseigner le thème du sujet">
         </div>
+        <div>
+            <label class="form-label" for="date">Date</label>
+            <input class="form-control" id="date" type="date"required>
+        </div>
+      <div>
+          <label class="form-label" for="priority">Priorité</label>
+          <select class="form-control" id="priority" required>
+              <option value="1">Basse</option>
+              <option value="2">Moyenne</option>
+              <option value="3">Haute</option>
+          </select>
+      </div>
+      <div>
+        <label class="form-label" for="category">Catégorie</label>
+          <option value="1">Basse</option>
+          <option value="2">Moyenne</option>
+          <option value="3">Haute</option>
+      </div>
         <div>
             <label class="form-label" for="description">Description</label>
-            <input class="form-control" id="description" type="text" formControlName="description" required>
+            <input class="form-control" id="description" type="text" required placeholder="Expliquer avec détails votre problèmatique">
         </div>
-        <div>
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" formControlName="selectedCategory">
-                <option *ngFor="let category of categories" [ngValue]="category.id">
-                {{ category.title }}
-                </option>
-            </select>
-        </div>
-       
-            <button class="btn btn-primary" type="button" [disabled]="!ticketAdditionForm.valid" (click)="addTicket()">Create</button>
-       
+        <button class="btn btn-primary" type="button" [disabled]="!ticketAdditionForm.valid" (click)="addTicket()">Créer</button>
     </form>
 </section>
-
-<p>Form Status: {{ ticketAdditionForm.status }}</p>
