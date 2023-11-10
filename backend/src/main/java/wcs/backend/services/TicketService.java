@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import wcs.backend.dtos.TicketDto;
 import wcs.backend.dtos.TicketHaveUsersDto;
 import wcs.backend.dtos.UserDto;
@@ -28,14 +30,23 @@ import wcs.backend.repositories.TicketHaveUsersRepository;
 
 @Service
 @AllArgsConstructor
-public class TicketService {
 
+public class TicketService {
+  @Autowired
   private TicketRepository ticketRepository;
   private TicketMapper ticketMapper;
+  @Autowired
   private CategoryRepository categoryRepository;
+  @Autowired
   private StatusRepository statusRepository;
+  @Autowired
   private PriorityRepository priorityRepository;
+  @Autowired
   private TicketHaveUsersRepository ticketHaveUsersRepository;
+
+  public TicketService() {
+  
+  }
 
   public Ticket createTicket(Ticket ticket, User creator) {
     // Sélectionnez la statut par défaut
@@ -268,9 +279,10 @@ public class TicketService {
     return ticketRepository.countByStatus(status);
   }
 
-  public TicketDto createNewTicket (TicketDto ticketDto) {
-      TicketDto newTicketDto = ticketMapper.ticketToTicketDto(ticketRepository.save(ticketMapper.ticketDtoToTicket(ticketDto)));
-        return newTicketDto;
+  public TicketDto createNewTicket(TicketDto ticketDto) {
+    TicketDto newTicketDto = ticketMapper
+        .ticketToTicketDto(ticketRepository.save(ticketMapper.ticketDtoToTicket(ticketDto)));
+    return newTicketDto;
   }
 
 }
