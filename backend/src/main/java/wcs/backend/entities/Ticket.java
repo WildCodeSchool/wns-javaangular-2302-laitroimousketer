@@ -34,6 +34,10 @@ public class Ticket {
   @Temporal(TemporalType.TIMESTAMP)
   private Date updateDate;
 
+  @Column(nullable = true)
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date archiveDate;
+
   @ManyToOne
   @JoinColumn(name = "category_id", nullable = true)
   private Category category;
@@ -66,6 +70,5 @@ public class Ticket {
   public User getAuthor() {
     return author;
   }
-
   // Autres getters et setters
 }

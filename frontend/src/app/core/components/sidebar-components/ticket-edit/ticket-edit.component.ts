@@ -65,7 +65,7 @@ export class TicketEditComponent {
           if (this.ticketAdditionForm.value.selectedCategory != null){
             this.selectedCategory =  this.ticketAdditionForm.value.selectedCategory;
           }    
-        this.ticketService.updateTicket(this.ticketToUpdate, this.ticketId, this.selectedCategory ).subscribe(
+        this.ticketService.updateTicket(this.ticketId, this.ticketToUpdate).subscribe(
             data => { 
             this.router.navigateByUrl("/tickets/list")
             }

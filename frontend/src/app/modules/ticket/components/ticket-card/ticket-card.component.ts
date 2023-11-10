@@ -4,13 +4,14 @@ import { RenamingService } from 'src/app/core/services/renaming.service';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Ticket } from 'src/app/modules/ticket/models/ticket';
 import { TicketDetails } from 'src/app/modules/ticket/models/ticket-details';
+import { TicketService } from '../../services/ticket.service';
 
 @Component({
   selector: 'app-ticket-card',
   templateUrl: './ticket-card.component.html',
   styleUrls: ['./ticket-card.component.scss'],
 })
-export class TicketCardComponent implements OnInit {
+export class TicketCardComponent implements OnInit{
   ticketDetails: TicketDetails = {
     number: 0,
     name: '',
@@ -20,6 +21,7 @@ export class TicketCardComponent implements OnInit {
     priority: '',
     creationDate: '',
     updateDate: '',
+    archiveDate: '',
     status: '',
     fullnameAuthor: '',
     developers: [],
@@ -32,10 +34,13 @@ export class TicketCardComponent implements OnInit {
 
   @Input() ticket!: Ticket;
 
+  oldTicket: string = '';
   colorPriority: string = '';
   colorStatus: string = '';
+  isArchive: boolean = false;
   constructor(
     private sharedService: SharedService,
+    private ticketService: TicketService,
     private renamingService: RenamingService,
   ) { }
 
@@ -44,10 +49,10 @@ export class TicketCardComponent implements OnInit {
     this.loadColorPriority();
     this.loadColorStatus();
     this.rename();
+    this.oldTicket = JSON.stringify(this.ticket);
     // console.log(this.ticketDetails.creator,'CCCCCCCCCCCCCCCCCCCCCCCC')
   }
-
-
+ 
   loadTicket() {
     if (this.ticket !== undefined) {
       // console.log(this.ticket);
@@ -57,6 +62,7 @@ export class TicketCardComponent implements OnInit {
       this.ticketDetails.priority = this.ticket.priorityTitle || '';
       this.ticketDetails.creationDate = this.ticket.creationDate || '';
       this.ticketDetails.updateDate = this.ticket.updateDate || '';
+      this.ticketDetails.archiveDate = this.ticket.archiveDate || '';
       this.ticketDetails.status = this.ticket.statusTitle || '';
       this.ticketDetails.category = this.ticket.categoryTitle || '';
       this.ticketDetails.authorId = this.ticket.authorId || 0;
@@ -64,7 +70,9 @@ export class TicketCardComponent implements OnInit {
       this.ticketDetails.authorFirstname = this.ticket.authorFirstname || '';
       this.ticketDetails.authorLastname = this.ticket.authorLastname || '';
       this.ticketDetails.fullnameAuthor = this.ticket.authorLastname + ' ' + this.ticket.authorFirstname || '';
-
+      if (this.ticket.archiveDate !== null) {
+        this.isArchive = true;
+      }
     }
 
   }

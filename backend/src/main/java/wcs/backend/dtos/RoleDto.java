@@ -4,14 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import wcs.backend.entities.Category.Title;
+
+import wcs.backend.entities.Role.Title;
+
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class CategoryDto {
-    private Long id;
-    private Title categoryTitle; 
+public class RoleDto {
+  private Long id;
+  private Title roleTitle;
 }

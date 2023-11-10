@@ -4,6 +4,8 @@ import { TicketDetails } from 'src/app/modules/ticket/models/ticket-details';
 import { MenuItems } from '../sidebar-menu/menu-items.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { RenamingService } from 'src/app/core/services/renaming.service';
+import { TicketService } from 'src/app/modules/ticket/services/ticket.service';
+import { AlertService } from 'src/app/core/services/alert.service';
 @Component({
   selector: 'app-ticket-details',
   templateUrl: './ticket-details.component.html',
@@ -21,7 +23,7 @@ import { RenamingService } from 'src/app/core/services/renaming.service';
   ]
 })
 export class TicketDetailsComponent implements OnInit {
-  @Input() ticket!: Ticket | null;
+  @Input() ticket!: Ticket;
 
   ticketDetails: TicketDetails = {
     number: 0,
@@ -32,12 +34,13 @@ export class TicketDetailsComponent implements OnInit {
     priority: '',
     creationDate: '',
     updateDate: '',
+    archiveDate: '',
     status: '',
     authorId: 0,
     authorFirstname: '',
     authorLastname: '',
     authorEmail: '',
-    developers:[] = [],
+    developers: [] = [],
     fullnameAuthor: '',
     category: '',
   };
@@ -50,16 +53,22 @@ export class TicketDetailsComponent implements OnInit {
   menuTitle: string = 'Ticket';
   menuIcon: string = 'bi bi-tag-fill';
 
+  canClose: boolean = false;
   page: string = 'Info';
-
   statutSpan: string = '';
   prioritySpan: string = '';
-  constructor(private renamingService : RenamingService) { }
+
+  constructor(
+    private ticketService: TicketService,
+    private renamingService: RenamingService,
+    private alertService: AlertService,
+  ) { }
 
   ngOnInit() {
     this.loadTicket();
-    this.rename();
+    console.log('ticket details:', this.ticketDetails)
   }
+  // pour le reset des
 
   onPageChange(page: string): void {
     this.page = page;
@@ -68,7 +77,7 @@ export class TicketDetailsComponent implements OnInit {
 
   loadTicket() {
     if (this.ticket !== undefined && this.ticket !== null) {
-      // console.log('ticket details:', this.ticket);
+      console.log('ticket details:', this.ticket);
 
       this.ticketDetails.number = this.ticket.id ? this.ticket.id : 0;
       this.ticketDetails.name = this.ticket.ticketTitle ? this.ticket.ticketTitle : '';
@@ -77,6 +86,7 @@ export class TicketDetailsComponent implements OnInit {
       this.ticketDetails.category = this.ticket.categoryTitle ? this.ticket.categoryTitle : '';
       this.ticketDetails.creationDate = this.ticket.creationDate ? this.ticket.creationDate : '';
       this.ticketDetails.updateDate = this.ticket.updateDate ? this.ticket.updateDate : '';
+      this.ticketDetails.archiveDate = this.ticket.archiveDate ? this.ticket.archiveDate : '';
       this.ticketDetails.status = this.ticket.statusTitle ? this.ticket.statusTitle : '';
       this.ticketDetails.authorId = this.ticket.authorId ? this.ticket.authorId : 0;
       this.ticketDetails.authorFirstname = this.ticket.authorFirstname ? this.ticket.authorFirstname : '';
@@ -84,13 +94,14 @@ export class TicketDetailsComponent implements OnInit {
       this.ticketDetails.fullnameAuthor = this.ticket.authorLastname + ' ' + this.ticket.authorFirstname || '';
       this.ticketDetails.authorEmail = this.ticket.authorEmail ? this.ticket.authorEmail : '';
       this.ticketDetails.developers = this.ticket.ticketHaveUsers ? this.ticket.ticketHaveUsers : [];
-      this.checkStatusColorSpan();
-      this.checkPriorityColorSpan();
+      this.checkStatus();
+      this.checkPriority();
+      this.rename();
     }
   }
 
 
-  checkStatusColorSpan() {
+  checkStatus() {
     if (this.ticketDetails.status === 'TO_DO') {
       this.statutSpan = 'todo';
 
@@ -99,10 +110,11 @@ export class TicketDetailsComponent implements OnInit {
     }
     if (this.ticketDetails.status === 'DONE') {
       this.statutSpan = 'done';
+      this.canClose = true;
     }
   }
 
-  checkPriorityColorSpan() {
+  checkPriority() {
     if (this.ticketDetails.priority === 'LOW') {
       this.prioritySpan = 'low';
     }
@@ -113,10 +125,92 @@ export class TicketDetailsComponent implements OnInit {
       this.prioritySpan = 'high';
     }
   }
-rename() {
+  rename() {
     this.ticketDetails.category = this.renamingService.renameCategory(this.ticketDetails.category);
     this.ticketDetails.status = this.renamingService.renameStatus(this.ticketDetails.status);
     this.ticketDetails.priority = this.renamingService.renamePriority(this.ticketDetails.priority);
-}
+  }
+
+  archiveTicket(ticketId: number): void {
+    if (this.ticketDetails.archiveDate === '') {
+      this.ticketService.archiveTicket(ticketId)
+        .subscribe(response => {
+          if (response.status === 200) {
+            this.alertService.showSuccessAlert('Ticket archivé avec succès');
+            this.ticketService.getTicket(this.ticket.id).subscribe((ticketData) => {
+              this.ticket = ticketData;
+              this.loadTicket();
+            });
+            // Faire quelque chose ici, par exemple, mettre à jour la liste des tickets archivés
+          } else {
+            this.alertService.showErrorAlert("Erreur lors de l'archivage du ticket");
+            // Gérer l'erreur ici, par exemple, afficher un message d'erreur à l'utilisateur
+          }
+        });
+    } else {
+      this.alertService.showErrorAlert("Le ticket est déjà archivé");
+    }
+  }
+
+  unarchiveTicket(ticketId: number): void {
+    if (this.ticketDetails.archiveDate !== '') {
+      this.ticketService.unarchiveTicket(ticketId)
+        .subscribe(response => {
+          if (response.status === 200) {
+            this.ticketService.getTicket(this.ticket.id).subscribe((ticketData) => {
+              this.ticket = ticketData;
+              this.loadTicket();
+            });
+            this.alertService.showSuccessAlert('Ticket désarchivé avec succès');
+            // Faire quelque chose ici, par exemple, mettre à jour la liste des tickets archivés
+          } else {
+            this.alertService.showErrorAlert("Erreur lors du désarchivage du ticket");
+            // Gérer l'erreur ici, par exemple, afficher un message d'erreur à l'utilisateur
+          }
+        });
+    } else {
+      this.alertService.showErrorAlert("Le ticket n'est pas archivé");
+    }
+  }
+
+  closeTicket() {
+    if (this.ticketDetails.status === 'En cours') {
+      let updatedTicket: Ticket = this.ticket;
+      updatedTicket.statusId = 96;
+  
+      this.ticketService.updateAndFetchTicket(this.ticket.id, updatedTicket).subscribe(
+        (updatedTicket) => {
+          this.ticket = updatedTicket;
+          console.log('ticket updated:', this.ticket);
+          this.loadTicket();
+          this.alertService.showSuccessAlert('Ticket fermé avec succès');
+        },
+        (error) => {
+          this.alertService.showErrorAlert("Erreur lors de la clôture du ticket");
+        }
+      );
+    } else {
+      this.alertService.showErrorAlert("Le ticket n'a pas été encore traité");
+    }
+  }
+  
+  reopenTicket() {
+    if (this.ticketDetails.status === 'Terminé') {
+      let updatedTicket: Ticket = this.ticket;
+      updatedTicket.statusId = 94;
+  
+      this.ticketService.updateAndFetchTicket(this.ticket.id, updatedTicket).subscribe(
+        (updatedTicket) => {
+          this.ticket = updatedTicket;
+          this.loadTicket();
+          this.alertService.showSuccessAlert('Ticket réouvert avec succès');
+        },
+        (error) => {
+          this.alertService.showErrorAlert("Erreur lors de la tentative de réouverture du ticket");
+        }
+      );
+    }
+  }
+  
 
 }

@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TicketService } from '../../services/ticket.service';
 import { Ticket } from '../../models/ticket';
-import { Router } from '@angular/router';
+
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
 import { TicketHaveUsers } from '../../models/ticketHaveUsers';
@@ -51,7 +51,7 @@ interface SortOption {
   ],
 })
 export class TicketsListComponent implements OnInit {
-  tickets: Ticket[] | undefined;
+  tickets!: Ticket[];
   ticketsClient: Ticket[] | undefined;
   originalTickets: Ticket[] | undefined;
   isUpdatingTickets: boolean = false;
@@ -69,7 +69,7 @@ export class TicketsListComponent implements OnInit {
   doingCount: number = 0;
   doneCount: number = 0;
 
-
+  showArchivedTickets : boolean = false;
   currentSortBy: string = '';
   states: string[] = [
     'Date de création (asc)',
@@ -104,9 +104,7 @@ export class TicketsListComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private router: Router,
     private authService: AuthService,
-    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -114,7 +112,6 @@ export class TicketsListComponent implements OnInit {
     this.checkRole();
     this.getTicketList();
     this.initializeStates();
-    this.updateTicketList();
   }
 
   private initializeStates() {
@@ -139,6 +136,7 @@ export class TicketsListComponent implements OnInit {
   getTicketList() {
     this.ticketService.getTicketList().subscribe((data) => {
       this.originalTickets = [...data]; // Copie des tickets originaux
+      this.tickets = [...this.originalTickets]; // initialisation des tickets
       this.updateTicketList();
     });
   }
@@ -149,14 +147,13 @@ export class TicketsListComponent implements OnInit {
     }
     this.tickets = [...this.originalTickets];
     this.applyFilters();
-    this.sortTickets(this.currentSortBy, this.tickets);
+    // this.sortTickets(this.currentSortBy, this.tickets);
   }
 
   // FILTERS //
   onCheckboxChange(group: string, filterName: string) {
-    // Inversez l'état du filtre sélectionné
+    // Inversez l'état du groupe de filtre sélectionné
     this.filters[group as keyof TicketFilter][filterName] = !this.filters[group as keyof TicketFilter][filterName];
-
     // Si le filtre est activé, désactivez tous les autres filtres dans le groupe
     if (this.filters[group as keyof TicketFilter][filterName]) {
       for (const key in this.filters[group as keyof TicketFilter]) {
@@ -165,14 +162,54 @@ export class TicketsListComponent implements OnInit {
         }
       }
     }
-
     // Appliquer les filtres
     this.applyFilters();
+    // Mettre à jour la liste des tickets
     this.updateTicketList();
   }
 
 
-
+  // TRI //
+  sortTickets(sortBy: string, tickets: Ticket[]) {
+    if (!this.tickets) {
+      return;
+    }
+    // console.log('sortBy', sortBy);
+    switch (sortBy) {
+      case 'Date de création (asc)':
+        this.tickets.sort((a, b) => a.creationDate.localeCompare(b.creationDate));
+        break;
+      case 'Date de création (desc)':
+        this.tickets.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
+        break;
+      case 'Numéro de ticket (asc)':
+        this.tickets.sort((a, b) => a.id.toString().localeCompare(b.id.toString()));
+        break;
+      case 'Numéro de ticket (desc)':
+        this.tickets.sort((a, b) => b.id.toString().localeCompare(a.id.toString()));
+        break;
+      case 'Nom (A-Z)':
+        this.tickets.sort((a, b) => a.authorFirstname.localeCompare(b.authorFirstname));
+        break;
+      case 'Nom (Z-A)':
+        this.tickets.sort((a, b) => b.authorFirstname.localeCompare(a.authorFirstname));
+        break;
+      case 'Prénom (A-Z)':
+        this.tickets.sort((a, b) => a.authorLastname.localeCompare(b.authorLastname));
+        break;
+      case 'Prénom (Z-A)':
+        this.tickets.sort((a, b) => b.authorLastname.localeCompare(a.authorLastname));
+        break;
+      // Add more cases as needed
+      default:
+        break;
+    }
+  }
+  onSortChange(event: MatSelectChange) {
+    this.currentSortBy = event.value;
+    this.updateTicketList();
+  }
+  
 
 
   applyFilters() {
@@ -183,6 +220,7 @@ export class TicketsListComponent implements OnInit {
         for (const key in this.filters[groupKey]) {
           if (this.filters[groupKey].hasOwnProperty(key) && this.filters[groupKey][key]) {
             filters.push(`${groupKey}=${key.toUpperCase()}`);
+            // console.log('filters', filters);
           }
         }
       }
@@ -190,62 +228,17 @@ export class TicketsListComponent implements OnInit {
 
     // Appel au service pour construire la requête et retourner les tickets filtrés
     this.ticketService.getTicketsByFilters(filters.join('&')).subscribe((tickets) => {
-      // Mettez à jour les tickets locaux avec les tickets filtrés
-      this.isUpdatingTickets = true;
-      const sortedTickets = [...tickets]; // Créez une copie triée
-      this.sortTickets(this.currentSortBy, sortedTickets); // Triez la copie
-      this.tickets = sortedTickets; // Affectez le tableau trié
-      this.cdr.detectChanges();
-      this.isUpdatingTickets = false;
+    // Mettez à jour les tickets locaux avec les tickets filtrés
+    if (!this.showArchivedTickets) {
+      tickets = tickets.filter((ticket) => ticket.archiveDate === null);
+    }
+    this.tickets = tickets; // Affectez le tableau filtré
+    this.sortTickets(this.currentSortBy, this.tickets);
     });
   }
 
-
-  // TRI //
-  private sortTickets(sortBy: string, tickets: Ticket[]) {
-    if (!tickets) {
-      return;
-    }
-    switch (sortBy) {
-      case 'Date de création (ascendant)':
-        tickets.sort((a, b) => a.creationDate.localeCompare(b.creationDate));
-        break;
-      case 'Date de création (descendant)':
-        tickets.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
-        break;
-      case 'Numéro de ticket (ascendant)':
-        tickets.sort((a, b) => a.id.toString().localeCompare(b.id.toString()));
-        break;
-      case 'Numéro de ticket (descendant)':
-        tickets.sort((a, b) => b.id.toString().localeCompare(a.id.toString()));
-        break;
-      case 'Nom (A-Z)':
-        tickets.sort((a, b) => this.compareNames(a, b, 'userLastName', 'userFirstName'));
-        break;
-      case 'Nom (Z-A)':
-        tickets.sort((a, b) => this.compareNames(b, a, 'userLastName', 'userFirstName'));
-        break;
-      case 'Prénom (A-Z)':
-        tickets.sort((a, b) => this.compareNames(a, b, 'userFirstName', 'userLastName'));
-        break;
-      case 'Prénom (Z-A)':
-        tickets.sort((a, b) => this.compareNames(b, a, 'userFirstName', 'userLastName'));
-        break;
-      // Add more cases as needed
-      default:
-        break;
-    }
-  }
-
-  onSortChange(event: MatSelectChange) {
-    this.currentSortBy = event.value;
-    this.updateTicketList();
-  }
-
-  private compareNames(a: Ticket, b: Ticket, key1: keyof TicketHaveUsers, key2: keyof TicketHaveUsers): number {
-    const nameA = `${a.ticketHaveUsers?.[0]?.[key1]} ${a.ticketHaveUsers?.[0]?.[key2]}`;
-    const nameB = `${b.ticketHaveUsers?.[0]?.[key1]} ${b.ticketHaveUsers?.[0]?.[key2]}`;
-    return nameA.localeCompare(nameB);
+  isEven(index: number): boolean {
+    return index % 2 === 0;
   }
 
   getCounts(): void {
@@ -296,9 +289,13 @@ export class TicketsListComponent implements OnInit {
     );
     this.subscriptions.add(subscriptions);
   }
-
+  ViewArchivedTickets() {
+    this.showArchivedTickets = !this.showArchivedTickets;
+    this.updateTicketList(); // Mettez à jour la liste des tickets en fonction de la nouvelle valeur
+  }
+  
   ngOnDestroy() {
-       // Nettoyez les abonnements lorsque le composant est détruit
+    // Nettoyez les abonnements lorsque le composant est détruit
     this.subscriptions.unsubscribe();
   }
 }

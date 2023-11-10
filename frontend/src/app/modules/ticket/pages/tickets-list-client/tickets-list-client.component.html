@@ -11,7 +11,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-   
+
       <div class="checkbox-c">
 
         <div class="category">Catégorie:
@@ -30,7 +30,6 @@
             (change)="onCheckboxChange('status', 'doing')">en cours <span class="badge"> {{this.doingCount}}</span></mat-checkbox>
           <mat-checkbox class="checkbox" [checked]="filters.status.done"
             (change)="onCheckboxChange('status', 'done')">terminé<span class="badge">{{this.doneCount}}</span></mat-checkbox>
-
 
 
         </div>

@@ -95,7 +95,6 @@ export class DashboardComponent implements OnInit {
     this.numberOfTickets = this.tickets.length;
     this.ticketsWithoutUser = this.tickets.filter((ticket) => ticket.ticketHaveUsers.length === 0).length;
     this.billingCount = this.tickets.filter((ticket) => ticket.categoryTitle === 'BILLING').length;
-    console.log(this.billingCount, "billingCount");
     this.featureCount = this.tickets.filter((ticket) => ticket.categoryTitle === 'FEATURE').length;
     this.technicalCount = this.tickets.filter((ticket) => ticket.categoryTitle === 'TECHNICAL').length;
 

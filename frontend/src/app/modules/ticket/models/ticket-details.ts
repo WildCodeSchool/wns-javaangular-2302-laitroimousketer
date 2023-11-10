@@ -8,7 +8,8 @@ export interface TicketDetails {
   description: string;
   priority: string;
   creationDate: string;
-  updateDate?: string;
+  updateDate: string;
+  archiveDate: string;
   status: string;
   authorId: number;
   authorFirstname: string;

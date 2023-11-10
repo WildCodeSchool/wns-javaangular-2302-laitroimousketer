@@ -8,9 +8,6 @@ import lombok.Setter;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -32,18 +29,13 @@ public class Role {
     @Column(nullable = false)
     private Title roleTitle;
 
-    @JsonIgnoreProperties("role")
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> users;
 
     // Constructeurs, getters et setters
-   
     public Role(Title roleTitle) {
       this.roleTitle = roleTitle;
   }
-  @Override
-  public String toString() {
-    return "Role [id=" + id + ", title=" + roleTitle + "]";
-  }
+
 }
 

@@ -1,7 +1,7 @@
 <section class="card" (click)="openSidebar()">
 
   <div class="client">
-  <app-avatar [userName]="ticketDetails.fullnameAuthor" class="context-ticket-card-fullnameAuthor"></app-avatar>
+  <app-avatar [userName]="ticketDetails.fullnameAuthor" [isArchive]="isArchive" class="context-ticket-card-fullnameAuthor"></app-avatar>
     <p><span class="prefix">Client:</span> {{ ticketDetails.fullnameAuthor }}</p>
   </div>
 

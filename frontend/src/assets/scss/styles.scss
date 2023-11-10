@@ -2,6 +2,7 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
+
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -106,7 +107,6 @@ h1,h2,h3,h4,h5,h6 {
 }
 // mat-form-field //
 
-
 .mat-mdc-form-field-flex  {
   background-color: white;
 }
@@ -128,11 +128,9 @@ mat-icon {
 mat-form-field {
   width: 100%;
 
-
 }
 
 mat-label {
-
 }
 mat-error {
   font-size: 11px;

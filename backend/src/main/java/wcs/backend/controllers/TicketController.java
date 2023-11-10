@@ -98,14 +98,31 @@ public class TicketController {
 
   @PutMapping("/{id}")
   @Operation(summary = "Update Ticket", description = "Update details of an existing ticket.")
-  // http://localhost:8080/api/tickets/1
   public ResponseEntity<TicketDto> updateTicket(@PathVariable("id") Long ticketId,
       @RequestBody TicketDto ticketDto) {
     Ticket ticket = convertToEntity(ticketDto);
     ticket.setId(ticketId);
     Ticket updatedTicket = ticketService.updateTicket(ticket);
-    TicketDto updatedTicketDto = convertToDto(updatedTicket);
+    TicketDto updatedTicketDto = convertToDto(updatedTicket);    
     return new ResponseEntity<>(updatedTicketDto, HttpStatus.OK);
+  }
+
+
+
+  @PutMapping("/archive/{id}")
+  @Operation(summary = "Archive Ticket", description = "Archive an existing ticket by ID.")
+  public ResponseEntity<TicketDto> archiveTicket(@PathVariable("id") Long ticketId) {
+    Ticket archivedTicket = ticketService.archiveTicket(ticketId);
+    TicketDto archivedTicketDto = convertToDto(archivedTicket);
+    return new ResponseEntity<>(archivedTicketDto, HttpStatus.OK);
+  }
+  
+  @PutMapping("/unarchive/{id}")
+  @Operation(summary = "Archive Ticket", description = "unarchive an existing ticket by ID.")
+  public ResponseEntity<TicketDto> unarchiveTicket(@PathVariable("id") Long ticketId) {
+    Ticket archivedTicket = ticketService.unarchiveTicket(ticketId);
+    TicketDto archivedTicketDto = convertToDto(archivedTicket);
+    return new ResponseEntity<>(archivedTicketDto, HttpStatus.OK);
   }
 
   @DeleteMapping("/{id}")
@@ -120,28 +137,24 @@ public class TicketController {
 
     // Convertir la liste d'associations utilisateur de l'entité Ticket vers DTO
     List<TicketHaveUsersDto> ticketHaveUsersDto = ticket.getUserAssociations().stream()
-            .map(ticketHaveUsers -> modelMapper.map(ticketHaveUsers, TicketHaveUsersDto.class))
-            .collect(Collectors.toList());
+        .map(ticketHaveUsers -> modelMapper.map(ticketHaveUsers, TicketHaveUsersDto.class))
+        .collect(Collectors.toList());
 
     ticketDto.setTicketHaveUsers(ticketHaveUsersDto);
 
     // Ajouter les détails de l'auteur
     if (!ticket.getUserAssociations().isEmpty()) {
-        User creator = ticket.getUserAssociations().get(0).getUser();
-        UserDto authorDto = new UserDto(creator);
-        ticketDto.setAuthor(authorDto);
+      User creator = ticket.getUserAssociations().get(0).getUser();
+      UserDto authorDto = new UserDto(creator);
+      ticketDto.setAuthor(authorDto);
     } else if (ticket.getAuthor() != null) {
-        // Si la liste d'associations utilisateur est vide mais l'auteur n'est pas null, utilisez les informations de l'auteur directement
-        UserDto authorDto = new UserDto(ticket.getAuthor());
-        ticketDto.setAuthor(authorDto);
+      // Si la liste d'associations utilisateur est vide mais l'auteur n'est pas null,
+      // utilisez les informations de l'auteur directement
+      UserDto authorDto = new UserDto(ticket.getAuthor());
+      ticketDto.setAuthor(authorDto);
     }
-
     return ticketDto;
-}
-
-
-
-
+  }
 
   private Ticket convertToEntity(TicketDto ticketDto) {
     return modelMapper.map(ticketDto, Ticket.class);
@@ -165,7 +178,7 @@ public class TicketController {
     return new ResponseEntity<>(ticketDtos, HttpStatus.OK);
   }
 
-  //GET COUNT//
+  // GET COUNT//
   @GetMapping("/count")
   @Operation(summary = "Count all Tickets", description = "Get the number of all tickets.")
   public ResponseEntity<Long> countAllTickets() {

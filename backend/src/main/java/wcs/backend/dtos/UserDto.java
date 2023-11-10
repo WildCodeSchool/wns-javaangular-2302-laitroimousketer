@@ -16,6 +16,7 @@ public class UserDto {
   private String lastname;
   private String email;
   private String roleTitle;
+  private AddressDto address;
 
   // Other fields as needed
   public String getFirstname() {

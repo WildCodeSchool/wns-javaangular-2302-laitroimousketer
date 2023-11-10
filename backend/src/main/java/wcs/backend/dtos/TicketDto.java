@@ -24,6 +24,7 @@ public class TicketDto {
     private String priorityTitle;
     private Date creationDate;
     private Date updateDate;
+    private Date archiveDate;
     private List<TicketHaveUsersDto> ticketHaveUsers;
 
     // Informations sur l'auteur

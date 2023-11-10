@@ -32,8 +32,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecif
       @Param("categories") List<Category> categories);
 
       long countByCategory(Category category);
-
       long countByPriority(Priority priority);
-    
       long countByStatus(Status status);
+      
 }

@@ -20,7 +20,7 @@ export class RenamingService {
   renameStatus(status: string): string {
     switch (status) {
       case 'TO_DO':
-        return 'A faire';
+        return 'À faire';
       case 'DOING':
         return 'En cours';
       case 'DONE':

@@ -47,6 +47,9 @@ public class User implements UserDetails {
   @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
   private List<TicketHaveUsers> ticketHaveUsers;
 
+  // CASCADE ALL, si user supprimé, useradress supprimé
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private List<UserAddress> userAddresses;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -105,8 +108,26 @@ public String setLastname() {
   return this.lastname;
 }
 
+public void setUserAddresses(List<UserAddress> userAddresses) {
+  this.userAddresses = userAddresses;
+}
+
+public Address getAddress() {
+  // Vous devez décider comment gérer le cas où un utilisateur peut avoir plusieurs adresses
+  // Pour l'instant, je vais simplement retourner la première adresse s'il y en a une
+  return this.userAddresses != null && !this.userAddresses.isEmpty() ? this.userAddresses.get(0).getAddress() : null;
+}
 
 
+public void setAddress(Address address) {
+  // Vous devez décider comment gérer le cas où un utilisateur peut avoir plusieurs adresses
+  // Pour l'instant, je vais simplement ajouter une nouvelle relation UserAddress
+  if (this.userAddresses == null) {
+    this.userAddresses = new ArrayList<>();
+  }
+  UserAddress userAddress = new UserAddress();
+  this.userAddresses.add(userAddress);
+}
 
 
 }

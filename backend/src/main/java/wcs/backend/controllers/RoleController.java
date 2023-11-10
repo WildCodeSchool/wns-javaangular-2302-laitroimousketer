@@ -1,13 +1,15 @@
 package wcs.backend.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import wcs.backend.entities.Role;
+import wcs.backend.dtos.RoleDto;
 import wcs.backend.services.RoleService;
 
 @AllArgsConstructor
@@ -21,9 +23,14 @@ public class RoleController {
  
     @GetMapping
     @Operation(summary = "Get All Roles", description = "Get details of all available roles.")
-    public ResponseEntity<List<Role>> getAllRoles() {
-        List<Role> roles = roleService.getAllRoles();
-        return ResponseEntity.ok(roles);
+    public ResponseEntity<List<RoleDto>> getAllRoles() {
+        List<RoleDto> roleDtos = roleService.getAllRoles().stream()
+                .map(role -> new RoleDto(role.getId(), role.getRoleTitle()))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(roleDtos);
     }
-
+    
+    
+    
+    
 }

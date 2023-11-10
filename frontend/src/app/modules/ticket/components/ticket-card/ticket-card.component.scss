@@ -1,13 +1,13 @@
 @import 'src/assets/scss/template.scss';
 
-.card {
+.card{
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   align-items: center;
   justify-content: space-between;
   background-color: white;
   box-shadow: 0px 5px 15px -2px rgba(0, 0, 0, 0.5);
-  padding: 4px 1% 4px 1%;
+  padding: 8px 1% 8px 1%;
   position: relative;
   overflow: hidden;
   border-radius: 5px 5px;
@@ -28,6 +28,7 @@
     line-height: 1.75;
     text-align: end;
   }
+ 
 }
 
 .date,
@@ -38,7 +39,7 @@
 .category {
   display: flex;
   align-items: center;
-  font-size: 17px;
+  font-size: 16px;
   margin: auto;
   @include laptop {
     margin: 0;
@@ -87,8 +88,7 @@
 // host-context pour garder un style générique et faciliter la réutilisation du composant
 :host-context(.context-ticket-list) .card {
   margin-top: 16px;
-  margin-right: 1%;
-  margin-left: 2%;
+  background-color: transparent;
 }
 
 .context-ticket-card-creator {

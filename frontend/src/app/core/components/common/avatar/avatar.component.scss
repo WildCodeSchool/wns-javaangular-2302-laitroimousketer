@@ -1,19 +1,31 @@
 .avatar {
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
+  position: relative;
  p {
+  text-align: center;
   font-size: 1.5em;
  }
 }
-
-:host-context(.context-ticket-card-creator) {
-  .avatar {
-    width: 48px;
-    height: 48px;
-  }
+.avatar-2 {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.8em;
+  position: absolute;
+  top:-10%;
+  right: -25%;
+  background-color: rgb(150, 150, 150);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
 }
+
+

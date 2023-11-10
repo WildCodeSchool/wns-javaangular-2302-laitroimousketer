@@ -10,28 +10,23 @@ export class SharedService {
   private sidebarOpenedSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
   sidebarOpened$ = this.sidebarOpenedSubject.asObservable();
-// pour afficher le contenu voulu  dans sidebar//
+  // pour afficher le contenu voulu  dans sidebar//
   private currentContentSubject: BehaviorSubject<string> =
     new BehaviorSubject<string>('');
   currentContent$ = this.currentContentSubject.asObservable();
 
 
-  private ticketDetailsSubject: BehaviorSubject<Ticket> = new BehaviorSubject<Ticket>(new Ticket);
-  ticketDetails$ = this.ticketDetailsSubject.asObservable();
-
-  //pour s'abonné à un ticket et l'affiché aillleurs sur ticketModule par exemple
+  // ticket dans sidebar
   private currentTicketSubject: BehaviorSubject<Ticket> = new BehaviorSubject<Ticket>(new Ticket);
   currentTicket$ = this.currentTicketSubject.asObservable();
-
-  private currentUserSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
-
-
+  // user dans sidebar
+  private currentUserSubject: BehaviorSubject<User> = new BehaviorSubject<User>(new User);
   currentUser$ = this.currentUserSubject.asObservable();
 
   mode: string = '';
-  constructor() {}
+  constructor() { }
   toggleSidebar(): void {
-    console.log('toggleSidebar() called', !this.sidebarOpenedSubject.value);
+    // console.log('toggleSidebar() called', !this.sidebarOpenedSubject.value);
     this.sidebarOpenedSubject.next(!this.sidebarOpenedSubject.value);
   }
   setCurrentContent(content: string) {
