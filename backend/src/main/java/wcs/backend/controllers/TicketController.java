@@ -207,4 +207,11 @@ public class TicketController {
     return ResponseEntity.ok(count);
   }
 
+  @PostMapping("/newTicket")
+  @Operation(summary = "Create a Ticket", description = "Create a new ticket with details.")
+  public ResponseEntity<TicketDto> createTicket (@RequestBody TicketDto ticketDto) {
+    TicketDto newTicket = ticketService.createNewTicket(ticketDto);
+    return new ResponseEntity<>(newTicket, HttpStatus.CREATED);
+  }
+
 }
