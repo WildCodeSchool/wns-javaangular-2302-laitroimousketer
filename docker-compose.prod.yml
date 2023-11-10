@@ -3,9 +3,11 @@ version: '3'
 services:
   backend:
     image: djosh35/alayde-back:dockerisation
+    command: sh -c "mvn clean install && java -jar target/alayde-0.0.1-SNAPSHOT.jar"
     expose:
       - 8080
     environment:
+      - APPLI_ENV=production
       - SERVER_PORT=8080
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/alayde
       - SPRING_DATASOURCE_USERNAME=alayde_wcs_user
@@ -13,11 +15,11 @@ services:
 
   frontend:
     image: djosh35/alayde-front:dockerisation
-    ports:
-      - 8000:80
+    command: sh -c "npm run build"
+    volumes:
+      - web-client-build:/app/build
     environment:
-    #NOTHING FOR NOW
-
+      - APPLI_ENV=production 
   nginx:
     image: nginx:1.21.3
     depends_on:
