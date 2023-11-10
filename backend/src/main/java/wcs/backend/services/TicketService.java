@@ -1,6 +1,5 @@
 package wcs.backend.services;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -11,9 +10,6 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import wcs.backend.dtos.CategoryDto;
-import wcs.backend.dtos.PriorityDto;
-import wcs.backend.dtos.StatusDto;
 import wcs.backend.dtos.TicketDto;
 import wcs.backend.dtos.TicketHaveUsersDto;
 import wcs.backend.dtos.UserDto;
@@ -23,6 +19,7 @@ import wcs.backend.entities.Status;
 import wcs.backend.entities.Ticket;
 import wcs.backend.entities.User;
 import wcs.backend.entities.TicketHaveUsers;
+import wcs.backend.mapper.TicketMapper;
 import wcs.backend.repositories.CategoryRepository;
 import wcs.backend.repositories.PriorityRepository;
 import wcs.backend.repositories.StatusRepository;
@@ -34,14 +31,11 @@ import wcs.backend.repositories.TicketHaveUsersRepository;
 public class TicketService {
 
   private TicketRepository ticketRepository;
+  private TicketMapper ticketMapper;
   private CategoryRepository categoryRepository;
   private StatusRepository statusRepository;
   private PriorityRepository priorityRepository;
   private TicketHaveUsersRepository ticketHaveUsersRepository;
-
-  // public Ticket createTicket(Ticket ticket) {
-  // return ticketRepository.save(ticket);
-  // }
 
   public Ticket createTicket(Ticket ticket, User creator) {
     // Sélectionnez la statut par défaut
@@ -261,6 +255,11 @@ private Category getCategoryByTitle(Category.Title title) {
   public long countTicketsByStatus(Status.Title statusTitle) {
     Status status = getStatusByTitle(statusTitle);
     return ticketRepository.countByStatus(status);
+  }
+
+  public TicketDto createNewTicket (TicketDto ticketDto) {
+      TicketDto newTicketDto = ticketMapper.ticketToTicketDto(ticketRepository.save(ticketMapper.ticketDtoToTicket(ticketDto)));
+        return newTicketDto;
   }
 
 }
