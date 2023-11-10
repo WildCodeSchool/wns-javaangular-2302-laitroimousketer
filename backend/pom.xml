@@ -110,8 +110,8 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-        <mainClass>wcs.backend.backend</mainClass>
 				<configuration>
+        <mainClass>wcs.backend.backend</mainClass>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
