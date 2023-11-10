@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 public class UserAddress {
 
-  public UserAddress(User user2, Address address2) {
+  public UserAddress() {
   }
 
   @Id

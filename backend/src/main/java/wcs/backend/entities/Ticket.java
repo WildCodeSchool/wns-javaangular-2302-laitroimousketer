@@ -70,6 +70,5 @@ public class Ticket {
   public User getAuthor() {
     return author;
   }
-
   // Autres getters et setters
 }

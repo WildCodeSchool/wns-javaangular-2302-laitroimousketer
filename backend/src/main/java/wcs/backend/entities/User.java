@@ -125,7 +125,7 @@ public void setAddress(Address address) {
   if (this.userAddresses == null) {
     this.userAddresses = new ArrayList<>();
   }
-  UserAddress userAddress = new UserAddress(this, address);
+  UserAddress userAddress = new UserAddress();
   this.userAddresses.add(userAddress);
 }
 
