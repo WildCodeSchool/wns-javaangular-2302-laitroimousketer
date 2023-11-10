@@ -1,6 +1,8 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
+import { latLng, tileLayer, Map } from 'leaflet';
+import { MarkerData } from 'src/app/core/components/common/map/marker-data.model';
 import { User } from 'src/app/core/models/user.model';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -22,6 +24,17 @@ import { UserService } from 'src/app/core/services/user.service';
   ],
 })
 export class UsersListComponent implements OnInit {
+map!: Map;
+zoom!: number;
+mapOptions = {
+  layers: [
+    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+  ],
+  zoom: 5,
+  center: latLng(48.864716, 2.349014)
+};
+markersData: MarkerData[] = [];
+
 users: User[] = [];  
 user!: User
 states: string[] = [
@@ -46,7 +59,20 @@ placeholderSearchbar :string = "Rechercher un utilisateur par son nom, prénom, 
     this.userService.getAllUsers().subscribe((users) => {
       this.users = users;
       console.log('users',this.users);
+      this.markersData = this.initializeMarkersData(users);
     });
+  }
+  initializeMarkersData(users: User[]): MarkerData[] {
+    return users.map(user => {
+      return {
+        latLng: latLng(user.address!.latitude, user.address!.longitude),
+        title: user.firstname + ' ' + user.lastname,
+        description: user.email
+      };
+    });
+  }
+  isEven(index: number): boolean {
+    return index % 2 === 0;
   }
   openSidebar() {
     if (this.user)
@@ -96,4 +122,12 @@ placeholderSearchbar :string = "Rechercher un utilisateur par son nom, prénom, 
     this.sortUsers(this.currentSortBy, this.users);
   }
 
+
+  receiveMap(map: Map) {
+    this.map = map;
+  }
+
+  receiveZoom(zoom: number) {
+    this.zoom = zoom;
+  }
 }

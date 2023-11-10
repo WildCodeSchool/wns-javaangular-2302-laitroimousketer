@@ -16,7 +16,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   reason = '';
   events: string[] = [];
   private sidebarSubscription!: Subscription;
-  private ticketSubscription!: Subscription; 
+  private ticketSubscription!: Subscription;
   opened: boolean = false;
   mode = new FormControl('over');
   currentPage$: string = '';
@@ -47,7 +47,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
           // Abonnement à currentTicket$ lorsque la sidebar s'ouvre
           if (this.currentTicket$ && this.currentPage$ === 'ticket-details') {
             this.ticketSubscription = this.currentTicket$.subscribe((ticketData) => {
-              this.ticket = ticketData;         
+              this.ticket = ticketData;
             });
           }
         });

@@ -66,6 +66,7 @@ export class TicketDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.loadTicket();
+    console.log('ticket details:', this.ticketDetails)
   }
   // pour le reset des
 

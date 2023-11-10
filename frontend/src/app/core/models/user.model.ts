@@ -1,3 +1,4 @@
+import { Address } from "./address.model";
 import { Role } from "./role.model";
 
 export class User {
@@ -8,4 +9,5 @@ export class User {
   public password: string = '';
   public role!: Role ;
   public roleTitle: string = '';
+  public address?: Address;
 }

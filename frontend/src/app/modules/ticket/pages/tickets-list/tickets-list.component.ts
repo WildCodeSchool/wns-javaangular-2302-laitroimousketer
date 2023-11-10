@@ -136,7 +136,7 @@ export class TicketsListComponent implements OnInit {
   getTicketList() {
     this.ticketService.getTicketList().subscribe((data) => {
       this.originalTickets = [...data]; // Copie des tickets originaux
-      this.tickets = [...this.originalTickets];
+      this.tickets = [...this.originalTickets]; // initialisation des tickets
       this.updateTicketList();
     });
   }
@@ -220,6 +220,7 @@ export class TicketsListComponent implements OnInit {
         for (const key in this.filters[groupKey]) {
           if (this.filters[groupKey].hasOwnProperty(key) && this.filters[groupKey][key]) {
             filters.push(`${groupKey}=${key.toUpperCase()}`);
+            // console.log('filters', filters);
           }
         }
       }
@@ -228,15 +229,17 @@ export class TicketsListComponent implements OnInit {
     // Appel au service pour construire la requête et retourner les tickets filtrés
     this.ticketService.getTicketsByFilters(filters.join('&')).subscribe((tickets) => {
     // Mettez à jour les tickets locaux avec les tickets filtrés
-    if (this.showArchivedTickets) {
-      filters.push('status=ARCHIVED'); // Ajoutez ce filtre pour ne pas afficher les tickets archivés
+    if (!this.showArchivedTickets) {
+      tickets = tickets.filter((ticket) => ticket.archiveDate === null);
     }
     this.tickets = tickets; // Affectez le tableau filtré
     this.sortTickets(this.currentSortBy, this.tickets);
     });
   }
 
-
+  isEven(index: number): boolean {
+    return index % 2 === 0;
+  }
 
   getCounts(): void {
     const subscriptions = new Subscription();
@@ -286,7 +289,11 @@ export class TicketsListComponent implements OnInit {
     );
     this.subscriptions.add(subscriptions);
   }
-
+  ViewArchivedTickets() {
+    this.showArchivedTickets = !this.showArchivedTickets;
+    this.updateTicketList(); // Mettez à jour la liste des tickets en fonction de la nouvelle valeur
+  }
+  
   ngOnDestroy() {
     // Nettoyez les abonnements lorsque le composant est détruit
     this.subscriptions.unsubscribe();

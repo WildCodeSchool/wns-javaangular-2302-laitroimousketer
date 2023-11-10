@@ -20,6 +20,8 @@ import { ActivityComponent } from './components/sidebar-components/activity/acti
 import { TicketAddComponent } from './components/sidebar-components/ticket-add/ticket-add.component';
 import { TicketEditComponent } from './components/sidebar-components/ticket-edit/ticket-edit.component';
 import { TicketChatComponent } from './components/sidebar-components/ticket-chat/ticket-chat.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { MapComponent } from './components/common/map/map.component';
 
 
 @NgModule({
@@ -35,6 +37,7 @@ import { TicketChatComponent } from './components/sidebar-components/ticket-chat
     TicketAddComponent,
     TicketEditComponent,
     TicketChatComponent,
+    MapComponent,
     
   ],
   imports: [
@@ -49,6 +52,7 @@ import { TicketChatComponent } from './components/sidebar-components/ticket-chat
     MatIconModule,
     MatButtonModule,
     MatInputModule,
+    LeafletModule,
 
   ],
   exports: [
@@ -64,6 +68,7 @@ import { TicketChatComponent } from './components/sidebar-components/ticket-chat
     TicketEditComponent,
     SidebarMenuComponent,
     ActivityComponent,
+    MapComponent,
   ],
   providers: [],
 })
