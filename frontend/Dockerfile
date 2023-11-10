@@ -1,23 +1,30 @@
-# Use the official Node.js image as the base image
-FROM node:18
+# Étape de build
+FROM node:18 AS build
 
-# Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the container
+# Copie des fichiers package.json et package-lock.json
 COPY package*.json ./
 
-# Install dependencies
+# Installation de Node.js et npm
+RUN apt-get update && \
+    apt-get install -y nodejs && \
+    npm install npm@latest -g
+
+# Installation des dépendances
 RUN npm install
 
-# Copy the rest of the application code to the container
+# Copie de tous les fichiers du projet
 COPY . .
 
-# Build the Angular app
+# Build de l'application Angular
 RUN npm run build
 
-# Expose the port on which your app runs (adjust as needed)
-EXPOSE 80
+# Étape de production
+FROM nginx:1.21.3-alpine
 
-# Command to run the Angular app
-CMD ["npm", "start"]
+# Copie des fichiers de construction de l'étape de build
+COPY --from=build /usr/src/app/dist /usr/share/nginx/html
+
+# Démarre le serveur nginx
+CMD ["nginx", "-g", "daemon off;"]

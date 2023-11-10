@@ -1,45 +1,19 @@
-# # Use a Maven image that supports Java 21
-# FROM maven:3.9.5-eclipse-temurin-21 AS build
-
-# # Set the working directory
-# WORKDIR /usr/src/app
-
-# # Copy the project files to the container
-# COPY pom.xml .
-# COPY src ./src
-
-# # Build the application
-# RUN mvn clean install
-
-# # Switch to the official OpenJDK image for the runtime
-# FROM openjdk:21-jdk
-
-# # Set the working directory
-# WORKDIR /usr/src/app
-
-# # Copy the built JAR file from the Maven image
-# COPY --from=build /usr/src/app/target/backend.jar .
-
-# # Expose the port on which your Spring Boot app runs
-# EXPOSE 8080
-
-# # Command to run the Spring Boot app
-# CMD ["java", "-jar", "backend.jar"]
-
-# Use an OpenJDK image that supports Java 21
-FROM openjdk:21-jdk
-
+# Build stage
+FROM maven:3.8.5-openjdk-17 AS build
 # Set the working directory
 WORKDIR /usr/src/app
-
-# Copy the project files to the container
-COPY . .
-
-# Build the application
-RUN ./mvnw clean install
-
-# Expose the port on which your Spring Boot app runs
-EXPOSE 8080
-
+# Copy the pom.xml file and src folder
+COPY pom.xml .
+COPY src ./src
+# Install dependencies
+RUN mvn clean install
+# Copy the JAR from the build stage
+RUN cp target/spring-boot-restFull-ticketing-0.0.1-SNAPSHOT.jar /backend.jar
+# Production stage
+FROM openjdk:17-jdk-alpine
+# Set the working directory
+WORKDIR /app
+# Copy the JAR from the build stage to the production image
+COPY --from=build /backend.jar /app/backend.jar
 # Command to run the Spring Boot app
-CMD ["java", "-jar", "target/backend.jar"]
+CMD ["java", "-jar", "backend.jar"]

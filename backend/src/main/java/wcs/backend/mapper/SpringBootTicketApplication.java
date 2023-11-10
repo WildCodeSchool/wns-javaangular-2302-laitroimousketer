@@ -1,4 +1,4 @@
-package wcs.backend;
+package wcs.backend.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

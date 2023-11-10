@@ -2,31 +2,38 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.4</version>
+		<version>3.1.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>wcs</groupId>
 	<artifactId>spring-boot-restFull-ticketing</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
 	<name>spring-boot-restFull-ticketing</name>
 	<description>Demo project for Spring Boot</description>
+
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
+      <maven.compiler.source>17</maven.compiler.source>
+      <maven.compiler.target>17</maven.compiler.target>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.5.4.Final</version>
+			<version>1.5.5.Final</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
-			<version>3.1.0</version>
+			<version>3.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -92,12 +99,11 @@
       <artifactId>assertj-core</artifactId>
       <version>3.24.2</version>
     </dependency>
-<dependency>
-    <groupId>org.springdoc</groupId>
-    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-    <version>2.1.0</version>
-</dependency>
-
+    <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        <version>2.2.0</version>
+    </dependency>
 		<dependency>
 			<groupId>org.apache.maven.shared</groupId>
 			<artifactId>file-management</artifactId>
@@ -106,26 +112,13 @@
 	</dependencies>
 
 <build>
-    <plugins>
-        <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>3.1.5</version>
-            <configuration>
-                <image>
-                    <name>djosh35/alayde-back</name>
-                    <builder>paketobuildpacks/builder-jammy-base:latest</builder>
-                </image>
-                <excludes>
-                    <exclude>
-                        <groupId>org.projectlombok</groupId>
-                        <artifactId>lombok</artifactId>
-                    </exclude>
-                </excludes>
-            </configuration>
-        </plugin>
-    </plugins>
+  <plugins>
+    <plugin>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-maven-plugin</artifactId>
+      <version>3.1.5</version>    
+    </plugin>
+  </plugins>
 </build>
-
 
 </project>
