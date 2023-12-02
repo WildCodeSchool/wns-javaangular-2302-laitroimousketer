@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Ticket } from 'src/app/modules/ticket/models/ticket';
+import { Ticket } from 'src/app/features/ticket/models/ticket';
 import { User } from '../models/user.model';
 
 @Injectable({

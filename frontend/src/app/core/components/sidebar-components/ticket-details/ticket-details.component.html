@@ -13,20 +13,16 @@
   <p class="prefix">Catégorie: <span class="category-span">{{ticketDetails.category}}</span></p>
   <p class="prefix">Statut: <span [ngClass]="statutSpan">{{ticketDetails.status}}</span></p>
   <p class="prefix">Priorité: <span [ngClass]="prioritySpan"> {{ticketDetails.priority}} </span></p>
-  <p class="prefix date">Date de création: <span>{{ ticketDetails.creationDate | date: 'dd MMMM yyyy' }}</span></p>
-  <div class="date">
-
-    @if (isChecked) {
-      <span>Checked</span>
+  <div class="date-c">
+    <p class="prefix date">Date de création: <span>{{ ticketDetails.creationDate | date: 'dd MMMM yyyy' }}</span></p>
+    @if (ticket.archiveDate) {
+      <p class="prefix date">
+        Date d'archivage: <span>{{ ticket.archiveDate | date: 'dd MMMM yyyy' }}</span>
+      </p>
     } 
-    @else {
-      <span>Not checked</span>
+    @if (ticketDetails.updateDate) {
+      <p class="prefix date">Date de modification: {{ticketDetails.updateDate | date:'dd/MM/yyyy' }}</p>
     }
-  
-    <p *ngIf="ticket.archiveDate" class="prefix">
-      Date d'archivage: <span>{{ ticket.archiveDate | date: 'dd MMMM yyyy' }}</span>
-    </p>
-    <p *ngIf="ticketDetails.updateDate">Date de modification: {{ticketDetails.updateDate | date:'dd/MM/yyyy' }}</p>
   </div>
   <ng-container *ngIf="page ==='Info'">
     <article [@opacity]="page==='Info'?'active':''">

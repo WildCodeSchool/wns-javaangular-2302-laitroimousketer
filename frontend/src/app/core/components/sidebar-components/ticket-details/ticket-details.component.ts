@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Ticket } from '../../../../modules/ticket/models/ticket';
-import { TicketDetails } from 'src/app/modules/ticket/models/ticket-details';
+import { Ticket } from '../../../../features/ticket/models/ticket';
+import { TicketDetails } from 'src/app/features/ticket/models/ticket-details';
 import { MenuItems } from '../sidebar-menu/menu-items.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { RenamingService } from 'src/app/core/services/renaming.service';
-import { TicketService } from 'src/app/modules/ticket/services/ticket.service';
+import { TicketService } from 'src/app/features/ticket/services/ticket.service';
 import { AlertService } from 'src/app/core/services/alert.service';
 @Component({
   selector: 'app-ticket-details',
@@ -24,7 +24,7 @@ import { AlertService } from 'src/app/core/services/alert.service';
 })
 export class TicketDetailsComponent implements OnInit {
   @Input() ticket!: Ticket;
-isChecked: boolean = false;
+
   ticketDetails: TicketDetails = {
     number: 0,
     name: '',
@@ -97,7 +97,6 @@ isChecked: boolean = false;
       this.checkStatus();
       this.checkPriority();
       this.rename();
-      console.log('ticket archive date:', this.ticket.archiveDate);
     }
   }
 
@@ -135,44 +134,30 @@ isChecked: boolean = false;
   archiveTicket(ticketId: number): void {
     if (this.ticketDetails.archiveDate === '') {
       this.ticketService.archiveTicket(ticketId)
-        .subscribe(response => {
-          if (response.status === 200) {
-            this.alertService.showSuccessAlert('Ticket archivé avec succès');
-            this.ticketService.getTicket(this.ticket.id).subscribe((ticketData) => {
-              this.ticket = ticketData;
-              this.loadTicket();
-            });
-            // Faire quelque chose ici, par exemple, mettre à jour la liste des tickets archivés
-          } else {
-            this.alertService.showErrorAlert("Erreur lors de l'archivage du ticket");
-            // Gérer l'erreur ici, par exemple, afficher un message d'erreur à l'utilisateur
-          }
-        });
-    } else {
-      this.alertService.showErrorAlert("Le ticket est déjà archivé");
-    }
   }
+}
 
   unarchiveTicket(ticketId: number): void {
     if (this.ticketDetails.archiveDate !== '') {
       this.ticketService.unarchiveTicket(ticketId)
-        .subscribe(response => {
-          if (response.status === 200) {
-            this.ticketService.getTicket(this.ticket.id).subscribe((ticketData) => {
-              this.ticket = ticketData;
-              this.loadTicket();
-            });
-            this.alertService.showSuccessAlert('Ticket désarchivé avec succès');
-            // Faire quelque chose ici, par exemple, mettre à jour la liste des tickets archivés
-          } else {
-            this.alertService.showErrorAlert("Erreur lors du désarchivage du ticket");
-            // Gérer l'erreur ici, par exemple, afficher un message d'erreur à l'utilisateur
-          }
-        });
-    } else {
-      this.alertService.showErrorAlert("Le ticket n'est pas archivé");
-    }
+    //     .subscribe(response => {
+    //       if (response.status === 200) {
+    //         this.ticketService.getTicket(this.ticket.id).subscribe((ticketData) => {
+    //           this.ticket = ticketData;
+    //           this.loadTicket();
+    //         });
+    //         this.alertService.showSuccessAlert('Ticket désarchivé avec succès');
+    //         // Faire quelque chose ici, par exemple, mettre à jour la liste des tickets archivés
+    //       } else {
+    //         this.alertService.showErrorAlert("Erreur lors du désarchivage du ticket");
+    //         // Gérer l'erreur ici, par exemple, afficher un message d'erreur à l'utilisateur
+    //       }
+    //     });
+    // } else {
+    //   this.alertService.showErrorAlert("Le ticket n'est pas archivé");
+    // }
   }
+}
 
   closeTicket() {
     if (this.ticketDetails.status === 'En cours') {

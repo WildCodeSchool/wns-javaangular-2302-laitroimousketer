@@ -3,15 +3,20 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of, switchMap } from 'rxjs';
 import { Ticket } from '../models/ticket';
 import { Category } from '../models/category';
+import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class TicketService {
+export class TicketService extends EntityCollectionServiceBase<Ticket> {
   private baseUrl = "http://localhost:8080/api/";
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    serviceElementsFactory: EntityCollectionServiceElementsFactory,
+    private httpClient: HttpClient) {
+    super('tickets', serviceElementsFactory);
+   }
 
   getTicketList(): Observable<Ticket[]> {
     return this.httpClient.get<Ticket[]>(this.baseUrl+'tickets');

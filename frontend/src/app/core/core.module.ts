@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from './components/common/footer/footer.component';
 import { AlertComponent } from './components/common/alerts/alert.component';
-import { AlertModule } from 'ngx-bootstrap/alert';
+// import { AlertModule } from 'ngx-bootstrap/alert';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './components/common/header/header.component';
@@ -42,7 +42,7 @@ import { MapComponent } from './components/common/map/map.component';
   ],
   imports: [
     CommonModule,
-    AlertModule.forRoot(),
+    // AlertModule.forRoot(),
     MatSidenavModule,
     FormsModule,
     MatMenuModule,

@@ -1,10 +1,10 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription, mergeMap, take } from 'rxjs';
-import { TicketService } from 'src/app/modules/ticket/services/ticket.service';
+import { TicketService } from 'src/app/features/ticket/services/ticket.service';
 import { ChartConfiguration, ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { Ticket } from 'src/app/modules/ticket/models/ticket';
+import { Ticket } from 'src/app/features/ticket/models/ticket';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',

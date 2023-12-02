@@ -5,10 +5,10 @@ import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { Category } from 'src/app/modules/ticket/models/category';
-import { Ticket } from 'src/app/modules/ticket/models/ticket';
-import { CategoryService } from 'src/app/modules/ticket/services/category.service';
-import { TicketService } from 'src/app/modules/ticket/services/ticket.service';
+import { Category } from 'src/app/features/ticket/models/category';
+import { Ticket } from 'src/app/features/ticket/models/ticket';
+import { CategoryService } from 'src/app/features/ticket/services/category.service';
+import { TicketService } from 'src/app/features/ticket/services/ticket.service';
 
 
 @Component({

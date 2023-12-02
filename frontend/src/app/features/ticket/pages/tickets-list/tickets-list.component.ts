@@ -6,7 +6,10 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
 import { TicketHaveUsers } from '../../models/ticketHaveUsers';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Subscription, forkJoin, take } from 'rxjs';
+import { Subject, Subscription, forkJoin, take, takeUntil } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as ticketReducer from 'src/app/core/store/reducers/ticket.reducer';
+import * as ticketAction from 'src/app/core/store/actions/ticket.action';
 
 interface TicketFilter {
   status: {
@@ -51,6 +54,8 @@ interface SortOption {
   ],
 })
 export class TicketsListComponent implements OnInit {
+  private destroy$ = new Subject<void>();
+  
   tickets!: Ticket[];
   ticketsClient: Ticket[] | undefined;
   originalTickets: Ticket[] | undefined;
@@ -101,8 +106,9 @@ export class TicketsListComponent implements OnInit {
   };
   subscriptions = new Subscription();
 
-
+ticketsFromStore: Ticket[] = [];
   constructor(
+    private ticketStore: Store<ticketReducer.TicketState>,
     private ticketService: TicketService,
     private authService: AuthService,
   ) { }
@@ -112,7 +118,16 @@ export class TicketsListComponent implements OnInit {
     this.checkRole();
     this.getTicketList();
     this.initializeStates();
+  
+    this.ticketStore.dispatch(ticketAction.getTickets());
+    this.ticketStore.select(ticketReducer.getTickets)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((selectedTickets: Ticket[]) => {
+          this.ticketsFromStore = selectedTickets; // Mettre à jour lorsque les utilisateurs sont chargés
+          console.log('ticket list from store', this.ticketsFromStore);
+      });
   }
+  
 
   private initializeStates() {
     this.states = [
@@ -295,6 +310,8 @@ export class TicketsListComponent implements OnInit {
   }
   
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     // Nettoyez les abonnements lorsque le composant est détruit
     this.subscriptions.unsubscribe();
   }

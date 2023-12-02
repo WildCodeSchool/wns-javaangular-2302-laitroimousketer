@@ -3,7 +3,7 @@ import { SharedService } from '../../../services/shared.service';
 import { Observable, Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Ticket } from 'src/app/modules/ticket/models/ticket';
+import { Ticket } from 'src/app/features/ticket/models/ticket';
 
 @Component({
   selector: 'app-sidebar',

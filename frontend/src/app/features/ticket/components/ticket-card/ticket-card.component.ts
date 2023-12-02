@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { RenamingService } from 'src/app/core/services/renaming.service';
 
 import { SharedService } from 'src/app/core/services/shared.service';
-import { Ticket } from 'src/app/modules/ticket/models/ticket';
-import { TicketDetails } from 'src/app/modules/ticket/models/ticket-details';
+import { Ticket } from 'src/app/features/ticket/models/ticket';
+import { TicketDetails } from 'src/app/features/ticket/models/ticket-details';
 import { TicketService } from '../../services/ticket.service';
 
 @Component({
