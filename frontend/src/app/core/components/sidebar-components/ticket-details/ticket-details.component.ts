@@ -24,7 +24,7 @@ import { AlertService } from 'src/app/core/services/alert.service';
 })
 export class TicketDetailsComponent implements OnInit {
   @Input() ticket!: Ticket;
-
+isChecked: boolean = false;
   ticketDetails: TicketDetails = {
     number: 0,
     name: '',
@@ -97,6 +97,7 @@ export class TicketDetailsComponent implements OnInit {
       this.checkStatus();
       this.checkPriority();
       this.rename();
+      console.log('ticket archive date:', this.ticket.archiveDate);
     }
   }
 

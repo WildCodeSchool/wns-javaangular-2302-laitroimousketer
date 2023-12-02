@@ -15,10 +15,17 @@
   <p class="prefix">Priorité: <span [ngClass]="prioritySpan"> {{ticketDetails.priority}} </span></p>
   <p class="prefix date">Date de création: <span>{{ ticketDetails.creationDate | date: 'dd MMMM yyyy' }}</span></p>
   <div class="date">
-    <p *ngIf="ticket.updateDate !== ''" class="prefix">Dernière édition: <span>{{ ticketDetails.creationDate | date: 'dd
-        MMMM yyyy' }}</span></p>
-    <p *ngIf="ticket.archiveDate !== ''" class="prefix">Date d'archivage: <span>{{ ticketDetails.creationDate | date:
-        'dd MMMM yyyy' }}</span></p>
+
+    @if (isChecked) {
+      <span>Checked</span>
+    } 
+    @else {
+      <span>Not checked</span>
+    }
+  
+    <p *ngIf="ticket.archiveDate" class="prefix">
+      Date d'archivage: <span>{{ ticket.archiveDate | date: 'dd MMMM yyyy' }}</span>
+    </p>
     <p *ngIf="ticketDetails.updateDate">Date de modification: {{ticketDetails.updateDate | date:'dd/MM/yyyy' }}</p>
   </div>
   <ng-container *ngIf="page ==='Info'">
