@@ -13,7 +13,7 @@ import { TicketEffects } from './effects/ticket.effect';
   ],
   imports: [
     CommonModule,
-    StoreModule.forFeature('StoreKey', indexReducer.reducers),
+    StoreModule.forFeature('DataStoreKey', indexReducer.reducers),
     EffectsModule.forFeature(
       [
         TicketEffects,

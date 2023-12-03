@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Ticket } from '../../../../features/ticket/models/ticket';
 import { TicketDetails } from 'src/app/features/ticket/models/ticket-details';
 import { MenuItems } from '../sidebar-menu/menu-items.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { RenamingService } from 'src/app/core/services/renaming.service';
 import { TicketService } from 'src/app/features/ticket/services/ticket.service';
 import { AlertService } from 'src/app/core/services/alert.service';
+import { Ticket } from 'src/app/features/ticket/models/ticket';
+
 @Component({
   selector: 'app-ticket-details',
   templateUrl: './ticket-details.component.html',

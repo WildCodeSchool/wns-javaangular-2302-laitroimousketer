@@ -8,8 +8,9 @@ import { TicketHaveUsers } from '../../models/ticketHaveUsers';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Subject, Subscription, forkJoin, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as ticketReducer from 'src/app/core/store/reducers/ticket.reducer';
-import * as ticketAction from 'src/app/core/store/actions/ticket.action';
+import * as Reducer from 'src/app/store/reducers/index';
+import * as ticketAction from 'src/app/store/actions/ticket.action';
+import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 
 interface TicketFilter {
   status: {
@@ -53,9 +54,8 @@ interface SortOption {
     ]),
   ],
 })
-export class TicketsListComponent implements OnInit {
-  private destroy$ = new Subject<void>();
-  
+export class TicketsListComponent extends UnsubcribeComponent implements OnInit {
+
   tickets!: Ticket[];
   ticketsClient: Ticket[] | undefined;
   originalTickets: Ticket[] | undefined;
@@ -107,26 +107,21 @@ export class TicketsListComponent implements OnInit {
   subscriptions = new Subscription();
 
 ticketsFromStore: Ticket[] = [];
+
   constructor(
-    private ticketStore: Store<ticketReducer.TicketState>,
+    private store: Store<Reducer.StateDataStore>,
     private ticketService: TicketService,
     private authService: AuthService,
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.getCounts();
     this.checkRole();
     this.getTicketList();
     this.initializeStates();
-  
-    this.ticketStore.dispatch(ticketAction.getTickets());
-    this.ticketStore.select(ticketReducer.getTickets)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((selectedTickets: Ticket[]) => {
-          this.ticketsFromStore = selectedTickets; // Mettre à jour lorsque les utilisateurs sont chargés
-          console.log('ticket list from store', this.ticketsFromStore);
-      });
-  }
+  }    
   
 
   private initializeStates() {
@@ -149,10 +144,17 @@ ticketsFromStore: Ticket[] = [];
   }
 
   getTicketList() {
-    this.ticketService.getTicketList().subscribe((data) => {
-      this.originalTickets = [...data]; // Copie des tickets originaux
-      this.tickets = [...this.originalTickets]; // initialisation des tickets
-      this.updateTicketList();
+    this.store.dispatch(ticketAction.getTickets());
+    this.store.select(Reducer.getTickets)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: Ticket[]) => {
+        if (data) {
+          // Effectuez vos opérations une fois que les tickets sont disponibles
+          this.originalTickets = [...data]; // Copie des tickets originaux
+          this.tickets = [...this.originalTickets]; // initialisation des tickets
+          this.updateTicketList();
+          // Autres opérations ici...
+        }
     });
   }
 
@@ -309,10 +311,4 @@ ticketsFromStore: Ticket[] = [];
     this.updateTicketList(); // Mettez à jour la liste des tickets en fonction de la nouvelle valeur
   }
   
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-    // Nettoyez les abonnements lorsque le composant est détruit
-    this.subscriptions.unsubscribe();
-  }
 }

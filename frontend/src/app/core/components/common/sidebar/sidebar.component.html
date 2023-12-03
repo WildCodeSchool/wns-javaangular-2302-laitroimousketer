@@ -1,24 +1,37 @@
 <mat-sidenav-container class="sidenav-c" [ngClass]="!opened ? 'hide': ''" (backdropClick)="toggle()">
-  <mat-sidenav #sidenav [(opened)]="opened" position="end" disableClose class="sidenav">
+
+  <mat-sidenav #sidenav [(opened)]="panel.sidebar.isOpen" position="end" disableClose class="sidenav">
     <span class="bi bi-x-circle" (click)="toggle()"></span>
 
-    <!-- page ticket details dans sidebar -->
-    <ng-container *ngIf="currentPage$ === 'ticket-details'">
-      <app-ticket-details [ticket]="this.ticket"></app-ticket-details>
-    </ng-container>
+    <!-- Contenu de la sidebar selon l'etat du store de sidebar -->
+    @if (panel.displayTicketDetails.isOpen) {
+    <app-ticket-details [ticket]="this.ticket"></app-ticket-details>
+    }
 
-    <!-- page activity dans sidebar -->
-    <ng-container *ngIf="currentPage$ === 'activity'">
-      <app-activity></app-activity>
-    </ng-container>
+    @if (panel.displayActivity.isOpen) {
+    <app-activity></app-activity>
+    }
 
-    <ng-container *ngIf="currentPage$ === 'ticket-add'">
-      <app-ticket-add></app-ticket-add>
-    </ng-container>
+    @if (panel.displayTicketCreate.isOpen) {
+    <app-ticket-add></app-ticket-add>
+    }
+
+    @if (panel.displayUserDetails.isOpen) {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
   </mat-sidenav>
-
-
   <mat-sidenav-content>
     <!-- contenu à gauche de la sidebar -->
   </mat-sidenav-content>

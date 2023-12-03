@@ -5,13 +5,18 @@ import { SharedService } from 'src/app/core/services/shared.service';
 import { Ticket } from 'src/app/features/ticket/models/ticket';
 import { TicketDetails } from 'src/app/features/ticket/models/ticket-details';
 import { TicketService } from '../../services/ticket.service';
-
+import { Store } from '@ngrx/store';
+import * as Reducer from 'src/app/store/reducers/index';
+import * as sidebarAction from 'src/app/store/actions/sidebar.action';
+import * as ticketAction from 'src/app/store/actions/ticket.action';
+import { takeUntil } from 'rxjs';
+import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 @Component({
   selector: 'app-ticket-card',
   templateUrl: './ticket-card.component.html',
   styleUrls: ['./ticket-card.component.scss'],
 })
-export class TicketCardComponent implements OnInit{
+export class TicketCardComponent extends UnsubcribeComponent implements OnInit{
   ticketDetails: TicketDetails = {
     number: 0,
     name: '',
@@ -42,14 +47,17 @@ export class TicketCardComponent implements OnInit{
     private sharedService: SharedService,
     private ticketService: TicketService,
     private renamingService: RenamingService,
-  ) { }
+    private store: Store<Reducer.StateDataStore>,
+  ) {
+    super();
+   }
 
   ngOnInit() {
     this.loadTicket();
     this.loadColorPriority();
     this.loadColorStatus();
     this.rename();
-    this.oldTicket = JSON.stringify(this.ticket);
+    // this.oldTicket = JSON.stringify(this.ticket);
     // console.log(this.ticketDetails.creator,'CCCCCCCCCCCCCCCCCCCCCCCC')
   }
  
@@ -101,12 +109,27 @@ export class TicketCardComponent implements OnInit{
 
   }
 
-  openSidebar() {
-    this.sharedService.toggleSidebar();
-    this.sharedService.setCurrentContent('ticket-details');
-    this.sharedService.setCurrentTicket(this.ticket);
+// ...
 
+private contactDetailsOpened = false;
+
+openContactDetails() {
+  if (!this.contactDetailsOpened) {
+    this.contactDetailsOpened = true;
+
+
+      
+
+        // Dispatch d'autres actions liées à la sidebar
+         this.store.dispatch(sidebarAction.displayTicketDetails({ payload: this.ticket.id }));
+      
   }
+}
+
+
+
+// ...
+
   rename() {
     this.ticketDetails.category = this.renamingService.renameCategory(this.ticketDetails.category);
     this.ticketDetails.status = this.renamingService.renameStatus(this.ticketDetails.status);

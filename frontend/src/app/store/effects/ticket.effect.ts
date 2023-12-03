@@ -29,7 +29,6 @@ export class TicketEffects {
       switchMap(({ payload }) => {
         return this.ticketService.getByKey(payload).pipe(
           map((data: Ticket) => {
-            this.msgService.showSuccessAlert('Ticket récupéré');
             return action.saveTicket({ payload: data }); // Envoie l'action pour sauvegarder l'utilisateur dans le store
           }),
           catchError(error => {
@@ -48,9 +47,9 @@ export class TicketEffects {
       switchMap(({ payload }) =>
         this.ticketService.update(payload).pipe(
           map((data: Ticket) => action.saveTicket({ payload: data })),
-          tap(() => this.msgService.showSuccessAlert('Ticket récupéré')),
+          tap(() => this.msgService.showSuccessAlert('Ticket modifié')),
           catchError(error => {
-            this.msgService.showErrorAlert('Erreur lors de la récupération du ticket');
+            this.msgService.showErrorAlert('Erreur lors de la modification du ticket');
             // Gérer les erreurs ici si nécessaire
             return of(/* action d'erreur si besoin */);
           })
@@ -66,9 +65,9 @@ export class TicketEffects {
       switchMap(({ payload }) =>
         this.ticketService.add(payload).pipe(
           map((data: Ticket) => action.saveTicket({ payload: data })),
-          tap(() => this.msgService.showSuccessAlert('Ticket récupéré')),
+          tap(() => this.msgService.showSuccessAlert('Ticket créé')),
           catchError(error => {
-            this.msgService.showErrorAlert('Erreur lors de la récupération du ticket');
+            this.msgService.showErrorAlert('Erreur lors de la création du ticket');
             // Gérer les erreurs ici si nécessaire
             return of(/* action d'erreur si besoin */);
           })
@@ -101,7 +100,6 @@ export class TicketEffects {
       ofType(action.getTickets),
       switchMap(() => {
         return this.ticketService.getAll().pipe(
-
           map((tickets: Ticket[]) => {
             return action.saveTickets({ payload: tickets });
           }),

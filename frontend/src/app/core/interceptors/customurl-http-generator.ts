@@ -1,13 +1,19 @@
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DefaultHttpUrlGenerator, HttpResourceUrls, Pluralizer } from '@ngrx/data';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
-export class NgrxDataHttpGenerator extends DefaultHttpUrlGenerator {
+export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
 
   baseAPI = environment.apiUrl;
 
-  constructor(pluralizer: Pluralizer) {
+  constructor(
+    pluralizer: Pluralizer,
+    private authService: AuthService,
+  ) {
     super(pluralizer);
   }
 
@@ -17,22 +23,18 @@ export class NgrxDataHttpGenerator extends DefaultHttpUrlGenerator {
     trailingSlashEndpoints?: boolean
   ): HttpResourceUrls {
     let resourceURLs = this.knownHttpResourceUrls[entityName];
-
+  //! Attention, il faut bien penser à ajouter les / dans le cas des entityRssourceUrl pour respecter l'API et sa convention de nommage
     switch (entityName) {
       case 'tickets':
         resourceURLs = {
-          collectionResourceUrl: `${this.baseAPI}/tickets/`,
-          entityResourceUrl: `${this.baseAPI}/tickets/`,
+          collectionResourceUrl: this.baseAPI + '/tickets',
+          entityResourceUrl: this.baseAPI + '/tickets/',
         };
         break;
-      // Add other cases for different entities if needed
-
-      default:
-        // Handle default behavior or other entities if needed
-        break;
     }
-
+  
     this.registerHttpResourceUrls({ [entityName]: resourceURLs });
     return resourceURLs;
   }
+
 }

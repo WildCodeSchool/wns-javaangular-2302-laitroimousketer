@@ -15,11 +15,11 @@
   <p class="prefix">Priorité: <span [ngClass]="prioritySpan"> {{ticketDetails.priority}} </span></p>
   <div class="date-c">
     <p class="prefix date">Date de création: <span>{{ ticketDetails.creationDate | date: 'dd MMMM yyyy' }}</span></p>
-    @if (ticket.archiveDate) {
+    <!-- @if (ticket.archiveDate !== null) {
       <p class="prefix date">
         Date d'archivage: <span>{{ ticket.archiveDate | date: 'dd MMMM yyyy' }}</span>
       </p>
-    } 
+    }  -->
     @if (ticketDetails.updateDate) {
       <p class="prefix date">Date de modification: {{ticketDetails.updateDate | date:'dd/MM/yyyy' }}</p>
     }

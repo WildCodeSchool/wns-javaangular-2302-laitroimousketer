@@ -12,11 +12,12 @@ import { SidebarComponent } from './core/components/common/sidebar/sidebar.compo
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { DefaultDataServiceConfig, EntityDataModule } from '@ngrx/data';
+import { DefaultDataServiceConfig, EntityDataModule, HttpUrlGenerator } from '@ngrx/data';
 import { entityConfig } from './entity-metadata';
-import { NgrxStoreModule } from './core/store/ngrx-store.module';
-import { NgrxDataHttpGenerator } from './core/interceptors/ngrx-data-interceptor';
+import { NgrxStoreModule } from './store/ngrx-store.module';
+import { CustomurlHttpGenerator } from './core/interceptors/customurl-http-generator';
 import { environment } from 'src/environments/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 const defaultDataServiceConfig: DefaultDataServiceConfig = {
   root: environment.apiUrl,
@@ -35,20 +36,26 @@ const defaultDataServiceConfig: DefaultDataServiceConfig = {
     HttpClientModule,
     BrowserAnimationsModule,
     RouterModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot(
+      {},
+      {}
+    ),
     NgrxStoreModule,
     EffectsModule.forRoot([]),
     EntityDataModule.forRoot(entityConfig),
-  
-    
+    StoreDevtoolsModule.instrument({
+      name: 'Alayde',
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production,
+    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
+
   providers: [
     HttpClient,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    // {provide: HTTP_INTERCEPTORS, useClass: NgrxDataHttpGenerator, multi: true,},
-    {provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig,
-    },
+    { provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig }, // pointage bonne url pour le ngrx data
+    { provide: HttpUrlGenerator, useClass: CustomurlHttpGenerator },
   ],
   bootstrap: [AppComponent]
 })
