@@ -17,13 +17,9 @@ import { PanelSideBar } from 'src/app/store/models/sidebar';
 export class SidebarComponent extends UnsubcribeComponent implements OnInit, OnDestroy {
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
-  reason = '';
   events: string[] = [];
   panel!: PanelSideBar;
   opened: boolean = false;
-  mode = new FormControl('over');
-  currentPage$: string = '';
-  currentTicket$: Observable<Ticket>;
   ticket!: Ticket;
 
   constructor(
@@ -32,23 +28,21 @@ export class SidebarComponent extends UnsubcribeComponent implements OnInit, OnD
     private elementRef: ElementRef
   ) {
     super();
-    this.currentTicket$ = sharedService.currentTicket$;
-    this.sidebarStore.select(sidebarReducer.getPanelState).pipe(takeUntil(this.destroy$)).subscribe(
-      (panel: PanelSideBar) => {
-        this.panel = panel
-        // console.log('paneau modifié',this.panel)
-      })
+    this.sidebarStore.select(sidebarReducer.getPanelState)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((panel: PanelSideBar) => {
+        // Assurez-vous de créer une copie profonde de l'objet panel
+        this.panel = { ...panel };
+      });
   }
+  
 
   ngOnInit() {
-  }
-
-  close() {
-    this.sidebarStore.dispatch(sidebarAction.resetSideBar());
+    
   }
 
   toggle(): void {
-    this.sharedService.toggleSidebar();
+    this.sidebarStore.dispatch(sidebarAction.resetSideBar());
   }
   
 }

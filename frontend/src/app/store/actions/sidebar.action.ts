@@ -13,10 +13,10 @@ export const action = {
 // reset la sidebar
 export const resetSideBar = createAction(action.RESET_SIDE_BAR);
 // tickets//
-export const displayTicketDetails = createAction(action.DISPLAY_TICKET_DETAILS, props<{ payload: number }>());
+export const displayTicketDetails = createAction(action.DISPLAY_TICKET_DETAILS);
 export const displayTicketCreate = createAction(action.DISPLAY_TICKET_CREATE);
 // USERs
-export const displayUserDetails = createAction(action.DISPLAY_USER_DETAILS, props<{ payload: number }>());
+export const displayUserDetails = createAction(action.DISPLAY_USER_DETAILS);
 // activity
 export const displayActivity = createAction(action.DISPLAY_ACTIVITY);
 

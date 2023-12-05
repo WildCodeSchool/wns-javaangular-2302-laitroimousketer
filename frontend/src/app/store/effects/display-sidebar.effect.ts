@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { switchMap, map, catchError, mergeMap } from "rxjs/operators";
+import { switchMap, map, catchError, mergeMap, tap } from "rxjs/operators";
 import { Store } from "@ngrx/store";
 import * as sidebarAction from '../actions/sidebar.action';
 import * as ticketAction from '../actions/ticket.action';
@@ -21,35 +21,15 @@ export class SidebarEffects {
   ) {}
 
   //!! non fonctionnel s'inspirer des effect de ticket pr le recupéré correctement
-//   getTicketAndDisplayDetails = createEffect(() =>
-//   this.actions$.pipe(
-//     ofType(ticketAction.getTicket),
-//     switchMap(({ payload }) =>
-//       this.ticketService.getByKey(payload).pipe(
-//         map((data: Ticket) => ticketAction.saveTicket({ payload: data })),
-//         catchError(error => {
-//           this.alertService.showErrorAlert('Erreur lors de la récupération du ticket');
-//           return of(/* action d'erreur si nécessaire */);
-//         })
-//       )
-//     )
-//   )
-// );
-  getTicketAndDisplayDetails = createEffect(() =>
-  this.actions$.pipe(
-    ofType(ticketAction.getTicket),
-    switchMap(({ payload }) =>
-      this.ticketService.getByKey(payload).pipe(
-        mergeMap((data: Ticket) => [
-          ticketAction.saveTicket({ payload: data }),
-          sidebarAction.displayTicketDetails({ payload: data.id })
-        ]),
-        catchError(error => {
-          this.alertService.showErrorAlert('Erreur lors de la récupération du ticket');
-          return of(/* action d'erreur si nécessaire */);
-        })
-      )
-    )
-  )
-);
+
+  // getTicketToDisplay$ = createEffect(() =>
+  // this.actions$.pipe(
+  //   ofType(sidebarAction.displayTicketDetails),
+  //         return sidebarAction.displayDetailContact();
+  //       })
+ 
+
+
+
+
 }

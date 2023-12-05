@@ -16,7 +16,7 @@ import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component'
   templateUrl: './ticket-card.component.html',
   styleUrls: ['./ticket-card.component.scss'],
 })
-export class TicketCardComponent extends UnsubcribeComponent implements OnInit{
+export class TicketCardComponent extends UnsubcribeComponent implements OnInit {
   ticketDetails: TicketDetails = {
     number: 0,
     name: '',
@@ -50,7 +50,7 @@ export class TicketCardComponent extends UnsubcribeComponent implements OnInit{
     private store: Store<Reducer.StateDataStore>,
   ) {
     super();
-   }
+  }
 
   ngOnInit() {
     this.loadTicket();
@@ -60,7 +60,7 @@ export class TicketCardComponent extends UnsubcribeComponent implements OnInit{
     // this.oldTicket = JSON.stringify(this.ticket);
     // console.log(this.ticketDetails.creator,'CCCCCCCCCCCCCCCCCCCCCCCC')
   }
- 
+
   loadTicket() {
     if (this.ticket !== undefined) {
       // console.log(this.ticket);
@@ -109,26 +109,19 @@ export class TicketCardComponent extends UnsubcribeComponent implements OnInit{
 
   }
 
-// ...
-
-private contactDetailsOpened = false;
-
-openContactDetails() {
-  if (!this.contactDetailsOpened) {
-    this.contactDetailsOpened = true;
+  // ...
 
 
-      
-
-        // Dispatch d'autres actions liées à la sidebar
-         this.store.dispatch(sidebarAction.displayTicketDetails({ payload: this.ticket.id }));
-      
+  openContactDetails() {
+    // Dispatch d'autres actions liées à la sidebar
+    console.log(this.ticket.id);
+    this.store.dispatch(ticketAction.getTicket({ payload: this.ticket.id, displayInSidebar: true }));
+  
   }
-}
 
 
 
-// ...
+  // ...
 
   rename() {
     this.ticketDetails.category = this.renamingService.renameCategory(this.ticketDetails.category);

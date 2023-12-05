@@ -47,13 +47,16 @@ export function reducer(state = initialState, action: Action & { payload?: any }
       return modifyState;
     }
     // display ticket details
+    // display ticket details
     case sidebarAtion.action.DISPLAY_TICKET_DETAILS: {
-      let modifyPanel = initPanelElement(state).panel;
-      modifyPanel.sidebar.isOpen = true;
-      modifyPanel.displayTicketDetails.isOpen = true;
+      const newPanel = {
+        ...state.panel,
+        sidebar: { ...state.panel.sidebar, isOpen: true },
+        displayTicketDetails: { ...state.panel.displayTicketDetails, isOpen: true },
+      };
       return {
         ...state,
-        panel: modifyPanel,
+        panel: newPanel,
       };
     }
     // display ticket create
@@ -76,7 +79,7 @@ export function reducer(state = initialState, action: Action & { payload?: any }
         panel: modifyPanel,
       };
     }
-  
+
 
     case sidebarAtion.action.DISPLAY_ACTIVITY: {
       let modifyPanel = initPanelElement(state).panel;

@@ -2,40 +2,40 @@
   (page)="onPageChange($event)"></app-sidebar-menu>
 
 <header class="widget details">
-  <h1 class="title">Ticket {{ticketDetails.number}}:<span class="title-name"> {{ticketDetails.name}} </span>
+  <h1 class="title">Ticket {{ticket.id}}:<span class="title-name"> {{ticket.ticketTitle}} </span>
   </h1>
   <div class="details-profil">
     <p class="prefix">Auteur:</p>
-    <app-avatar [userName]="ticketDetails.fullnameAuthor" class="context-ticket-card-creator"></app-avatar>
-    <p class="name"> {{ticketDetails.authorLastname}}<span class="firstname">{{ticketDetails.authorFirstname}}</span>
+    <app-avatar [userName]="this.fullnameAuthor" class="context-ticket-card-creator"></app-avatar>
+    <p class="name"> {{ticket.authorLastname}}<span class="firstname">{{ticket.authorFirstname}}</span>
     </p>
   </div>
-  <p class="prefix">Catégorie: <span class="category-span">{{ticketDetails.category}}</span></p>
-  <p class="prefix">Statut: <span [ngClass]="statutSpan">{{ticketDetails.status}}</span></p>
-  <p class="prefix">Priorité: <span [ngClass]="prioritySpan"> {{ticketDetails.priority}} </span></p>
+  <p class="prefix">Catégorie: <span class="category-span">{{ticket.categoryTitle}}</span></p>
+  <p class="prefix">Statut: <span [ngClass]="statutSpan">{{ticket.statusTitle}}</span></p>
+  <p class="prefix">Priorité: <span [ngClass]="prioritySpan"> {{ticket.priorityTitle}} </span></p>
   <div class="date-c">
-    <p class="prefix date">Date de création: <span>{{ ticketDetails.creationDate | date: 'dd MMMM yyyy' }}</span></p>
+    <p class="prefix date">Date de création: <span>{{ ticket.creationDate | date: 'dd MMMM yyyy' }}</span></p>
     <!-- @if (ticket.archiveDate !== null) {
       <p class="prefix date">
         Date d'archivage: <span>{{ ticket.archiveDate | date: 'dd MMMM yyyy' }}</span>
       </p>
     }  -->
-    @if (ticketDetails.updateDate) {
-      <p class="prefix date">Date de modification: {{ticketDetails.updateDate | date:'dd/MM/yyyy' }}</p>
+    @if (ticket.updateDate) {
+      <p class="prefix date">Date de modification: {{ticket.updateDate | date:'dd/MM/yyyy' }}</p>
     }
   </div>
   <ng-container *ngIf="page ==='Info'">
     <article [@opacity]="page==='Info'?'active':''">
       <p class="prefix description">Description:</p>
-      <p>{{ ticketDetails.description}}</p>
+      <p>{{ ticket.description}}</p>
     </article>
   </ng-container>
 
   <section class="card-bottom">
-    <ng-container *ngIf="ticketDetails.developers.length >=1">
+    <ng-container *ngIf="ticket.ticketHaveUsers.length >=1">
       <p class="prefix">Développeurs:</p>
       <ul>
-        <li *ngFor="let developer of ticketDetails.developers">{{ developer }}</li>
+        <li *ngFor="let developer of ticket.ticketHaveUsers">{{ developer }}</li>
       </ul>
     </ng-container>
   </section>
@@ -52,19 +52,19 @@
     <section class="widget actions" [@opacity]="page==='Actions'?'active':''">
       <h1 class="weight-500">Actions sur le ticket</h1>
       <div class="actions-btn">
-        <ng-container *ngIf="this.ticketDetails.status !== 'Terminé'">
+        <ng-container *ngIf="this.ticket.statusTitle !== 'Terminé'">
           <button mat-raised-button color="primary" class="btn bi bi-check-lg" (click)="closeTicket()">Cloturer</button>
         </ng-container>
-        <ng-container *ngIf="this.ticketDetails.status === 'Terminé'">
+        <ng-container *ngIf="this.ticket.statusTitle === 'Terminé'">
           <button mat-raised-button color="primary" class="btn bi bi-check-lg" (click)="reopenTicket()">Rouvrir</button>
         </ng-container>
 
-        <ng-container *ngIf="this.ticketDetails.archiveDate === ''">
+        <ng-container *ngIf="this.ticket.archiveDate === ''">
           <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill"
             (click)="archiveTicket(this.ticket!.id)">Archiver</button>
         </ng-container>
 
-        <ng-container *ngIf="this.ticketDetails.archiveDate !== ''">
+        <ng-container *ngIf="this.ticket.archiveDate !== ''">
           <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill"
             (click)="unarchiveTicket(this.ticket!.id)">Désarchiver</button>
         </ng-container>

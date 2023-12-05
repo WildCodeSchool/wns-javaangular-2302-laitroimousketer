@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import * as action from '../actions/ticket.action';
+import * as sidebarAction from '../actions/sidebar.action';
 import { crudOperationSuccess } from './../actions/ticket.action';
 import { catchError, map, mergeMap, of, switchMap, tap } from "rxjs";
 import { AlertService } from "src/app/core/services/alert.service";
@@ -24,22 +25,35 @@ export class TicketEffects {
 
 
   getTicket = createEffect(() =>
-    this.actions$.pipe(
-      ofType(action.getTicket),
-      switchMap(({ payload }) => {
-        return this.ticketService.getByKey(payload).pipe(
-          map((data: Ticket) => {
-            return action.saveTicket({ payload: data }); // Envoie l'action pour sauvegarder l'utilisateur dans le store
-          }),
-          catchError(error => {
-            this.msgService.showErrorAlert('Erreur lors de la récupération du ticket');
-            // Gérer les erreurs ici si nécessaire
-            return of(/* action d'erreur si besoin */);
-          })
-        );
-      })
-    )
-  );
+  this.actions$.pipe(
+    ofType(action.getTicket),
+    switchMap(({ payload, displayInSidebar }) => {
+      return this.ticketService.getByKey(payload).pipe(
+        tap((data: Ticket) => {
+          console.log('Ticket récupéré dans getTicket:', data);
+        }),
+        switchMap((data: Ticket) => {
+          const saveTicketAction = action.saveTicket({ payload: data });
+
+          if (displayInSidebar) {
+            return [
+              saveTicketAction,
+              sidebarAction.displayTicketDetails()
+            ];
+          } else {
+            return [saveTicketAction];
+          }
+        }),
+        catchError(error => {
+          this.msgService.showErrorAlert('Erreur lors de la récupération du ticket');
+          // Gérer les erreurs ici si nécessaire
+          return of(/* action d'erreur si besoin */);
+        })
+      );
+    })
+  )
+);
+
 
   updateTicket$ = createEffect(() =>
     this.actions$.pipe(

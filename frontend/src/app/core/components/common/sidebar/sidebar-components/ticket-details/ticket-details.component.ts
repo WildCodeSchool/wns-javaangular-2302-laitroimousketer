@@ -1,12 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TicketDetails } from 'src/app/features/ticket/models/ticket-details';
 import { MenuItems } from '../sidebar-menu/menu-items.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { RenamingService } from 'src/app/core/services/renaming.service';
 import { TicketService } from 'src/app/features/ticket/services/ticket.service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { Ticket } from 'src/app/features/ticket/models/ticket';
-
+import { Store } from '@ngrx/store';
+import * as Reducer from 'src/app/store/reducers/index';
+import * as ticketAction from 'src/app/store/actions/ticket.action';
+import { Observable, takeUntil } from 'rxjs';
+import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 @Component({
   selector: 'app-ticket-details',
   templateUrl: './ticket-details.component.html',
@@ -23,29 +26,9 @@ import { Ticket } from 'src/app/features/ticket/models/ticket';
     ])
   ]
 })
-export class TicketDetailsComponent implements OnInit {
-  @Input() ticket!: Ticket;
+export class TicketDetailsComponent extends UnsubcribeComponent implements OnInit {
 
-  ticketDetails: TicketDetails = {
-    number: 0,
-    name: '',
-    userFirstName: '',
-    userLastName: '',
-    description: '',
-    priority: '',
-    creationDate: '',
-    updateDate: '',
-    archiveDate: '',
-    status: '',
-    authorId: 0,
-    authorFirstname: '',
-    authorLastname: '',
-    authorEmail: '',
-    developers: [] = [],
-    fullnameAuthor: '',
-    category: '',
-  };
-
+  ticket!: Ticket;
   menuItems: MenuItems[] = [
     { page: 'Info', icon: 'bi bi-info-square-fill' },
     { page: 'Chat', icon: 'bi bi-chat-left-dots-fill' },
@@ -53,7 +36,7 @@ export class TicketDetailsComponent implements OnInit {
   ];
   menuTitle: string = 'Ticket';
   menuIcon: string = 'bi bi-tag-fill';
-
+  fullnameAuthor : string = '';
   canClose: boolean = false;
   page: string = 'Info';
   statutSpan: string = '';
@@ -63,11 +46,14 @@ export class TicketDetailsComponent implements OnInit {
     private ticketService: TicketService,
     private renamingService: RenamingService,
     private alertService: AlertService,
-  ) { }
+    private store: Store<Reducer.StateDataStore>,
+  ) {
+    super();
+   }
 
   ngOnInit() {
     this.loadTicket();
-    console.log('ticket details:', this.ticketDetails)
+    console.log('ticket details:', this.ticket)
   }
   // pour le reset des
 
@@ -77,24 +63,27 @@ export class TicketDetailsComponent implements OnInit {
   }
 
   loadTicket() {
-    if (this.ticket !== undefined && this.ticket !== null) {
-      console.log('ticket details:', this.ticket);
+    this.store.select(Reducer.getTicket).pipe(takeUntil(this.destroy$)).subscribe((ticket: Ticket)=>{
+      this.ticket = ticket;
+    });
+      if (this.ticket) {
+        console.log('ticket details:', this.ticket);
 
-      this.ticketDetails.number = this.ticket.id ? this.ticket.id : 0;
-      this.ticketDetails.name = this.ticket.ticketTitle ? this.ticket.ticketTitle : '';
-      this.ticketDetails.description = this.ticket.description ? this.ticket.description : '';
-      this.ticketDetails.priority = this.ticket.priorityTitle ? this.ticket.priorityTitle : '';
-      this.ticketDetails.category = this.ticket.categoryTitle ? this.ticket.categoryTitle : '';
-      this.ticketDetails.creationDate = this.ticket.creationDate ? this.ticket.creationDate : '';
-      this.ticketDetails.updateDate = this.ticket.updateDate ? this.ticket.updateDate : '';
-      this.ticketDetails.archiveDate = this.ticket.archiveDate ? this.ticket.archiveDate : '';
-      this.ticketDetails.status = this.ticket.statusTitle ? this.ticket.statusTitle : '';
-      this.ticketDetails.authorId = this.ticket.authorId ? this.ticket.authorId : 0;
-      this.ticketDetails.authorFirstname = this.ticket.authorFirstname ? this.ticket.authorFirstname : '';
-      this.ticketDetails.authorLastname = this.ticket.authorLastname ? this.ticket.authorLastname : '';
-      this.ticketDetails.fullnameAuthor = this.ticket.authorLastname + ' ' + this.ticket.authorFirstname || '';
-      this.ticketDetails.authorEmail = this.ticket.authorEmail ? this.ticket.authorEmail : '';
-      this.ticketDetails.developers = this.ticket.ticketHaveUsers ? this.ticket.ticketHaveUsers : [];
+      this.ticket.id = this.ticket.id ? this.ticket.id : 0;
+      this.ticket.ticketTitle = this.ticket.ticketTitle ? this.ticket.ticketTitle : '';
+      this.ticket.description = this.ticket.description ? this.ticket.description : '';
+      this.ticket.priorityTitle = this.ticket.priorityTitle ? this.ticket.priorityTitle : '';
+      this.ticket.categoryTitle = this.ticket.categoryTitle ? this.ticket.categoryTitle : '';
+      this.ticket.creationDate = this.ticket.creationDate ? this.ticket.creationDate : '';
+      this.ticket.updateDate = this.ticket.updateDate ? this.ticket.updateDate : '';
+      this.ticket.archiveDate = this.ticket.archiveDate ? this.ticket.archiveDate : '';
+      this.ticket.statusTitle = this.ticket.statusTitle ? this.ticket.statusTitle : '';
+      this.ticket.authorId = this.ticket.authorId ? this.ticket.authorId : 0;
+      this.ticket.authorFirstname = this.ticket.authorFirstname ? this.ticket.authorFirstname : '';
+      this.ticket.authorLastname = this.ticket.authorLastname ? this.ticket.authorLastname : '';
+      this.fullnameAuthor = this.ticket.authorLastname + ' ' + this.ticket.authorFirstname || '';
+      this.ticket.authorEmail = this.ticket.authorEmail ? this.ticket.authorEmail : '';
+      this.ticket.ticketHaveUsers = this.ticket.ticketHaveUsers ? this.ticket.ticketHaveUsers : [];
       this.checkStatus();
       this.checkPriority();
       this.rename();
@@ -103,68 +92,68 @@ export class TicketDetailsComponent implements OnInit {
 
 
   checkStatus() {
-    if (this.ticketDetails.status === 'TO_DO') {
+    if (this.ticket.statusTitle === 'TO_DO') {
       this.statutSpan = 'todo';
 
-    } if (this.ticketDetails.status === 'DOING') {
+    } if (this.ticket.statusTitle === 'DOING') {
       this.statutSpan = 'done';
     }
-    if (this.ticketDetails.status === 'DONE') {
+    if (this.ticket.statusTitle === 'DONE') {
       this.statutSpan = 'done';
       this.canClose = true;
     }
   }
 
   checkPriority() {
-    if (this.ticketDetails.priority === 'LOW') {
+    if (this.ticket.priorityTitle === 'LOW') {
       this.prioritySpan = 'low';
     }
-    if (this.ticketDetails.priority === 'MEDIUM') {
+    if (this.ticket.priorityTitle === 'MEDIUM') {
       this.prioritySpan = 'medium';
     }
-    if (this.ticketDetails.priority === 'HIGH') {
+    if (this.ticket.priorityTitle === 'HIGH') {
       this.prioritySpan = 'high';
     }
   }
   rename() {
-    this.ticketDetails.category = this.renamingService.renameCategory(this.ticketDetails.category);
-    this.ticketDetails.status = this.renamingService.renameStatus(this.ticketDetails.status);
-    this.ticketDetails.priority = this.renamingService.renamePriority(this.ticketDetails.priority);
+    this.ticket.categoryTitle = this.renamingService.renameCategory(this.ticket.categoryTitle);
+    this.ticket.statusTitle = this.renamingService.renameStatus(this.ticket.statusTitle);
+    this.ticket.priorityTitle = this.renamingService.renamePriority(this.ticket.priorityTitle);
   }
 
   archiveTicket(ticketId: number): void {
-    if (this.ticketDetails.archiveDate === '') {
+    if (this.ticket.archiveDate === '') {
       this.ticketService.archiveTicket(ticketId)
+    }
   }
-}
 
   unarchiveTicket(ticketId: number): void {
-    if (this.ticketDetails.archiveDate !== '') {
+    if (this.ticket.archiveDate !== '') {
       this.ticketService.unarchiveTicket(ticketId)
-    //     .subscribe(response => {
-    //       if (response.status === 200) {
-    //         this.ticketService.getTicket(this.ticket.id).subscribe((ticketData) => {
-    //           this.ticket = ticketData;
-    //           this.loadTicket();
-    //         });
-    //         this.alertService.showSuccessAlert('Ticket désarchivé avec succès');
-    //         // Faire quelque chose ici, par exemple, mettre à jour la liste des tickets archivés
-    //       } else {
-    //         this.alertService.showErrorAlert("Erreur lors du désarchivage du ticket");
-    //         // Gérer l'erreur ici, par exemple, afficher un message d'erreur à l'utilisateur
-    //       }
-    //     });
-    // } else {
-    //   this.alertService.showErrorAlert("Le ticket n'est pas archivé");
-    // }
+      //     .subscribe(response => {
+      //       if (response.status === 200) {
+      //         this.ticketService.getTicket(this.ticket.id).subscribe((ticketData) => {
+      //           this.ticket = ticketData;
+      //           this.loadTicket();
+      //         });
+      //         this.alertService.showSuccessAlert('Ticket désarchivé avec succès');
+      //         // Faire quelque chose ici, par exemple, mettre à jour la liste des tickets archivés
+      //       } else {
+      //         this.alertService.showErrorAlert("Erreur lors du désarchivage du ticket");
+      //         // Gérer l'erreur ici, par exemple, afficher un message d'erreur à l'utilisateur
+      //       }
+      //     });
+      // } else {
+      //   this.alertService.showErrorAlert("Le ticket n'est pas archivé");
+      // }
+    }
   }
-}
 
   closeTicket() {
-    if (this.ticketDetails.status === 'En cours') {
+    if (this.ticket.statusTitle === 'En cours') {
       let updatedTicket: Ticket = this.ticket;
       updatedTicket.statusId = 96;
-  
+
       this.ticketService.updateAndFetchTicket(this.ticket.id, updatedTicket).subscribe(
         (updatedTicket) => {
           this.ticket = updatedTicket;
@@ -180,12 +169,12 @@ export class TicketDetailsComponent implements OnInit {
       this.alertService.showErrorAlert("Le ticket n'a pas été encore traité");
     }
   }
-  
+
   reopenTicket() {
-    if (this.ticketDetails.status === 'Terminé') {
+    if (this.ticket.statusTitle === 'Terminé') {
       let updatedTicket: Ticket = this.ticket;
       updatedTicket.statusId = 94;
-  
+
       this.ticketService.updateAndFetchTicket(this.ticket.id, updatedTicket).subscribe(
         (updatedTicket) => {
           this.ticket = updatedTicket;
@@ -198,6 +187,6 @@ export class TicketDetailsComponent implements OnInit {
       );
     }
   }
-  
+
 
 }
