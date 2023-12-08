@@ -1,21 +1,20 @@
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, of, switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { Ticket } from '../models/ticket';
-import { Category } from '../models/category';
-import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class TicketService extends EntityCollectionServiceBase<Ticket> {
+export class TicketService {
   private baseUrl = "http://localhost:8080/api/";
-
+  private ticketAdapter = createEntityAdapter<Ticket>();
+  tickets: EntityState<Ticket> = this.ticketAdapter.getInitialState();
+  
   constructor(
-    serviceElementsFactory: EntityCollectionServiceElementsFactory,
     private httpClient: HttpClient) {
-    super('tickets', serviceElementsFactory);
    }
 
   getTicketList(): Observable<Ticket[]> {
@@ -31,7 +30,7 @@ export class TicketService extends EntityCollectionServiceBase<Ticket> {
   getTicket(ticketId: number): Observable<Ticket> {
     return this.httpClient.get<Ticket>(this.baseUrl+'tickets/'+ticketId);
   }
-
+  
   updateTicket(ticketId: number, ticket: Ticket): Observable<Ticket> {
     return this.httpClient.put<Ticket>(this.baseUrl+'tickets/'+ticketId,ticket);
   }

@@ -145,7 +145,7 @@ ticketsFromStore: Ticket[] = [];
 
   getTicketList() {
     this.store.dispatch(ticketAction.getTickets());
-    this.store.select(Reducer.getTickets)
+    this.store.select(Reducer.selectAllTickets)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: Ticket[]) => {
         if (data) {

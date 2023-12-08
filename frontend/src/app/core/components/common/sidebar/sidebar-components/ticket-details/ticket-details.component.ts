@@ -63,9 +63,18 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
   }
 
   loadTicket() {
-    this.store.select(Reducer.getTicket).pipe(takeUntil(this.destroy$)).subscribe((ticket: Ticket)=>{
-      this.ticket = ticket;
+    this.store.dispatch(ticketAction.getTicket({ payload: this.ticket.id }));
+    this.store.select(Reducer.selectTicketById(this.ticket.id)).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((ticket) => {
+      if (ticket) {
+        this.ticket = ticket;
+        // Faire le reste du traitement avec le ticket récupéré
+      } else {
+        // Gérer le cas où le ticket est null ou undefined
+      }
     });
+    
       if (this.ticket) {
         console.log('ticket details:', this.ticket);
 

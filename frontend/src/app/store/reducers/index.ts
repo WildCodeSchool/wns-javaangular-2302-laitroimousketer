@@ -1,7 +1,8 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as ticketReducer from './ticket.reducer';
 import * as sidebarReducer from './sidebar.reducer';
-
+import { SideBarState } from './sidebar.reducer';
+import { ticketAdapter, TicketState } from './ticket.reducer';
 export const reducerKey = 'DataStoreKey';
 
 // interface pour indexation du store
@@ -10,33 +11,36 @@ export interface StateDataStore {
   sidebarStore: sidebarReducer.SideBarState;
   // autres stores
 }
-
+export const getTicketState = createFeatureSelector<TicketState>('ticketStore');
+export const getSidebarState = createFeatureSelector<SideBarState>('sidebarStore');
 export const reducers = {
-  ticketStore: ticketReducer.reducer,
+  ticketStore: ticketReducer.Reducer,
   sidebarStore: sidebarReducer.reducer,
   // autres stores
 };
 
-export const getFeatureState = createFeatureSelector<StateDataStore>(reducerKey);
-// pour la sélection d'un store en particulier
 
 //tickets
-export const getTicketState = createSelector(
-  getFeatureState, state => state.ticketStore);
+export const selectAllTickets = createSelector(
+  getTicketState,
 
-export const getTicket = createSelector(
-  getTicketState, ticketReducer.getTicket);
+  ticketAdapter.getSelectors().selectAll
+);
+export const selectTicketById = (ticketId: number) => createSelector(
+  getTicketState,
+  (state: TicketState) => state.entities ? state.entities[ticketId] : null
+);
 
-export const getTickets = createSelector(
-  getTicketState, ticketReducer.getTickets);
 
-export function getReducers() {
-  return reducers;
-}
 
 // sidebar
-export const getSidebarState = createSelector(
-  getFeatureState, state => state.sidebarStore);
+
 // panel dans sidebar
 export const getPanelState = createSelector(
   getSidebarState, sidebarReducer.getPanel);
+
+
+
+  export function getReducers() {
+    return reducers;
+  }

@@ -115,7 +115,7 @@ export class TicketCardComponent extends UnsubcribeComponent implements OnInit {
   openContactDetails() {
     // Dispatch d'autres actions liées à la sidebar
     console.log(this.ticket.id);
-    this.store.dispatch(ticketAction.getTicket({ payload: this.ticket.id, displayInSidebar: true }));
+    this.store.dispatch(ticketAction.getTicket({ payload: this.ticket.id }));
   
   }
 
