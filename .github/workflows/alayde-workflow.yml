@@ -29,12 +29,7 @@ jobs:
           docker build -t djosh35/alayde-front:${GITHUB_REF##*/} .
           docker push djosh35/alayde-front:${GITHUB_REF##*/} 
 
-
-          # name: Alayde backend CI
-   
-          // backend
           
-
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
