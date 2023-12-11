@@ -21,6 +21,7 @@ import { SidebarMenuComponent } from './components/common/sidebar/sidebar-compon
 import { TicketAddComponent } from './components/common/sidebar/sidebar-components/ticket-add/ticket-add.component';
 import { TicketChatComponent } from './components/common/sidebar/sidebar-components/ticket-chat/ticket-chat.component';
 import { TicketEditComponent } from './components/common/sidebar/sidebar-components/ticket-edit/ticket-edit.component';
+import { UserDetailsComponent } from './components/common/sidebar/sidebar-components/user-details/user-details.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { TicketEditComponent } from './components/common/sidebar/sidebar-compone
     TicketEditComponent,
     TicketChatComponent,
     MapComponent,
+    UserDetailsComponent,
     
   ],
   imports: [
@@ -67,6 +69,7 @@ import { TicketEditComponent } from './components/common/sidebar/sidebar-compone
     SidebarMenuComponent,
     ActivityComponent,
     MapComponent,
+    UserDetailsComponent,
   ],
   providers: [],
 })

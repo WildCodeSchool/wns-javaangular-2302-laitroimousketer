@@ -114,7 +114,7 @@ public class TicketDataseed {
 
       User creator = getRandomClientUser();
 
-      this.ticketService.createTicket(ticketCreated, creator);
+      this.ticketService.createTicket(ticketCreated);
   }
 }
 

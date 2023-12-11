@@ -13,7 +13,7 @@
         <div class="mb-3">
             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" formControlName="selectedCategory">
                 <option *ngFor="let category of categories" [ngValue]="category.id">
-                {{ category.title }}
+                {{ category.categoryTitle }}
                 </option>
             </select>
         </div>

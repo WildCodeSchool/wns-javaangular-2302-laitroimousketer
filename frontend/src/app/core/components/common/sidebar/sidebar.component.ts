@@ -32,7 +32,7 @@ export class SidebarComponent extends UnsubcribeComponent implements OnInit, OnD
       .pipe(takeUntil(this.destroy$))
       .subscribe((panel: PanelSideBar) => {
         // Assurez-vous de créer une copie profonde de l'objet panel
-        this.panel = { ...panel };
+        this.panel = panel;
       });
   }
   

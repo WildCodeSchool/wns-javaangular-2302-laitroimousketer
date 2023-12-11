@@ -4,11 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import * as action from '../actions/ticket.action';
 import * as sidebarAction from '../actions/sidebar.action';
-import { catchError, concatMap, map, switchMap, tap } from "rxjs/operators";
+import { crudOperationSuccess } from './../actions/ticket.action';
+import { catchError, map, mergeMap, of, switchMap, tap } from "rxjs";
 import { AlertService } from "src/app/core/services/alert.service";
 import { Ticket } from "src/app/features/ticket/models/ticket";
-import { TicketService } from "src/app/features/ticket/services/ticket.service";
-import { of } from "rxjs";
+import { TicketService } from "src/app/core/services/ticket.service";
 
 
 @Injectable()
@@ -19,85 +19,116 @@ export class TicketEffects {
     private httpService: HttpClient,
     private msgService: AlertService,
     private ticketService: TicketService,
+
+
   ) { }
 
+
   getTicket = createEffect(() =>
-    this.actions$.pipe(
-      ofType(action.getTicket),
-      switchMap(({ payload }) =>
-        this.httpService.get<Ticket>(`${this.baseAPI}/tickets/${payload}`).pipe(
-          map((ticket: Ticket) => action.saveTicket({ payload: ticket })),
-          catchError(error => {
-            this.msgService.showErrorAlert('Erreur lors de la récupération des tickets');
-            return of(/* action d'erreur si nécessaire */);
-          })
-        )
-      )
-    )
-  );
+  this.actions$.pipe(
+    ofType(action.getTicket),
+    switchMap(({ payload, displayInSidebar }) => {
+      return this.ticketService.getByKey(payload).pipe(
+        tap((data: Ticket) => {
+          console.log('Ticket récupéré dans getTicket:', data);
+        }),
+        switchMap((data: Ticket) => {
+          const saveTicketAction = action.saveTicket({ payload: data });
+
+          if (displayInSidebar) {
+            return [
+              saveTicketAction,
+              sidebarAction.displayTicketDetails()
+            ];
+          } else {
+            return [saveTicketAction];
+          }
+        }),
+        catchError(error => {
+          this.msgService.showErrorAlert('Erreur lors de la récupération du ticket');
+          // Gérer les erreurs ici si nécessaire
+          return of(/* action d'erreur si besoin */);
+        })
+      );
+    })
+  )
+);
+
 
   updateTicket$ = createEffect(() =>
     this.actions$.pipe(
       ofType(action.updateTicket),
       switchMap(({ payload }) =>
-        this.httpService.put<Ticket>(`${this.baseAPI}/tickets/${payload.id}`, payload).pipe(
+        this.ticketService.update(payload).pipe(
           map((data: Ticket) => action.saveTicket({ payload: data })),
           tap(() => this.msgService.showSuccessAlert('Ticket modifié')),
           catchError(error => {
             this.msgService.showErrorAlert('Erreur lors de la modification du ticket');
-            return of(/* action d'erreur si nécessaire */);
+            // Gérer les erreurs ici si nécessaire
+            return of(/* action d'erreur si besoin */);
           })
         )
       )
     )
   );
 
-  createTicket = createEffect(() =>
-    this.actions$.pipe(
-      ofType(action.createTicket),
-      switchMap(({ payload }) =>
-        this.httpService.post<Ticket>(`${this.baseAPI}/tickets`, payload).pipe(
-          map((data: Ticket) => action.saveTicket({ payload: data })),
-          tap(() => this.msgService.showSuccessAlert('Ticket créé')),
-          catchError(error => {
-            this.msgService.showErrorAlert('Erreur lors de la création du ticket');
-            return of(/* action d'erreur si nécessaire */);
-          })
-        )
-      )
+
+
+createTicket = createEffect(() =>
+this.actions$.pipe(
+  ofType(action.createTicket),
+  switchMap(({ payload }) => {
+    console.log('Ticket créé dans createTicket:', payload);
+    return this.ticketService.add(payload).pipe(
+ 
+      map((data: Ticket) => action.saveTicket({ payload: data })),
+      tap(() => this.msgService.showSuccessAlert('Ticket créé')),
+      catchError(error => {
+        this.msgService.showErrorAlert('Erreur lors de la création du ticket');
+        // Gérer les erreurs ici si nécessaire
+        return of(/* action d'erreur si besoin */);
+      })
     )
-  );
+    })
+));
+
 
   deleteTicket$ = createEffect(() =>
     this.actions$.pipe(
       ofType(action.deleteTicket),
       switchMap(({ payload }) =>
-        this.httpService.delete(`${this.baseAPI}/tickets/${payload}`).pipe(
+        this.ticketService.delete(payload).pipe(
           tap(() => {
             this.msgService.showSuccessAlert('Ticket supprimé');
           }),
           catchError(error => {
             this.msgService.showErrorAlert('Erreur lors de la suppression du ticket');
-            return of(/* action d'erreur si nécessaire */);
+            // Gérer les erreurs ici si nécessaire
+            return of(/* action d'erreur si besoin */);
           })
         )
       )
-    ),
-    { dispatch: false }
+    ), { dispatch: false } // Ajoutez cette ligne si vous ne souhaitez pas déclencher d'action
   );
+
 
   getTickets = createEffect(() =>
     this.actions$.pipe(
       ofType(action.getTickets),
-      switchMap(() =>
-        this.httpService.get<Ticket[]>(`${this.baseAPI}/tickets`).pipe(
-          map((tickets: Ticket[]) => action.saveTickets({ payload: tickets })),
+      switchMap(() => {
+        return this.ticketService.getAll().pipe(
+          map((tickets: Ticket[]) => {
+            return action.saveTickets({ payload: tickets });
+          }),
           catchError(error => {
             this.msgService.showErrorAlert('Erreur lors de la récupération des tickets');
-            return of(/* action d'erreur si nécessaire */);
+            return of(/* action d'erreur si besoin */);
           })
-        )
-      )
+        );
+      })
     )
   );
+
+
 }
+

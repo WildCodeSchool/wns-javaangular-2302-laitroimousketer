@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { TicketService } from '../../services/ticket.service';
+import { TicketService } from '../../../../core/services/ticket.service';
 import { Ticket } from '../../models/ticket';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';

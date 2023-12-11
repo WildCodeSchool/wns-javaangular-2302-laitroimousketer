@@ -8,18 +8,17 @@
     <app-ticket-details></app-ticket-details>
     }
 
-    @if (panel.displayTicketDetails.isOpen) {
-    <app-activity></app-activity>
-    }
-
     @if (panel.displayTicketCreate.isOpen) {
     <app-ticket-add></app-ticket-add>
     }
 
     @if (panel.displayUserDetails.isOpen) {
-
+    <app-user-details></app-user-details>
     }
 
+    @if (panel.displayActivity.isOpen) {
+    <app-activity></app-activity>
+    }
 
 
 

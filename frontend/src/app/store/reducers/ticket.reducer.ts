@@ -1,35 +1,53 @@
-import { createEntityAdapter, EntityState } from '@ngrx/entity';
-import { createReducer, Action, on } from '@ngrx/store';
+import { ActionReducer, Action } from '@ngrx/store';
 import * as ticketAction from '../actions/ticket.action';
 import { Ticket } from 'src/app/features/ticket/models/ticket';
 
-export interface TicketState extends EntityState<Ticket> { }
+export interface TicketState {
+  ticket: Ticket;
+  tickets: Ticket[];
 
-export const ticketAdapter = createEntityAdapter<Ticket>({
-  selectId: (ticket: Ticket) => ticket.id,
-  // Autres options d'adapter si nécessaire
-});
+}
 
-const initialState: TicketState = ticketAdapter.getInitialState();
+const initialState: TicketState = {
+  ticket: {} as Ticket,
+  tickets: [] as Ticket[],
+};
 
-export const Reducer = createReducer(
-  initialState,
-  on(ticketAction.saveTicket, (state, { payload }) => {
-    return ticketAdapter.addOne(payload, state);
-  }),
-  on(ticketAction.getTicket, (state) => state), 
-  on(ticketAction.getTickets, (state) => state), 
+export function reducer(state = initialState, action: Action & { payload?: any }) {
+  switch (action.type) {
 
-  on(ticketAction.saveTickets, (state, { payload }) => {
-    return ticketAdapter.setAll(payload, state);
-  }),
+    case ticketAction.action.SAVE_TICKET: {
+      return {
+        ...state,
+        ticket: action.payload,
+      };
+    }
 
-);
+    case ticketAction.action.GET_TICKET: {
+      return {
+        ...state,
+        ticket: action.payload,
+      };
+    }
 
-export const {
-  selectAll: selectAllTickets,
-  selectIds: selectTicketIds,
-  selectEntities: selectTicketEntities,
-  selectTotal: selectTotalTickets,
-} = ticketAdapter.getSelectors();
+    case ticketAction.action.GET_TICKETS: {
+      return {
+        ...state,
+        tickets: action.payload,
+      };
+    }
+    case ticketAction.action.SAVE_TICKETS: {
+      return {
+        ...state,
+        tickets: action.payload,
+      };
+    };
 
+    default:
+      return state;
+  }
+}
+
+
+export const getTicket = (state: TicketState) => state.ticket;
+export const getTickets = (state: TicketState) => state.tickets;

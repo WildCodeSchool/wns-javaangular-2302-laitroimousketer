@@ -41,14 +41,14 @@ public class User implements UserDetails {
   @JoinColumn(name = "role_id", nullable = false)
   private Role role;
 
-  @OneToMany(mappedBy = "author",cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "author",cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
   private List<Ticket> authoredTickets;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
   private List<TicketHaveUsers> ticketHaveUsers;
 
   // CASCADE ALL, si user supprimé, useradress supprimé
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
   private List<UserAddress> userAddresses;
 
   @Override

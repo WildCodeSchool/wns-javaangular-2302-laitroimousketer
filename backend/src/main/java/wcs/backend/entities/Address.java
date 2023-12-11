@@ -40,7 +40,7 @@ public class Address {
   @Column
   private String street_l2;
 // si address supprimé, useradress supprimé via cascade ALL
-  @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   private List<UserAddress> userAddresses;
 
   // Constructeurs, getters, setters, etc.

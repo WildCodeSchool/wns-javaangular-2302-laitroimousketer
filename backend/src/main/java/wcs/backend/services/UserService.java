@@ -126,15 +126,10 @@ public class UserService {
   }
 
   public void deleteUserById(Long userId) {
-    User user = userRepository.findById(userId)
-        .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
-    // Supprimer manuellement les enregistrements dans user_has_ticket
-    for (TicketHaveUsers ticketHaveUsers : user.getTicketHaveUsers()) {
-      ticketHaveUsersRepository.deleteById(ticketHaveUsers.getId());
-    }
     // Ensuite, supprimez l'utilisateur
     userRepository.deleteById(userId);
-  }
+}
+
 
   public List<User> getUsersByName(String name) {
     return userRepository.findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name, name);

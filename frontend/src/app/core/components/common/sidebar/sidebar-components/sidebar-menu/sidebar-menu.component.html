@@ -1,4 +1,5 @@
 <nav class="menu">
+  <span class="btn-close-sidebar bi bi-x" (click)="closeSidebar()"></span>
   <ul class="navigation-list">
     <ng-container *ngFor="let menuItem of menuItems; let i = index">
       <li #blockMenu (click)="setBar(i)" [ngClass]="{'active': positionNav === i}">

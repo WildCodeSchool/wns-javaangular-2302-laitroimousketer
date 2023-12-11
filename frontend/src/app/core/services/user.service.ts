@@ -4,23 +4,40 @@ import { User } from '../models/user.model';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Role } from '../models/role.model';
+import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService  {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    serviceElementsFactory: EntityCollectionServiceElementsFactory,) {
+  }
 
-  getAllUsers(): Observable<User[]> {
+  //CRUD
+  getAll(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/users`);
   }
-
-  getUserById(userId: number): Observable<User> {
+  getByKey(userId: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/users/${userId}`);
   }
+  add(user: User): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/users`, user);
+  }
+  update(user: Partial<User>): Observable<User> {
+    const userId = user.id;
+    return this.http.put<User>(`${this.apiUrl}/users/${userId}`, user);
+  }
+  
+  delete(userId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/users/${userId}`);
+  }
+  
 
+  //others
   getUsersByRole(roleId: number): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/users?role_id=${roleId}`);
   }
@@ -35,9 +52,10 @@ export class UserService {
   getUserByEmail(email: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/users/email?email=${email}`);
   }
-  
-  
-  
 
+
+
+  
+  
   
 }

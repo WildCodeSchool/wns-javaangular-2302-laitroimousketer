@@ -4,13 +4,13 @@ import { RenamingService } from 'src/app/core/services/renaming.service';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Ticket } from 'src/app/features/ticket/models/ticket';
 import { TicketDetails } from 'src/app/features/ticket/models/ticket-details';
-import { TicketService } from '../../services/ticket.service';
 import { Store } from '@ngrx/store';
 import * as Reducer from 'src/app/store/reducers/index';
 import * as sidebarAction from 'src/app/store/actions/sidebar.action';
 import * as ticketAction from 'src/app/store/actions/ticket.action';
 import { takeUntil } from 'rxjs';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
+import { TicketService } from 'src/app/core/services/ticket.service';
 @Component({
   selector: 'app-ticket-card',
   templateUrl: './ticket-card.component.html',
@@ -115,7 +115,7 @@ export class TicketCardComponent extends UnsubcribeComponent implements OnInit {
   openContactDetails() {
     // Dispatch d'autres actions liées à la sidebar
     console.log(this.ticket.id);
-    this.store.dispatch(ticketAction.getTicket({ payload: this.ticket.id }));
+    this.store.dispatch(ticketAction.getTicket({ payload: this.ticket.id, displayInSidebar: true }));
   
   }
 

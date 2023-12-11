@@ -31,6 +31,12 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
           entityResourceUrl: this.baseAPI + '/tickets/',
         };
         break;
+      case 'users':
+        resourceURLs = {
+          collectionResourceUrl: this.baseAPI + '/users',
+          entityResourceUrl: this.baseAPI + '/users/',
+        };
+        break;
     }
   
     this.registerHttpResourceUrls({ [entityName]: resourceURLs });

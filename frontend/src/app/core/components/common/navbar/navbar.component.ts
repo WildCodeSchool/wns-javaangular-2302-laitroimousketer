@@ -1,13 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { UserService } from '../../../services/user.service';
 import { AuthService } from '../../../services/auth.service';
-import { User } from '../../../models/user.model';
 import { SharedService } from '../../../services/shared.service';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { AlertService } from '../../../services/alert.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-
+import { Store } from '@ngrx/store';
+import * as Reducer from 'src/app/store/reducers/index';
+import * as sidebarAction from 'src/app/store/actions/sidebar.action';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -31,8 +30,7 @@ export class NavbarComponent {
   opened: boolean = false;
 
   constructor(
-    private alertService: AlertService,
-    private userService: UserService,
+    private store: Store<Reducer.StateDataStore>,
     private authService: AuthService,
     private sharedService: SharedService,
     private router: Router
@@ -55,13 +53,12 @@ export class NavbarComponent {
     this.router.navigate(['/auth']);
   }
 
-   toggleSidenavActivity(): void {
-    this.sharedService.toggleSidebar();
-    this.sharedService.setCurrentContent('activity');
+   toggleSidebarActivity(): void {
+    this.store.dispatch(sidebarAction.displayActivity());
   }
-  toggleSidenavNewTicket(): void {
-    this.sharedService.toggleSidebar();
-    this.sharedService.setCurrentContent('ticket-add');
+
+  toggleSidebarNewTicket(): void {
+    this.store.dispatch(sidebarAction.displayTicketCreate());
   }
 
   openSidebar() {

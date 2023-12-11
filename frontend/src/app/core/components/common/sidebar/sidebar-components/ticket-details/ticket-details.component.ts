@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MenuItems } from '../sidebar-menu/menu-items.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { RenamingService } from 'src/app/core/services/renaming.service';
-import { TicketService } from 'src/app/features/ticket/services/ticket.service';
+import { TicketService } from 'src/app/core/services/ticket.service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { Ticket } from 'src/app/features/ticket/models/ticket';
 import { Store } from '@ngrx/store';
@@ -63,18 +63,9 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
   }
 
   loadTicket() {
-    this.store.dispatch(ticketAction.getTicket({ payload: this.ticket.id }));
-    this.store.select(Reducer.selectTicketById(this.ticket.id)).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((ticket) => {
-      if (ticket) {
-        this.ticket = ticket;
-        // Faire le reste du traitement avec le ticket récupéré
-      } else {
-        // Gérer le cas où le ticket est null ou undefined
-      }
+    this.store.select(Reducer.getTicket).pipe(takeUntil(this.destroy$)).subscribe((ticket: Ticket)=>{
+      this.ticket = ticket;
     });
-    
       if (this.ticket) {
         console.log('ticket details:', this.ticket);
 

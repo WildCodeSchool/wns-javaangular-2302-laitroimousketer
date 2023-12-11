@@ -6,7 +6,11 @@ import { MarkerData } from 'src/app/core/components/common/map/marker-data.model
 import { User } from 'src/app/core/models/user.model';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { UserService } from 'src/app/core/services/user.service';
-
+import { Store } from '@ngrx/store';
+import * as Reducer from 'src/app/store/reducers/index';
+import * as userAction from 'src/app/store/actions/user.action';
+import { takeUntil } from 'rxjs';
+import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
@@ -23,7 +27,7 @@ import { UserService } from 'src/app/core/services/user.service';
     ]),
   ],
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent extends UnsubcribeComponent implements OnInit {
 map!: Map;
 zoom!: number;
 mapOptions = {
@@ -48,20 +52,49 @@ states: string[] = [
 currentSortBy: string = '';
 placeholderSearchbar :string = "Rechercher un utilisateur par son nom, prénom, mail..."
   constructor(
+    private store: Store<Reducer.StateDataStore>,
     private sharedService: SharedService,
     private userService: UserService,
-  ) { }
+  ) {
+    super();
+   }
 
   ngOnInit() {
     this.loadUsers();
   }
+
+
   loadUsers() {
-    this.userService.getAllUsers().subscribe((users) => {
-      this.users = users;
-      console.log('users',this.users);
-      this.markersData = this.initializeMarkersData(users);
+    this.store.dispatch(userAction.getUsers());
+    this.store.select(Reducer.getUsers)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: User[]) => {
+        if (data) {
+          this.users = data;
+          // this.markersData = this.initializeMarkersData(this.users);
+          // Autres opérations ici...
+        }
     });
   }
+updateUser(userId: number) {
+  const updatedUser: Partial<User> = {
+    id: userId,
+    firstname: 'newFirstName'+userId,
+    lastname: 'newLastName'+userId,
+  };
+  this.store.dispatch(userAction.updateUser({ payload: updatedUser }));
+}
+deleteUser(userId: number) {
+  this.store.dispatch(userAction.deleteUser({ payload: userId }));
+}
+
+  openUserDetails(userId: number) {
+    // Dispatch d'autres actions liées à la sidebar
+    console.log(userId);
+    this.store.dispatch(userAction.getUser({ payload: userId, displayInSidebar: true }));
+  
+  }
+
   initializeMarkersData(users: User[]): MarkerData[] {
     return users.map(user => {
       return {
@@ -74,18 +107,7 @@ placeholderSearchbar :string = "Rechercher un utilisateur par son nom, prénom, 
   isEven(index: number): boolean {
     return index % 2 === 0;
   }
-  openSidebar() {
-    if (this.user)
-    this.sharedService.toggleSidebar();
-    this.sharedService.setCurrentContent('user-details');
-    this.sharedService.setCurrentUser(this.user);
-   
-  }
-  onUserClick(user: User) {
-    this.sharedService.setCurrentUser(user);
-    this.sharedService.setCurrentContent('user-details');
-    this.sharedService.toggleSidebar();
-  }
+  
   // TRI //
  
   sortUsers(sortBy: string, users: User[]) {

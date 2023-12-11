@@ -7,8 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Category } from 'src/app/features/ticket/models/category';
 import { Ticket } from 'src/app/features/ticket/models/ticket';
-import { CategoryService } from 'src/app/features/ticket/services/category.service';
-import { TicketService } from 'src/app/features/ticket/services/ticket.service';
+import { CategoryService } from 'src/app/core/services/category.service';
+import { TicketService } from 'src/app/core/services/ticket.service';
 
 
 @Component({

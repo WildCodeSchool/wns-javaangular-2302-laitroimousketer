@@ -51,8 +51,8 @@ export function reducer(state = initialState, action: Action & { payload?: any }
     case sidebarAtion.action.DISPLAY_TICKET_DETAILS: {
       const newPanel = {
         ...state.panel,
-        sidebar: { ...state.panel.sidebar, isOpen: true },
-        displayTicketDetails: { ...state.panel.displayTicketDetails, isOpen: true },
+        sidebar: { isOpen: true },
+        displayTicketDetails: { isOpen: true },
       };
       return {
         ...state,

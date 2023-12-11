@@ -5,7 +5,7 @@ import { Store } from "@ngrx/store";
 import * as sidebarAction from '../actions/sidebar.action';
 import * as ticketAction from '../actions/ticket.action';
 import * as Reducer from '../reducers/index';
-import { TicketService } from "src/app/features/ticket/services/ticket.service";
+import { TicketService } from "src/app/core/services/ticket.service";
 import { AlertService } from "src/app/core/services/alert.service";
 import { Ticket } from "src/app/features/ticket/models/ticket";
 import { of, Observable } from "rxjs";

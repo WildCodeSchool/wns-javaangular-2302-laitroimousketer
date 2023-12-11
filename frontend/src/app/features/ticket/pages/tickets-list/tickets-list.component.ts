@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TicketService } from '../../services/ticket.service';
+import { TicketService } from '../../../../core/services/ticket.service';
 import { Ticket } from '../../models/ticket';
 
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -145,7 +145,7 @@ ticketsFromStore: Ticket[] = [];
 
   getTicketList() {
     this.store.dispatch(ticketAction.getTickets());
-    this.store.select(Reducer.selectAllTickets)
+    this.store.select(Reducer.getTickets)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: Ticket[]) => {
         if (data) {
@@ -250,6 +250,9 @@ ticketsFromStore: Ticket[] = [];
       tickets = tickets.filter((ticket) => ticket.archiveDate === null);
     }
     this.tickets = tickets; // Affectez le tableau filtré
+    if (this.role === 'client') {
+      this.tickets = this.tickets.filter((ticket) => ticket.authorId === this.authService.userId);
+    }
     this.sortTickets(this.currentSortBy, this.tickets);
     });
   }

@@ -12,12 +12,13 @@
   height: 100vh;
   z-index: 9999;
   background-color: transparent;
- 
 }
 .hide {
   display: none;
 }
-
+.mat-drawer.mat-drawer-end {
+  border-radius: 20px 0 0 20px!important;
+}
 .sidenav {
   width: 45%;
   z-index: 100;

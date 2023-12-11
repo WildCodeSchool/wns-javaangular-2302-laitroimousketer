@@ -4,9 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import * as indexReducer from './reducers/index';
 import { EffectsModule } from '@ngrx/effects';
 import { TicketEffects } from './effects/ticket.effect';
-import { environment } from 'src/environments/environment';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-
+import { UserEffects } from './effects/user.effect';
 
 
 @NgModule({
@@ -15,15 +13,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
   ],
   imports: [
     CommonModule,
-    StoreModule.forRoot(indexReducer.reducers),
-    EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument({
-      name: 'Alayde',
-      maxAge: 25, // Retains last 25 states
-      logOnly: environment.production,
-    }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [], // Utilisez StoreModule.forRoot pour le Store principal
-    EffectsModule.forRoot([TicketEffects]),
+    StoreModule.forFeature('DataStoreKey', indexReducer.reducers),
+    EffectsModule.forFeature(
+      [
+        TicketEffects,
+        UserEffects,
+      
+      ]),
   ]
 })
 export class NgrxStoreModule { }

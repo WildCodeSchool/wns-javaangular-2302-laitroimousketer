@@ -1,6 +1,8 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { MenuItems } from './menu-items.model';
-
+import { Store } from '@ngrx/store';
+import * as sidebarReducer from 'src/app/store/reducers/index';
+import * as sidebarAction from 'src/app/store/actions/sidebar.action';
 @Component({
   selector: 'app-sidebar-menu',
   templateUrl: './sidebar-menu.component.html',
@@ -19,6 +21,7 @@ export class SidebarMenuComponent implements OnInit {
 
   constructor(
     private renderer: Renderer2,
+    private store: Store<sidebarReducer.StateDataStore>,
   ) {}
 
   ngOnInit() {
@@ -46,6 +49,9 @@ export class SidebarMenuComponent implements OnInit {
       const top = this.blockMenu.toArray()[position].nativeElement.getBoundingClientRect().top;
       this.renderer.setStyle(this.activeBloc.nativeElement, 'transform', `translateY(${top}px)`);
     }
+  }
+  closeSidebar() {
+    this.store.dispatch(sidebarAction.resetSideBar());
   }
   
 }
