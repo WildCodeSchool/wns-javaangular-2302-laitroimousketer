@@ -116,7 +116,7 @@ this.actions$.pipe(
     this.actions$.pipe(
       ofType(action.getTickets),
       switchMap(() => {
-        return this.ticketService.getAll().pipe(
+        return this.ticketService.getTicketList().pipe(
           map((tickets: Ticket[]) => {
             return action.saveTickets({ payload: tickets });
           }),

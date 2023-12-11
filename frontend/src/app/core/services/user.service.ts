@@ -9,33 +9,19 @@ import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } f
 @Injectable({
   providedIn: 'root'
 })
-export class UserService  {
+export class UserService extends EntityCollectionServiceBase<User> {
   private apiUrl = environment.apiUrl;
 
   constructor(
     private http: HttpClient,
     serviceElementsFactory: EntityCollectionServiceElementsFactory,) {
+      super('users', serviceElementsFactory);
   }
 
   //CRUD
-  getAll(): Observable<User[]> {
+  getUserList(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/users`);
   }
-  getByKey(userId: number): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users/${userId}`);
-  }
-  add(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/users`, user);
-  }
-  update(user: Partial<User>): Observable<User> {
-    const userId = user.id;
-    return this.http.put<User>(`${this.apiUrl}/users/${userId}`, user);
-  }
-  
-  delete(userId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/users/${userId}`);
-  }
-  
 
   //others
   getUsersByRole(roleId: number): Observable<User[]> {
@@ -54,8 +40,4 @@ export class UserService  {
   }
 
 
-
-  
-  
-  
 }

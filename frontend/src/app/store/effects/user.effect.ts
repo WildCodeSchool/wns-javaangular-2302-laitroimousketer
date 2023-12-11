@@ -115,7 +115,7 @@ export class UserEffects {
       ofType(action.getUsers),
       switchMap(() => {
         console.log('getUsers effect');
-        return this.userService.getAll().pipe(
+        return this.userService.getUserList().pipe(
           map((users: User[]) => {
             return action.saveUsers({ payload: users });
           }),

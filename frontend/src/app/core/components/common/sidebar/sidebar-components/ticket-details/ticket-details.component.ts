@@ -130,62 +130,13 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
   unarchiveTicket(ticketId: number): void {
     if (this.ticket.archiveDate !== '') {
       this.ticketService.unarchiveTicket(ticketId)
-      //     .subscribe(response => {
-      //       if (response.status === 200) {
-      //         this.ticketService.getTicket(this.ticket.id).subscribe((ticketData) => {
-      //           this.ticket = ticketData;
-      //           this.loadTicket();
-      //         });
-      //         this.alertService.showSuccessAlert('Ticket désarchivé avec succès');
-      //         // Faire quelque chose ici, par exemple, mettre à jour la liste des tickets archivés
-      //       } else {
-      //         this.alertService.showErrorAlert("Erreur lors du désarchivage du ticket");
-      //         // Gérer l'erreur ici, par exemple, afficher un message d'erreur à l'utilisateur
-      //       }
-      //     });
-      // } else {
-      //   this.alertService.showErrorAlert("Le ticket n'est pas archivé");
-      // }
     }
   }
 
   closeTicket() {
-    if (this.ticket.statusTitle === 'En cours') {
-      let updatedTicket: Ticket = this.ticket;
-      updatedTicket.statusId = 96;
-
-      this.ticketService.updateAndFetchTicket(this.ticket.id, updatedTicket).subscribe(
-        (updatedTicket) => {
-          this.ticket = updatedTicket;
-          console.log('ticket updated:', this.ticket);
-          this.loadTicket();
-          this.alertService.showSuccessAlert('Ticket fermé avec succès');
-        },
-        (error) => {
-          this.alertService.showErrorAlert("Erreur lors de la clôture du ticket");
-        }
-      );
-    } else {
-      this.alertService.showErrorAlert("Le ticket n'a pas été encore traité");
-    }
   }
 
   reopenTicket() {
-    if (this.ticket.statusTitle === 'Terminé') {
-      let updatedTicket: Ticket = this.ticket;
-      updatedTicket.statusId = 94;
-
-      this.ticketService.updateAndFetchTicket(this.ticket.id, updatedTicket).subscribe(
-        (updatedTicket) => {
-          this.ticket = updatedTicket;
-          this.loadTicket();
-          this.alertService.showSuccessAlert('Ticket réouvert avec succès');
-        },
-        (error) => {
-          this.alertService.showErrorAlert("Erreur lors de la tentative de réouverture du ticket");
-        }
-      );
-    }
   }
 
 
