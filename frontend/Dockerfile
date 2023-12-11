@@ -12,7 +12,7 @@ RUN npm install
 
 
 # Build de l'application Angular
-RUN npm run build
+RUN npm run build --configuration=production
 
 # Étape de production
 FROM nginx:1.21.3-alpine
