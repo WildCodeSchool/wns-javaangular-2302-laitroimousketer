@@ -17,5 +17,6 @@ RUN npm run build
 # Étape de production
 FROM nginx:1.21.3-alpine
 
+COPY nginx.prod.conf /etc/nginx/nginx.conf
 # Copie des fichiers de construction de l'étape de build
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist/* /usr/share/nginx/html
