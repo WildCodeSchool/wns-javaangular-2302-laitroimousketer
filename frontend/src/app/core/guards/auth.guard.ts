@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs';
 
@@ -7,10 +12,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthGuard {
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> {
     const authToken = this.authService.getAuthToken();
