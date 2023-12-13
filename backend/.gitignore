@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### environnment de developpement contenant des infos sensibles
+.application-dev.properties
