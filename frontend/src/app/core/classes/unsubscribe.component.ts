@@ -3,13 +3,12 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-unsubcribe',
-  template: ''
+  template: '',
 })
 export class UnsubcribeComponent implements OnDestroy {
-
   protected destroy$: Subject<void> = new Subject<void>();
 
-  constructor() { }
+  constructor() {}
 
   ngOnDestroy(): void {
     this.destroy$.next();
