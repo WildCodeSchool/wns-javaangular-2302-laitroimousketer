@@ -116,7 +116,7 @@
             <configuration>
               <imageName>${image.dockeruser}${image.name}:${image.tag}</imageName>
               <pullPolicy>IF_NOT_PRESENT</pullPolicy>
-                <mainClass>wcs.backend.backend</mainClass>
+                <mainClass>wcs.backend.AlaydeApplication</mainClass>
                 <excludes>
                     <exclude>
                         <groupId>org.projectlombok</groupId>
