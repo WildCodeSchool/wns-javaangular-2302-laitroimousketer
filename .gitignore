@@ -1,2 +1,48 @@
 # Ignorer le fichier .env
 .env
+
+HELP.md
+
+backend/target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+
+# Ignore les modules Node.js installés
+node_modules/
+
+# Ignorer les fichiers d'installation de paquets npm
+package-lock.json
+npm-debug.log
+
+### environnment de developpement contenant des infos sensibles
+application-dev.properties
