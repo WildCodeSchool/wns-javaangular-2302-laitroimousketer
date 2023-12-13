@@ -1,13 +1,12 @@
-version: '3'
+version: "3"
 
 services:
-
   db:
     container_name: app_${APP_ENV}_db
     image: mysql:8.0
     restart: always
     ports:
-      - "5000:3306"  # Modifier le port pour correspondre au port MySQL par défaut
+      - "5000:3306" # Modifier le port pour correspondre au port MySQL par défaut
     volumes:
       - db:/var/lib/mysql
     env_file:
@@ -15,12 +14,11 @@ services:
     networks:
       - appinternals
 
-
   back:
     container_name: app_${APP_ENV}_back
     ports:
       - "8080:8080"
-    image: ${DOCKER_USER}/alayde-back-img:${DOCKER_IMAGE_TAG} 
+    image: ${DOCKER_USER}/alayde-back:${DOCKER_IMAGE_TAG}
     restart: always
     depends_on:
       - db
@@ -30,7 +28,6 @@ services:
       appinternals:
         aliases:
           - back
-
 
   nginx:
     container_name: app_${APP_ENV}_front
@@ -48,5 +45,5 @@ volumes:
     driver: local
 networks:
   appinternals:
-    # customize the actual network name depending on environment, so "prod" containers do not share network with "preprod" even on same machine / docker server 
+    # customize the actual network name depending on environment, so "prod" containers do not share network with "preprod" even on same machine / docker server
     name: appinternals_${APP_ENV}
