@@ -14,28 +14,27 @@ import java.util.List;
 @Setter
 @Entity
 public class Role {
-    public enum Title {
-        DEVELOPER,
-        CLIENT,
-        MANAGER
-    }
+  public enum Title {
+    DEVELOPER,
+    CLIENT,
+    MANAGER
+  }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, insertable = false, updatable = false)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(nullable = false, insertable = false, updatable = false)
+  private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Title roleTitle;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private Title roleTitle;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<User> users;
+  @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<User> users;
 
-    // Constructeurs, getters et setters
-    public Role(Title roleTitle) {
-      this.roleTitle = roleTitle;
+  // Constructeurs, getters et setters
+  public Role(Title roleTitle) {
+    this.roleTitle = roleTitle;
   }
 
 }
-
