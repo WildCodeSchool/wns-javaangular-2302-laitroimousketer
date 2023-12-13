@@ -1,0 +1,107 @@
+// variables utilitaires scss, couleurs, responsive etc //
+
+// COLORS //
+$primaryColor: #004463;
+$secondaryColor: #F5B445;
+$thirdColor: #EBEEF7;
+$blackColor: #252525;
+$redColor: #EF4C4E;
+$blueColor: #2F78C2;
+//DIVERS //
+$boxShadowBtn: -5px -5px 10px  rgba(0,0,0,0.16);
+
+
+// RESPONSIVE //
+
+$large : 7680px; 
+$qhd: 2560px;
+$desktop: 1920px;
+$laptop : 1440px;
+$tablet : 1024px;
+$mobile : 767px;
+
+@mixin large {
+    @media (min-width : ($qhd + 1)) {
+      @content;
+    }
+  }
+  
+  @mixin qhd {
+    @media (min-width : ($desktop + 1)) {
+      @content;
+    }
+  }
+
+@mixin desktop {
+  @media (min-width : ($laptop + 1)) and (max-width : $qhd) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media (min-width : ($tablet + 1)) and (max-width : $laptop) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width : ($mobile + 1)) and (max-width : $tablet) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width : $mobile) {
+    @content;
+  }
+}
+
+@mixin tabletmobile {
+  @media (max-width : $tablet) {
+    @content;
+  }
+}
+@mixin mobiletablet {//alias
+  @include tabletmobile {
+    @content;
+  }
+}
+
+@mixin tabletdesktop {
+  @media (min-width : ($mobile + 1)) {
+    @content;
+  }
+}
+@mixin desktoptablet {//alias
+  @include tabletdesktop {
+    @content;
+  }
+}
+
+.weight-100 {
+  font-weight: 100;
+}
+.weight-200 {
+  font-weight: 200;
+}
+.weight-300 {
+  font-weight: 300;
+}
+.weight-400 {
+  font-weight: 400;
+}
+.weight-500 {
+  font-weight: 500;
+}
+.weight-600 {
+  font-weight: 600;
+}
+.weight-700 {
+  font-weight: 700;
+}
+.weight-800 {
+  font-weight: 800;
+}
+.weight-900 {
+  font-weight: 900;
+}

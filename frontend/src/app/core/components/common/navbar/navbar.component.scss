@@ -1,0 +1,67 @@
+@import 'src/assets/scss/template.scss';
+.navbar {
+  width: 120px;
+  height: 100vh;
+  background-color: $primaryColor;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 20px;
+  color: white;
+
+
+}
+
+.logo {
+  margin-bottom: auto;
+  width: 150px;
+  transform: translateY(-30px);
+
+  cursor: pointer;
+  img {
+  width: 100%;
+  filter: contrast(0%) brightness(200%);
+  }
+   
+  }
+
+
+ul {
+  height: 100%;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding: 0 10px;
+  gap: 40px;
+  list-style: none;
+  display: flex;
+
+  a, img, span {
+  cursor: pointer;
+  }
+}
+a {
+  text-decoration: none;
+  color: white;
+}
+.avatar {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  cursor: pointer;
+}
+
+.bi {
+  font-size: 2.8rem;
+  margin-right: 10px;
+}
+
+
+  .corporation {
+    margin-top: 20px;
+     
+    
+  }

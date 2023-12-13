@@ -1,0 +1,10 @@
+<div class="search-bar">
+  <mat-form-field class="test" appearance="outline" color="primary">
+    <mat-label>{{ placerholder }}</mat-label>
+
+    <input matInput type="text" [formControl]="searchControl" (keyup.enter)="search()"
+     id="search" name="search" />
+      <mat-icon matSuffix class="bi bi-search" (click)="search()"></mat-icon>
+  </mat-form-field>
+  
+</div>

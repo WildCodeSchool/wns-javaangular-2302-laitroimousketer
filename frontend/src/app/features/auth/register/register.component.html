@@ -1,0 +1,78 @@
+<section class="register">
+
+  <div class="card">
+    <h1 class="register-title">Inscription</h1>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate class="card-body">
+      <div class="form-group">
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label for="firstName">Nom</mat-label>
+          <input matInput type="text" id="firstName" formControlName="firstName" required>
+          <ng-container
+            *ngIf="registerForm.get('firstName')?.invalid && (registerForm.get('firstName')?.dirty || registerForm.get('firstName')?.touched)">
+            <mat-error *ngIf="registerForm.get('firstName')?.errors?.['pattern']">Le nom doit contenir uniquement des
+              lettres.</mat-error>
+          </ng-container>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label for="lastName">Prénom</mat-label>
+          <input matInput type="text" id="lastName" formControlName="lastName" required>
+          <ng-container
+            *ngIf="registerForm.get('lastName')?.invalid && (registerForm.get('lastName')?.dirty || registerForm.get('lastName')?.touched)">
+            <mat-error *ngIf="registerForm.get('lastName')?.errors?.['pattern']">Le prénom doit contenir uniquement des
+              lettres.</mat-error>
+          </ng-container>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label for="email">Email</mat-label>
+          <input matInput type="email" id="email" formControlName="email" required>
+          <ng-container
+            *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)">
+            <mat-error *ngIf="registerForm.get('email')?.errors?.['email']">Format d'email invalide.</mat-error>
+          </ng-container>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label for="password">Mot de passe</mat-label>
+          <input matInput type="password" id="password" formControlName="password" required>
+          <ng-container
+            *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)">
+            <mat-error
+              *ngIf="registerForm.get('password')?.errors?.['minlength'] || registerForm.get('password')?.errors?.['pattern']">Le
+              mot de passe doit contenir au moins 6 caractères, une lettre minuscule, une lettre majuscule, un chiffre
+              et un caractère spécial.</mat-error>
+          </ng-container>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label for="confirmPassword">Confirmer mot de passe</mat-label>
+          <input matInput type="password" id="confirmPassword" formControlName="confirmPassword" required>
+          <ng-container
+            *ngIf="registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)">
+            <mat-error *ngIf="registerForm.hasError('passwordMismatch', ['confirmPassword'])">Les mots de passe ne
+              correspondent pas.</mat-error>
+          </ng-container>
+        </mat-form-field>
+      </div>
+
+      <button type="submit" class="btn" mat-raised-button color="primary"
+        [ngClass]="!registerForm.valid ? 'disabled' : ''">Valider</button>
+    </form>
+    <div class="card-footer">
+      <p>
+        Vous avez déjà un compte ? <a (click)="switchToLogin()">Cliquez ici !</a>
+      </p>
+    </div>
+  </div>
+
+</section>

@@ -1,0 +1,46 @@
+@import 'src/assets/scss/template.scss';
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  box-shadow: 0px 5px 15px -2px rgba(0, 0, 0, 0.5);
+  padding: 4px 4% 4px 2%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px 5px;
+  flex-wrap: wrap;
+
+  cursor:pointer;
+  p {
+    line-height: 1.75;
+    text-align: end;
+    font-size: 16px;
+  }
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+
+  app-avatar {
+    margin-right: 8px;
+  }
+}
+
+.prefix {
+  font-style: italic;
+  color: #757575;
+  font-size: 15px;
+  margin-right: 6px;
+}
+
+:host-context(.context-user-list) {
+  .card {
+    margin-top: 20px;
+    background-color: transparent;
+  }
+
+}

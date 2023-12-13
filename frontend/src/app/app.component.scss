@@ -1,0 +1,22 @@
+@import 'src/assets/scss/template.scss';
+#body {
+  display: flex;
+  height: 100vh;
+  background: $primaryColor;
+  z-index: 2;
+  overflow: hidden;
+}
+
+#main {
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(105deg, $thirdColor 0%, $thirdColor 100%);
+  z-index:1;
+}
+
+.main-radius {
+border-radius: 50px 0 0 50px;
+}
+
+

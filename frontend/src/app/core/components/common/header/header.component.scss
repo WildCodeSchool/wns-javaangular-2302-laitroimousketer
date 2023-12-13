@@ -1,0 +1,77 @@
+@import 'src/assets/scss/template.scss';
+.header-c {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 10px;
+  margin-bottom: 20px;
+
+
+  h1 {
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    position: relative;
+    font-size: 4rem;
+    margin: auto;
+    color:#2C2C2C;
+  }
+  
+  h1::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: $blueColor;
+    margin-top: 10px;
+    position: absolute;
+    bottom: 0;
+  }
+  
+.header-icons {
+  position: fixed;
+  right: 10vw;
+
+}
+.avatar {
+  width: 80px;
+  margin-right: 20px;
+  img {
+    width: 100%;
+  }
+}
+.alert {
+  font-size: 2.5rem;
+
+}
+.bi-bell-slash {
+  color: $secondaryColor;
+  cursor: pointer;
+}
+.bi-bell {
+  color: $redColor;
+  cursor: pointer;
+  }
+.bi-search {
+  font-size: 2.5rem;
+  color: $primaryColor;
+  font-weight: 600;
+  margin-left: 16px;
+  cursor: pointer;
+}
+}
+
+.animate {
+  animation: fadeInOut 0.2s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
