@@ -2,6 +2,8 @@ name: Alayde frontend CI
 
 on:
   push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
