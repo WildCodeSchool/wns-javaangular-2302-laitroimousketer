@@ -1,4 +1,5 @@
 package wcs.backend.services;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,15 +11,13 @@ import wcs.backend.dtos.LoginDto;
 import wcs.backend.repositories.UserRepository;
 import wcs.backend.security.JwtTokenProvider;
 
-
 @Service
-public class AuthService  {
+public class AuthService {
 
     private AuthenticationManager authenticationManager;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private JwtTokenProvider jwtTokenProvider;
-
 
     public AuthService(
             JwtTokenProvider jwtTokenProvider,
@@ -31,10 +30,9 @@ public class AuthService  {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-   public String login(LoginDto loginDto) {
-  Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword())
-    );
+    public String login(LoginDto loginDto) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
