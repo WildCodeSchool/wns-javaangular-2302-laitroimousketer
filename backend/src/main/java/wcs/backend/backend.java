@@ -11,5 +11,4 @@ public class backend {
 	public static void main(String[] args) {
 		SpringApplication.run(backend.class, args);
 	}
-
 }
