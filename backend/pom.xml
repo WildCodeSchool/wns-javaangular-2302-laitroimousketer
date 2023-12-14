@@ -107,9 +107,9 @@
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-				<version>10.2.0</version>
-</dependency>
+			<artifactId>flyway-mysql</artifactId>
+				<version>9.22.3</version>
+		</dependency>
 	</dependencies>
 
 <build>
