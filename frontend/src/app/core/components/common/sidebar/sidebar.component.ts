@@ -1,114 +1,48 @@
 import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, takeUntil } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Ticket } from 'src/app/modules/ticket/models/ticket';
-
+import { Ticket } from 'src/app/features/ticket/models/ticket';
+import { Store } from '@ngrx/store';
+import * as sidebarReducer from 'src/app/store/reducers/index';
+import * as sidebarAction from 'src/app/store/actions/sidebar.action';
+import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
+import { PanelSideBar } from 'src/app/store/models/sidebar';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit, OnDestroy {
+export class SidebarComponent extends UnsubcribeComponent implements OnInit, OnDestroy {
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
-  reason = '';
   events: string[] = [];
-  private sidebarSubscription!: Subscription;
-  private ticketSubscription!: Subscription;
+  panel!: PanelSideBar;
   opened: boolean = false;
-  mode = new FormControl('over');
-  currentPage$: string = '';
-  currentTicket$: Observable<Ticket>;
   ticket!: Ticket;
 
   constructor(
+    private sidebarStore: Store<sidebarReducer.StateDataStore>,
     private sharedService: SharedService,
     private elementRef: ElementRef
   ) {
-    this.currentTicket$ = sharedService.currentTicket$;
+    super();
+    this.sidebarStore.select(sidebarReducer.getPanelState)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((panel: PanelSideBar) => {
+        // Assurez-vous de créer une copie profonde de l'objet panel
+        this.panel = panel;
+      });
   }
+  
 
   ngOnInit() {
-    this.sidebarSubscription = this.sharedService.sidebarOpened$.subscribe((opened) => {
-      this.opened = opened;
-      if (!opened) {
-        // Réinitialiser le contenu lorsque la sidebar est fermée
-        this.currentPage$ = '';
-        // Désabonnement de currentTicket$ lorsque la sidebar est fermée
-        if (this.ticketSubscription) {
-          this.ticketSubscription.unsubscribe();
-        }
-      } else {
-        // Sidebar est en train de s'ouvrir, abonnez-vous à currentContent$
-        this.sharedService.currentContent$.subscribe((content) => {
-          this.currentPage$ = content;
-          // Abonnement à currentTicket$ lorsque la sidebar s'ouvre
-          if (this.currentTicket$ && this.currentPage$ === 'ticket-details') {
-            this.ticketSubscription = this.currentTicket$.subscribe((ticketData) => {
-              this.ticket = ticketData;
-            });
-          }
-        });
-      }
-    });
-  }
-
-
-  ngOnDestroy() {
-    // Assurez-vous de vous désabonner de toutes les subscriptions à la destruction du composant
-    if (this.sidebarSubscription) {
-      this.sidebarSubscription.unsubscribe();
-    }
-    if (this.ticketSubscription) {
-      this.ticketSubscription.unsubscribe();
-    }
-  }
-
-  close(reason: string) {
-    this.reason = reason;
-    this.sidenav.close();
+    
   }
 
   toggle(): void {
-    this.sharedService.toggleSidebar();
-    if (this.opened) {
-      // Sidebar est en train de se fermer, désabonnement à currentContent$
-      if (this.sidebarSubscription) {
-        this.sidebarSubscription.unsubscribe();
-      }
-      // Désabonnement de currentTicket$ lorsque la sidebar est fermée
-      if (this.ticketSubscription) {
-        this.ticketSubscription.unsubscribe();
-      }
-      // Autres opérations lors de la fermeture de la sidebar
-    } else {
-      // Sidebar est en train de s'ouvrir, abonnement à sidebarOpened$
-      this.sidebarSubscription = this.sharedService.sidebarOpened$.subscribe((opened) => {
-        this.opened = opened;
-        if (!opened) {
-          // Réinitialiser le contenu lorsque la sidebar est fermée
-          this.currentPage$ = '';
-          // Désabonnement de currentTicket$ lorsque la sidebar est fermée
-          if (this.ticketSubscription) {
-            this.ticketSubscription.unsubscribe();
-          }
-        } else {
-          // Sidebar est en train de s'ouvrir, abonnez-vous à currentContent$
-          this.sharedService.currentContent$.subscribe((content) => {
-            this.currentPage$ = content;
-            // Abonnement à currentTicket$ lorsque la sidebar s'ouvre
-            if (this.currentTicket$) {
-              this.ticketSubscription = this.currentTicket$.subscribe((ticketData) => {
-                this.ticket = ticketData;
-              });
-            }
-          });
-        }
-      });
-
-      // Autres opérations lors de l'ouverture de la sidebar
-    }
+    this.sidebarStore.dispatch(sidebarAction.resetSideBar());
   }
+  
 }

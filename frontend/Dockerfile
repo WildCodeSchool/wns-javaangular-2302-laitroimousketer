@@ -4,20 +4,19 @@ FROM node:18 AS build
 # Création du répertoire de travail
 WORKDIR /app
 
-# Copie des fichiers package.json et package-lock.json
-COPY package*.json ./
+# Copie de tous les fichiers du projet
+COPY . .
 
 # Installation des dépendances
 RUN npm install
 
-# Copie de tous les fichiers du projet
-COPY . .
 
 # Build de l'application Angular
-RUN npm run build
+RUN npm run build --configuration=production
 
 # Étape de production
 FROM nginx:1.21.3-alpine
 
+COPY nginx.prod.conf /etc/nginx/nginx.conf
 # Copie des fichiers de construction de l'étape de build
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist/* /usr/share/nginx/html

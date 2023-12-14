@@ -1,26 +1,19 @@
 
-// Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 
-// Plus imports for other components in your app.
-
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
 @include mat.core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/ OU https://www.materialpalette.com/colors
 $angular-frontend-ticketing-primary: mat.define-palette(mat.$blue-palette, 900);
 $angular-frontend-ticketing-accent: mat.define-palette(mat.$amber-palette, A200);
-
 // The warn palette is optional (defaults to red).
 $angular-frontend-ticketing-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
 $angular-frontend-ticketing-theme: mat.define-light-theme((
   color: (
     primary: $angular-frontend-ticketing-primary,
@@ -29,23 +22,13 @@ $angular-frontend-ticketing-theme: mat.define-light-theme((
   )
 ));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
 @include mat.all-component-themes($angular-frontend-ticketing-theme);
-
 /* You can add global styles to this file, and also import other style files */
 // @import "bootstrap/scss/bootstrap";
 //https://icons.getbootstrap.com
-
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import './template.scss';
-
 // reset css
-/* http://meyerweb.com/eric/tools/css/reset/ 
-v2.0 | 20110126
-License: none (public domain)
-*/
 
 * {box-sizing: border-box;}
 html, body, div, span, applet, object, iframe,
@@ -77,6 +60,7 @@ h1,h2,h3,h4,h5,h6 {
   background-color: rgba(0, 0, 0, 0.2);
   backdrop-filter:blur(2px);
 }
+
 //fonts//
 
 .btn

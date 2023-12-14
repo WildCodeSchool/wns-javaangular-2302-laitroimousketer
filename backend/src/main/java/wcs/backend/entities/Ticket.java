@@ -26,7 +26,7 @@ public class Ticket {
   @Column(nullable = false, length = 5000)
   private String description;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   @Temporal(TemporalType.TIMESTAMP)
   private Date creationDate;
 
@@ -47,7 +47,7 @@ public class Ticket {
   private Priority priority;
 
   @ManyToOne
-  @JoinColumn(name = "status_id", nullable = false)
+  @JoinColumn(name = "status_id", nullable = true)
   private Status status;
 
   @ManyToOne

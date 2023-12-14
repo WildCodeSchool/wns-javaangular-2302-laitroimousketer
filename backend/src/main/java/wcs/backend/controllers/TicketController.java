@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import wcs.backend.dtos.CategoryDto;
 import wcs.backend.dtos.TicketDto;
 import wcs.backend.dtos.TicketHaveUsersDto;
 import wcs.backend.dtos.UserDto;
@@ -45,37 +46,18 @@ public class TicketController {
 
   @PostMapping
   @Operation(summary = "Create a Ticket", description = "Create a new ticket with details.")
-  public ResponseEntity<TicketDto> createTicket(@RequestBody TicketDto ticketDto,
-      @RequestParam Long statusId, @RequestParam Long categoryId,
-      @RequestParam Long priorityId, @RequestParam Long creatorId) {
-    // Créez un nouveau ticket à partir des données du DTO
-    Ticket ticket = convertToEntity(ticketDto);
-
-    // Utilisez le categoryId, priorityId et statusId passés en paramètres pour
-    // récupérer les entités associées
-    Category category = categoryRepository.findById(categoryId)
-        .orElseThrow(() -> new EntityNotFoundException("Category not found with ID: " + categoryId));
-    Priority priority = priorityRepository.findById(priorityId)
-        .orElseThrow(() -> new EntityNotFoundException("Priority not found with ID: " + priorityId));
-    Status status = statusRepository.findById(statusId)
-        .orElseThrow(() -> new EntityNotFoundException("Status not found with ID: " + statusId));
-
-    // Utilisez le creatorId pour récupérer l'utilisateur créateur
-    User creator = userRepository.findById(creatorId)
-        .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + creatorId));
-
-    // Associez le ticket à la catégorie, la priorité et le statut sélectionnés
-    ticket.setCategory(category);
-    ticket.setPriority(priority);
-    ticket.setStatus(status);
-
-    // Enregistrez le ticket et l'utilisateur créateur
-    Ticket savedTicket = ticketService.createTicket(ticket, creator);
-
-    TicketDto savedTicketDto = convertToDto(savedTicket);
-
-    return new ResponseEntity<>(savedTicketDto, HttpStatus.CREATED);
+  public ResponseEntity<TicketDto> createTicket(@RequestBody TicketDto ticketDto) {
+      // Convertir TicketDto en entité Ticket
+      Ticket ticket = convertToEntity(ticketDto);
+      // Enregistrer le ticket avec les détails fournis
+      Ticket savedTicket = ticketService.createTicket(ticket);
+      // Convertir le ticket sauvegardé en DTO
+      TicketDto savedTicketDto = convertToDto(savedTicket);
+      // Retourner le ticket créé avec le statut HTTP 201 Created
+      return new ResponseEntity<>(savedTicketDto, HttpStatus.CREATED);
   }
+
+  
 
   @GetMapping("/{id}")
   @Operation(summary = "Get Ticket by ID", description = "Get ticket details by its ID.")
@@ -207,11 +189,11 @@ public class TicketController {
     return ResponseEntity.ok(count);
   }
 
-  @PostMapping("/newTicket")
-  @Operation(summary = "Create a Ticket", description = "Create a new ticket with details.")
-  public ResponseEntity<TicketDto> createTicket (@RequestBody TicketDto ticketDto) {
-    TicketDto newTicket = ticketService.createNewTicket(ticketDto);
-    return new ResponseEntity<>(newTicket, HttpStatus.CREATED);
-  }
+  // @PostMapping("/newTicket")
+  // @Operation(summary = "Create a Ticket", description = "Create a new ticket with details.")
+  // public ResponseEntity<TicketDto> createTicket (@RequestBody TicketDto ticketDto) {
+  //   TicketDto newTicket = ticketService.createNewTicket(ticketDto);
+  //   return new ResponseEntity<>(newTicket, HttpStatus.CREATED);
+  // }
 
 }

@@ -48,15 +48,16 @@ public class TicketService {
   
   }
 
-  public Ticket createTicket(Ticket ticket, User creator) {
+  public Ticket createTicket(Ticket ticket) {
     // Sélectionnez la statut par défaut
     List<Status> defaultStatusList = statusRepository.findByStatusTitle(Status.Title.TO_DO);
     if (defaultStatusList.isEmpty()) {
       throw new EntityNotFoundException("Default status not found");
     }
-    Status defaultStatus = defaultStatusList.get(0);
-    Priority defaultPriority = priorityRepository.findByPriorityTitle(Priority.Title.DEFAULT).get(0);
-    Category defaultCategory = categoryRepository.findByCategoryTitle(Category.Title.DEFAULT).get(0);
+  
+    // Priority defaultPriority = priorityRepository.findByPriorityTitle(Priority.Title.DEFAULT).get(0);
+    // Category defaultCategory = categoryRepository.findByCategoryTitle(Category.Title.DEFAULT).get(0);
+    Status defaultStatus = statusRepository.findByStatusTitle(Status.Title.TO_DO).get(0);
 
     // Si le statut spécifié dans le ticket est nul, utilisez le statut par défaut
     if (ticket.getStatus() == null) {
@@ -64,27 +65,25 @@ public class TicketService {
     }
     // Si la catégorie spécifiée dans le ticket est nulle, utilisez "non renseigné"
     // (ou une autre valeur par défaut)
-    if (ticket.getCategory() == null) {
-      ticket.setCategory(defaultCategory);
-    }
-    // Si la priorité spécifiée dans le ticket est nulle, utilisez "non renseigné"
-    // (ou une autre valeur par défaut)
-    if (ticket.getPriority() == null) {
-      ticket.setPriority(defaultPriority);
-    }
+    // if (ticket.getCategory() == null) {
+    //   ticket.setCategory(defaultCategory);
+    // }
+    // // Si la priorité spécifiée dans le ticket est nulle, utilisez "non renseigné"
+    // // (ou une autre valeur par défaut)
+    // if (ticket.getPriority() == null) {
+    //   ticket.setPriority(defaultPriority);
+    // }
     // Définissez la date de création sur la date actuelle
     ticket.setCreationDate(new Date());
     // Ajoutez l'auteur au ticket
-    ticket.setAuthor(creator);
+  
     // Enregistrez d'abord le ticket
     Ticket savedTicket = ticketRepository.save(ticket);
 
     // Créez une instance de ticketHaveUsers pour l'utilisateur créateur
-    TicketHaveUsers ticketHaveUsers = new TicketHaveUsers(creator, savedTicket);
 
     // Ajoutez l'association à la liste userAssociations du ticket
-    savedTicket.getUserAssociations().add(ticketHaveUsers);
-
+  
     // Enregistrez le ticket mis à jour
     ticketRepository.save(savedTicket);
 

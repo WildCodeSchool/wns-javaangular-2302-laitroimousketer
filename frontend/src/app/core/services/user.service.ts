@@ -4,23 +4,26 @@ import { User } from '../models/user.model';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Role } from '../models/role.model';
+import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService extends EntityCollectionServiceBase<User> {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    serviceElementsFactory: EntityCollectionServiceElementsFactory,) {
+      super('users', serviceElementsFactory);
+  }
 
-  getAllUsers(): Observable<User[]> {
+  //CRUD
+  getUserList(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/users`);
   }
 
-  getUserById(userId: number): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users/${userId}`);
-  }
-
+  //others
   getUsersByRole(roleId: number): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/users?role_id=${roleId}`);
   }
@@ -35,9 +38,6 @@ export class UserService {
   getUserByEmail(email: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/users/email?email=${email}`);
   }
-  
-  
-  
 
-  
+
 }

@@ -1,0 +1,33 @@
+<section class="users-list-c" [@fadeInOut]>
+  <app-search-bar [placerholder]="placeholderSearchbar"></app-search-bar>
+
+  <div class="users-list">
+    <header>
+      <mat-form-field class="select">
+        <mat-label>Trier par</mat-label>
+        <mat-select class="select" (selectionChange)="onSortChange($event)">
+          <mat-option *ngFor="let state of states" [value]="state">
+            {{state}}
+            <span *ngIf="state.includes('asc') || state.includes('A-Z')" class="icone-select bi bi-sort-down"></span>
+            <span *ngIf="state.includes('desc') || state.includes('Z-A')" class="icone-select bi bi-sort-up"> </span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      </header>
+    <div class="left-right">
+      <div class="left">
+      <div *ngFor="let user of users; let i = index"
+        [ngClass]="{'even': isEven(i), 'odd': !isEven(i)}">
+      <app-user-card class="context-user-list" [user]="user" (click)="openUserDetails(user.id)"></app-user-card>
+      <button (click)="updateUser(user.id)">changer userName</button>
+      <button (click)="deleteUser(user.id)">delete</button>
+    </div>
+  </div>
+  <div class="right">
+ <!-- <app-map [options]="mapOptions"></app-map> -->
+  <p>Map Leaflet à venir..</p>
+  </div>
+</div>
+
+  </div>
+</section>
