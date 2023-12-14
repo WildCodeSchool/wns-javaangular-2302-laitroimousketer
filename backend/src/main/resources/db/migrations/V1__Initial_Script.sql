@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `alayde`.`category` (
   `category_title` ENUM('BILLING', 'DEFAULT', 'FEATURE', 'TECHNICAL') NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -91,6 +92,7 @@ CREATE TABLE IF NOT EXISTS `alayde`.`priority` (
   `priority_title` ENUM('DEFAULT', 'HIGH', 'LOW', 'MEDIUM') NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -103,6 +105,7 @@ CREATE TABLE IF NOT EXISTS `alayde`.`role` (
   `role_title` ENUM('CLIENT', 'DEVELOPER', 'MANAGER') NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -115,6 +118,7 @@ CREATE TABLE IF NOT EXISTS `alayde`.`status` (
   `status_title` ENUM('DOING', 'DONE', 'TO_DO') NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -136,6 +140,7 @@ CREATE TABLE IF NOT EXISTS `alayde`.`user` (
     FOREIGN KEY (`role_id`)
     REFERENCES `alayde`.`role` (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
