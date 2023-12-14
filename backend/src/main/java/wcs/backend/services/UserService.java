@@ -30,22 +30,22 @@ public class UserService {
   private AddressRepository addressRepository;
   private AddressService addressService;
 
-  //Creation user with adress
+  // Creation user with adress
   // public User createUser(User user, AddressDto addressDto) {
-  //   String encryptedPassword = passwordEncoder.encode(user.getPassword());
-  //   user.setPassword(encryptedPassword);
+  // String encryptedPassword = passwordEncoder.encode(user.getPassword());
+  // user.setPassword(encryptedPassword);
 
-  //   Role defaultRole = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
-  //   if (defaultRole != null) {
-  //     user.setRole(defaultRole);
-  //   }
-  //   User savedUser = userRepository.save(user);
-  //   // Créer et associer une adresse à l'utilisateur
-  //   Address address = createAddressFromDto(addressDto);
-  //   UserAddress userAddress = new UserAddress();
-  //   address.getUserAddresses().add(userAddress);
-  //   addressRepository.save(address);
-  //   return savedUser;
+  // Role defaultRole = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
+  // if (defaultRole != null) {
+  // user.setRole(defaultRole);
+  // }
+  // User savedUser = userRepository.save(user);
+  // // Créer et associer une adresse à l'utilisateur
+  // Address address = createAddressFromDto(addressDto);
+  // UserAddress userAddress = new UserAddress();
+  // address.getUserAddresses().add(userAddress);
+  // addressRepository.save(address);
+  // return savedUser;
   // }
   public User createUser(User user) {
     String encryptedPassword = passwordEncoder.encode(user.getPassword());
@@ -59,32 +59,34 @@ public class UserService {
     User savedUser = userRepository.save(user);
     return savedUser;
   }
-  //creation adresse user
+
+  // creation adresse user
   private Address createAddressFromDto(AddressDto addressDto) {
     // Convertir les données de DTO en entité Address
     Address address = new Address();
     // ... autres champs
     return address;
   }
-//get user by id
+
+  // get user by id
   public User getUserById(Long userId) {
     Optional<User> optionalUser = userRepository.findById(userId);
     return optionalUser.orElse(null);
   }
 
-  //get all users
+  // get all users
   public List<User> getAllUsers() {
     return userRepository.findAll();
   }
 
   // public User updateUserMail(User user) {
-  //   Optional<User> optionalExistingUser = userRepository.findById(user.getId());
-  //   if (optionalExistingUser.isPresent()) {
-  //     User existingUser = optionalExistingUser.get();
-  //     existingUser.setEmail(user.getEmail());
-  //     return userRepository.save(existingUser);
-  //   }
-  //   return null;
+  // Optional<User> optionalExistingUser = userRepository.findById(user.getId());
+  // if (optionalExistingUser.isPresent()) {
+  // User existingUser = optionalExistingUser.get();
+  // existingUser.setEmail(user.getEmail());
+  // return userRepository.save(existingUser);
+  // }
+  // return null;
   // }
 
   public User updateUserAddress(Long userId, AddressDto updatedAddressDto) {
@@ -128,8 +130,7 @@ public class UserService {
   public void deleteUserById(Long userId) {
     // Ensuite, supprimez l'utilisateur
     userRepository.deleteById(userId);
-}
-
+  }
 
   public List<User> getUsersByName(String name) {
     return userRepository.findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name, name);

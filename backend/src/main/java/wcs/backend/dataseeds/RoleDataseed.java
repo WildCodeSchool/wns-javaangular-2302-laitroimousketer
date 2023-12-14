@@ -12,22 +12,22 @@ import wcs.backend.entities.Role;
 @Component
 public class RoleDataseed {
 
-  @Autowired
-  private RoleService roleService;
+    @Autowired
+    private RoleService roleService;
 
-  public void resetData() {
-    cleanData();
-    loadData();
-  }
-  
-  private void cleanData() {
-    List<Role> roles = roleService.getAllRoles();
-    for (Role role : roles) {
-      roleService.deleteRole(role.getId());
+    public void resetData() {
+        cleanData();
+        loadData();
     }
-  }
 
-  private void loadData() {
+    private void cleanData() {
+        List<Role> roles = roleService.getAllRoles();
+        for (Role role : roles) {
+            roleService.deleteRole(role.getId());
+        }
+    }
+
+    private void loadData() {
         Role roleClientCreated = new Role();
         roleClientCreated.setRoleTitle(Title.CLIENT);
         roleService.createRole(roleClientCreated);
@@ -40,5 +40,5 @@ public class RoleDataseed {
         roleManagerCreated.setRoleTitle(Title.MANAGER);
         roleService.createRole(roleManagerCreated);
 
-      }
+    }
 }

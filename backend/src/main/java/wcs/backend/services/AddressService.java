@@ -12,7 +12,6 @@ public class AddressService {
 
     private final AddressRepository addressRepository;
 
-  
     public AddressService(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
     }
