@@ -17,13 +17,10 @@ import lombok.Setter;
 @Entity
 public class Priority {
 
-
   public enum Title {
-    DEFAULT,
     LOW,
     MEDIUM,
     HIGH,
-    
   }
 
   @Id
@@ -34,21 +31,20 @@ public class Priority {
   @Enumerated(EnumType.STRING)
   @Column(nullable = true)
   private Title priorityTitle;
-  
-
 
   @OneToMany(mappedBy = "priority", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
   @JsonIgnoreProperties("priority")
   private Set<Ticket> tickets;
-  
-  // Getters et setters
-    public Priority(Title priorityTitle) {
-    this.priorityTitle = priorityTitle;
-}
-    public void setTitle(Title priorityTitle) {
-    }
-    public Priority(Long priorityId) {
-    }
 
-    
+  // Getters et setters
+  public Priority(Title priorityTitle) {
+    this.priorityTitle = priorityTitle;
+  }
+
+  public void setTitle(Title priorityTitle) {
+  }
+
+  public Priority(Long priorityId) {
+  }
+
 }

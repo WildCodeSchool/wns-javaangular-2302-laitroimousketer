@@ -1,7 +1,5 @@
 package wcs.backend.dataseeds;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,14 +14,8 @@ public class RoleDataseed {
     private RoleService roleService;
 
     public void resetData() {
-        cleanData();
-        loadData();
-    }
-
-    private void cleanData() {
-        List<Role> roles = roleService.getAllRoles();
-        for (Role role : roles) {
-            roleService.deleteRole(role.getId());
+        if (roleService.getAllRoles().isEmpty()) {
+            loadData();
         }
     }
 

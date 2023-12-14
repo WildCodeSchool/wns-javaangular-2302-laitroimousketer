@@ -49,5 +49,5 @@ export function reducer(state = initialState, action: Action & { payload?: any }
 }
 
 
-export const getTicket = (state: TicketState) => state.ticket;
-export const getTickets = (state: TicketState) => state.tickets;
+export const selectTicket = (state: TicketState) => state.ticket;
+export const selectTickets = (state: TicketState) => state.tickets;

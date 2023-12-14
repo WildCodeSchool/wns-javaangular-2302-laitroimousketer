@@ -28,10 +28,10 @@ export const getTicketState = createSelector(
   getFeatureState, state => state.ticketStore);
 
 export const getTicket = createSelector(
-  getTicketState, ticketReducer.getTicket);
+  getTicketState, ticketReducer.selectTicket);
 
 export const getTickets = createSelector(
-  getTicketState, ticketReducer.getTickets);
+  getTicketState, ticketReducer.selectTickets);
 
 export function getReducers() {
   return reducers;
@@ -49,7 +49,10 @@ export const getUserState = createSelector(
   getFeatureState, state => state.userStore);
 
 export const getUser = createSelector(
-  getUserState, userReducer.getUser);
+  getUserState, userReducer.selectUser);
 
 export const getUsers = createSelector(
-  getUserState, userReducer.getUsers);
+  getUserState, userReducer.selectUsers);
+
+export const getUserConnected = createSelector(
+  getUserState, userReducer.selectUserConnected);

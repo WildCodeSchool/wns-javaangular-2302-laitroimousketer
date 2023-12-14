@@ -15,12 +15,15 @@ export class UserService extends EntityCollectionServiceBase<User> {
   constructor(
     private http: HttpClient,
     serviceElementsFactory: EntityCollectionServiceElementsFactory,) {
-      super('users', serviceElementsFactory);
+    super('users', serviceElementsFactory);
   }
 
   //CRUD
-  getUserList(): Observable<User[]> {
+  getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/users`);
+  }
+  getUser(id: number): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/users/${id}`);
   }
 
   //others

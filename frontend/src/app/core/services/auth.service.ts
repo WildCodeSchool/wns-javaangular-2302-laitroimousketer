@@ -8,7 +8,9 @@ import { User } from '../models/user.model';
 import { UserService } from './user.service';
 import { catchError, switchMap } from 'rxjs/operators';
 import { AlertService } from './alert.service';
-
+import { Store } from '@ngrx/store';
+import * as Reducer from 'src/app/store/reducers/index';
+import * as userAction from 'src/app/store/actions/user.action';
 //accessToken est le nom de la propriete du token renvoyée par le serveur
 interface LoginResponse {
   accessToken: string;
@@ -39,6 +41,7 @@ export class AuthService implements OnInit {
     private alertService: AlertService,
     private httpClient: HttpClient,
     private userService: UserService,
+    private store: Store<Reducer.StateDataStore>,
   ) {
 
     this.isAuthenticated()
@@ -76,7 +79,7 @@ export class AuthService implements OnInit {
         })
       );
   }
-  
+
   isTokenExpired(): boolean {
     const token = this.getAuthToken();
     if (token) {
@@ -91,7 +94,7 @@ export class AuthService implements OnInit {
     }
     return true; // Si le token est nul, considérez-le comme expiré
   }
-  
+
   checkTokenExpiration() {
     const isTokenExpired = this.isTokenExpired();
     if (isTokenExpired) {
@@ -166,6 +169,7 @@ export class AuthService implements OnInit {
           this.userFirstname = user.firstname;
           this.userLastname = user.lastname; // Définis le nom de l'utilisateur à partir des données de l'utilisateur
           this.userRole = user.roleTitle;
+          this.store.dispatch(userAction.saveUserConnected({ payload: user }));
           // console.log('Infos utilisateur récupérées:', this.userEmail, this.userFirstname, this.userLastname);
           return user;
         }),

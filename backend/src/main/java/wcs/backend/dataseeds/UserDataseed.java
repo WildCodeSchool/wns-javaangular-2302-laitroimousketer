@@ -20,19 +20,9 @@ public class UserDataseed {
   @Autowired
   private RoleRepository roleRepository;
 
-  ;
-
-  final int client_NB = 20;
-
   public void resetData() {
-    cleanData();
-    loadData();
-  }
-
-  private void cleanData() {
-    List<User> users = userService.getAllUsers();
-    for (User user : users) {
-      userService.deleteUserById(user.getId());
+    if (userService.getAllUsers().isEmpty()) {
+      loadData();
     }
   }
 

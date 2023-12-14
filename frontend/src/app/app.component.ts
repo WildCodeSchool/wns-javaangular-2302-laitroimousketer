@@ -12,7 +12,8 @@ export class AppComponent {
   isOnAuthPage: boolean = false;
   currentUrl: string = '';
 
-  constructor(private router: Router, public alertService: AlertService) {
+  constructor(private router: Router,
+    public alertService: AlertService) {
     router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.currentUrl = event.url;

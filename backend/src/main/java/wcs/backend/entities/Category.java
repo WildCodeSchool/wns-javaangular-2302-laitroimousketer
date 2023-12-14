@@ -18,12 +18,10 @@ import lombok.Setter;
 public class Category {
 
   public enum Title {
-    DEFAULT,
     TECHNICAL,
     FEATURE,
     BILLING,
   }
-
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,10 +34,12 @@ public class Category {
   @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
   @JsonIgnoreProperties("category")
   private Set<Ticket> tickets;
+
   // Getters et setters
   public Category(Title categoryTitle) {
     this.categoryTitle = categoryTitle;
-}
+  }
+
   public Category(Long categoryId) {
   }
 }

@@ -1,6 +1,5 @@
 package wcs.backend.dataseeds;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,14 +13,12 @@ public class CategoryDataseed {
   private CategoryService categoryService;
 
   public void resetData() {
-    cleanData();
-    loadData();
+    if (categoryService.getAllCategories().isEmpty()) {
+      loadData();
+    }
   }
 
   private void loadData() {
-    Category categoryDefaultCreated = new Category();
-    categoryDefaultCreated.setCategoryTitle(Category.Title.DEFAULT);
-    categoryService.createCategory(categoryDefaultCreated);
 
     Category categoryTodoCreated = new Category();
     categoryTodoCreated.setCategoryTitle(Category.Title.TECHNICAL);
@@ -34,13 +31,6 @@ public class CategoryDataseed {
     Category categoryTodoCreated3 = new Category();
     categoryTodoCreated3.setCategoryTitle(Category.Title.BILLING);
     categoryService.createCategory(categoryTodoCreated3);
-  }
-
-  private void cleanData() {
-    List<Category> categories = categoryService.getAllCategories();
-    for (Category category : categories) {
-      categoryService.deleteCategory(category.getId());
-    }
   }
 
 }

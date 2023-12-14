@@ -16,8 +16,11 @@ public class StatusDataseed {
   private StatusService statusService;
 
   public void resetData() {
+
     cleanData();
-    loadData();
+    if (statusService.getAllStatus().isEmpty()) {
+      loadData();
+    }
   }
 
   private void cleanData() {

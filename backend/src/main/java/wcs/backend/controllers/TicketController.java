@@ -47,17 +47,15 @@ public class TicketController {
   @PostMapping
   @Operation(summary = "Create a Ticket", description = "Create a new ticket with details.")
   public ResponseEntity<TicketDto> createTicket(@RequestBody TicketDto ticketDto) {
-      // Convertir TicketDto en entité Ticket
-      Ticket ticket = convertToEntity(ticketDto);
-      // Enregistrer le ticket avec les détails fournis
-      Ticket savedTicket = ticketService.createTicket(ticket);
-      // Convertir le ticket sauvegardé en DTO
-      TicketDto savedTicketDto = convertToDto(savedTicket);
-      // Retourner le ticket créé avec le statut HTTP 201 Created
-      return new ResponseEntity<>(savedTicketDto, HttpStatus.CREATED);
+    // Convertir TicketDto en entité Ticket
+    Ticket ticket = convertToEntity(ticketDto);
+    // Enregistrer le ticket avec les détails fournis
+    Ticket savedTicket = ticketService.createTicket(ticket);
+    // Convertir le ticket sauvegardé en DTO
+    TicketDto savedTicketDto = convertToDto(savedTicket);
+    // Retourner le ticket créé avec le statut HTTP 201 Created
+    return new ResponseEntity<>(savedTicketDto, HttpStatus.CREATED);
   }
-
-  
 
   @GetMapping("/{id}")
   @Operation(summary = "Get Ticket by ID", description = "Get ticket details by its ID.")
@@ -85,11 +83,9 @@ public class TicketController {
     Ticket ticket = convertToEntity(ticketDto);
     ticket.setId(ticketId);
     Ticket updatedTicket = ticketService.updateTicket(ticket);
-    TicketDto updatedTicketDto = convertToDto(updatedTicket);    
+    TicketDto updatedTicketDto = convertToDto(updatedTicket);
     return new ResponseEntity<>(updatedTicketDto, HttpStatus.OK);
   }
-
-
 
   @PutMapping("/archive/{id}")
   @Operation(summary = "Archive Ticket", description = "Archive an existing ticket by ID.")
@@ -98,7 +94,7 @@ public class TicketController {
     TicketDto archivedTicketDto = convertToDto(archivedTicket);
     return new ResponseEntity<>(archivedTicketDto, HttpStatus.OK);
   }
-  
+
   @PutMapping("/unarchive/{id}")
   @Operation(summary = "Archive Ticket", description = "unarchive an existing ticket by ID.")
   public ResponseEntity<TicketDto> unarchiveTicket(@PathVariable("id") Long ticketId) {
@@ -147,7 +143,8 @@ public class TicketController {
   public ResponseEntity<List<TicketDto>> getFilteredTickets(
       @RequestParam(name = "status", required = false) Status.Title statusTitle,
       @RequestParam(name = "priority", required = false) Priority.Title priorityTitle,
-      @RequestParam(name = "category", required = false) Category.Title categoryTitle) {
+      @RequestParam(name = "category", required = false) Category.Title categoryTitle,
+      @RequestParam(name = "userId", required = false) Long userId) {
 
     // Utilize these parameters to build specifications in the service
     List<Ticket> filteredTickets = ticketService.getFilteredTickets(statusTitle, priorityTitle, categoryTitle);
@@ -190,10 +187,12 @@ public class TicketController {
   }
 
   // @PostMapping("/newTicket")
-  // @Operation(summary = "Create a Ticket", description = "Create a new ticket with details.")
-  // public ResponseEntity<TicketDto> createTicket (@RequestBody TicketDto ticketDto) {
-  //   TicketDto newTicket = ticketService.createNewTicket(ticketDto);
-  //   return new ResponseEntity<>(newTicket, HttpStatus.CREATED);
+  // @Operation(summary = "Create a Ticket", description = "Create a new ticket
+  // with details.")
+  // public ResponseEntity<TicketDto> createTicket (@RequestBody TicketDto
+  // ticketDto) {
+  // TicketDto newTicket = ticketService.createNewTicket(ticketDto);
+  // return new ResponseEntity<>(newTicket, HttpStatus.CREATED);
   // }
 
 }

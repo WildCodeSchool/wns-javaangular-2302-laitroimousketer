@@ -14,14 +14,12 @@ public class PriorityDataseed {
   private PriorityService priorityService;
 
   public void resetData() {
-    cleanData();
-    loadData();
+    if (priorityService.getAllPriority().isEmpty()) {
+      loadData();
+    }
   }
 
   private void loadData() {
-    Priority priorityDefaultCreated = new Priority();
-    priorityDefaultCreated.setPriorityTitle(Priority.Title.DEFAULT);
-    priorityService.createPriority(priorityDefaultCreated);
 
     Priority priorityLowCreated = new Priority();
     priorityLowCreated.setPriorityTitle(Priority.Title.LOW);
@@ -35,12 +33,4 @@ public class PriorityDataseed {
     priorityHighCreated.setPriorityTitle(Priority.Title.HIGH);
     priorityService.createPriority(priorityHighCreated);
   }
-
-  private void cleanData() {
-    List<Priority> prioritys = priorityService.getAllPriority();
-    for (Priority priority : prioritys) {
-      priorityService.deletePriority(priority.getId());
-    }
-  }
-
 }
