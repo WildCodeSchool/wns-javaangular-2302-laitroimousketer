@@ -1,2 +1,24 @@
 <app-sidebar-menu [menuItems]="menuItems" [menuTitle]="menuTitle" [menuIcon]="menuIcon"
   (page)="onPageChange($event)"></app-sidebar-menu>
+
+<header class="widget details">
+
+  <div class="details-profil">
+    <app-avatar [userName]="this.fullname" class="context-ticket-card-creator"></app-avatar>
+    <h1 class="name"> {{user.lastname}}<span class="firstname">{{user.lastname}}</span>
+    </h1>
+    <p><span class="prefix">Email:</span> {{user.email}}</p>
+    <p><span class="prefix">Role:</span> {{user.roleTitle}}</p>
+  </div>
+
+</header>
+
+<div class="user-tickets">
+  <h2>Tickets de l'utilisateurs</h2>
+</div>
+
+<ng-container *ngIf="page ==='Actions'">
+  <div class="widget actions" [@opacity]="page==='Actions'?'active':''">
+    <h1 class="weight-500">Actions sur l'utilisateur</h1>
+  </div>
+</ng-container>

@@ -51,40 +51,35 @@ public class SecurityConfiguration {
     http
         .csrf(csrf -> csrf.disable())
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(authorizeRequests ->
-            authorizeRequests
-                .requestMatchers("/api/auth/**","/swagger-ui/**","/api-docs/**", "/api/tickets/**").permitAll()
-                .anyRequest().authenticated()
-        )
-        .exceptionHandling(exceptionHandling ->
-            exceptionHandling
-                .authenticationEntryPoint(
-                    (request, response, ex) -> {
-                        response.sendError(
-                            HttpServletResponse.SC_UNAUTHORIZED,
-                            ex.getMessage());
-                    })
-        )
+        .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+            .requestMatchers("/api/auth/**", "/swagger-ui/**", "/api-docs/**").permitAll()
+            .anyRequest().authenticated())
+        .exceptionHandling(exceptionHandling -> exceptionHandling
+            .authenticationEntryPoint(
+                (request, response, ex) -> {
+                  response.sendError(
+                      HttpServletResponse.SC_UNAUTHORIZED,
+                      ex.getMessage());
+                }))
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
         .cors(withDefaults());
 
     return http.build();
-}
+  }
 
-@Bean
-public CorsConfigurationSource corsConfigurationSource() {
-  CorsConfiguration configuration = new CorsConfiguration();
-  configuration.setAllowedOriginPatterns(Arrays.asList("*"));
-  configuration.addAllowedHeader("*");
-  configuration.addAllowedMethod("*");
-  configuration.setAllowCredentials(true);
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+    configuration.addAllowedHeader("*");
+    configuration.addAllowedMethod("*");
+    configuration.setAllowCredentials(true);
 
-  UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-  source.registerCorsConfiguration("/**", configuration);
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
 
-  return source;
-}
-
+    return source;
+  }
 
   // Pour se protéger des attaques de falsification de requêtes entre sites.
   @Bean

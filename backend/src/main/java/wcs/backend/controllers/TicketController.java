@@ -5,26 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import wcs.backend.dtos.CategoryDto;
 import wcs.backend.dtos.TicketDto;
 import wcs.backend.dtos.TicketHaveUsersDto;
 import wcs.backend.dtos.UserDto;
-import wcs.backend.entities.Category;
-import wcs.backend.entities.Priority;
-import wcs.backend.entities.Status;
 import wcs.backend.entities.Ticket;
 import wcs.backend.entities.User;
-import wcs.backend.repositories.CategoryRepository;
-import wcs.backend.repositories.PriorityRepository;
-import wcs.backend.repositories.StatusRepository;
-import wcs.backend.repositories.UserRepository;
 import wcs.backend.services.TicketService;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,10 +25,6 @@ import java.util.stream.Collectors;
 public class TicketController {
 
   private TicketService ticketService;
-  private CategoryRepository categoryRepository;
-  private PriorityRepository priorityRepository;
-  private StatusRepository statusRepository;
-  private UserRepository userRepository;
 
   @Autowired
   private ModelMapper modelMapper; // Utilisez ModelMapper pour simplifier la conversion entre entités et DTO
@@ -47,29 +32,17 @@ public class TicketController {
   @PostMapping
   @Operation(summary = "Create a Ticket", description = "Create a new ticket with details.")
   public ResponseEntity<TicketDto> createTicket(@RequestBody TicketDto ticketDto) {
-      // Convertir TicketDto en entité Ticket
-      Ticket ticket = convertToEntity(ticketDto);
-      // Enregistrer le ticket avec les détails fournis
-      Ticket savedTicket = ticketService.createTicket(ticket);
-      // Convertir le ticket sauvegardé en DTO
-      TicketDto savedTicketDto = convertToDto(savedTicket);
-      // Retourner le ticket créé avec le statut HTTP 201 Created
-      return new ResponseEntity<>(savedTicketDto, HttpStatus.CREATED);
+    TicketDto createdTicketDto = ticketService.createTicket(ticketDto);
+    return ResponseEntity.ok(createdTicketDto);
   }
-
-  
 
   @GetMapping("/{id}")
   @Operation(summary = "Get Ticket by ID", description = "Get ticket details by its ID.")
-  public ResponseEntity<TicketDto> getTicketById(@PathVariable("id") Long ticketId) {
-    Ticket ticket = ticketService.getTicketById(ticketId);
-    if (ticket != null) {
-      TicketDto ticketDto = convertToDto(ticket);
-      return new ResponseEntity<>(ticketDto, HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+  public ResponseEntity<TicketDto> getTicketById(@PathVariable("id") Long id) {
+    TicketDto statusDto = ticketService.getTicketById(id);
+    return ResponseEntity.ok(statusDto);
   }
+  
 
   @GetMapping
   @Operation(summary = "Get All Tickets", description = "Get details of all available tickets.")
@@ -80,32 +53,28 @@ public class TicketController {
 
   @PutMapping("/{id}")
   @Operation(summary = "Update Ticket", description = "Update details of an existing ticket.")
-  public ResponseEntity<TicketDto> updateTicket(@PathVariable("id") Long ticketId,
+  public ResponseEntity<TicketDto> updateTicket(@PathVariable("id") Long id,
       @RequestBody TicketDto ticketDto) {
-    Ticket ticket = convertToEntity(ticketDto);
-    ticket.setId(ticketId);
-    Ticket updatedTicket = ticketService.updateTicket(ticket);
-    TicketDto updatedTicketDto = convertToDto(updatedTicket);    
-    return new ResponseEntity<>(updatedTicketDto, HttpStatus.OK);
+      ticketDto.setId(id);
+      TicketDto updatedTicketDto = ticketService.updateTicket(id,ticketDto);
+      return new ResponseEntity<>(updatedTicketDto, HttpStatus.OK);
   }
-
-
+  
 
   @PutMapping("/archive/{id}")
   @Operation(summary = "Archive Ticket", description = "Archive an existing ticket by ID.")
   public ResponseEntity<TicketDto> archiveTicket(@PathVariable("id") Long ticketId) {
-    Ticket archivedTicket = ticketService.archiveTicket(ticketId);
-    TicketDto archivedTicketDto = convertToDto(archivedTicket);
-    return new ResponseEntity<>(archivedTicketDto, HttpStatus.OK);
+      TicketDto archivedTicketDto = ticketService.archiveTicket(ticketId);
+      return new ResponseEntity<>(archivedTicketDto, HttpStatus.OK);
   }
   
   @PutMapping("/unarchive/{id}")
-  @Operation(summary = "Archive Ticket", description = "unarchive an existing ticket by ID.")
+  @Operation(summary = "Unarchive Ticket", description = "Unarchive an existing ticket by ID.")
   public ResponseEntity<TicketDto> unarchiveTicket(@PathVariable("id") Long ticketId) {
-    Ticket archivedTicket = ticketService.unarchiveTicket(ticketId);
-    TicketDto archivedTicketDto = convertToDto(archivedTicket);
-    return new ResponseEntity<>(archivedTicketDto, HttpStatus.OK);
+      TicketDto unarchivedTicketDto = ticketService.unarchiveTicket(ticketId);
+      return new ResponseEntity<>(unarchivedTicketDto, HttpStatus.OK);
   }
+  
 
   @DeleteMapping("/{id}")
   @Operation(summary = "Delete Ticket", description = "Delete a ticket by its ID.")
@@ -138,16 +107,13 @@ public class TicketController {
     return ticketDto;
   }
 
-  private Ticket convertToEntity(TicketDto ticketDto) {
-    return modelMapper.map(ticketDto, Ticket.class);
-  }
-
   @GetMapping("/filter")
   @Operation(summary = "Filter Tickets", description = "Get a list of tickets based on optional status, priority, and category filters.")
   public ResponseEntity<List<TicketDto>> getFilteredTickets(
-      @RequestParam(name = "status", required = false) Status.Title statusTitle,
-      @RequestParam(name = "priority", required = false) Priority.Title priorityTitle,
-      @RequestParam(name = "category", required = false) Category.Title categoryTitle) {
+      @RequestParam(name = "status", required = false) String statusTitle,
+      @RequestParam(name = "priority", required = false) String priorityTitle,
+      @RequestParam(name = "category", required = false) String categoryTitle,
+      @RequestParam(name = "userId", required = false) Long userId) {
 
     // Utilize these parameters to build specifications in the service
     List<Ticket> filteredTickets = ticketService.getFilteredTickets(statusTitle, priorityTitle, categoryTitle);
@@ -170,30 +136,22 @@ public class TicketController {
 
   @GetMapping("/countByCategory/{categoryTitle}")
   @Operation(summary = "Count Tickets by Category", description = "Get the number of tickets in a category.")
-  public ResponseEntity<Long> countTicketsByCategory(@PathVariable("categoryTitle") Category.Title categoryTitle) {
+  public ResponseEntity<Long> countTicketsByCategory(@PathVariable("categoryTitle") String categoryTitle) {
     long count = ticketService.countTicketsByCategory(categoryTitle);
     return ResponseEntity.ok(count);
   }
 
   @GetMapping("/countByPriority/{priorityTitle}")
   @Operation(summary = "Count Tickets by Priority", description = "Get the number of tickets with a priority.")
-  public ResponseEntity<Long> countTicketsByPriority(@PathVariable("priorityTitle") Priority.Title priorityTitle) {
+  public ResponseEntity<Long> countTicketsByPriority(@PathVariable("priorityTitle") String priorityTitle) {
     long count = ticketService.countTicketsByPriority(priorityTitle);
     return ResponseEntity.ok(count);
   }
 
   @GetMapping("/countByStatus/{statusTitle}")
   @Operation(summary = "Count Tickets by Status", description = "Get the number of tickets with a status.")
-  public ResponseEntity<Long> countTicketsByStatus(@PathVariable("statusTitle") Status.Title statusTitle) {
+  public ResponseEntity<Long> countTicketsByStatus(@PathVariable("statusTitle") String statusTitle) {
     long count = ticketService.countTicketsByStatus(statusTitle);
     return ResponseEntity.ok(count);
   }
-
-  // @PostMapping("/newTicket")
-  // @Operation(summary = "Create a Ticket", description = "Create a new ticket with details.")
-  // public ResponseEntity<TicketDto> createTicket (@RequestBody TicketDto ticketDto) {
-  //   TicketDto newTicket = ticketService.createNewTicket(ticketDto);
-  //   return new ResponseEntity<>(newTicket, HttpStatus.CREATED);
-  // }
-
 }

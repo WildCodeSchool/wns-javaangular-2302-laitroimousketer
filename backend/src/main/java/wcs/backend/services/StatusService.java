@@ -2,9 +2,12 @@ package wcs.backend.services;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import wcs.backend.dtos.StatusDto; // Importez votre DTO ici
+
 import wcs.backend.entities.Status;
 import wcs.backend.repositories.StatusRepository;
 
@@ -12,6 +15,7 @@ import wcs.backend.repositories.StatusRepository;
 @AllArgsConstructor
 public class StatusService {
   private StatusRepository statusRepository;
+  private ModelMapper modelMapper;
 
   public List<StatusDto> getAllStatus() {
     List<Status> statuses = statusRepository.findAll();
@@ -20,31 +24,27 @@ public class StatusService {
         .collect(Collectors.toList());
   }
 
-  public StatusDto createStatus(StatusDto statusDto) {
-    // Convertissez le DTO en entité Status ici si nécessaire
-    Status status = new Status(statusDto.getStatusTitle());
-    Status savedStatus = statusRepository.save(status);
-    return new StatusDto(savedStatus.getId(), savedStatus.getStatusTitle());
+  public StatusDto getStatusById(Long id) {
+    Status status = statusRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Status not found with id: " + id));
+    return modelMapper.map(status, StatusDto.class);
   }
 
-  public StatusDto getStatusById(Long id) {
-    Status status = statusRepository.findById(id).orElse(null);
-    if (status != null) {
-      return new StatusDto(status.getId(), status.getStatusTitle());
-    }
-    return null;
+  public StatusDto createStatus(StatusDto statusDto) {
+    Status status = modelMapper.map(statusDto, Status.class);
+    status = statusRepository.save(status);
+    return modelMapper.map(status, StatusDto.class);
   }
 
   public StatusDto updateStatus(Long id, StatusDto statusDto) {
-    Status existingStatus = statusRepository.findById(id).orElse(null);
+    Status existingStatus = statusRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Status not found with id: " + id));
 
-    if (existingStatus != null) {
-      existingStatus.setStatusTitle(statusDto.getStatusTitle());
-      Status updatedStatus = statusRepository.save(existingStatus);
-      return new StatusDto(updatedStatus.getId(), updatedStatus.getStatusTitle());
-    }
+    modelMapper.map(statusDto, existingStatus);
+    existingStatus.setId(id); // Assurez-vous que l'ID reste cohérent
+    existingStatus = statusRepository.save(existingStatus);
 
-    return null;
+    return modelMapper.map(existingStatus, StatusDto.class);
   }
 
   public void deleteStatus(Long id) {

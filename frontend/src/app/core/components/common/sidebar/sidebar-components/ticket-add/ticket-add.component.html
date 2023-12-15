@@ -1,28 +1,31 @@
-<app-sidebar-menu [menuItems]="menuItems" [menuTitle]="menuTitle" [menuIcon]="menuIcon"></app-sidebar-menu>
+<app-sidebar-menu [menuTitle]="menuTitle" [menuIcon]="menuIcon"></app-sidebar-menu>
 
 <section class="formulaire">
-    <h1 class="ticketAddTitle">Créer un  nouveau ticket</h1>
-    <form  [formGroup]="ticketAdditionForm">
-        <div>
-            <label class="form-label" for="title">Titre *</label>
-            <input class="form-control" id="title" type="text" formControlName="title" placeholder="Renseigner le thème du sujet">
-        </div>
-      <div>
-          <label class="form-label" for="priority">Priorité *</label>
-          <select class="form-control" id="priority"  formControlName="selectedPriority">
-            <option *ngFor="let priority of priorities" [value]="priority.id">{{ priority.priorityTitle }}</option>
-          </select>
-      </div>
-      <div>
-        <label class="form-label" for="category">Catégorie *</label>
-        <select class="form-control" id="category" formControlName="selectedCategory">
-          <option *ngFor="let category of categories" [value]="category.id">{{ category.categoryTitle }}</option>
-        </select>
-      </div>
-        <div>
-            <label class="form-label" for="description">Description *</label>
-            <input class="form-control" id="description" type="text" formControlName="description" placeholder="Expliquer avec détails votre problèmatique">
-        </div>
-        <button class="btn btn-primary" type="button" [disabled]="!ticketAdditionForm.valid" (click)="addTicket()">Créer</button>
-    </form>
+  <h1 class="ticketAddTitle">Créer un nouveau ticket</h1>
+  <form [formGroup]="ticketAdditionForm">
+    <div>
+      <label class="form-label" for="title">Titre *</label>
+      <input class="form-control" id="title" type="text" formControlName="title"
+        placeholder="Renseigner le thème du sujet">
+    </div>
+    <div>
+      <label class="form-label" for="priority">Priorité *</label>
+      <select class="form-control" id="priority" formControlName="selectedPriority">
+        <option *ngFor="let priority of priorities" [value]="priority.id">{{ priority.priorityTitle }}</option>
+      </select>
+    </div>
+    <div>
+      <label class="form-label" for="category">Catégorie *</label>
+      <select class="form-control" id="category" formControlName="selectedCategory">
+        <option *ngFor="let category of categories" [value]="category.id">{{ category.categoryTitle }}</option>
+      </select>
+    </div>
+    <div>
+      <label class="form-label" for="description">Description *</label>
+      <input class="form-control" id="description" type="text" formControlName="description"
+        placeholder="Expliquer avec détails votre problèmatique">
+    </div>
+    <button class="btn btn-primary" type="button" [disabled]="!ticketAdditionForm.valid"
+      (click)="addTicket()">Créer</button>
+  </form>
 </section>

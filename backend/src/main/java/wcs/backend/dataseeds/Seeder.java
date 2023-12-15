@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Seeder implements CommandLineRunner {
-
     // inject below the dependencies needed, i.e. class containing seed datas and
     // then add each corresponding resetData() method in run ();
 

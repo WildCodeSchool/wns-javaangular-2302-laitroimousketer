@@ -28,36 +28,36 @@ import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component'
   ],
 })
 export class UsersListComponent extends UnsubcribeComponent implements OnInit {
-map!: Map;
-zoom!: number;
-mapOptions = {
-  layers: [
-    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
-  ],
-  zoom: 5,
-  center: latLng(48.864716, 2.349014)
-};
-markersData: MarkerData[] = [];
+  map!: Map;
+  zoom!: number;
+  mapOptions = {
+    layers: [
+      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+    ],
+    zoom: 5,
+    center: latLng(48.864716, 2.349014)
+  };
+  markersData: MarkerData[] = [];
 
-users: User[] = [];  
-user!: User
-states: string[] = [
-  'Mail (A-Z)',
-  'Mail (Z-A)',
-  'Nom (A-Z)',
-  'Nom (Z-A)',
-  'Prénom (A-Z)',
-  'Prénom (Z-A)',
-];
-currentSortBy: string = '';
-placeholderSearchbar :string = "Rechercher un utilisateur par son nom, prénom, mail..."
+  users: User[] = [];
+  user!: User
+  states: string[] = [
+    'Mail (A-Z)',
+    'Mail (Z-A)',
+    'Nom (A-Z)',
+    'Nom (Z-A)',
+    'Prénom (A-Z)',
+    'Prénom (Z-A)',
+  ];
+  currentSortBy: string = '';
+  placeholderSearchbar: string = "Rechercher un utilisateur par son nom, prénom, mail..."
   constructor(
     private store: Store<Reducer.StateDataStore>,
     private sharedService: SharedService,
     private userService: UserService,
   ) {
     super();
-   }
+  }
 
   ngOnInit() {
     this.loadUsers();
@@ -74,25 +74,25 @@ placeholderSearchbar :string = "Rechercher un utilisateur par son nom, prénom, 
           // this.markersData = this.initializeMarkersData(this.users);
           // Autres opérations ici...
         }
-    });
+      });
   }
-updateUser(userId: number) {
-  const updatedUser: Partial<User> = {
-    id: userId,
-    firstname: 'newFirstName'+userId,
-    lastname: 'newLastName'+userId,
-  };
-  this.store.dispatch(userAction.updateUser({ payload: updatedUser }));
-}
-deleteUser(userId: number) {
-  this.store.dispatch(userAction.deleteUser({ payload: userId }));
-}
+  updateUser(userId: number) {
+    const updatedUser: Partial<User> = {
+      id: userId,
+      firstname: 'newFirstName' + userId,
+      lastname: 'newLastName' + userId,
+    };
+    this.store.dispatch(userAction.updateUser({ payload: updatedUser }));
+  }
+  deleteUser(userId: number) {
+    this.store.dispatch(userAction.deleteUser({ payload: userId }));
+  }
 
   openUserDetails(userId: number) {
     // Dispatch d'autres actions liées à la sidebar
     console.log(userId);
     this.store.dispatch(userAction.getUser({ payload: userId, displayInSidebar: true }));
-  
+
   }
 
   initializeMarkersData(users: User[]): MarkerData[] {
@@ -107,9 +107,9 @@ deleteUser(userId: number) {
   isEven(index: number): boolean {
     return index % 2 === 0;
   }
-  
+
   // TRI //
- 
+
   sortUsers(sortBy: string, users: User[]) {
     if (!this.users) {
       return;

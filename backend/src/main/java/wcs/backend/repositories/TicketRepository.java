@@ -16,23 +16,26 @@ import wcs.backend.entities.Ticket;
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecificationExecutor<Ticket> {
 
-  List<Ticket> findByStatus(Status status);
+    List<Ticket> findByStatus(Status status);
 
-  List<Ticket> findByPriority(Priority priority);
+    List<Ticket> findByPriority(Priority priority);
 
-  List<Ticket> findByCategory(Category category);
+    List<Ticket> findByCategory(Category category);
 
-  @Query("""
-      SELECT t FROM Ticket t WHERE (:status IS NULL OR t.status IN :status) \
-      AND (:priorities IS NULL OR t.priority IN :priorities) \
-      AND (:categories IS NULL OR t.category IN :categories)\
-      """)
-  List<Ticket> findByStatusInAndPriorityInAndCategoryIn(@Param("status") List<Status> status,
-      @Param("priorities") List<Priority> priorities,
-      @Param("categories") List<Category> categories);
+    @Query("""
+            SELECT t FROM Ticket t WHERE (:status IS NULL OR t.status IN :status) \
+            AND (:priorities IS NULL OR t.priority IN :priorities) \
+            AND (:categories IS NULL OR t.category IN :categories)\
+            """)
+    List<Ticket> findByStatusInAndPriorityInAndCategoryIn(@Param("status") List<Status> status,
+            @Param("priorities") List<Priority> priorities,
+            @Param("categories") List<Category> categories);
 
-      long countByCategory(Category category);
-      long countByPriority(Priority priority);
-      long countByStatus(Status status);
-      
+    long countByCategory(Category category);
+
+    long countByPriority(Priority priority);
+
+    long countByStatus(Status status);
+
+    List<Ticket> findByAuthorId(Long userId);
 }

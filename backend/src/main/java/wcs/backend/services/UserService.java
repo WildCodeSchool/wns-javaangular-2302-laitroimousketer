@@ -12,7 +12,6 @@ import wcs.backend.entities.TicketHaveUsers;
 import wcs.backend.dtos.AddressDto;
 import wcs.backend.entities.Address;
 import wcs.backend.entities.Role;
-import wcs.backend.entities.Role.Title;
 import wcs.backend.repositories.AddressRepository;
 import wcs.backend.repositories.RoleRepository;
 import wcs.backend.repositories.TicketHaveUsersRepository;
@@ -30,32 +29,15 @@ public class UserService {
   private AddressRepository addressRepository;
   private AddressService addressService;
 
-  // Creation user with adress
-  // public User createUser(User user, AddressDto addressDto) {
-  // String encryptedPassword = passwordEncoder.encode(user.getPassword());
-  // user.setPassword(encryptedPassword);
-
-  // Role defaultRole = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
-  // if (defaultRole != null) {
-  // user.setRole(defaultRole);
-  // }
-  // User savedUser = userRepository.save(user);
-  // // Créer et associer une adresse à l'utilisateur
-  // Address address = createAddressFromDto(addressDto);
-  // UserAddress userAddress = new UserAddress();
-  // address.getUserAddresses().add(userAddress);
-  // addressRepository.save(address);
-  // return savedUser;
-  // }
   public User createUser(User user) {
     String encryptedPassword = passwordEncoder.encode(user.getPassword());
     user.setPassword(encryptedPassword);
 
-    // Définir le rôle par défaut (CLIENT)
-    Role defaultRole = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
-    if (defaultRole == null) {
-      user.setRole(defaultRole);
-    }
+      // Définir le rôle par défaut (CLIENT)
+      Role defaultRole = roleRepository.findByRoleTitle("CLIENT");
+      if (defaultRole != null) {
+          user.setRole(defaultRole);
+      }
     User savedUser = userRepository.save(user);
     return savedUser;
   }
@@ -140,16 +122,17 @@ public class UserService {
     return userRepository.findByRole(role);
   }
 
-  public User updateUserRole(Long userId, Long roleId) {
+  public User updateUserRole(Long userId, String roleTitle) {
     User user = userRepository.findById(userId).orElse(null);
-    Role role = roleRepository.findById(roleId).orElse(null);
+    Role role = roleRepository.findByRoleTitle(roleTitle);
 
     if (user != null && role != null) {
       user.setRole(role);
       return userRepository.save(user);
     }
     return null;
-  }
+}
+
 
   public Optional<User> getUserByEmail(String email) {
     return userRepository.findByEmail(email);

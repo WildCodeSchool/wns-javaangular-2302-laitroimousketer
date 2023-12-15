@@ -19,7 +19,7 @@ export class NavbarComponent {
     this.trigger.openMenu();
   }
   private sidebarSubscription: Subscription | undefined;
-  
+
   logo: string = 'assets/images/Alayde.png';
   ticket: string = 'assets/images/tickets.png';
   avatar: string = 'assets/images/avatar.png';
@@ -34,7 +34,7 @@ export class NavbarComponent {
     private authService: AuthService,
     private sharedService: SharedService,
     private router: Router
-  ) {}
+  ) { }
   ngOnInit(): void {
     // Appelle getUserProfile() pour récupérer les données de l'utilisateur
     this.sidebarSubscription = this.sharedService.sidebarOpened$.subscribe(opened => {
@@ -53,7 +53,7 @@ export class NavbarComponent {
     this.router.navigate(['/auth']);
   }
 
-   toggleSidebarActivity(): void {
+  toggleSidebarActivity(): void {
     this.store.dispatch(sidebarAction.displayActivity());
   }
 
@@ -64,6 +64,6 @@ export class NavbarComponent {
   openSidebar() {
     this.sharedService.toggleSidebar();
 
-   
+
   }
 }

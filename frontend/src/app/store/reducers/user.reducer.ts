@@ -5,12 +5,14 @@ import { User } from 'src/app/core/models/user.model';
 export interface UserState {
   user: User;
   users: User[];
+  userConnected: User;
 
 }
 
 const initialState: UserState = {
   user: {} as User,
   users: [] as User[],
+  userConnected: {} as User,
 };
 
 export function reducer(state = initialState, action: Action & { payload?: any }) {
@@ -42,6 +44,18 @@ export function reducer(state = initialState, action: Action & { payload?: any }
         users: action.payload,
       };
     };
+    case userAction.action.GET_USER_CONNECTED: {
+      return {
+        ...state,
+        userConnected: action.payload,
+      };
+    }
+    case userAction.action.SAVE_USER_CONNECTED: {
+      return {
+        ...state,
+        userConnected: action.payload,
+      };
+    }
 
     default:
       return state;
@@ -49,5 +63,6 @@ export function reducer(state = initialState, action: Action & { payload?: any }
 }
 
 
-export const getUser = (state: UserState) => state.user;
-export const getUsers = (state: UserState) => state.users;
+export const selectUser = (state: UserState) => state.user;
+export const selectUsers = (state: UserState) => state.users;
+export const selectUserConnected = (state: UserState) => state.userConnected;

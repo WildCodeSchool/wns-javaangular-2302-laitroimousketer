@@ -10,6 +10,6 @@ import wcs.backend.entities.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    List<Category> findByCategoryTitle(Category.Title categoryTitle);
+    List<Category> findByCategoryTitle(String categoryTitle);
     
 }

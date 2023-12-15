@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import wcs.backend.entities.Status.Title;
 
 @Setter
 @Getter
@@ -12,5 +11,5 @@ import wcs.backend.entities.Status.Title;
 @NoArgsConstructor
 public class StatusDto {
   private Long id;
-  private Title  statusTitle;
+  private String  statusTitle;
 }
