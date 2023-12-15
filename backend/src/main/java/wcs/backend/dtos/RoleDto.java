@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import wcs.backend.entities.Role.Title;
-
-
 @Setter
 @Getter
 @AllArgsConstructor
@@ -15,5 +12,5 @@ import wcs.backend.entities.Role.Title;
 
 public class RoleDto {
   private Long id;
-  private Title roleTitle;
+  private String roleTitle;
 }

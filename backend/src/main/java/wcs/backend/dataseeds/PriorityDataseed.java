@@ -1,10 +1,8 @@
 package wcs.backend.dataseeds;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import wcs.backend.entities.Priority;
+import wcs.backend.dtos.PriorityDto;
 import wcs.backend.services.PriorityService;
 
 @Component
@@ -21,16 +19,16 @@ public class PriorityDataseed {
 
   private void loadData() {
 
-    Priority priorityLowCreated = new Priority();
-    priorityLowCreated.setPriorityTitle(Priority.Title.LOW);
-    priorityService.createPriority(priorityLowCreated);
+    PriorityDto priorityLow = new PriorityDto();
+    priorityLow.setPriorityTitle("Basse");
+    priorityService.createPriority(priorityLow);
 
-    Priority priorityMediumCreated = new Priority();
-    priorityMediumCreated.setPriorityTitle(Priority.Title.MEDIUM);
-    priorityService.createPriority(priorityMediumCreated);
+    PriorityDto priorityMedium = new PriorityDto();
+    priorityMedium.setPriorityTitle("Moyenne");
+    priorityService.createPriority(priorityMedium);
 
-    Priority priorityHighCreated = new Priority();
-    priorityHighCreated.setPriorityTitle(Priority.Title.HIGH);
-    priorityService.createPriority(priorityHighCreated);
+    PriorityDto priorityHigh = new PriorityDto();
+    priorityHigh.setPriorityTitle("Élevée");
+    priorityService.createPriority(priorityHigh);
   }
 }

@@ -1,12 +1,10 @@
 package wcs.backend.dataseeds;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import wcs.backend.entities.User;
-import wcs.backend.entities.Role.Title;
 import wcs.backend.repositories.RoleRepository;
 import wcs.backend.services.UserService;
 import wcs.backend.entities.Role;
@@ -33,8 +31,7 @@ public class UserDataseed {
     userCreated.setFirstname("groot");
     userCreated.setEmail("client@wcs.com");
     userCreated.setPassword("Alayd3!client");
-    userCreated.setRole(null);
-    Role roleUsed = roleRepository.findByRoleTitle(Title.CLIENT).get(0);
+    Role roleUsed = roleRepository.findByRoleTitle("CLIENT");
     userCreated.setRole(roleUsed);
     userService.createUser(userCreated);
 
@@ -43,7 +40,7 @@ public class UserDataseed {
     dev.setFirstname("Dave");
     dev.setLastname("Grohl");
     dev.setPassword("Alayd3!dev");
-    Role roleDev = roleRepository.findByRoleTitle(Title.DEVELOPER).get(0);
+    Role roleDev = roleRepository.findByRoleTitle("DEVELOPER");
     dev.setRole(roleDev);
     userService.createUser(dev);
 
@@ -52,7 +49,7 @@ public class UserDataseed {
     manager.setFirstname("the");
     manager.setLastname("manager");
     manager.setPassword("Alayd3!manager");
-    Role roleManager = roleRepository.findByRoleTitle(Title.MANAGER).get(0);
+    Role roleManager = roleRepository.findByRoleTitle("MANAGER");
     manager.setRole(roleManager);
     userService.createUser(manager);
   }

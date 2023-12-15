@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import wcs.backend.entities.Category.Title;
 
 @Setter
 @Getter
@@ -13,5 +12,5 @@ import wcs.backend.entities.Category.Title;
 
 public class CategoryDto {
     private Long id;
-    private Title categoryTitle; 
+    private String categoryTitle; 
 }

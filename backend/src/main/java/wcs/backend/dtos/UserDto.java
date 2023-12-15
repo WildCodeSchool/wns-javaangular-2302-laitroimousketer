@@ -15,7 +15,7 @@ public class UserDto {
   private String firstname;
   private String lastname;
   private String email;
-  private String roleTitle;
+  private String role;
   private AddressDto address;
 
   // Other fields as needed
@@ -36,7 +36,7 @@ public class UserDto {
     this.firstname = user.getFirstname();
     this.lastname = user.getLastname();
     this.email = user.getEmail();
-    this.roleTitle = user.getRole().getRoleTitle().toString();
+    this.role = user.getRole().getRoleTitle();
     // Map other fields
   }
 }
