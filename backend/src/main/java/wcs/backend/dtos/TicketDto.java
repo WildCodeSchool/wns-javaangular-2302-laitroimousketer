@@ -41,6 +41,5 @@ public class TicketDto {
       this.authorEmail = authorDto.getEmail();
       // ... définissez d'autres champs si nécessaire
   }
-  
 
 }

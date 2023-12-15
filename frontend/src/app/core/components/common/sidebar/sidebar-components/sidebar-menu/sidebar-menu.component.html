@@ -6,7 +6,7 @@
         <i class="{{menuItem.icon}}"></i>
       </li>
     </ng-container>
-    <div #activeBloc class="background"></div>
+    <div *ngIf="menuItems && menuItems.length > 0" #activeBloc class="background"></div>
   </ul>
 
   <div class="menu-title-c">

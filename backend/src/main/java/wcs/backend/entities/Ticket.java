@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -39,15 +38,15 @@ public class Ticket {
   private Date archiveDate;
 
   @ManyToOne
-  @JoinColumn(name = "category_id", nullable = true)
+  @JoinColumn(name = "category_id", nullable = false)
   private Category category;
 
   @ManyToOne
-  @JoinColumn(name = "priority_id", nullable = true)
+  @JoinColumn(name = "priority_id", nullable = false)
   private Priority priority;
 
   @ManyToOne
-  @JoinColumn(name = "status_id", nullable = true)
+  @JoinColumn(name = "status_id", nullable = false)
   private Status status;
 
   @ManyToOne
@@ -58,17 +57,6 @@ public class Ticket {
   private List<TicketHaveUsers> userAssociations = new ArrayList<>();
 
   public Ticket() {
-  }
-
-  public void setTicketTitle(String ticketTitle) {
-    this.ticketTitle = ticketTitle;
-  }
-
-  public void setAuthor(User author) {
-    this.author = author;
-  }
-  public User getAuthor() {
-    return author;
   }
   // Autres getters et setters
 }

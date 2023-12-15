@@ -25,34 +25,34 @@ export class TicketEffects {
 
 
   getTicket = createEffect(() =>
-  this.actions$.pipe(
-    ofType(action.getTicket),
-    switchMap(({ payload, displayInSidebar }) => {
-      return this.ticketService.getByKey(payload).pipe(
-        tap((data: Ticket) => {
-          console.log('Ticket récupéré dans getTicket:', data);
-        }),
-        switchMap((data: Ticket) => {
-          const saveTicketAction = action.saveTicket({ payload: data });
+    this.actions$.pipe(
+      ofType(action.getTicket),
+      switchMap(({ payload, displayInSidebar }) => {
+        return this.ticketService.getTicket(payload).pipe(
+          tap((data: Ticket) => {
+            console.log('Ticket récupéré dans getTicket:', data);
+          }),
+          switchMap((data: Ticket) => {
+            const saveTicketAction = action.saveTicket({ payload: data });
 
-          if (displayInSidebar) {
-            return [
-              saveTicketAction,
-              sidebarAction.displayTicketDetails()
-            ];
-          } else {
-            return [saveTicketAction];
-          }
-        }),
-        catchError(error => {
-          this.msgService.showErrorAlert('Erreur lors de la récupération du ticket');
-          // Gérer les erreurs ici si nécessaire
-          return of(/* action d'erreur si besoin */);
-        })
-      );
-    })
-  )
-);
+            if (displayInSidebar) {
+              return [
+                saveTicketAction,
+                sidebarAction.displayTicketDetails()
+              ];
+            } else {
+              return [saveTicketAction];
+            }
+          }),
+          catchError(error => {
+            this.msgService.showErrorAlert('Erreur lors de la récupération du ticket');
+            // Gérer les erreurs ici si nécessaire
+            return of(/* action d'erreur si besoin */);
+          })
+        );
+      })
+    )
+  );
 
 
   updateTicket$ = createEffect(() =>
@@ -74,23 +74,23 @@ export class TicketEffects {
 
 
 
-createTicket = createEffect(() =>
-this.actions$.pipe(
-  ofType(action.createTicket),
-  switchMap(({ payload }) => {
-    console.log('Ticket créé dans createTicket:', payload);
-    return this.ticketService.add(payload).pipe(
- 
-      map((data: Ticket) => action.saveTicket({ payload: data })),
-      tap(() => this.msgService.showSuccessAlert('Ticket créé')),
-      catchError(error => {
-        this.msgService.showErrorAlert('Erreur lors de la création du ticket');
-        // Gérer les erreurs ici si nécessaire
-        return of(/* action d'erreur si besoin */);
+  createTicket = createEffect(() =>
+    this.actions$.pipe(
+      ofType(action.createTicket),
+      switchMap(({ payload }) => {
+        console.log('Ticket créé dans createTicket:', payload);
+        return this.ticketService.add(payload).pipe(
+
+          map((data: Ticket) => action.saveTicket({ payload: data })),
+          tap(() => this.msgService.showSuccessAlert('Ticket créé')),
+          catchError(error => {
+            this.msgService.showErrorAlert('Erreur lors de la création du ticket');
+            // Gérer les erreurs ici si nécessaire
+            return of(/* action d'erreur si besoin */);
+          })
+        )
       })
-    )
-    })
-));
+    ));
 
 
   deleteTicket$ = createEffect(() =>
@@ -116,7 +116,7 @@ this.actions$.pipe(
     this.actions$.pipe(
       ofType(action.getTickets),
       switchMap(() => {
-        return this.ticketService.getTicketList().pipe(
+        return this.ticketService.getTickets().pipe(
           map((tickets: Ticket[]) => {
             return action.saveTickets({ payload: tickets });
           }),

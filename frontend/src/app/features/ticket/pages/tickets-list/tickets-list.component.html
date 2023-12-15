@@ -62,11 +62,10 @@
 
     </header>
 
-      <div *ngFor="let ticket of tickets; let i = index"
-        [ngClass]="{'even': isEven(i), 'odd': !isEven(i)}">
-        <app-ticket-card class="context-ticket-list" [ticket]="ticket"></app-ticket-card>
-      </div>
-      
+    <div *ngFor="let ticket of tickets; let i = index" [ngClass]="{'even': isEven(i), 'odd': !isEven(i)}">
+      <app-ticket-card class="context-ticket-list" [ticket]="ticket"></app-ticket-card>
+    </div>
+
   </div>
-  
+
 </section>

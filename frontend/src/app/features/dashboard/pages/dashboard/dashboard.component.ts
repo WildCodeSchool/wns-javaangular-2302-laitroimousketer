@@ -84,7 +84,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getAllTickets() {
-    this.ticketService.getTicketList().subscribe((data) => {
+    this.ticketService.getTickets().subscribe((data) => {
       // console.log(data, "data");
       this.tickets = data;
       this.processTicketData();

@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import wcs.backend.entities.Priority.Title;
-
 @Setter
 @Getter
 @AllArgsConstructor
@@ -13,7 +11,7 @@ import wcs.backend.entities.Priority.Title;
 
 public class PriorityDto {
   private Long id;
-  private Title priorityTitle;
+  private String priorityTitle;
  // Utilisez List<Ticket> pour stocker plusieurs tickets
   
 }

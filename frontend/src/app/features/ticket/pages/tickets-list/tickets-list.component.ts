@@ -4,9 +4,8 @@ import { Ticket } from '../../models/ticket';
 
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
-import { TicketHaveUsers } from '../../models/ticketHaveUsers';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Subject, Subscription, forkJoin, take, takeUntil } from 'rxjs';
+import { Subscription, forkJoin, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as Reducer from 'src/app/store/reducers/index';
 import * as ticketAction from 'src/app/store/actions/ticket.action';
@@ -74,7 +73,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
   doingCount: number = 0;
   doneCount: number = 0;
 
-  showArchivedTickets : boolean = false;
+  showArchivedTickets: boolean = false;
   currentSortBy: string = '';
   states: string[] = [
     'Date de création (asc)',
@@ -106,7 +105,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
   };
   subscriptions = new Subscription();
 
-ticketsFromStore: Ticket[] = [];
+  ticketsFromStore: Ticket[] = [];
 
   constructor(
     private store: Store<Reducer.StateDataStore>,
@@ -121,8 +120,8 @@ ticketsFromStore: Ticket[] = [];
     this.checkRole();
     this.getTicketList();
     this.initializeStates();
-  }    
-  
+  }
+
 
   private initializeStates() {
     this.states = [
@@ -139,7 +138,6 @@ ticketsFromStore: Ticket[] = [];
 
   checkRole() {
     this.authService.getUserProfile();
-    // console.log(this.authService.userRole);
     return this.authService.userRole;
   }
 
@@ -155,7 +153,7 @@ ticketsFromStore: Ticket[] = [];
           this.updateTicketList();
           // Autres opérations ici...
         }
-    });
+      });
   }
 
   private updateTicketList() {
@@ -226,7 +224,7 @@ ticketsFromStore: Ticket[] = [];
     this.currentSortBy = event.value;
     this.updateTicketList();
   }
-  
+
 
 
   applyFilters() {
@@ -245,15 +243,15 @@ ticketsFromStore: Ticket[] = [];
 
     // Appel au service pour construire la requête et retourner les tickets filtrés
     this.ticketService.getTicketsByFilters(filters.join('&')).subscribe((tickets) => {
-    // Mettez à jour les tickets locaux avec les tickets filtrés
-    if (!this.showArchivedTickets) {
-      tickets = tickets.filter((ticket) => ticket.archiveDate === null);
-    }
-    this.tickets = tickets; // Affectez le tableau filtré
-    if (this.role === 'client') {
-      this.tickets = this.tickets.filter((ticket) => ticket.authorId === this.authService.userId);
-    }
-    this.sortTickets(this.currentSortBy, this.tickets);
+      // Mettez à jour les tickets locaux avec les tickets filtrés
+      if (!this.showArchivedTickets) {
+        tickets = tickets.filter((ticket) => ticket.archiveDate === null);
+      }
+      this.tickets = tickets; // Affectez le tableau filtré
+      if (this.role === 'client') {
+        this.tickets = this.tickets.filter((ticket) => ticket.authorId === this.authService.userId);
+      }
+      this.sortTickets(this.currentSortBy, this.tickets);
     });
   }
 
@@ -313,5 +311,5 @@ ticketsFromStore: Ticket[] = [];
     this.showArchivedTickets = !this.showArchivedTickets;
     this.updateTicketList(); // Mettez à jour la liste des tickets en fonction de la nouvelle valeur
   }
-  
+
 }

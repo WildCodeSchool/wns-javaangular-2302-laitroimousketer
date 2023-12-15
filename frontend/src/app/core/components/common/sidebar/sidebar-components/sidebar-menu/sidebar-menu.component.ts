@@ -22,7 +22,7 @@ export class SidebarMenuComponent implements OnInit {
   constructor(
     private renderer: Renderer2,
     private store: Store<sidebarReducer.StateDataStore>,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.setBar(this.positionNav);
@@ -43,15 +43,15 @@ export class SidebarMenuComponent implements OnInit {
     this.changeBlock(position);
     this.position.emit(position);
   }
-
   changeBlock(position: number) {
-    if (this.blockMenu) {
+    if (this.blockMenu && this.blockMenu.length > position) {
       const top = this.blockMenu.toArray()[position].nativeElement.getBoundingClientRect().top;
       this.renderer.setStyle(this.activeBloc.nativeElement, 'transform', `translateY(${top}px)`);
     }
   }
+
   closeSidebar() {
     this.store.dispatch(sidebarAction.resetSideBar());
   }
-  
+
 }

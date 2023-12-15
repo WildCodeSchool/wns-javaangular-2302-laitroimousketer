@@ -25,34 +25,34 @@ export class UserEffects {
 
 
   getuser = createEffect(() =>
-  this.actions$.pipe(
-    ofType(action.getUser),
-    switchMap(({ payload, displayInSidebar }) => {
-      return this.userService.getByKey(payload).pipe(
-        tap((data: User) => {
-          console.log('user récupéré dans getuser:', data);
-        }),
-        switchMap((data: User) => {
-          const saveuserAction = action.saveUser({ payload: data });
+    this.actions$.pipe(
+      ofType(action.getUser),
+      switchMap(({ payload, displayInSidebar }) => {
+        return this.userService.getUser(payload).pipe(
+          tap((data: User) => {
+            console.log('user récupéré dans getuser:', data);
+          }),
+          switchMap((data: User) => {
+            const saveuserAction = action.saveUser({ payload: data });
 
-          if (displayInSidebar) {
-            return [
-              saveuserAction,
-              sidebarAction.displayUserDetails()
-            ];
-          } else {
-            return [saveuserAction];
-          }
-        }),
-        catchError(error => {
-          this.msgService.showErrorAlert('Erreur lors de la récupération du user');
-          // Gérer les erreurs ici si nécessaire
-          return of(/* action d'erreur si besoin */);
-        })
-      );
-    })
-  )
-);
+            if (displayInSidebar) {
+              return [
+                saveuserAction,
+                sidebarAction.displayUserDetails()
+              ];
+            } else {
+              return [saveuserAction];
+            }
+          }),
+          catchError(error => {
+            this.msgService.showErrorAlert('Erreur lors de la récupération du user');
+            // Gérer les erreurs ici si nécessaire
+            return of(/* action d'erreur si besoin */);
+          })
+        );
+      })
+    )
+  );
 
 
   updateuser$ = createEffect(() =>
@@ -115,7 +115,7 @@ export class UserEffects {
       ofType(action.getUsers),
       switchMap(() => {
         console.log('getUsers effect');
-        return this.userService.getUserList().pipe(
+        return this.userService.getUsers().pipe(
           map((users: User[]) => {
             return action.saveUsers({ payload: users });
           }),

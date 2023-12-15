@@ -1,6 +1,7 @@
 package wcs.backend.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -22,18 +23,20 @@ public class RoleService {
     return roleRepository.save(role);
   }
 
-  public Role getRoleById(Long id) {
-    return roleRepository.findById(id).orElse(null);
+  public Optional<Role> getRoleById(Long id) {
+    return roleRepository.findById(id);
+  }
+
+  public Role getRoleByTitle(String title) {
+    return roleRepository.findByRoleTitle(title);
   }
 
   public Role updateRole(Role role) {
-    Role existingRole = roleRepository.findById(role.getId()).orElse(null);
-    existingRole.setRoleTitle(role.getRoleTitle());
-    return roleRepository.save(existingRole);
+    return roleRepository.save(role);
   }
 
-  public void deleteRole(Long id) {
+  public void deleteRoleById(Long id) {
     roleRepository.deleteById(id);
   }
 
-}
+} 
