@@ -2,6 +2,7 @@ package wcs.backend.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,7 @@ import wcs.backend.services.CategoryService;
 @Tag(name = "Categories", description = "Category Management Controller")
 
 public class CategoryController {
-
+  @Autowired
   private CategoryService categoryService;
 
   @GetMapping
@@ -38,7 +39,7 @@ public class CategoryController {
 
   @GetMapping("{id}")
   @Operation(summary = "Get Category by ID", description = "Get details of a category by its ID.")
-  public ResponseEntity<CategoryDto> getCategoryById(@PathVariable("id") Long categoryId) {
+  public ResponseEntity<CategoryDto> getCategoryById(@PathVariable Long categoryId) {
     CategoryDto categoryDto = categoryService.getCategoryById(categoryId);
     return ResponseEntity.ok(categoryDto);
   }
@@ -59,7 +60,7 @@ public class CategoryController {
 
   @DeleteMapping("{id}")
   @Operation(summary = "Delete Category", description = "Delete a category by its ID.")
-  public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id) {
+  public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
     categoryService.deleteCategory(id);
     return ResponseEntity.noContent().build();
   }

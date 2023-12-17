@@ -2,22 +2,17 @@ package wcs.backend.services;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import wcs.backend.dtos.StatusDto;
 import wcs.backend.dtos.TicketDto;
 import wcs.backend.dtos.TicketHaveUsersDto;
-import wcs.backend.dtos.UserDto;
 import wcs.backend.entities.Category;
 import wcs.backend.entities.Priority;
 import wcs.backend.entities.Status;
@@ -29,6 +24,7 @@ import wcs.backend.repositories.CategoryRepository;
 import wcs.backend.repositories.PriorityRepository;
 import wcs.backend.repositories.StatusRepository;
 import wcs.backend.repositories.TicketRepository;
+import wcs.backend.repositories.UserRepository;
 import wcs.backend.repositories.TicketHaveUsersRepository;
 
 @Service
@@ -37,7 +33,6 @@ import wcs.backend.repositories.TicketHaveUsersRepository;
 public class TicketService {
   @Autowired
   private TicketRepository ticketRepository;
-
   @Autowired
   private CategoryRepository categoryRepository;
   @Autowired
@@ -46,6 +41,8 @@ public class TicketService {
   private PriorityRepository priorityRepository;
   @Autowired
   private TicketHaveUsersRepository ticketHaveUsersRepository;
+  @Autowired
+  private UserRepository userRepository;
   @Autowired
   private ModelMapper modelMapper;
 
@@ -62,7 +59,7 @@ public class TicketService {
 
   public TicketDto getTicketById(Long id) {
     Ticket ticket = ticketRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Status not found with id: " + id));
+        .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
     return modelMapper.map(ticket, TicketDto.class);
   }
 
@@ -80,7 +77,7 @@ public class TicketService {
 
   public TicketDto updateTicket(Long id, TicketDto ticketDto) {
     Ticket existingTicket = ticketRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Ticket not found with id: " + id));
+        .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
     // Utilisation de ModelMapper pour mettre à jour le ticket existant avec les
     // données du ticketDto
     modelMapper.map(ticketDto, existingTicket);
@@ -90,7 +87,7 @@ public class TicketService {
 
   public TicketDto archiveTicket(Long id) {
     Ticket existingTicket = ticketRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Ticket not found with id: " + id));
+        .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
     existingTicket.setArchiveDate(new Date()); // Set the archiving date to the current date
     Ticket archivedTicket = ticketRepository.save(existingTicket);
     return modelMapper.map(archivedTicket, TicketDto.class); // Convert Ticket to TicketDto
@@ -98,14 +95,16 @@ public class TicketService {
 
   public TicketDto unarchiveTicket(Long id) {
     Ticket existingTicket = ticketRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Ticket not found with id: " + id));
+        .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
     existingTicket.setArchiveDate(null); // Remove the archiving date
     Ticket unarchivedTicket = ticketRepository.save(existingTicket);
     return modelMapper.map(unarchivedTicket, TicketDto.class); // Convert Ticket to TicketDto
   }
 
   public void deleteTicket(Long id) {
-    ticketRepository.deleteById(id);
+    Ticket existingTicket = ticketRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
+    ticketRepository.delete(existingTicket);
   }
 
   // users to tickets //
@@ -133,7 +132,8 @@ public class TicketService {
   }
 
   // FILTERS //
-  public List<Ticket> getFilteredTickets(String statusTitle, String priorityTitle, String categoryTitle) {
+  public List<TicketDto> getFilteredTickets(String statusTitle, String priorityTitle, String categoryTitle,
+      Long authorId) {
     Specification<Ticket> spec = Specification.where(null);
 
     if (statusTitle != null) {
@@ -150,14 +150,23 @@ public class TicketService {
       Category category = getCategoryByTitle(categoryTitle);
       spec = spec.and((root, query, builder) -> builder.equal(root.get("category"), category));
     }
+    if (authorId != null) {
+      User author = getUserById(authorId);
+      spec = spec.and((root, query, builder) -> builder.equal(root.get("author"), author));
+    }
 
-    return ticketRepository.findAll(spec);
+    List<Ticket> filteredTickets = ticketRepository.findAll(spec);
+
+    // Utiliser ModelMapper pour mapper les entités Ticket en DTO TicketDto
+    return filteredTickets.stream()
+        .map(ticket -> modelMapper.map(ticket, TicketDto.class))
+        .collect(Collectors.toList());
   }
 
-  private Status getStatusByTitle(String StatusTitle) {
-    Status status = statusRepository.findByStatusTitle(StatusTitle);
-    if (StatusTitle == null) {
-      throw new EntityNotFoundException("Status not found with title: " + StatusTitle);
+  private Status getStatusByTitle(String StatusKey) {
+    Status status = statusRepository.findByStatusMapKey(StatusKey);
+    if (StatusKey == null) {
+      throw new EntityNotFoundException("Status not found with title: " + StatusKey);
     }
     return status;
   }
@@ -176,6 +185,12 @@ public class TicketService {
       throw new EntityNotFoundException("Category not found with title: " + title);
     }
     return categories.get(0);
+  }
+
+  private User getUserById(Long id) {
+    User user = userRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+    return user;
   }
 
   // COUNT //

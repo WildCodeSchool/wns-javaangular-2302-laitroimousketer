@@ -20,15 +20,18 @@ public class StatusDataseed {
 
   private void loadData() {
     StatusDto statusTodo = new StatusDto();
-    statusTodo.setStatusTitle("À faire");
+ 
+    statusTodo.addStatus("todo", "À faire");
     statusService.createStatus(statusTodo);
 
     StatusDto statusDoing = new StatusDto();
-    statusDoing.setStatusTitle("En cours");
+
+    statusDoing.addStatus("doing", "En cours");
     statusService.createStatus(statusDoing);
 
     StatusDto statusDone = new StatusDto();
-    statusDone.setStatusTitle("Terminé");
+    statusDone.addStatus("done", "Terminé");
     statusService.createStatus(statusDone);
-  }
+}
+
 }

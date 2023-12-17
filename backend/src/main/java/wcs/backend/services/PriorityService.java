@@ -4,20 +4,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import wcs.backend.dtos.CategoryDto;
 import wcs.backend.dtos.PriorityDto;
-import wcs.backend.entities.Category;
 import wcs.backend.entities.Priority;
 import wcs.backend.repositories.PriorityRepository;
 
 @Service
 @AllArgsConstructor
 public class PriorityService {
-
+  @Autowired
   private PriorityRepository priorityRepository;
+  @Autowired
   private ModelMapper modelMapper;
 
   public List<PriorityDto> getAllPriority() {

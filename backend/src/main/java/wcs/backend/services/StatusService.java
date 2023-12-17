@@ -2,25 +2,26 @@ package wcs.backend.services;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
-import wcs.backend.dtos.StatusDto; // Importez votre DTO ici
-
+import wcs.backend.dtos.StatusDto;
 import wcs.backend.entities.Status;
 import wcs.backend.repositories.StatusRepository;
 
 @Service
 @AllArgsConstructor
 public class StatusService {
+  @Autowired
   private StatusRepository statusRepository;
+  @Autowired
   private ModelMapper modelMapper;
 
   public List<StatusDto> getAllStatus() {
     List<Status> statuses = statusRepository.findAll();
     return statuses.stream()
-        .map(status -> new StatusDto(status.getId(), status.getStatusTitle()))
+        .map(status -> new StatusDto(status.getId(), status.getStatusMap()))
         .collect(Collectors.toList());
   }
 

@@ -1,12 +1,17 @@
 package wcs.backend.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class UserAddress {
-
-  public UserAddress() {
-  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +26,5 @@ public class UserAddress {
   private Address address;
 
   // Constructeurs, getters, setters, etc.
-  public Address getAddress() {
-    return this.address;
-  }
+
 }
