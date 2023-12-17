@@ -33,13 +33,4 @@ public class TicketDto {
     private String authorLastname;
     private String authorEmail;
 
-    // ... autres champs si nécessaire
-    public void setAuthor(UserDto authorDto) {
-      this.authorId = authorDto.getId();
-      this.authorFirstname = authorDto.getFirstname();
-      this.authorLastname = authorDto.getLastname();
-      this.authorEmail = authorDto.getEmail();
-      // ... définissez d'autres champs si nécessaire
-  }
-
 }

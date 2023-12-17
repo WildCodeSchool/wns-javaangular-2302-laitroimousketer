@@ -1,18 +1,16 @@
 package wcs.backend.controllers;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import wcs.backend.dtos.UserDto;
-import wcs.backend.entities.User;
+import wcs.backend.dtos.UserReadDto;
 import wcs.backend.services.UserService;
 
 @RestController
@@ -21,92 +19,63 @@ import wcs.backend.services.UserService;
 @RequestMapping("api/users")
 @Tag(name = "Users", description = "Users Controller")
 public class UserController {
+  @Autowired
+  private UserService userService;
+  @Autowired
+  private ModelMapper modelMapper;
 
-    private UserService userService;
+  @GetMapping
+  @Operation(summary = "Get All Users", description = "Get details of all users")
+  public ResponseEntity<List<UserReadDto>> getAllUsers() {
+    List<UserReadDto> usersDto = userService.getAllUsers();
+    return ResponseEntity.ok(usersDto);
+  }
 
-    @PostMapping
-    @Operation(summary = "Create User", description = "Create a new user")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
-        User user = mapDtoToEntity(userDto);
-        User createdUser = userService.createUser(user);
-        UserDto createdUserDto = mapEntityToDto(createdUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUserDto);  // HttpStatus.CREATED (201)
-    }
+  @GetMapping("/{id}")
+  @Operation(summary = "Get User by ID", description = "Get user details by user ID")
+  public ResponseEntity<UserReadDto> getUserById(@PathVariable Long id) {
+    UserReadDto userDto = userService.getUserById(id);
+      return ResponseEntity.ok(userDto);
+  }
 
-    @GetMapping("/{userId}")
-    @Operation(summary = "Get User by ID", description = "Get user details by user ID")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long userId) {
-        User user = userService.getUserById(userId);
-        if (user != null) {
-            UserDto userDto = mapEntityToDto(user);
-            return ResponseEntity.ok(userDto);  // HttpStatus.OK (200)
-        }
-        return ResponseEntity.notFound().build();  // HttpStatus.NOT_FOUND (404)
-    }
+  @PostMapping
+  @Operation(summary = "Create User", description = "Create a new user")
+  public ResponseEntity<UserReadDto> createUser(@RequestBody UserDto userDto) {
+    UserDto createdUserDto = userService.createUser(userDto);
+    // on renvoie la réponse sous forme de UserReadDto pour ne pas retourner le mot de passe
+    UserReadDto userReadDto = modelMapper.map(createdUserDto, UserReadDto.class);
+    return ResponseEntity.ok(userReadDto);
+  }
 
-    @GetMapping
-    @Operation(summary = "Get All Users", description = "Get details of all users")
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        List<UserDto> userDtos = users.stream()
-                .map(this::mapEntityToDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(userDtos);  // HttpStatus.OK (200)
-    }
+  @PutMapping("/{id}")
+  @Operation(summary = "Update User", description = "Update user details by user ID")
+  public ResponseEntity<UserReadDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+    UserDto updatedUserDto = userService.updateUser(id, userDto);
+      // on renvoie la réponse sous forme de UserReadDto pour ne pas retourner le mot de passe
+      UserReadDto updatedUserReadDto = modelMapper.map(updatedUserDto, UserReadDto.class);
+      return ResponseEntity.ok(updatedUserReadDto);
+  }
 
-    @PutMapping("/{userId}")
-    @Operation(summary = "Update User", description = "Update user details by user ID")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long userId, @RequestBody UserDto userDto) {
-        User user = mapDtoToEntity(userDto);
-        user.setId(userId);
-        User updatedUser = userService.updateUser(user);
-        if (updatedUser != null) {
-            UserDto updatedUserDto = mapEntityToDto(updatedUser);
-            return ResponseEntity.ok(updatedUserDto);  // HttpStatus.OK (200)
-        }
-        return ResponseEntity.notFound().build();  // HttpStatus.NOT_FOUND (404)
-    }
+  @DeleteMapping("/{id}")
+  @Operation(summary = "Delete User", description = "Delete user by user ID")
+  public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    userService.deleteUser(id);
+    return ResponseEntity.noContent().build();
+  }
+  
 
-    @DeleteMapping("/{userId}")
-    @Operation(summary = "Delete User", description = "Delete user by user ID")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
-        userService.deleteUserById(userId);
-        return ResponseEntity.noContent().build();  // HttpStatus.NO_CONTENT (204)
-    }
+  @GetMapping("/search")
+  @Operation(summary = "Search Users by query", description = "Search users by query")
+  public ResponseEntity<List<UserDto>> getUsersByName(@RequestParam String query) {
+    List<UserDto> userDtos = userService.getUsersByQuery(query);
+    return ResponseEntity.ok(userDtos);
+  }
 
-    @GetMapping("/search")
-    @Operation(summary = "Search Users by Name", description = "Search users by name")
-    public ResponseEntity<List<UserDto>> getUsersByName(@RequestParam String name) {
-        List<User> users = userService.getUsersByName(name);
-        List<UserDto> userDtos = users.stream()
-                .map(this::mapEntityToDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(userDtos);  // HttpStatus.OK (200)
-    }
+  @GetMapping("/email")
+  @Operation(summary = "Get User by Email", description = "Get user details by email")
+  public ResponseEntity<UserDto> getUserByEmail(@RequestParam String email) {
+  UserDto userDto = userService.getUserByEmail(email);
+      return ResponseEntity.ok(userDto);
+  }
 
-    @GetMapping("/email")
-    @Operation(summary = "Get User by Email", description = "Get user details by email")
-    public ResponseEntity<UserDto> getUserByEmail(@RequestParam String email) {
-        Optional<User> user = userService.getUserByEmail(email);
-        if (user.isPresent()) {
-            UserDto userDto = mapEntityToDto(user.get());
-            return ResponseEntity.ok(userDto);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    private UserDto mapEntityToDto(User user) {
-        return new UserDto(user);
-    }
-
-    private User mapDtoToEntity(UserDto userDto) {
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setFirstname(userDto.getFirstname());
-        user.setLastname(userDto.getLastname());
-        user.setEmail(userDto.getEmail());
-        // Map other fields as needed
-        return user;
-    }
 }

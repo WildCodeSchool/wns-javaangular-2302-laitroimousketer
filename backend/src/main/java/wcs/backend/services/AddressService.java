@@ -1,40 +1,56 @@
 package wcs.backend.services;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import wcs.backend.dtos.AddressDto;
 import wcs.backend.entities.Address;
 import wcs.backend.repositories.AddressRepository;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AddressService {
+  @Autowired
+  private final AddressRepository addressRepository;
+  @Autowired
+  private final ModelMapper modelMapper;
 
-    private final AddressRepository addressRepository;
+  public AddressService(AddressRepository addressRepository, ModelMapper modelMapper) {
+    this.addressRepository = addressRepository;
+    this.modelMapper = modelMapper;
+  }
 
-    public AddressService(AddressRepository addressRepository) {
-        this.addressRepository = addressRepository;
-    }
+  public List<AddressDto> getAllAddresses() {
+    List<Address> addresses = addressRepository.findAll();
+    return addresses.stream()
+        .map(this::convertToDto)
+        .collect(Collectors.toList());
+  }
 
-    public List<Address> getAllAddresses() {
-        return addressRepository.findAll();
-    }
+  public Optional<AddressDto> getAddressById(Long id) {
+    Optional<Address> address = addressRepository.findById(id);
+    return address.map(this::convertToDto);
+  }
 
-    public Optional<Address> getAddressById(Long id) {
-        return addressRepository.findById(id);
-    }
+  public AddressDto createAddress(AddressDto addressDto) {
+    Address address = modelMapper.map(addressDto, Address.class);
+    Address savedAddress = addressRepository.save(address);
+    return modelMapper.map(savedAddress, AddressDto.class);
+  }
 
-    public Address createAddress(Address address) {
-        // Ajoutez ici la logique de validation ou de traitement avant la sauvegarde
-        return addressRepository.save(address);
-    }
+  public AddressDto updateAddress(AddressDto addressDto) {
+    Address address = modelMapper.map(addressDto, Address.class);
+    Address updatedAddress = addressRepository.save(address);
+    return modelMapper.map(updatedAddress, AddressDto.class);
+  }
 
-    public Address updateAddress(Address address) {
-        // Ajoutez ici la logique de validation ou de traitement avant la mise à jour
-        return addressRepository.save(address);
-    }
+  public void deleteAddressById(Long id) {
+    addressRepository.deleteById(id);
+  }
 
-    public void deleteAddressById(Long id) {
-        addressRepository.deleteById(id);
-    }
+  private AddressDto convertToDto(Address address) {
+    return modelMapper.map(address, AddressDto.class);
+  }
 }

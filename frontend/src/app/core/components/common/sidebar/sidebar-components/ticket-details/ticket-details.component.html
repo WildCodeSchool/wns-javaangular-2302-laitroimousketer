@@ -32,12 +32,12 @@
   </ng-container>
 
   <section class="card-bottom">
-    <ng-container *ngIf="ticket.ticketHaveUsers.length >=1">
+    <!-- <ng-container *ngIf="ticket.ticketHaveUsers.length >=1">
       <p class="prefix">Développeurs:</p>
       <ul>
         <li *ngFor="let developer of ticket.ticketHaveUsers">{{ developer }}</li>
       </ul>
-    </ng-container>
+    </ng-container> -->
   </section>
 </header>
 
@@ -59,12 +59,12 @@
           <button mat-raised-button color="primary" class="btn bi bi-check-lg" (click)="reopenTicket()">Rouvrir</button>
         </ng-container>
 
-        <ng-container *ngIf="this.ticket.archiveDate === ''">
+        <ng-container *ngIf="this.ticket.archiveDate === null">
           <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill"
             (click)="archiveTicket(this.ticket!.id)">Archiver</button>
         </ng-container>
-
-        <ng-container *ngIf="this.ticket.archiveDate !== ''">
+        
+        <ng-container *ngIf="this.ticket.archiveDate !== null">
           <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill"
             (click)="unarchiveTicket(this.ticket!.id)">Désarchiver</button>
         </ng-container>

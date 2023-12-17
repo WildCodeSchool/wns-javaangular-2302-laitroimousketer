@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MenuItems } from '../sidebar-menu/menu-items.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { RenamingService } from 'src/app/core/services/renaming.service';
 import { TicketService } from 'src/app/core/services/ticket.service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { Ticket } from 'src/app/features/ticket/models/ticket';
@@ -44,7 +43,6 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
 
   constructor(
     private ticketService: TicketService,
-    private renamingService: RenamingService,
     private alertService: AlertService,
     private store: Store<Reducer.StateDataStore>,
   ) {
@@ -86,7 +84,6 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
       this.ticket.ticketHaveUsers = this.ticket.ticketHaveUsers ? this.ticket.ticketHaveUsers : [];
       this.checkStatus();
       this.checkPriority();
-      this.rename();
     }
   }
 
@@ -115,11 +112,7 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
       this.prioritySpan = 'high';
     }
   }
-  rename() {
-    this.ticket.categoryTitle = this.renamingService.renameCategory(this.ticket.categoryTitle);
-    this.ticket.statusTitle = this.renamingService.renameStatus(this.ticket.statusTitle);
-    this.ticket.priorityTitle = this.renamingService.renamePriority(this.ticket.priorityTitle);
-  }
+
 
   archiveTicket(ticketId: number): void {
     if (this.ticket.archiveDate === '') {

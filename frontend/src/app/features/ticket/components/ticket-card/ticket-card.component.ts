@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RenamingService } from 'src/app/core/services/renaming.service';
 
 import { SharedService } from 'src/app/core/services/shared.service';
 import { Ticket } from 'src/app/features/ticket/models/ticket';
@@ -46,7 +45,6 @@ export class TicketCardComponent extends UnsubcribeComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
     private ticketService: TicketService,
-    private renamingService: RenamingService,
     private store: Store<Reducer.StateDataStore>,
   ) {
     super();
@@ -56,7 +54,6 @@ export class TicketCardComponent extends UnsubcribeComponent implements OnInit {
     this.loadTicket();
     this.loadColorPriority();
     this.loadColorStatus();
-    this.rename();
     // this.oldTicket = JSON.stringify(this.ticket);
     // console.log(this.ticketDetails.creator,'CCCCCCCCCCCCCCCCCCCCCCCC')
   }
@@ -122,12 +119,5 @@ export class TicketCardComponent extends UnsubcribeComponent implements OnInit {
 
 
   // ...
-
-  rename() {
-    this.ticketDetails.category = this.renamingService.renameCategory(this.ticketDetails.category);
-    this.ticketDetails.status = this.renamingService.renameStatus(this.ticketDetails.status);
-    this.ticketDetails.priority = this.renamingService.renamePriority(this.ticketDetails.priority);
-  }
-
 
 }

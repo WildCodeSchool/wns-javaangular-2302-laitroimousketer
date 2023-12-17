@@ -9,7 +9,11 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class StatusDto {
   private Long id;
   private String  statusTitle;
 }
+
+
+
