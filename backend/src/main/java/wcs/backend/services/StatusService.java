@@ -21,7 +21,7 @@ public class StatusService {
   public List<StatusDto> getAllStatus() {
     List<Status> statuses = statusRepository.findAll();
     return statuses.stream()
-        .map(status -> new StatusDto(status.getId(), status.getStatusMap()))
+        .map(status -> new StatusDto(status.getId(), status.getStatusTitle()))
         .collect(Collectors.toList());
   }
 

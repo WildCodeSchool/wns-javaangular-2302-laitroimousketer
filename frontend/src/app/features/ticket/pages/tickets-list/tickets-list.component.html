@@ -23,37 +23,37 @@
       <div class="checkbox-c">
 
         <div class="category">Catégorie:
-          <mat-checkbox class="checkbox" [checked]="filters.category.billing"
+          <mat-checkbox class="checkbox" [checked]="filters.category.BILLING"
             (change)="onCheckboxChange('category', 'billing')">facturation<span
               class="badge">{{this.billingCount}}</span></mat-checkbox>
-          <mat-checkbox class="checkbox" [checked]="filters.category.feature"
+          <mat-checkbox class="checkbox" [checked]="filters.category.FEATURE"
             (change)="onCheckboxChange('category', 'feature')">fonctionnalité<span
               class="badge">{{this.featureCount}}</span></mat-checkbox>
-          <mat-checkbox class="checkbox" [checked]="filters.category.technical"
+          <mat-checkbox class="checkbox" [checked]="filters.category.TECHNICAL"
             (change)="onCheckboxChange('category', 'technical')">technique<span
               class="badge">{{this.technicalCount}}</span></mat-checkbox>
         </div>
 
         <div class="statut">Statut:
-          <mat-checkbox class="checkbox" [checked]="filters.status.to_do"
+          <mat-checkbox class="checkbox" [checked]="filters.status.TODO"
             (change)="onCheckboxChange('status', 'to_do')">à faire<span
               class="badge">{{this.toDoCount}}</span></mat-checkbox>
-          <mat-checkbox class="checkbox" [checked]="filters.status.doing"
+          <mat-checkbox class="checkbox" [checked]="filters.status.DOING"
             (change)="onCheckboxChange('status', 'doing')">en cours <span class="badge">
               {{this.doingCount}}</span></mat-checkbox>
-          <mat-checkbox class="checkbox" [checked]="filters.status.done"
+          <mat-checkbox class="checkbox" [checked]="filters.status.DONE"
             (change)="onCheckboxChange('status', 'done')">terminé<span
               class="badge">{{this.doneCount}}</span></mat-checkbox>
         </div>
 
         <div class="priority">Priorité:
-          <mat-checkbox class="checkbox" [checked]="filters.priority.low"
+          <mat-checkbox class="checkbox" [checked]="filters.priority.LOW"
             (change)="onCheckboxChange('priority', 'low')">faible<span
               class="badge">{{this.lowCount}}</span></mat-checkbox>
-          <mat-checkbox class="checkbox" [checked]="filters.priority.medium"
+          <mat-checkbox class="checkbox" [checked]="filters.priority.MEDIUM"
             (change)="onCheckboxChange('priority', 'medium')">moyenne<span
               class="badge">{{this.mediumCount}}</span></mat-checkbox>
-          <mat-checkbox class="checkbox" [checked]="filters.priority.high"
+          <mat-checkbox class="checkbox" [checked]="filters.priority.HIGH"
             (change)="onCheckboxChange('priority', 'high')">haute<span
               class="badge">{{this.highCount}}</span></mat-checkbox>
         </div>

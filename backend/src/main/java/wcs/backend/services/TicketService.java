@@ -163,10 +163,10 @@ public class TicketService {
         .collect(Collectors.toList());
   }
 
-  private Status getStatusByTitle(String StatusKey) {
-    Status status = statusRepository.findByStatusMapKey(StatusKey);
-    if (StatusKey == null) {
-      throw new EntityNotFoundException("Status not found with title: " + StatusKey);
+  private Status getStatusByTitle(String StatusTitle) {
+    Status status = statusRepository.findByStatusTitle(StatusTitle);
+    if (StatusTitle == null) {
+      throw new EntityNotFoundException("Status not found with title: " + StatusTitle);
     }
     return status;
   }
