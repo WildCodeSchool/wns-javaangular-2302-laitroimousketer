@@ -1,6 +1,8 @@
 package wcs.backend.entities;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,9 +42,9 @@ public class Address {
   @Column
   private String street_l2;
   // si address supprimé, useradress supprimé via cascade ALL
-  @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-  private List<UserAddress> userAddresses;
 
+  @OneToMany(mappedBy = "address")
+  private List<User> users = new ArrayList<>();
   // Constructeurs, getters, setters, etc.
 
 }

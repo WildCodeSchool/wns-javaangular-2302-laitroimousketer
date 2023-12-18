@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import wcs.backend.dtos.TicketDto;
-import wcs.backend.dtos.TicketHaveUsersDto;
 import wcs.backend.entities.Category;
 import wcs.backend.entities.Priority;
 import wcs.backend.entities.Status;
@@ -67,9 +66,9 @@ public class TicketService {
     Ticket ticket = modelMapper.map(ticketDto, Ticket.class);
 
     // Vous devez également mapper les entités associées depuis les ID ici
-    ticket.setCategory(categoryRepository.findById(ticketDto.getCategoryId()).orElse(null));
-    ticket.setPriority(priorityRepository.findById(ticketDto.getPriorityId()).orElse(null));
-    ticket.setStatus(statusRepository.findById(ticketDto.getStatusId()).orElse(null));
+    ticket.setCategory(categoryRepository.findById(ticketDto.getCategory().getId()).orElse(null));
+    ticket.setPriority(priorityRepository.findById(ticketDto.getPriority().getId()).orElse(null));
+    ticket.setStatus(statusRepository.findById(ticketDto.getStatus().getId()).orElse(null));
     ticket.setCreationDate(new Date());
     ticket = ticketRepository.save(ticket);
     return modelMapper.map(ticket, TicketDto.class);
@@ -116,20 +115,6 @@ public class TicketService {
     ticketHaveUsersRepository.save(ticketHaveUsers);
   }
 
-  private TicketHaveUsersDto convertTicketHaveUsersToDto(TicketHaveUsers ticketHaveUsers) {
-    TicketHaveUsersDto TicketHaveUsersDto = new TicketHaveUsersDto();
-    TicketHaveUsersDto.setId(ticketHaveUsers.getId()); // Assurez-vous que l'ID est copié ici
-    TicketHaveUsersDto.setUserId(ticketHaveUsers.getUser().getId());
-
-    // Obtenez le prénom et le nom de l'utilisateur
-    String userFirstname = ticketHaveUsers.getUser().getFirstname();
-    String userLastname = ticketHaveUsers.getUser().getLastname();
-
-    TicketHaveUsersDto.setUserFirstname(userFirstname);
-    TicketHaveUsersDto.setUserLastname(userLastname);
-
-    return TicketHaveUsersDto;
-  }
 
   // FILTERS //
   public List<TicketDto> getFilteredTickets(String statusTitle, String priorityTitle, String categoryTitle,

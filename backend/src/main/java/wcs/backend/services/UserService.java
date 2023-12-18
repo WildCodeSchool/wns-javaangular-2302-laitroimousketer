@@ -28,6 +28,7 @@ public class UserService {
   @Autowired
   private final ModelMapper modelMapper;
 
+
   // GET
   public List<UserReadDto> getAllUsers() {
     List<User> users = userRepository.findAll();
@@ -135,7 +136,6 @@ public class UserService {
     // Supprimer manuellement les relations avant de supprimer l'utilisateur
     existingUser.getAuthoredTickets().forEach(ticket -> ticket.setAuthor(null));
     existingUser.getTicketHaveUsers().forEach(ticket -> ticket.setUser(null));
-    existingUser.getUserAddresses().forEach(address -> address.setUser(null));
     userRepository.delete(existingUser);
 }
 
