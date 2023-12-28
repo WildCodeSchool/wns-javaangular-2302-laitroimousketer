@@ -103,7 +103,7 @@ public class UserService {
 
   // Méthodes de recherche
 
-  public List<UserDto> getUsersByQuery(String query) {
+  public List<UserReadDto> getUsersByQuery(String query) {
     return userRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
       String pattern = "%" + query.toLowerCase() + "%";
       return criteriaBuilder.or(
@@ -111,14 +111,14 @@ public class UserService {
           criteriaBuilder.like(criteriaBuilder.lower(root.get("lastname")), pattern),
           criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), pattern));
     }).stream()
-        .map(user -> modelMapper.map(user, UserDto.class))
+        .map(user -> modelMapper.map(user, UserReadDto.class))
         .collect(Collectors.toList());
   }
 
-  public UserDto getUserByEmail(String email) {
+  public UserReadDto getUserByEmail(String email) {
     User user = userRepository.findByEmail(email)
         .orElseThrow(() -> new EntityNotFoundException("User not found with mail: " + email));
-    return modelMapper.map(user, UserDto.class);
+    return modelMapper.map(user, UserReadDto.class);
   }
 
   public List<UserDto> getUsersByRoleTitle(String role) {

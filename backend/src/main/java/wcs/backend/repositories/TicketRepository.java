@@ -1,6 +1,7 @@
 package wcs.backend.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -21,7 +22,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecif
     List<Ticket> findByPriority(Priority priority);
 
     List<Ticket> findByCategory(Category category);
-
+    
+    Optional<Ticket> findById(Long id);
     @Query("""
             SELECT t FROM Ticket t WHERE (:status IS NULL OR t.status IN :status) \
             AND (:priorities IS NULL OR t.priority IN :priorities) \
