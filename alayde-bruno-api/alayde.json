@@ -1,0 +1,331 @@
+{
+  "name": "alayde",
+  "version": "1",
+  "items": [
+    {
+      "type": "http",
+      "name": "post login",
+      "seq": 1,
+      "request": {
+        "url": "http://localhost:8080/api/auth/login",
+        "method": "POST",
+        "headers": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"email\": \"dev@wcs.com\",\n  \"password\": \"Alayd3!dev\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {
+          "res": [
+            {
+              "name": "alayde_token",
+              "value": "res.body.accessToken",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "post ticket",
+      "seq": 2,
+      "request": {
+        "url": "http://localhost:8080/api/tickets",
+        "method": "POST",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "get tickets",
+      "seq": 3,
+      "request": {
+        "url": "{{ip}}/tickets?userId=40",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": [
+          {
+            "name": "userId",
+            "value": "40",
+            "enabled": true
+          },
+          {
+            "name": "status",
+            "value": "En cours",
+            "enabled": false
+          },
+          {
+            "name": "priority",
+            "value": "Élevée",
+            "enabled": false
+          },
+          {
+            "name": "count",
+            "value": "true",
+            "enabled": false
+          },
+          {
+            "name": "id",
+            "value": "26",
+            "enabled": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "http",
+      "name": "get roles",
+      "seq": 4,
+      "request": {
+        "url": "{{ip}}/roles",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "get categories",
+      "seq": 5,
+      "request": {
+        "url": "{{ip}}/categories",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "get users",
+      "seq": 6,
+      "request": {
+        "url": "{{ip}}/users?query=Alexis",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": [
+          {
+            "name": "query",
+            "value": "Alexis",
+            "enabled": true
+          },
+          {
+            "name": "query",
+            "value": "Théo",
+            "enabled": false
+          },
+          {
+            "name": "query",
+            "value": "jul",
+            "enabled": false
+          },
+          {
+            "name": "email",
+            "value": "dev@wcs.com",
+            "enabled": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "http",
+      "name": "get priorities",
+      "seq": 8,
+      "request": {
+        "url": "{{ip}}/priorities",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "get user",
+      "seq": 8,
+      "request": {
+        "url": "{{ip}}/users/10",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": [
+          {
+            "name": "",
+            "value": "",
+            "enabled": true
+          }
+        ]
+      }
+    }
+  ],
+  "activeEnvironmentUid": "6WKMx4An9wekiok9RC7Sn",
+  "environments": [
+    {
+      "variables": [
+        {
+          "name": "alayde_token",
+          "value": "",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        },
+        {
+          "name": "ip",
+          "value": "http://localhost:8080/api",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        }
+      ],
+      "name": "alayde"
+    }
+  ]
+}

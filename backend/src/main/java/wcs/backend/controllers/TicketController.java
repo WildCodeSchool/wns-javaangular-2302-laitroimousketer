@@ -2,6 +2,7 @@ package wcs.backend.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import wcs.backend.dtos.TicketDto;
+import wcs.backend.entities.Ticket;
 import wcs.backend.services.TicketService;
 import java.util.List;
 
@@ -25,10 +27,25 @@ public class TicketController {
   private ModelMapper modelMapper; // Utilisez ModelMapper pour simplifier la conversion entre entités et DTO
 
   @GetMapping
-  @Operation(summary = "Get All Tickets", description = "Get details of all available tickets.")
-  public ResponseEntity<List<TicketDto>> getAllTicketsDtos() {
-    List<TicketDto> ticketDtos = ticketService.getAllTicketsDtos();
-    return new ResponseEntity<>(ticketDtos, HttpStatus.OK);
+  @Operation(summary = "Get Tickets", description = "Get a list of tickets or perform filtering based on optional status, priority, and category filters. If count parameter is true, returns the count instead of tickets.")
+  public ResponseEntity<?> getTickets(
+      @RequestParam(name = "status", required = false) String statusTitle,
+      @RequestParam(name = "priority", required = false) String priorityTitle,
+      @RequestParam(name = "category", required = false) String categoryTitle,
+      @RequestParam(name = "userId", required = false) Long userId,
+      @RequestParam(name = "id", required = false) Long id,
+      @RequestParam(name = "count", required = false, defaultValue = "false") boolean count) {
+
+    if (count) {
+      long countValue = ticketService.countFilteredTickets(id, statusTitle, priorityTitle, categoryTitle, userId);
+      return ResponseEntity.ok(countValue);
+    } else {
+      Specification<Ticket> spec = ticketService.buildSpecificationForFilter(id, statusTitle, priorityTitle,
+          categoryTitle, userId);
+      List<TicketDto> ticketDtos = ticketService.getFilteredTickets(id, statusTitle, priorityTitle, categoryTitle,
+          userId);
+      return ResponseEntity.ok(ticketDtos);
+    }
   }
 
   @GetMapping("/{id}")
@@ -49,9 +66,9 @@ public class TicketController {
   @Operation(summary = "Update Ticket", description = "Update details of an existing ticket.")
   public ResponseEntity<TicketDto> updateTicket(@PathVariable Long id,
       @RequestBody TicketDto ticketDto) {
-      ticketDto.setId(id);
-      TicketDto updatedTicketDto = ticketService.updateTicket(id, ticketDto);
-      return ResponseEntity.ok(updatedTicketDto);
+    ticketDto.setId(id);
+    TicketDto updatedTicketDto = ticketService.updateTicket(id, ticketDto);
+    return ResponseEntity.ok(updatedTicketDto);
   }
 
   @DeleteMapping("/{id}")
@@ -75,31 +92,36 @@ public class TicketController {
     return new ResponseEntity<>(unarchivedTicketDto, HttpStatus.OK);
   }
 
-  @GetMapping("/filter")
-  @Operation(summary = "Filter Tickets", description = "Get a list of tickets based on optional status, priority, and category filters. If count parameter is true, returns the count instead of tickets.")
-  public ResponseEntity<?> filterTickets(
-          @RequestParam(name = "status", required = false) String statusTitle,
-          @RequestParam(name = "priority", required = false) String priorityTitle,
-          @RequestParam(name = "category", required = false) String categoryTitle,
-          @RequestParam(name = "userId", required = false) Long userId,
-          @RequestParam(name = "count", required = false, defaultValue = "false") boolean count) {
-  // si count donné en param, renvoie le nombre de tickets uniquemenjt selon les autres paramètres
-      if (count) {
-          long countValue;
-          if (categoryTitle != null) {
-              countValue = ticketService.countTicketsByCategory(categoryTitle);
-          } else if (priorityTitle != null) {
-              countValue = ticketService.countTicketsByPriority(priorityTitle);
-          } else if (statusTitle != null) {
-              countValue = ticketService.countTicketsByStatus(statusTitle);
-          } else {
-              countValue = ticketService.countAllTickets();
-          }
-          return ResponseEntity.ok(countValue);
-      } else {
-          List<TicketDto> ticketDtos = ticketService.getFilteredTickets(statusTitle, priorityTitle, categoryTitle, userId);
-          return ResponseEntity.ok(ticketDtos);
-      }
-  }
-  
+  // @GetMapping("/filter")
+  // @Operation(summary = "Filter Tickets", description = "Get a list of tickets
+  // based on optional status, priority, and category filters. If count parameter
+  // is true, returns the count instead of tickets.")
+  // public ResponseEntity<?> filterTickets(
+  // @RequestParam(name = "status", required = false) String statusTitle,
+  // @RequestParam(name = "priority", required = false) String priorityTitle,
+  // @RequestParam(name = "category", required = false) String categoryTitle,
+  // @RequestParam(name = "userId", required = false) Long userId,
+  // @RequestParam(name = "count", required = false, defaultValue = "false")
+  // boolean count) {
+  // // si count donné en param, renvoie le nombre de tickets uniquemenjt selon
+  // les autres paramètres
+  // if (count) {
+  // long countValue;
+  // if (categoryTitle != null) {
+  // countValue = ticketService.countTicketsByCategory(categoryTitle);
+  // } else if (priorityTitle != null) {
+  // countValue = ticketService.countTicketsByPriority(priorityTitle);
+  // } else if (statusTitle != null) {
+  // countValue = ticketService.countTicketsByStatus(statusTitle);
+  // } else {
+  // countValue = ticketService.countAllTickets();
+  // }
+  // return ResponseEntity.ok(countValue);
+  // } else {
+  // List<TicketDto> ticketDtos = ticketService.getFilteredTickets(statusTitle,
+  // priorityTitle, categoryTitle, userId);
+  // return ResponseEntity.ok(ticketDtos);
+  // }
+  // }
+
 }

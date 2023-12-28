@@ -25,11 +25,27 @@ public class UserController {
   private ModelMapper modelMapper;
 
   @GetMapping
-  @Operation(summary = "Get All Users", description = "Get details of all users")
-  public ResponseEntity<List<UserReadDto>> getAllUsers() {
-    List<UserReadDto> usersDto = userService.getAllUsers();
-    return ResponseEntity.ok(usersDto);
-  }
+@Operation(summary = "Get Users", description = "Get users by query, email, or all users")
+public ResponseEntity<?> getUsers(
+    @RequestParam(required = false) String query,
+    @RequestParam(required = false) String email) {
+
+    if (query != null) {
+        List<UserReadDto> userReadDtos = userService.getUsersByQuery(query);
+        return ResponseEntity.ok(userReadDtos);
+    } else if (email != null) {
+        UserReadDto userReadDto = userService.getUserByEmail(email);
+        if (userReadDto != null) {
+            return ResponseEntity.ok(userReadDto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    } else {
+        List<UserReadDto> userReadDtos = userService.getAllUsers();
+        return ResponseEntity.ok(userReadDtos);
+    }
+}
+
 
   @GetMapping("/{id}")
   @Operation(summary = "Get User by ID", description = "Get user details by user ID")
@@ -64,18 +80,5 @@ public class UserController {
   }
   
 
-  @GetMapping("/search")
-  @Operation(summary = "Search Users by query", description = "Search users by query")
-  public ResponseEntity<List<UserDto>> getUsersByName(@RequestParam String query) {
-    List<UserDto> userDtos = userService.getUsersByQuery(query);
-    return ResponseEntity.ok(userDtos);
-  }
-
-  @GetMapping("/email")
-  @Operation(summary = "Get User by Email", description = "Get user details by email")
-  public ResponseEntity<UserDto> getUserByEmail(@RequestParam String email) {
-  UserDto userDto = userService.getUserByEmail(email);
-      return ResponseEntity.ok(userDto);
-  }
 
 }

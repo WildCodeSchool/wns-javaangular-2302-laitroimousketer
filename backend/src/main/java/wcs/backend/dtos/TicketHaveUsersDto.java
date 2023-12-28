@@ -1,5 +1,7 @@
 package wcs.backend.dtos;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +13,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TicketHaveUsersDto {
     private Long id;
-    private Long userId; 
-    private String userFirstname;
-    private String userLastname;
-  
+    private List<UserReadDto> users;
 }
 

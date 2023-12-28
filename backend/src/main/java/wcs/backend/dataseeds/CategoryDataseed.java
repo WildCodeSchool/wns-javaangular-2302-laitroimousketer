@@ -20,15 +20,15 @@ public class CategoryDataseed {
   private void loadData() {
 
     CategoryDto categoryTechnical = new CategoryDto();
-    categoryTechnical.setCategoryTitle("TECHNICAL");
+    categoryTechnical.setCategoryTitle("Technique");
     categoryService.createCategory(categoryTechnical);
 
     CategoryDto categoryFeature = new CategoryDto();
-    categoryFeature.setCategoryTitle("FEATURE");
+    categoryFeature.setCategoryTitle("Fonctionnalité");
     categoryService.createCategory(categoryFeature);
 
     CategoryDto categoryBilling = new CategoryDto();
-    categoryBilling.setCategoryTitle("BILLING");
+    categoryBilling.setCategoryTitle("Facturation");
     categoryService.createCategory(categoryBilling);
   }
 

@@ -20,15 +20,15 @@ public class PriorityDataseed {
   private void loadData() {
 
     PriorityDto priorityLow = new PriorityDto();
-    priorityLow.setPriorityTitle("LOW");
+    priorityLow.setPriorityTitle("Basse");
     priorityService.createPriority(priorityLow);
 
     PriorityDto priorityMedium = new PriorityDto();
-    priorityMedium.setPriorityTitle("MEDIUM");
+    priorityMedium.setPriorityTitle("Moyenne");
     priorityService.createPriority(priorityMedium);
 
     PriorityDto priorityHigh = new PriorityDto();
-    priorityHigh.setPriorityTitle("HIGH");
+    priorityHigh.setPriorityTitle("Élevée");
     priorityService.createPriority(priorityHigh);
   }
 }
