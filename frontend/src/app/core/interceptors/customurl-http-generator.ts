@@ -1,7 +1,5 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DefaultHttpUrlGenerator, HttpResourceUrls, Pluralizer } from '@ngrx/data';
-import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
 
@@ -35,6 +33,12 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
         resourceURLs = {
           collectionResourceUrl: this.baseAPI + '/users',
           entityResourceUrl: this.baseAPI + '/users/',
+        };
+        break;
+      case 'address':
+        resourceURLs = {
+          collectionResourceUrl: this.baseAPI + '/address',
+          entityResourceUrl: this.baseAPI + '/address',
         };
         break;
     }

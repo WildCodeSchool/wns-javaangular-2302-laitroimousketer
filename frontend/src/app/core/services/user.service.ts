@@ -39,7 +39,7 @@ export class UserService extends EntityCollectionServiceBase<User> {
     return this.http.post<User>(`${this.apiUrl}/auth/register`, user);
   }
   getUserByEmail(email: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users/email?email=${email}`);
+    return this.http.get<User>(`${this.apiUrl}/users?email=${email}`);
   }
 
 

@@ -106,14 +106,14 @@ h1,h2,h3,h4,h5,h6 {
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: white;
 }
-mat-icon {   
 
-}
 mat-form-field {
   width: 100%;
-
 }
-
+mat-icon {
+  margin: 0 10px;
+  font-size: 20px;
+}
 mat-label {
 }
 mat-error {
@@ -130,10 +130,7 @@ mat-error {
   pointer-events: none;
   opacity: 0.5;
 }
-mat-icon {
-  padding-right: 10px;
-  font-size: 20px;
-}
+
 /* Remove color of autofiull by the navigators*/
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
@@ -170,3 +167,5 @@ input:-webkit-autofill:active{
   margin-left: -10px!important;
   font-weight: 400;
 }
+
+

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from './components/common/footer/footer.component';
-import { AlertComponent } from './components/common/alerts/alert.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './components/common/header/header.component';
@@ -27,7 +26,6 @@ import { UserDetailsComponent } from './components/common/sidebar/sidebar-compon
 @NgModule({
   declarations: [
     FooterComponent,
-    AlertComponent,
     HeaderComponent,
     SearchBarComponent,
     AvatarComponent,
@@ -56,7 +54,6 @@ import { UserDetailsComponent } from './components/common/sidebar/sidebar-compon
 
   ],
   exports: [
-    AlertComponent,
     MatSidenavModule,
     FormsModule,
     HeaderComponent,

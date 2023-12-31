@@ -10,4 +10,5 @@ export class User {
   public role!: Role;
   public roleTitle: string = '';
   public address?: Address;
+  public addressId: number = 0;
 }

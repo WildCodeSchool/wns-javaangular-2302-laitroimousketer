@@ -7,12 +7,12 @@
   <div class="details-profil">
     <p class="prefix">Auteur:</p>
     <app-avatar [userName]="this.fullnameAuthor" class="context-ticket-card-creator"></app-avatar>
-    <p class="name"> {{ticket.authorLastname}}<span class="firstname">{{ticket.authorFirstname}}</span>
+    <p class="name"> {{ticket.author.lastname}}<span class="firstname">{{ticket.author.firstname}}</span>
     </p>
   </div>
-  <p class="prefix">Catégorie: <span class="category-span">{{ticket.categoryTitle}}</span></p>
-  <p class="prefix">Statut: <span [ngClass]="statutSpan">{{ticket.statusTitle}}</span></p>
-  <p class="prefix">Priorité: <span [ngClass]="prioritySpan"> {{ticket.priorityTitle}} </span></p>
+  <p class="prefix">Catégorie: <span class="category-span">{{ticket.category.categoryTitle}}</span></p>
+  <p class="prefix">Statut: <span [ngClass]="statutSpan">{{ticket.status.statusTitle}}</span></p>
+  <p class="prefix">Priorité: <span [ngClass]="prioritySpan"> {{ticket.priority.priorityTitle}} </span></p>
   <div class="date-c">
     <p class="prefix date">Date de création: <span>{{ ticket.creationDate | date: 'dd MMMM yyyy' }}</span></p>
     <!-- @if (ticket.archiveDate !== null) {
@@ -52,10 +52,10 @@
     <section class="widget actions" [@opacity]="page==='Actions'?'active':''">
       <h1 class="weight-500">Actions sur le ticket</h1>
       <div class="actions-btn">
-        <ng-container *ngIf="this.ticket.statusTitle !== 'Terminé'">
+        <ng-container *ngIf="this.ticket.status.statusTitle !== 'Terminé'">
           <button mat-raised-button color="primary" class="btn bi bi-check-lg" (click)="closeTicket()">Cloturer</button>
         </ng-container>
-        <ng-container *ngIf="this.ticket.statusTitle === 'Terminé'">
+        <ng-container *ngIf="this.ticket.status.statusTitle === 'Terminé'">
           <button mat-raised-button color="primary" class="btn bi bi-check-lg" (click)="reopenTicket()">Rouvrir</button>
         </ng-container>
 

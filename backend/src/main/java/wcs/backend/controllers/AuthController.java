@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @AllArgsConstructor
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/auth")
+@RequestMapping("api/auth")
 @Tag(name = "Authentication", description = "User Authentication and Registration Controller")
 
 public class AuthController {
