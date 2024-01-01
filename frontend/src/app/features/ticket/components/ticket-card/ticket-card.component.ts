@@ -74,7 +74,7 @@ export class TicketCardComponent extends UnsubcribeComponent implements OnInit {
       this.ticketDetails.authorEmail = this.ticket.author.email || '';
       this.ticketDetails.authorFirstname = this.ticket.author.firstname || '';
       this.ticketDetails.authorLastname = this.ticket.author.lastname || '';
-      this.ticketDetails.fullnameAuthor = this.ticket.author.lastname + ' ' + this.ticket.author.firstname || '';
+      this.ticketDetails.fullnameAuthor = this.ticket.author.firstname + ' ' + this.ticket.author.lastname || '';
       if (this.ticket.archiveDate !== null) {
         this.isArchive = true;
       }

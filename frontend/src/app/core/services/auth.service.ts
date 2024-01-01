@@ -150,7 +150,7 @@ export class AuthService implements OnInit {
   public getUserMailFromToken(token: string | null): string | null {
     if (token) {
       const decodedToken: any = jwt_decode(token);
-      console.log('decodedToken', decodedToken.sub);
+      // console.log('decodedToken', decodedToken.sub);
       return decodedToken.sub;
     }
     return null;
@@ -170,9 +170,9 @@ export class AuthService implements OnInit {
           this.userEmail = userEmail; // Définis l'e-mail de l'utilisateur
           this.userFirstname = user.firstname;
           this.userLastname = user.lastname; // Définis le nom de l'utilisateur à partir des données de l'utilisateur
-          this.userRole = user.roleTitle;
+          this.userRole = user.role.roleTitle;
           this.store.dispatch(userAction.saveUserConnected({ payload: user }));
-          console.log('Infos utilisateur récupérées:', this.userEmail, this.userFirstname, this.userLastname);
+          // console.log('Infos utilisateur récupérées:', this.userEmail, this.userFirstname, this.userLastname, this.userRole);
           return user;
         }),
         catchError((error: any) => {

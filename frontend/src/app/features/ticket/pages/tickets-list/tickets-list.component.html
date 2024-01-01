@@ -1,9 +1,9 @@
 <!-- PARTIE DEV ET MANAGER -->
 <section class="tickets-list-c" [@fadeInOut]>
-  <app-search-bar *ngIf="role !== 'CLIENT'"></app-search-bar>
+  <app-search-bar *ngIf="role?.roleTitle !== 'Client'"></app-search-bar>
 
 
-  <div class="tickets-list" *ngIf="role !== 'CLIENT'">
+  <div class="tickets-list">
     <header>
       <mat-form-field class="select">
         <mat-label>Trier par</mat-label>
@@ -20,43 +20,35 @@
         <p>Tickets archivés</p>
       </mat-slide-toggle>
 
-      <div class="checkbox-c">
+      <div class="checkbox-c" *ngIf="role?.roleTitle !== 'Client'">
 
         <div class="category">Catégorie:
-          <mat-checkbox class="checkbox" 
-            (change)="onCheckboxChange()">facturation<span
-              class="badge">{{this.billingCount}}</span></mat-checkbox>
-          <mat-checkbox class="checkbox"
-            (change)="onCheckboxChange()">fonctionnalité<span
-              class="badge">{{this.featureCount}}</span></mat-checkbox>
-          <mat-checkbox class="checkbox"
-            (change)="onCheckboxChange()">technique<span
-              class="badge">{{this.technicalCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('category', 'Facturation')" [checked]="filters.category['Facturation']">Facturation<span
+            class="badge">{{this.billingCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('category', 'Fonctionnalité')" [checked]="filters.category['Fonctionnalité']">Fonctionnalité<span
+            class="badge">{{this.featureCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('category', 'Technique')" [checked]="filters.category['Technique']">Technique<span
+            class="badge">{{this.technicalCount}}</span></mat-checkbox>
         </div>
-
+        
         <div class="statut">Statut:
-          <mat-checkbox class="checkbox"
-            (change)="onCheckboxChange()">à faire<span
-              class="badge">{{this.toDoCount}}</span></mat-checkbox>
-          <mat-checkbox class="checkbox" 
-            (change)="onCheckboxChange()">en cours <span class="badge">
-              {{this.doingCount}}</span></mat-checkbox>
-          <mat-checkbox class="checkbox"
-            (change)="onCheckboxChange()">terminé<span
-              class="badge">{{this.doneCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('status', 'À faire')" [checked]="filters.status['À faire']">À faire<span
+            class="badge">{{this.toDoCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('status', 'En cours')" [checked]="filters.status['En cours']">En cours <span
+            class="badge">{{this.doingCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('status', 'Terminé')" [checked]="filters.status['Terminé']">Terminé<span
+            class="badge">{{this.doneCount}}</span></mat-checkbox>
         </div>
-
+        
         <div class="priority">Priorité:
-          <mat-checkbox class="checkbox"
-            (change)="onCheckboxChange()">faible<span
-              class="badge">{{this.lowCount}}</span></mat-checkbox>
-          <mat-checkbox class="checkbox" 
-            (change)="onCheckboxChange()">moyenne<span
-              class="badge">{{this.mediumCount}}</span></mat-checkbox>
-          <mat-checkbox class="checkbox"
-            (change)="onCheckboxChange()">haute<span
-              class="badge">{{this.highCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('priority', 'Basse')" [checked]="filters.priority['Basse']">Basse<span
+            class="badge">{{this.lowCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('priority', 'Moyenne')" [checked]="filters.priority['Moyenne']">Moyenne<span
+            class="badge">{{this.mediumCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('priority', 'Élevée')" [checked]="filters.priority['Élevée']">Élevée<span
+            class="badge">{{this.highCount}}</span></mat-checkbox>
         </div>
+        
 
       </div>
 

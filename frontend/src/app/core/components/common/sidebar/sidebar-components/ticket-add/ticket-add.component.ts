@@ -11,23 +11,33 @@ import { MenuItems } from '../sidebar-menu/menu-items.model';
 import { Store } from '@ngrx/store';
 import * as Reducer from 'src/app/store/reducers/index';
 import * as ticketAction from 'src/app/store/actions/ticket.action';
+import * as sidebarAction from 'src/app/store/actions/sidebar.action';
 import { Priority } from 'src/app/features/ticket/models/Priority';
 import { PriorityService } from 'src/app/core/services/priority.service';
+import { User } from 'src/app/core/models/user.model';
+import { takeUntil } from 'rxjs';
+import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
+import { StatusService } from 'src/app/core/services/status.service';
+import { Status } from 'src/app/features/ticket/models/Status';
 
 @Component({
   selector: 'app-ticket-add',
   templateUrl: './ticket-add.component.html',
   styleUrls: ['./ticket-add.component.scss'],
 })
-export class TicketAddComponent {
+export class TicketAddComponent extends UnsubcribeComponent {
   constructor(
     private store: Store<Reducer.StateDataStore>,
     private ticketService: TicketService,
     private categoryService: CategoryService,
     private priorityService: PriorityService,
+    private statusService: StatusService,
     private fb: FormBuilder,
     private router: Router
-  ) { }
+  ) {
+    super();
+    
+  }
 
   menuItems: MenuItems[] = [{ page: 'Info', icon: '' }];
 
@@ -37,36 +47,87 @@ export class TicketAddComponent {
   ticketToCreate = new Ticket();
   categories: Category[] = [];
   priorities: Priority[] = [];
-  selectedCategory: number = 0;
+  status: Status[] = [];
+  defaultStatus = {} as Status;
+  author!: User;
+  ticketAddForm!: FormGroup
 
-  ticketAdditionForm = this.fb.group({
-    title: ['title x', Validators.required],
-    description: ['description x', Validators.required],
-    selectedCategory: [0, Validators.required],
-    selectedPriority: [0, Validators.required],
-  });
+ ;
 
   ngOnInit() {
-    this.categoryService.getCategoryList().subscribe((data) => {
+    this.getAuthor();
+    this.initForm();
+    this.categoryService.getAll().subscribe((data) => {
       this.categories = data;
     });
-
-    this.priorityService.getPriorityList().subscribe((data) => {
+    this.priorityService.getAll().subscribe((data) => {
       this.priorities = data;
-      console.log(this.priorities); // Déplacer le console.log ici pour afficher les priorités récupérées
     });
+    this.initDefaultStatus();
   }
 
+  initForm() {
+    this.ticketAddForm = this.fb.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      selectedCategory: [null, Validators.required],
+      selectedPriority: [null, Validators.required],
+    });
+  
+    // Ecoutez les changements de sélection pour la catégorie
+    this.ticketAddForm.get('selectedCategory')?.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedCategory) => {
+
+      this.ticketAddForm.patchValue({ selectedCategory: selectedCategory }, { emitEvent: false });
+    });
+  
+    // Ecoutez les changements de sélection pour la priorité
+    this.ticketAddForm.get('selectedPriority')?.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedPriority) => {
+
+      this.ticketAddForm.patchValue({ selectedPriority: selectedPriority }, { emitEvent: false });
+    });
+  }
+  initDefaultStatus() {
+    this.statusService.getAll().subscribe((data) => {
+      this.status = data;
+      this.defaultStatus = this.status.find((status) => status.statusTitle === 'À faire') as Status;
+    });
+  }
+  getAuthor() {
+    this.store.select(Reducer.getUserConnected)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.author = data;
+        // console.log(this.author, 'author');
+      });
+  }
+
+
   addTicket() {
-    if (!this.ticketAdditionForm.invalid) {
-      const payload: any = {
-        ticketTitle: this.ticketAdditionForm.value.title!,
-        priorityId: this.ticketAdditionForm.value.selectedPriority!,
-        description: this.ticketAdditionForm.value.description!,
-        categoryId: this.ticketAdditionForm.value.selectedCategory!,
-      };
+    if (this.ticketAddForm.valid) {
+      const payload = {
+        ticketTitle: this.ticketAddForm.value.title,
+        priority: {
+          id: this.ticketAddForm.value.selectedPriority.id,
+          priorityTitle: this.ticketAddForm.value.selectedPriority.priorityTitle
+        },
+        description: this.ticketAddForm.value.description,
+        category: {
+          id: this.ticketAddForm.value.selectedCategory.id,
+          categoryTitle: this.ticketAddForm.value.selectedCategory.categoryTitle
+        },
+        status: this.defaultStatus,
+        author: this.author
+      } as Ticket;
+  
+      // console.log(payload, 'payload');
+
       this.store.dispatch(ticketAction.createTicket({ payload }));
-      this.router.navigateByUrl('/tickets/list');
+      this.store.dispatch(sidebarAction.resetSideBar());
     }
+  }
+  
+
+  annulate() {
+    this.store.dispatch(sidebarAction.resetSideBar());
   }
 }

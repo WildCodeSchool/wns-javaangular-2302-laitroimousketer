@@ -23,7 +23,7 @@ export class NavbarComponent {
   logo: string = 'assets/images/Alayde.png';
   ticket: string = 'assets/images/tickets.png';
   avatar: string = 'assets/images/avatar.png';
-  userRole: string = ''; // Ajoute cette ligne pour déclarer la propriété userRole
+  userRole: string = '';
   userEmail: string = '';
   userFirstName: string = '';
   userLastName: string = '';
@@ -35,11 +35,9 @@ export class NavbarComponent {
     private sharedService: SharedService,
     private router: Router
   ) { }
+
   ngOnInit(): void {
     // Appelle getUserProfile() pour récupérer les données de l'utilisateur
-    this.sidebarSubscription = this.sharedService.sidebarOpened$.subscribe(opened => {
-      this.opened = opened;
-    });
     this.authService.getUserProfile().subscribe((user) => {
       this.userEmail = this.authService.userEmail;
       this.userFirstName = this.authService.userFirstname;
@@ -48,6 +46,7 @@ export class NavbarComponent {
       // console.log('Infos utilisateur from navbar component :','mail:', this.userEmail,'firstName:', this.userFirstName,'lastName:', this.userLastName,'Role:', this.userRole);
     });
   }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/auth']);
@@ -61,9 +60,5 @@ export class NavbarComponent {
     this.store.dispatch(sidebarAction.displayTicketCreate());
   }
 
-  openSidebar() {
-    this.sharedService.toggleSidebar();
-
-
-  }
 }
+

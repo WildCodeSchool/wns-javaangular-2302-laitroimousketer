@@ -26,19 +26,37 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
       case 'tickets':
         resourceURLs = {
           collectionResourceUrl: this.baseAPI + '/tickets',
-          entityResourceUrl: this.baseAPI + '/tickets/',
+          entityResourceUrl: this.baseAPI + '/tickets',
         };
         break;
       case 'users':
         resourceURLs = {
           collectionResourceUrl: this.baseAPI + '/users',
-          entityResourceUrl: this.baseAPI + '/users/',
+          entityResourceUrl: this.baseAPI + '/users',
         };
         break;
       case 'address':
         resourceURLs = {
           collectionResourceUrl: this.baseAPI + '/address',
           entityResourceUrl: this.baseAPI + '/address',
+        };
+        break;
+      case 'categories':
+        resourceURLs = {
+          collectionResourceUrl: this.baseAPI + '/categories',
+          entityResourceUrl: this.baseAPI + '/categories',
+        };
+        break;
+       case 'priorities':
+        resourceURLs = {
+          collectionResourceUrl: this.baseAPI + '/priorities',
+          entityResourceUrl: this.baseAPI + '/priorities',
+        }; 
+        break;
+      case 'status':
+        resourceURLs = {
+          collectionResourceUrl: this.baseAPI + '/status',
+          entityResourceUrl: this.baseAPI + '/status',
         };
         break;
     }
