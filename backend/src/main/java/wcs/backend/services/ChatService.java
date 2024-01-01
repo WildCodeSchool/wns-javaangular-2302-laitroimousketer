@@ -9,10 +9,12 @@ import wcs.backend.entities.Chat;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class ChatService {
-
+    @Autowired
     private final ChatRepository chatRepository;
-
+    @Autowired
     private final ChatMapper chatMapper;
 
     public ChatService(ChatRepository chatRepository , ChatMapper chatMapper) {

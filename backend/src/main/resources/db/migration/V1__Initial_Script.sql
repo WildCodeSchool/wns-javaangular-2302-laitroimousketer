@@ -40,10 +40,10 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `alayde`.`category` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `category_title` ENUM('BILLING', 'DEFAULT', 'FEATURE', 'TECHNICAL') NULL DEFAULT NULL,
+  `category_title` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 8
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -89,10 +89,10 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `alayde`.`priority` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `priority_title` ENUM('DEFAULT', 'HIGH', 'LOW', 'MEDIUM') NULL DEFAULT NULL,
+  `priority_title` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 8
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -102,10 +102,10 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `alayde`.`role` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `role_title` ENUM('CLIENT', 'DEVELOPER', 'MANAGER') NOT NULL,
+  `role_title` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -115,10 +115,10 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `alayde`.`status` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `status_title` ENUM('DOING', 'DONE', 'TO_DO') NOT NULL,
+  `status_title` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `alayde`.`user` (
     FOREIGN KEY (`role_id`)
     REFERENCES `alayde`.`role` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -177,6 +177,7 @@ CREATE TABLE IF NOT EXISTS `alayde`.`ticket` (
     FOREIGN KEY (`author_id`)
     REFERENCES `alayde`.`user` (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 

@@ -41,15 +41,16 @@ public class User implements UserDetails {
   @JoinColumn(name = "role_id", referencedColumnName = "id")
   private Role role;
 
-  @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
   private List<Ticket> authoredTickets;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
   private List<TicketHaveUsers> ticketHaveUsers;
 
-  // CASCADE ALL, si user supprimé, useradress supprimé
-  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
-  private List<UserAddress> userAddresses;
+
+  @ManyToOne
+  @JoinColumn(name = "address_id", referencedColumnName = "id")
+  private Address address;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -83,53 +84,7 @@ public class User implements UserDetails {
     return true;
   }
 
-  public User(String firstname, String lastname, String email, String password, Role role) {
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.email = email;
-    this.password = password;
-    this.role = role;
-    this.authoredTickets = new ArrayList<>();
-    this.ticketHaveUsers = new ArrayList<>();
-  }
 
-  public String getFirstname() {
-    return this.firstname;
-  }
-
-  public String getLastname() {
-    return this.lastname;
-  }
-
-  public String setFirstname() {
-    return this.firstname;
-  }
-
-  public String setLastname() {
-    return this.lastname;
-  }
-
-  public void setUserAddresses(List<UserAddress> userAddresses) {
-    this.userAddresses = userAddresses;
-  }
-
-  public Address getAddress() {
-    // Vous devez décider comment gérer le cas où un utilisateur peut avoir
-    // plusieurs adresses
-    // Pour l'instant, je vais simplement retourner la première adresse s'il y en a
-    // une
-    return this.userAddresses != null && !this.userAddresses.isEmpty() ? this.userAddresses.get(0).getAddress() : null;
-  }
-
-  public void setAddress(Address address) {
-    // Vous devez décider comment gérer le cas où un utilisateur peut avoir
-    // plusieurs adresses
-    // Pour l'instant, je vais simplement ajouter une nouvelle relation UserAddress
-    if (this.userAddresses == null) {
-      this.userAddresses = new ArrayList<>();
-    }
-    UserAddress userAddress = new UserAddress();
-    this.userAddresses.add(userAddress);
-  }
+  
 
 }

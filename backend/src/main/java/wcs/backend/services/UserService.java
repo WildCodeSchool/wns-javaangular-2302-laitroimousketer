@@ -1,149 +1,143 @@
 package wcs.backend.services;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import wcs.backend.entities.User;
-import wcs.backend.entities.UserAddress;
-import wcs.backend.entities.TicketHaveUsers;
-import wcs.backend.dtos.AddressDto;
-import wcs.backend.entities.Address;
+import wcs.backend.dtos.UserDto;
+import wcs.backend.dtos.UserReadDto;
 import wcs.backend.entities.Role;
-import wcs.backend.repositories.AddressRepository;
 import wcs.backend.repositories.RoleRepository;
-import wcs.backend.repositories.TicketHaveUsersRepository;
 import wcs.backend.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 @AllArgsConstructor
 public class UserService {
+  @Autowired
+  private final UserRepository userRepository;
+  @Autowired
+  private final RoleRepository roleRepository;
+  @Autowired
+  private final PasswordEncoder passwordEncoder;
+  @Autowired
+  private final ModelMapper modelMapper;
 
-  private UserRepository userRepository;
-  private RoleRepository roleRepository;
-  private PasswordEncoder passwordEncoder;
-  private TicketHaveUsersRepository ticketHaveUsersRepository;
-  private AddressRepository addressRepository;
-  private AddressService addressService;
 
-  public User createUser(User user) {
+  // GET
+  public List<UserReadDto> getAllUsers() {
+    List<User> users = userRepository.findAll();
+    return users.stream()
+        .map(user -> modelMapper.map(user, UserReadDto.class))
+        .collect(Collectors.toList());
+  }
+
+  public UserReadDto getUserById(Long id) {
+    User user = userRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+    return modelMapper.map(user, UserReadDto.class);
+  }
+
+  // POST
+  public UserDto createUser(UserDto userDto) {
+    User user = modelMapper.map(userDto, User.class);
     String encryptedPassword = passwordEncoder.encode(user.getPassword());
     user.setPassword(encryptedPassword);
 
-      // Définir le rôle par défaut (CLIENT)
+    // Vérifier si un rôle est fourni dans les données d'entrée
+    if (userDto.getRole() != null && userDto.getRole().getId() != null) {
+      Role providedRole = roleRepository.findById(userDto.getRole().getId()).orElse(null);
+      if (providedRole != null) {
+        // Utiliser le rôle fourni dans les données d'entrée
+        user.setRole(providedRole);
+      }
+    } else {
+      // Si aucun rôle n'est fourni, définir le rôle par défaut (CLIENT)
       Role defaultRole = roleRepository.findByRoleTitle("CLIENT");
       if (defaultRole != null) {
-          user.setRole(defaultRole);
+        user.setRole(defaultRole);
       }
-    User savedUser = userRepository.save(user);
-    return savedUser;
-  }
-
-  // creation adresse user
-  private Address createAddressFromDto(AddressDto addressDto) {
-    // Convertir les données de DTO en entité Address
-    Address address = new Address();
-    // ... autres champs
-    return address;
-  }
-
-  // get user by id
-  public User getUserById(Long userId) {
-    Optional<User> optionalUser = userRepository.findById(userId);
-    return optionalUser.orElse(null);
-  }
-
-  // get all users
-  public List<User> getAllUsers() {
-    return userRepository.findAll();
-  }
-
-  // public User updateUserMail(User user) {
-  // Optional<User> optionalExistingUser = userRepository.findById(user.getId());
-  // if (optionalExistingUser.isPresent()) {
-  // User existingUser = optionalExistingUser.get();
-  // existingUser.setEmail(user.getEmail());
-  // return userRepository.save(existingUser);
-  // }
-  // return null;
-  // }
-
-  public User updateUserAddress(Long userId, AddressDto updatedAddressDto) {
-    User user = userRepository.findById(userId).orElse(null);
-    if (user != null) {
-      // Obtenez l'adresse actuelle de l'utilisateur
-      Address currentAddress = user.getAddress();
-      // Mettez à jour les détails de l'adresse avec ceux du DTO
-      currentAddress.setCity(updatedAddressDto.getCity());
-      currentAddress.setCountry(updatedAddressDto.getCountry());
-      currentAddress.setLatitude(updatedAddressDto.getLatitude());
-      currentAddress.setLongitude(updatedAddressDto.getLongitude());
-      currentAddress.setPostcode(updatedAddressDto.getPostcode());
-      currentAddress.setStreet_l1(updatedAddressDto.getStreet_l1());
-      currentAddress.setStreet_l2(updatedAddressDto.getStreet_l2());
-      // Sauvegardez l'adresse mise à jour
-      addressService.updateAddress(currentAddress);
-      return user;
     }
-    return null;
+
+    User savedUser = userRepository.save(user);
+    return modelMapper.map(savedUser, UserDto.class);
   }
 
-  public User updateUser(User user) {
-    User existingUser = userRepository.findById(user.getId()).orElse(null);
-
+  // PUT
+  public UserDto updateUser(Long id, UserDto userDto) {
+    User existingUser = userRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     if (existingUser != null) {
-      existingUser.setEmail(user.getEmail());
-      existingUser.setFirstname(user.getFirstname());
-      existingUser.setLastname(user.getLastname());
-      existingUser.setRole(user.getRole());
+      if (userDto.getFirstname() != null) {
+        existingUser.setFirstname(userDto.getFirstname());
+      }
 
-      String encryptedPassword = passwordEncoder.encode(user.getPassword());
-      existingUser.setPassword(encryptedPassword);
+      if (userDto.getLastname() != null) {
+        existingUser.setLastname(userDto.getLastname());
+      }
+
+      if (userDto.getEmail() != null) {
+        existingUser.setEmail(userDto.getEmail());
+      }
+
+      if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
+        String encryptedPassword = passwordEncoder.encode(userDto.getPassword());
+        existingUser.setPassword(encryptedPassword);
+      }
+
+      if (userDto.getRole() != null && userDto.getRole().getId() != null) {
+        Role role = roleRepository.findById(userDto.getRole().getId()).orElse(null);
+        existingUser.setRole(role);
+      }
 
       User updatedUser = userRepository.save(existingUser);
-      return updatedUser;
+      return modelMapper.map(updatedUser, UserDto.class);
     }
     return null;
   }
 
-  public void deleteUserById(Long userId) {
-    // Ensuite, supprimez l'utilisateur
-    userRepository.deleteById(userId);
+  // Méthodes de recherche
+
+  public List<UserReadDto> getUsersByQuery(String query) {
+    return userRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
+      String pattern = "%" + query.toLowerCase() + "%";
+      return criteriaBuilder.or(
+          criteriaBuilder.like(criteriaBuilder.lower(root.get("firstname")), pattern),
+          criteriaBuilder.like(criteriaBuilder.lower(root.get("lastname")), pattern),
+          criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), pattern));
+    }).stream()
+        .map(user -> modelMapper.map(user, UserReadDto.class))
+        .collect(Collectors.toList());
   }
 
-  public List<User> getUsersByName(String name) {
-    return userRepository.findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name, name);
+  public UserReadDto getUserByEmail(String email) {
+    User user = userRepository.findByEmail(email)
+        .orElseThrow(() -> new EntityNotFoundException("User not found with mail: " + email));
+    return modelMapper.map(user, UserReadDto.class);
   }
 
-  public List<User> getUsersByRole(Role role) {
-    return userRepository.findByRole(role);
+  public List<UserDto> getUsersByRoleTitle(String role) {
+    List<User> users = userRepository.findByRoleTitle(role);
+    return users.stream()
+        .map(user -> modelMapper.map(user, UserDto.class))
+        .collect(Collectors.toList());
   }
 
-  public User updateUserRole(Long userId, String roleTitle) {
-    User user = userRepository.findById(userId).orElse(null);
-    Role role = roleRepository.findByRoleTitle(roleTitle);
+  // DELETE
+  public void deleteUser(Long id) {
+    User existingUser = userRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
 
-    if (user != null && role != null) {
-      user.setRole(role);
-      return userRepository.save(user);
-    }
-    return null;
+    // Supprimer manuellement les relations avant de supprimer l'utilisateur
+    existingUser.getAuthoredTickets().forEach(ticket -> ticket.setAuthor(null));
+    existingUser.getTicketHaveUsers().forEach(ticket -> ticket.setUser(null));
+    userRepository.delete(existingUser);
 }
 
-
-  public Optional<User> getUserByEmail(String email) {
-    return userRepository.findByEmail(email);
-  }
-
-  public User getFirstUserByName(String name) {
-    List<User> users = userRepository.findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name, name);
-    if (!users.isEmpty()) {
-      return users.get(0); // Retournez le premier utilisateur correspondant trouvé
-    }
-    return null; // Aucun utilisateur trouvé
-  }
 
 }

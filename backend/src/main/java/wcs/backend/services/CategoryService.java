@@ -13,9 +13,9 @@ import wcs.backend.repositories.CategoryRepository;
 @Service
 @AllArgsConstructor
 public class CategoryService {
-
   @Autowired
   private CategoryRepository categoryRepository;
+  @Autowired
   private ModelMapper modelMapper;
 
   public List<CategoryDto> getAllCategories() {

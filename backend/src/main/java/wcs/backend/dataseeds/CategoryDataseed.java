@@ -20,7 +20,7 @@ public class CategoryDataseed {
   private void loadData() {
 
     CategoryDto categoryTechnical = new CategoryDto();
-    categoryTechnical.setCategoryTitle("Tecnique");
+    categoryTechnical.setCategoryTitle("Technique");
     categoryService.createCategory(categoryTechnical);
 
     CategoryDto categoryFeature = new CategoryDto();

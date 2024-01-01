@@ -1,0 +1,101 @@
+{
+  "info": {
+    "name": "alayde",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "post login",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://localhost:8080/api/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"dev@wcs.com\",\n  \"password\": \"Alayd3!dev\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "post ticket",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://localhost:8080/api/tickets"
+      }
+    },
+    {
+      "name": "get tickets",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{ip}}/tickets?userId=40"
+      }
+    },
+    {
+      "name": "get roles",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{ip}}/roles"
+      }
+    },
+    {
+      "name": "get categories",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{ip}}/categories"
+      }
+    },
+    {
+      "name": "get users",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{ip}}/users?query=Alexis"
+      }
+    },
+    {
+      "name": "get priorities",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{ip}}/priorities"
+      }
+    },
+    {
+      "name": "get user",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{ip}}/users/10"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "ip",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "alayde_token",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}

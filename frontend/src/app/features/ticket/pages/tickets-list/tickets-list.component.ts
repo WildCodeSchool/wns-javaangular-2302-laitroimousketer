@@ -13,19 +13,19 @@ import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component'
 
 interface TicketFilter {
   status: {
-    to_do: boolean;
-    doing: boolean;
-    done: boolean;
+    TODO: boolean;
+    DOING: boolean;
+    DONE: boolean;
   };
   priority: {
-    low: boolean;
-    medium: boolean;
-    high: boolean;
+    LOW: boolean;
+    MEDIUM: boolean;
+    HIGH: boolean;
   };
   category: {
-    billing: boolean;
-    feature: boolean;
-    technical: boolean
+    BILLING: boolean;
+    FEATURE: boolean;
+    TECHNICAL: boolean
   };
   [key: string]: any; // Ajout de la signature d'index
 }
@@ -88,19 +88,19 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
 
   filters: TicketFilter = {
     status: {
-      to_do: false,
-      doing: false,
-      done: false,
+      TODO: false,
+      DOING: false,
+      DONE: false,
     },
     priority: {
-      low: false,
-      medium: false,
-      high: false,
+      LOW: false,
+      MEDIUM: false,
+      HIGH: false,
     },
     category: {
-      billing: false,
-      feature: false,
-      technical: false,
+      BILLING: false,
+      FEATURE: false,
+      TECHNICAL: false,
     },
   };
   subscriptions = new Subscription();
@@ -261,16 +261,17 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
 
   getCounts(): void {
     const subscriptions = new Subscription();
-    const toDoCount$ = this.ticketService.getCountTicketsByStatusToDo().pipe(take(1));
-    const doingCount$ = this.ticketService.getCountTicketsByStatusDoing().pipe(take(1));
-    const doneCount$ = this.ticketService.getCountTicketsByStatusDone().pipe(take(1));
-    const lowCount$ = this.ticketService.getCountTicketsByPriorityLow().pipe(take(1));
-    const mediumCount$ = this.ticketService.getCountTicketsByPriorityMedium().pipe(take(1));
-    const highCount$ = this.ticketService.getCountTicketsByPriorityHigh().pipe(take(1));
-    const billingCount$ = this.ticketService.getCountTicketsByCategoryBilling().pipe(take(1));
-    const featureCount$ = this.ticketService.getCountTicketsByCategoryFeature().pipe(take(1));
-    const technicalCount$ = this.ticketService.getCountTicketsByCategoryTechnical().pipe(take(1));
-
+  
+    const toDoCount$ = this.ticketService.getTicketCountByFilters('status=TODO&count=true').pipe(take(1));
+    const doingCount$ = this.ticketService.getTicketCountByFilters('status=DOING&count=true').pipe(take(1));
+    const doneCount$ = this.ticketService.getTicketCountByFilters('status=DONE&count=true').pipe(take(1));
+    const lowCount$ = this.ticketService.getTicketCountByFilters('priority=LOW&count=true').pipe(take(1));
+    const mediumCount$ = this.ticketService.getTicketCountByFilters('priority=MEDIUM&count=true').pipe(take(1));
+    const highCount$ = this.ticketService.getTicketCountByFilters('priority=HIGH&count=true').pipe(take(1));
+    const billingCount$ = this.ticketService.getTicketCountByFilters('category=BILLING&count=true').pipe(take(1));
+    const featureCount$ = this.ticketService.getTicketCountByFilters('category=FEATURE&count=true').pipe(take(1));
+    const technicalCount$ = this.ticketService.getTicketCountByFilters('category=TECHNICAL&count=true').pipe(take(1));
+  
     subscriptions.add(
       forkJoin({
         toDoCount: toDoCount$,
@@ -284,8 +285,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
         technicalCount: technicalCount$,
       }).subscribe({
         next: counts => {
-          // Mettez à jour les variables après avoir obtenu toutes les valeurs
-          this.toDoCount = counts.toDoCount;
+          this.toDoCount = counts.toDoCount; // Mettez à jour les variables avec les compteurs
           this.doingCount = counts.doingCount;
           this.doneCount = counts.doneCount;
           this.lowCount = counts.lowCount;
@@ -307,6 +307,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
     );
     this.subscriptions.add(subscriptions);
   }
+  
   ViewArchivedTickets() {
     this.showArchivedTickets = !this.showArchivedTickets;
     this.updateTicketList(); // Mettez à jour la liste des tickets en fonction de la nouvelle valeur

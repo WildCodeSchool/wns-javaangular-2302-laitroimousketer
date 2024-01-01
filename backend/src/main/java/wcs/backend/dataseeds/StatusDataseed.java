@@ -30,5 +30,6 @@ public class StatusDataseed {
     StatusDto statusDone = new StatusDto();
     statusDone.setStatusTitle("Terminé");
     statusService.createStatus(statusDone);
-  }
+}
+
 }

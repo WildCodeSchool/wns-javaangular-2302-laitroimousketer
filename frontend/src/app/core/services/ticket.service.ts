@@ -52,54 +52,24 @@ export class TicketService extends EntityCollectionServiceBase<Ticket> {
     // console.log('filters: ',filter);
     return this.httpClient.get<Ticket[]>(this.baseUrl + '/tickets/filter?' + filter);
   }
-  getCountTicketsByStatus(filter: string): Observable<number> {
-    // console.log('filters: ',filter);
-    return this.httpClient.get<number>(this.baseUrl + '/tickets/countByStatus/' + filter);
+  getTicketCountByFilters(filter: string): Observable<number> {
+    return this.httpClient.get<number>(this.baseUrl + '/tickets/filter?' + filter);
   }
-  getCountTicketsByPriority(filter: string): Observable<number> {
-    // console.log('filters: ',filter);
-    return this.httpClient.get<number>(this.baseUrl + '/tickets/countByPriority/' + filter);
-  }
-  getCountTicketsByCategory(filter: string): Observable<number> {
-    // console.log('filters: ',filter);
-    return this.httpClient.get<number>(this.baseUrl + '/tickets/countByCategory/' + filter);
-  }
-
 
   getAllCountTickets(): Observable<number> {
     return this.httpClient.get<number>(this.baseUrl + '/tickets/count');
   }
-
-  getCountTicketsByStatusToDo(): Observable<number> {
-    return this.getCountTicketsByStatus('TO_DO');
+  getCountTicketsByStatus(filter: string): Observable<number> {
+    // console.log('filters: ',filter);
+    return this.httpClient.get<number>(this.baseUrl + '/tickets/filters?' + filter);
   }
-  getCountTicketsByStatusDoing(): Observable<number> {
-    return this.getCountTicketsByStatus('DOING');
+  getCountTicketsByPriority(filter: string): Observable<number> {
+    // console.log('filters: ',filter);
+    return this.httpClient.get<number>(this.baseUrl + '/tickets/filters?' + filter);
   }
-  getCountTicketsByStatusDone(): Observable<number> {
-    return this.getCountTicketsByStatus('DONE');
+  getCountTicketsByCategory(filter: string): Observable<number> {
+    // console.log('filters: ',filter);
+    return this.httpClient.get<number>(this.baseUrl + '/tickets/filters?' + filter);
   }
-
-  getCountTicketsByPriorityLow(): Observable<number> {
-    return this.getCountTicketsByPriority('LOW');
-  }
-  getCountTicketsByPriorityMedium(): Observable<number> {
-    return this.getCountTicketsByPriority('MEDIUM');
-  }
-  getCountTicketsByPriorityHigh(): Observable<number> {
-    return this.getCountTicketsByPriority('HIGH');
-  }
-
-  getCountTicketsByCategoryBilling(): Observable<number> {
-    return this.getCountTicketsByCategory('BILLING');
-  }
-
-  getCountTicketsByCategoryFeature(): Observable<number> {
-    return this.getCountTicketsByCategory('FEATURE');
-  }
-
-  getCountTicketsByCategoryTechnical(): Observable<number> {
-    return this.getCountTicketsByCategory('TECHNICAL');
-  }
-
+  
 }
