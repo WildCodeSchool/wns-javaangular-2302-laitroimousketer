@@ -21,3 +21,17 @@
   }
 
 }
+
+.buttons-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+h2 {
+  margin-left: 4px;
+  font-size: 20px;
+  font-weight: 500;
+  color: black;
+}

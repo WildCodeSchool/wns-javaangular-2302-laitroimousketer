@@ -11,14 +11,11 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { TicketCardComponent } from 'src/app/features/ticket/components/ticket-card/ticket-card.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
     TicketsListComponent,
-    TicketCardComponent,
-
 
   ],
   imports: [
@@ -37,6 +34,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
   ],
   exports: [
+
 
   ],
 

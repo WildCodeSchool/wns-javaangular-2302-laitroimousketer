@@ -19,8 +19,7 @@
       <div *ngFor="let user of users; let i = index"
         [ngClass]="{'even': isEven(i), 'odd': !isEven(i)}">
       <app-user-card class="context-user-list" [user]="user" (click)="openUserDetails(user.id)"></app-user-card>
-      <button (click)="updateUser(user.id)">changer userName</button>
-      <button (click)="deleteUser(user.id)">delete</button>
+
     </div>
   </div>
   <div class="right">

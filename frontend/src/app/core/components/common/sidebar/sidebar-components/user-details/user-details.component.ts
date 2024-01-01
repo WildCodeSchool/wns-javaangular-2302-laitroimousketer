@@ -36,7 +36,9 @@ export class UserDetailsComponent extends UnsubcribeComponent implements OnInit 
   menuTitle: string = 'Utilisateur';
   menuIcon: string = 'bi bi-person-fill';
   user!: User;
-  role: string = ''
+  userConnected!: User;
+  role: string = '';
+  roleUserConnected: string = '';
   fullname: string = '';
   userTickets: Ticket[] = [];
   constructor(
@@ -44,15 +46,23 @@ export class UserDetailsComponent extends UnsubcribeComponent implements OnInit 
     private ticketService: TicketService,
   ) { super(); }
 
+
   ngOnInit() {
+    this.loadUserConnected();
     this.loadUser();
-    if (this.user.roleTitle === 'CLIENT') {
+    if (this.roleUserConnected === 'Client') {
       // Si le rôle est CLIENT, pas de menu
       this.menuItems = []
     }
     this.loadUserTickets();
   }
 
+loadUserConnected() {
+    this.store.select(Reducer.getUserConnected).pipe(takeUntil(this.destroy$)).subscribe((data: User) => {
+      this.userConnected = data;
+      this.roleUserConnected = data.role.roleTitle;
+    });
+}
   loadUser() {
     this.store.select(Reducer.getUser).pipe(takeUntil(this.destroy$)).subscribe((user: User) => {
       this.user = user;
@@ -69,10 +79,25 @@ export class UserDetailsComponent extends UnsubcribeComponent implements OnInit 
     // console.log('Page changed to:', this.page);
   }
   loadUserTickets() {
-    this.ticketService.getTicketsByFilters(this.user.id).pipe(takeUntil(this.destroy$)).subscribe((tickets: Ticket[]) => {
+    let query = 'userId='+this.user.id;
+    this.ticketService.getTicketsByFilters(query).pipe(takeUntil(this.destroy$)).subscribe((tickets: Ticket[]) => {
       this.userTickets = tickets;
       console.log(this.userTickets, 'user tickets from user details');
     });
   }
+  sendMail() {
+    window.open('mailto:' + this.user.email);
+  }
 
+  updateUser(userId: number) {
+    const updatedUser: Partial<User> = {
+      id: userId,
+      firstname: 'newFirstName' + userId,
+      lastname: 'newLastName' + userId,
+    };
+    this.store.dispatch(userAction.updateUser({ payload: updatedUser }));
+  }
+  deleteUser(userId: number) {
+    this.store.dispatch(userAction.deleteUser({ payload: userId }));
+  }
 }

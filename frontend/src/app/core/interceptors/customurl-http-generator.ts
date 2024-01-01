@@ -21,7 +21,7 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
     trailingSlashEndpoints?: boolean
   ): HttpResourceUrls {
     let resourceURLs = this.knownHttpResourceUrls[entityName];
-  //! Attention, il faut bien penser à ajouter les / dans le cas des entityRssourceUrl pour respecter l'API et sa convention de nommage
+    //! Attention, il faut bien penser à ajouter les / dans le cas des entityRssourceUrl pour respecter l'API et sa convention de nommage
     switch (entityName) {
       case 'tickets':
         resourceURLs = {
@@ -32,7 +32,7 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
       case 'users':
         resourceURLs = {
           collectionResourceUrl: this.baseAPI + '/users',
-          entityResourceUrl: this.baseAPI + '/users',
+          entityResourceUrl: this.baseAPI + '/users/',
         };
         break;
       case 'address':
@@ -47,11 +47,11 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
           entityResourceUrl: this.baseAPI + '/categories',
         };
         break;
-       case 'priorities':
+      case 'priorities':
         resourceURLs = {
           collectionResourceUrl: this.baseAPI + '/priorities',
           entityResourceUrl: this.baseAPI + '/priorities',
-        }; 
+        };
         break;
       case 'status':
         resourceURLs = {
@@ -60,7 +60,7 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
         };
         break;
     }
-  
+
     this.registerHttpResourceUrls({ [entityName]: resourceURLs });
     return resourceURLs;
   }
