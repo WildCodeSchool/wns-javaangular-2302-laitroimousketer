@@ -3,11 +3,13 @@
   <div class="card">
     <h1 class="register-title">Inscription</h1>
 
-    <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate class="card-body">
+    @if (step === 1) {
+    <form [formGroup]="registerForm" novalidate class="card-body">
       <div class="form-group">
         <mat-form-field appearance="outline" color="primary">
           <mat-label for="firstName">Nom</mat-label>
-          <input matInput type="text" id="firstName" formControlName="firstName" required>
+          <input matInput type="text" id="firstName" formControlName="firstName">
+          <mat-icon matPrefix class="bi bi-justify-left"></mat-icon>
           <ng-container
             *ngIf="registerForm.get('firstName')?.invalid && (registerForm.get('firstName')?.dirty || registerForm.get('firstName')?.touched)">
             <mat-error *ngIf="registerForm.get('firstName')?.errors?.['pattern']">Le nom doit contenir uniquement des
@@ -19,7 +21,8 @@
       <div class="form-group">
         <mat-form-field appearance="outline" color="primary">
           <mat-label for="lastName">Prénom</mat-label>
-          <input matInput type="text" id="lastName" formControlName="lastName" required>
+          <input matInput type="text" id="lastName" formControlName="lastName">
+          <mat-icon matPrefix class="bi bi-justify-left"></mat-icon>
           <ng-container
             *ngIf="registerForm.get('lastName')?.invalid && (registerForm.get('lastName')?.dirty || registerForm.get('lastName')?.touched)">
             <mat-error *ngIf="registerForm.get('lastName')?.errors?.['pattern']">Le prénom doit contenir uniquement des
@@ -31,7 +34,8 @@
       <div class="form-group">
         <mat-form-field appearance="outline" color="primary">
           <mat-label for="email">Email</mat-label>
-          <input matInput type="email" id="email" formControlName="email" required>
+          <input matInput type="email" id="email" formControlName="email">
+          <mat-icon matPrefix class="bi bi-envelope-at-fill"></mat-icon>
           <ng-container
             *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)">
             <mat-error *ngIf="registerForm.get('email')?.errors?.['email']">Format d'email invalide.</mat-error>
@@ -42,7 +46,8 @@
       <div class="form-group">
         <mat-form-field appearance="outline" color="primary">
           <mat-label for="password">Mot de passe</mat-label>
-          <input matInput type="password" id="password" formControlName="password" required>
+          <input matInput type="password" id="password" formControlName="password">
+          <mat-icon matPrefix class="bi bi-key-fill"></mat-icon>
           <ng-container
             *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)">
             <mat-error
@@ -56,7 +61,9 @@
       <div class="form-group">
         <mat-form-field appearance="outline" color="primary">
           <mat-label for="confirmPassword">Confirmer mot de passe</mat-label>
-          <input matInput type="password" id="confirmPassword" formControlName="confirmPassword" required>
+          <input matInput type="password" id="confirmPassword" formControlName="confirmPassword"
+            (input)="checkPasswordMatch()">
+          <mat-icon matPrefix class="bi bi-key-fill"></mat-icon>
           <ng-container
             *ngIf="registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)">
             <mat-error *ngIf="registerForm.hasError('passwordMismatch', ['confirmPassword'])">Les mots de passe ne
@@ -65,14 +72,98 @@
         </mat-form-field>
       </div>
 
-      <button type="submit" class="btn" mat-raised-button color="primary"
-        [ngClass]="!registerForm.valid ? 'disabled' : ''">Valider</button>
+      <div class="actions-buttons">
+        <button type="button" mat-raised-button color="primary" (click)="nextStep()"
+          [disabled]="!registerForm.valid">Suivant</button>
+      </div>
+
     </form>
+    }
+
+    @if (step === 2) {
+    <form [formGroup]="addressForm"  novalidate class="card-body">
+
+      <div class="form-group">
+        <h2>Adresse  <i class="bi bi-geo-alt-fill"></i></h2>
+       
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label for="street_l1">Adresse ligne 1</mat-label>
+          <input matInput type="text" id="street_l1" formControlName="street_l1">
+          
+          <ng-container
+            *ngIf="addressForm.get('street_l1')?.invalid && (addressForm.get('street_l1')?.dirty || addressForm.get('street_l1')?.touched)">
+            <mat-error>Ce champ est obligatoire.</mat-error>
+          </ng-container>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label for="street_l2">Adresse ligne 2</mat-label>
+          <input matInput type="text" id="street_l2" formControlName="street_l2">
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label for="postcode">Code postal</mat-label>
+          <input matInput type="text" id="postcode" formControlName="postcode">
+    
+          <ng-container
+            *ngIf="addressForm.get('postcode')?.invalid && (addressForm.get('postcode')?.dirty || addressForm.get('postcode')?.touched)">
+            <mat-error>Ce champ est obligatoire.</mat-error>
+          </ng-container>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label for="city">Ville</mat-label>
+          <input matInput type="text" id="city" formControlName="city" [matAutocomplete]="autoCity" >
+          <ng-container
+            *ngIf="addressForm.get('city')?.invalid && (addressForm.get('city')?.dirty || addressForm.get('city')?.touched)">
+            <mat-error>Ce champ est obligatoire.</mat-error>
+          </ng-container>
+        </mat-form-field>
+        <mat-autocomplete #autoCity ="matAutocomplete">
+          @for (option of filteredCities | async; track option) {
+            <mat-option [value]="option">{{option}}</mat-option>
+          }
+        </mat-autocomplete>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label for="country">Pays</mat-label>
+          <input matInput type="text" id="country" formControlName="country" [matAutocomplete]="autoCountry">
+          <ng-container
+            *ngIf="addressForm.get('country')?.invalid && (addressForm.get('country')?.dirty || addressForm.get('country')?.touched)">
+            <mat-error>Ce champ est obligatoire.</mat-error>
+          </ng-container>
+        </mat-form-field>
+        <mat-autocomplete #autoCountry="matAutocomplete">
+          @for (option of filteredCountry | async; track option) {
+            <mat-option [value]="option">{{option}}</mat-option>
+          }
+        </mat-autocomplete>
+      </div>
+
+      <div class="actions-buttons">
+        <button *ngIf="step === 2" class="btn"  mat-raised-button color="primary"
+          (click)="previousStep()">Précédent</button>
+
+        <button mat-raised-button color="primary"
+          [ngClass]="!addressForm.valid || !registerForm.valid ? 'disabled' : ''" (click)="register()">Valider</button>
+      </div>
+
+    </form>
+
+    }
+
     <div class="card-footer">
-      <p>
-        Vous avez déjà un compte ? <a (click)="switchToLogin()">Cliquez ici !</a>
-      </p>
+      Vous avez déjà un compte ? <a (click)="switchToLogin()">Cliquez ici !</a>
     </div>
+
   </div>
 
 </section>

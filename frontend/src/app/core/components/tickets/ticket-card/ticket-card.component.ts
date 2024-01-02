@@ -64,17 +64,17 @@ export class TicketCardComponent extends UnsubcribeComponent implements OnInit {
       this.ticketDetails.number = this.ticket.id;
       this.ticketDetails.name = this.ticket.ticketTitle || '';
       this.ticketDetails.description = this.ticket.description || '';
-      this.ticketDetails.priority = this.ticket.priorityTitle || '';
+      this.ticketDetails.priority = this.ticket.priority.priorityTitle || '';
       this.ticketDetails.creationDate = this.ticket.creationDate || '';
       this.ticketDetails.updateDate = this.ticket.updateDate || '';
       this.ticketDetails.archiveDate = this.ticket.archiveDate || '';
-      this.ticketDetails.status = this.ticket.statusTitle || '';
-      this.ticketDetails.category = this.ticket.categoryTitle || '';
-      this.ticketDetails.authorId = this.ticket.authorId || 0;
-      this.ticketDetails.authorEmail = this.ticket.authorEmail || '';
-      this.ticketDetails.authorFirstname = this.ticket.authorFirstname || '';
-      this.ticketDetails.authorLastname = this.ticket.authorLastname || '';
-      this.ticketDetails.fullnameAuthor = this.ticket.authorLastname + ' ' + this.ticket.authorFirstname || '';
+      this.ticketDetails.status = this.ticket.status.statusTitle || '';
+      this.ticketDetails.category = this.ticket.category.categoryTitle || '';
+      this.ticketDetails.authorId = this.ticket.author.id || 0;
+      this.ticketDetails.authorEmail = this.ticket.author.email || '';
+      this.ticketDetails.authorFirstname = this.ticket.author.firstname || '';
+      this.ticketDetails.authorLastname = this.ticket.author.lastname || '';
+      this.ticketDetails.fullnameAuthor = this.ticket.author.firstname + ' ' + this.ticket.author.lastname || '';
       if (this.ticket.archiveDate !== null) {
         this.isArchive = true;
       }

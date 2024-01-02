@@ -3,7 +3,6 @@ package wcs.backend.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import wcs.backend.dtos.AddressDto;
@@ -12,7 +11,7 @@ import wcs.backend.services.AddressService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/address")
+@RequestMapping("api/address")
 @Tag(name = "Address", description = "Address Controller")
 public class AddressController {
 
@@ -58,4 +57,5 @@ public class AddressController {
         addressService.deleteAddressById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    
 }

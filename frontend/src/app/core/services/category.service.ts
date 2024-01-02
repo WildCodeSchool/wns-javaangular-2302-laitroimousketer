@@ -3,13 +3,18 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Category } from '../../features/ticket/models/category';
 import { environment } from 'src/environments/environment';
+import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryService {
+export class CategoryService extends EntityCollectionServiceBase<Category> {
   private baseUrl = environment.apiUrl;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    serviceElementsFactory: EntityCollectionServiceElementsFactory,
+    private httpClient: HttpClient,) {
+    super('categories', serviceElementsFactory);
+  }
 
   getCategoryList(): Observable<Category[]>{
     return this.httpClient.get<Category[]>(this.baseUrl+'/categories');  

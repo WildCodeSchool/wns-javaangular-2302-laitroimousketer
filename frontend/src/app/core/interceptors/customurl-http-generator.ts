@@ -1,7 +1,5 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DefaultHttpUrlGenerator, HttpResourceUrls, Pluralizer } from '@ngrx/data';
-import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
 
@@ -23,12 +21,12 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
     trailingSlashEndpoints?: boolean
   ): HttpResourceUrls {
     let resourceURLs = this.knownHttpResourceUrls[entityName];
-  //! Attention, il faut bien penser à ajouter les / dans le cas des entityRssourceUrl pour respecter l'API et sa convention de nommage
+    //! Attention, il faut bien penser à ajouter les / dans le cas des entityRssourceUrl pour respecter l'API et sa convention de nommage
     switch (entityName) {
       case 'tickets':
         resourceURLs = {
           collectionResourceUrl: this.baseAPI + '/tickets',
-          entityResourceUrl: this.baseAPI + '/tickets/',
+          entityResourceUrl: this.baseAPI + '/tickets',
         };
         break;
       case 'users':
@@ -37,8 +35,32 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
           entityResourceUrl: this.baseAPI + '/users/',
         };
         break;
+      case 'address':
+        resourceURLs = {
+          collectionResourceUrl: this.baseAPI + '/address',
+          entityResourceUrl: this.baseAPI + '/address',
+        };
+        break;
+      case 'categories':
+        resourceURLs = {
+          collectionResourceUrl: this.baseAPI + '/categories',
+          entityResourceUrl: this.baseAPI + '/categories',
+        };
+        break;
+      case 'priorities':
+        resourceURLs = {
+          collectionResourceUrl: this.baseAPI + '/priorities',
+          entityResourceUrl: this.baseAPI + '/priorities',
+        };
+        break;
+      case 'status':
+        resourceURLs = {
+          collectionResourceUrl: this.baseAPI + '/status',
+          entityResourceUrl: this.baseAPI + '/status',
+        };
+        break;
     }
-  
+
     this.registerHttpResourceUrls({ [entityName]: resourceURLs });
     return resourceURLs;
   }

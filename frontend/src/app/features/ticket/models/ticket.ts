@@ -11,19 +11,9 @@ export class Ticket {
   public category!: Category
   public status!: Status
   public priority!: Priority
-  public categoryTitle: string = ''
-  public categoryId: number = 0
-  public statusTitle: string = ''
-  public statusId: number = 0
-  public priorityTitle: string = ''
-  public priorityId: number = 0
   public creationDate: string = ''
   public updateDate: string = ''
   public archiveDate: string = ''
   public ticketHaveUsers : TicketHaveUsers[] = [];
-  public  authorId = 0;
-  public  authorFirstname = '';
-  public  authorLastname = '';
-  public  authorEmail = '';
+  public author! : User
 }
-

@@ -5,7 +5,7 @@
 
   <div class="details-profil">
     <app-avatar [userName]="this.fullname" class="context-ticket-card-creator"></app-avatar>
-    <h1 class="name"> {{user.lastname}}<span class="firstname">{{user.lastname}}</span>
+    <h1 class="name"> {{user.firstname}}<span class="firstname">{{user.lastname}}</span>
     </h1>
     <p><span class="prefix">Email:</span> {{user.email}}</p>
     <p><span class="prefix">Role:</span> {{user.role.roleTitle}}</p>
@@ -13,12 +13,29 @@
 
 </header>
 
-<div class="user-tickets">
+<div class="widget user-tickets">
   <h2>Tickets de l'utilisateurs</h2>
+  @for (ticket of userTickets; track ticket) {
+    <app-ticket-card [ticket]="ticket"></app-ticket-card>
+  }
+
 </div>
 
 <ng-container *ngIf="page ==='Actions'">
   <div class="widget actions" [@opacity]="page==='Actions'?'active':''">
     <h1 class="weight-500">Actions sur l'utilisateur</h1>
+
+    <div class="buttons-actions">
+      <button mat-raised-button color="primary" class="btn" (click)="sendMail()"><i
+          class="bi bi-envelope-arrow-up-fill"></i> Envoyer un
+        mail</button>
+        @if (roleUserConnected === 'Manager') {
+      <button mat-raised-button color="warn" class="btn" (click)="deleteUser(this.user.id)"><i
+          class=" bi bi-archive-fill"></i>
+        Supprimer</button>
+      }
+    </div>
+
   </div>
+
 </ng-container>

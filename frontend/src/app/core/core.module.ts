@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from './components/common/footer/footer.component';
-import { AlertComponent } from './components/common/alerts/alert.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './components/common/header/header.component';
@@ -22,12 +21,13 @@ import { TicketAddComponent } from './components/common/sidebar/sidebar-componen
 import { TicketChatComponent } from './components/common/sidebar/sidebar-components/ticket-chat/ticket-chat.component';
 import { TicketEditComponent } from './components/common/sidebar/sidebar-components/ticket-edit/ticket-edit.component';
 import { UserDetailsComponent } from './components/common/sidebar/sidebar-components/user-details/user-details.component';
+import { TicketCardComponent } from './components/tickets/ticket-card/ticket-card.component';
+
 
 
 @NgModule({
   declarations: [
     FooterComponent,
-    AlertComponent,
     HeaderComponent,
     SearchBarComponent,
     AvatarComponent,
@@ -39,6 +39,7 @@ import { UserDetailsComponent } from './components/common/sidebar/sidebar-compon
     TicketChatComponent,
     MapComponent,
     UserDetailsComponent,
+    TicketCardComponent,
     
   ],
   imports: [
@@ -54,9 +55,9 @@ import { UserDetailsComponent } from './components/common/sidebar/sidebar-compon
     MatInputModule,
     LeafletModule,
 
+
   ],
   exports: [
-    AlertComponent,
     MatSidenavModule,
     FormsModule,
     HeaderComponent,
@@ -70,6 +71,7 @@ import { UserDetailsComponent } from './components/common/sidebar/sidebar-compon
     ActivityComponent,
     MapComponent,
     UserDetailsComponent,
+    TicketCardComponent,
   ],
   providers: [],
 })

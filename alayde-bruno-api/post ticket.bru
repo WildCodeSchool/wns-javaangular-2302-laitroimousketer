@@ -6,6 +6,28 @@ meta {
 
 post {
   url: http://localhost:8080/api/tickets
-  body: none
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "ticketTitle": "à la main",
+    "description": "Blanditiis et praesentium adipisci. Ipsum esse aspernatur quod. Harum quaerat quidem delectus voluptas qui vitae. Molestiae ut perspiciatis. Soluta et animi laboriosam aut reiciendis in.",
+    "category": {
+      "id": 9,
+      "categoryTitle": "Fonctionnalité"
+    },
+    "status": {
+      "id": 8,
+      "statusTitle": "En cours"
+    },
+    "priority": {
+      "id": 9,
+      "priorityTitle": "Moyenne"
+    },
+    "author": {
+      "id": 40
+  }
+  }
 }

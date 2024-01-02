@@ -11,6 +11,7 @@ import { AlertService } from './alert.service';
 import { Store } from '@ngrx/store';
 import * as Reducer from 'src/app/store/reducers/index';
 import * as userAction from 'src/app/store/actions/user.action';
+import { Address } from '../models/address.model';
 //accessToken est le nom de la propriete du token renvoyée par le serveur
 interface LoginResponse {
   accessToken: string;
@@ -104,14 +105,15 @@ export class AuthService implements OnInit {
     }
   }
 
-  register(firstname: string, lastname: string, email: string, password: string): Observable<any> {
+  register(firstname: string, lastname: string, email: string, password: string, adress: Address): Observable<any> {
     const url = `${this.apiUrl}/auth/register`;
 
     const registerData = {
       firstname: firstname,
       lastname: lastname,
       email: email,
-      password: password
+      password: password,
+      address: adress
     };
 
     return this.httpClient.post(url, registerData, this.httpOptions)
@@ -168,9 +170,9 @@ export class AuthService implements OnInit {
           this.userEmail = userEmail; // Définis l'e-mail de l'utilisateur
           this.userFirstname = user.firstname;
           this.userLastname = user.lastname; // Définis le nom de l'utilisateur à partir des données de l'utilisateur
-          this.userRole = user.roleTitle;
+          this.userRole = user.role.roleTitle;
           this.store.dispatch(userAction.saveUserConnected({ payload: user }));
-          // console.log('Infos utilisateur récupérées:', this.userEmail, this.userFirstname, this.userLastname);
+          // console.log('Infos utilisateur récupérées:', this.userEmail, this.userFirstname, this.userLastname, this.userRole);
           return user;
         }),
         catchError((error: any) => {

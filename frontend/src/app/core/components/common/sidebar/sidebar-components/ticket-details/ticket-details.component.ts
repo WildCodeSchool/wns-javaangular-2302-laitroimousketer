@@ -70,17 +70,17 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
       this.ticket.id = this.ticket.id ? this.ticket.id : 0;
       this.ticket.ticketTitle = this.ticket.ticketTitle ? this.ticket.ticketTitle : '';
       this.ticket.description = this.ticket.description ? this.ticket.description : '';
-      this.ticket.priorityTitle = this.ticket.priorityTitle ? this.ticket.priorityTitle : '';
-      this.ticket.categoryTitle = this.ticket.categoryTitle ? this.ticket.categoryTitle : '';
+      this.ticket.priority.priorityTitle = this.ticket.priority.priorityTitle ? this.ticket.priority.priorityTitle : '';
+      this.ticket.category.categoryTitle = this.ticket.category.categoryTitle ? this.ticket.category.categoryTitle : '';
       this.ticket.creationDate = this.ticket.creationDate ? this.ticket.creationDate : '';
       this.ticket.updateDate = this.ticket.updateDate ? this.ticket.updateDate : '';
       this.ticket.archiveDate = this.ticket.archiveDate ? this.ticket.archiveDate : '';
-      this.ticket.statusTitle = this.ticket.statusTitle ? this.ticket.statusTitle : '';
-      this.ticket.authorId = this.ticket.authorId ? this.ticket.authorId : 0;
-      this.ticket.authorFirstname = this.ticket.authorFirstname ? this.ticket.authorFirstname : '';
-      this.ticket.authorLastname = this.ticket.authorLastname ? this.ticket.authorLastname : '';
-      this.fullnameAuthor = this.ticket.authorLastname + ' ' + this.ticket.authorFirstname || '';
-      this.ticket.authorEmail = this.ticket.authorEmail ? this.ticket.authorEmail : '';
+      this.ticket.status.statusTitle = this.ticket.status.statusTitle ? this.ticket.status.statusTitle : '';
+      this.ticket.author.id = this.ticket.author.id ? this.ticket.author.id : 0;
+      this.ticket.author.firstname = this.ticket.author.firstname? this.ticket.author.firstname : '';
+      this.ticket.author.lastname = this.ticket.author.lastname ? this.ticket.author.lastname : '';
+      this.fullnameAuthor = this.ticket.author.lastname + ' ' + this.ticket.author.firstname || '';
+      this.ticket.author.email = this.ticket.author.email ? this.ticket.author.email: '';
       this.ticket.ticketHaveUsers = this.ticket.ticketHaveUsers ? this.ticket.ticketHaveUsers : [];
       this.checkStatus();
       this.checkPriority();
@@ -89,26 +89,26 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
 
 
   checkStatus() {
-    if (this.ticket.statusTitle === 'TO_DO') {
+    if (this.ticket.status.statusTitle === 'À faire') {
       this.statutSpan = 'todo';
 
-    } if (this.ticket.statusTitle === 'DOING') {
+    } if (this.ticket.status.statusTitle === 'En cours') {
       this.statutSpan = 'done';
     }
-    if (this.ticket.statusTitle === 'DONE') {
+    if (this.ticket.status.statusTitle === 'Terminé') {
       this.statutSpan = 'done';
       this.canClose = true;
     }
   }
 
   checkPriority() {
-    if (this.ticket.priorityTitle === 'LOW') {
+    if (this.ticket.priority.priorityTitle === 'Basse') {
       this.prioritySpan = 'low';
     }
-    if (this.ticket.priorityTitle === 'MEDIUM') {
+    if (this.ticket.priority.priorityTitle === 'Moyenne') {
       this.prioritySpan = 'medium';
     }
-    if (this.ticket.priorityTitle === 'HIGH') {
+    if (this.ticket.priority.priorityTitle === 'Élevée') {
       this.prioritySpan = 'high';
     }
   }

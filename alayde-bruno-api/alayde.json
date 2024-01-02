@@ -4,80 +4,10 @@
   "items": [
     {
       "type": "http",
-      "name": "post login",
-      "seq": 1,
+      "name": "get categories",
+      "seq": 5,
       "request": {
-        "url": "http://localhost:8080/api/auth/login",
-        "method": "POST",
-        "headers": [],
-        "body": {
-          "mode": "json",
-          "json": "{\n  \"email\": \"dev@wcs.com\",\n  \"password\": \"Alayd3!dev\"\n}",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "auth": {
-          "mode": "none",
-          "basic": {
-            "username": "",
-            "password": ""
-          },
-          "bearer": {
-            "token": ""
-          }
-        },
-        "script": {},
-        "vars": {
-          "res": [
-            {
-              "name": "alayde_token",
-              "value": "res.body.accessToken",
-              "enabled": true,
-              "local": false
-            }
-          ]
-        },
-        "assertions": [],
-        "tests": "",
-        "query": []
-      }
-    },
-    {
-      "type": "http",
-      "name": "post ticket",
-      "seq": 2,
-      "request": {
-        "url": "http://localhost:8080/api/tickets",
-        "method": "POST",
-        "headers": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "auth": {
-          "mode": "none",
-          "basic": {
-            "username": "",
-            "password": ""
-          },
-          "bearer": {
-            "token": ""
-          }
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "query": []
-      }
-    },
-    {
-      "type": "http",
-      "name": "get tickets",
-      "seq": 3,
-      "request": {
-        "url": "{{ip}}/tickets?userId=40",
+        "url": "{{ip}}/categories",
         "method": "GET",
         "headers": [],
         "body": {
@@ -99,33 +29,37 @@
         "vars": {},
         "assertions": [],
         "tests": "",
-        "query": [
-          {
-            "name": "userId",
-            "value": "40",
-            "enabled": true
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "get priorities",
+      "seq": 8,
+      "request": {
+        "url": "{{ip}}/priorities",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
           },
-          {
-            "name": "status",
-            "value": "En cours",
-            "enabled": false
-          },
-          {
-            "name": "priority",
-            "value": "Élevée",
-            "enabled": false
-          },
-          {
-            "name": "count",
-            "value": "true",
-            "enabled": false
-          },
-          {
-            "name": "id",
-            "value": "26",
-            "enabled": false
+          "bearer": {
+            "token": ""
           }
-        ]
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
       }
     },
     {
@@ -160,10 +94,10 @@
     },
     {
       "type": "http",
-      "name": "get categories",
-      "seq": 5,
+      "name": "get tickets",
+      "seq": 3,
       "request": {
-        "url": "{{ip}}/categories",
+        "url": "{{ip}}/tickets/204",
         "method": "GET",
         "headers": [],
         "body": {
@@ -185,7 +119,69 @@
         "vars": {},
         "assertions": [],
         "tests": "",
-        "query": []
+        "query": [
+          {
+            "name": "userId",
+            "value": "40",
+            "enabled": false
+          },
+          {
+            "name": "status",
+            "value": "En cours",
+            "enabled": false
+          },
+          {
+            "name": "priority",
+            "value": "Élevée",
+            "enabled": false
+          },
+          {
+            "name": "count",
+            "value": "true",
+            "enabled": false
+          },
+          {
+            "name": "id",
+            "value": "26",
+            "enabled": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "http",
+      "name": "get user",
+      "seq": 8,
+      "request": {
+        "url": "{{ip}}/users/10",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": [
+          {
+            "name": "",
+            "value": "",
+            "enabled": true
+          }
+        ]
       }
     },
     {
@@ -241,10 +237,112 @@
     },
     {
       "type": "http",
-      "name": "get priorities",
-      "seq": 8,
+      "name": "post login",
+      "seq": 1,
       "request": {
-        "url": "{{ip}}/priorities",
+        "url": "http://localhost:8080/api/auth/login",
+        "method": "POST",
+        "headers": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"email\": \"dev@wcs.com\",\n  \"password\": \"Alayd3!dev\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {
+          "res": [
+            {
+              "name": "alayde_token",
+              "value": "res.body.accessToken",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "post ticket",
+      "seq": 2,
+      "request": {
+        "url": "http://localhost:8080/api/tickets",
+        "method": "POST",
+        "headers": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"ticketTitle\": \"à la main\",\n  \"description\": \"Blanditiis et praesentium adipisci. Ipsum esse aspernatur quod. Harum quaerat quidem delectus voluptas qui vitae. Molestiae ut perspiciatis. Soluta et animi laboriosam aut reiciendis in.\",\n  \"category\": {\n    \"id\": 9,\n    \"categoryTitle\": \"Fonctionnalité\"\n  },\n  \"status\": {\n    \"id\": 8,\n    \"statusTitle\": \"En cours\"\n  },\n  \"priority\": {\n    \"id\": 9,\n    \"priorityTitle\": \"Moyenne\"\n  },\n  \"author\": {\n    \"id\": 40\n}\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "post user",
+      "seq": 9,
+      "request": {
+        "url": "{{ip}}/users",
+        "method": "POST",
+        "headers": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"firstname\": \"Eva\",\n  \"lastname\": \"Poret\",\n  \"email\": \"eva@poretgmail.com\",\n  \"password\":\"test\",\n  \"role\": {\n    \"id\": 8,\n    \"roleTitle\": \"Développeur\"\n  },\n  \"address\": {\n    \"id\": 49,\n    \"city\": \"Dijon\",\n    \"country\": \"Serbia\",\n    \"latitude\": 28.131343,\n    \"longitude\": -1.1544298,\n    \"postcode\": \"56514\",\n    \"street_l1\": \"52 Place de la Chaussée-d'Antin\",\n    \"street_l2\": \"Apt. 450\"\n  }\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "get adresses",
+      "seq": 10,
+      "request": {
+        "url": "{{ip}}/address",
         "method": "GET",
         "headers": [],
         "body": {
@@ -268,45 +366,9 @@
         "tests": "",
         "query": []
       }
-    },
-    {
-      "type": "http",
-      "name": "get user",
-      "seq": 8,
-      "request": {
-        "url": "{{ip}}/users/10",
-        "method": "GET",
-        "headers": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "auth": {
-          "mode": "none",
-          "basic": {
-            "username": "",
-            "password": ""
-          },
-          "bearer": {
-            "token": ""
-          }
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "query": [
-          {
-            "name": "",
-            "value": "",
-            "enabled": true
-          }
-        ]
-      }
     }
   ],
-  "activeEnvironmentUid": "6WKMx4An9wekiok9RC7Sn",
+  "activeEnvironmentUid": "Z7mQM8CUvXvIJBiHs6BIg",
   "environments": [
     {
       "variables": [

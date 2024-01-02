@@ -10,7 +10,7 @@
       <a class="bi bi-bookmarks-fill"></a>
     </li>
 
-    <li *ngIf="userRole === 'CLIENT'" class="ticket" (click)="toggleSidebarNewTicket()">
+    <li *ngIf="userRole === 'Client'" class="ticket" (click)="toggleSidebarNewTicket()">
       <a class="bi bi-bookmark-plus-fill"></a>
     </li>
 
@@ -18,11 +18,11 @@
       <a class="bi bi-people" routerLink="users/list"></a>
     </li>
 
-    <li *ngIf="userRole !== 'CLIENT'" r>
+    <li *ngIf="userRole !== 'Client'" r>
       <a class="bi bi-speedometer" routerLink="dashboard"></a>
     </li>
 
-    <li *ngIf="userRole !== 'CLIENT'" class="menulink">
+    <li *ngIf="userRole !== 'Client'" class="menulink">
       <a class="bi bi-activity" (click)=" toggleSidebarActivity()"></a>
     </li>
 

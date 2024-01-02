@@ -76,17 +76,6 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
         }
       });
   }
-  updateUser(userId: number) {
-    const updatedUser: Partial<User> = {
-      id: userId,
-      firstname: 'newFirstName' + userId,
-      lastname: 'newLastName' + userId,
-    };
-    this.store.dispatch(userAction.updateUser({ payload: updatedUser }));
-  }
-  deleteUser(userId: number) {
-    this.store.dispatch(userAction.deleteUser({ payload: userId }));
-  }
 
   openUserDetails(userId: number) {
     // Dispatch d'autres actions liées à la sidebar

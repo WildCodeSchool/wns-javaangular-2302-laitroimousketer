@@ -50,26 +50,11 @@ export class TicketService extends EntityCollectionServiceBase<Ticket> {
   // TicketService
   getTicketsByFilters(filter: string | number): Observable<Ticket[]> {
     // console.log('filters: ',filter);
-    return this.httpClient.get<Ticket[]>(this.baseUrl + '/tickets/filter?' + filter);
+    return this.httpClient.get<Ticket[]>(this.baseUrl + '/tickets?' + filter);
   }
   getTicketCountByFilters(filter: string): Observable<number> {
-    return this.httpClient.get<number>(this.baseUrl + '/tickets/filter?' + filter);
+    return this.httpClient.get<number>(this.baseUrl + '/tickets?' + filter);
   }
 
-  getAllCountTickets(): Observable<number> {
-    return this.httpClient.get<number>(this.baseUrl + '/tickets/count');
-  }
-  getCountTicketsByStatus(filter: string): Observable<number> {
-    // console.log('filters: ',filter);
-    return this.httpClient.get<number>(this.baseUrl + '/tickets/filters?' + filter);
-  }
-  getCountTicketsByPriority(filter: string): Observable<number> {
-    // console.log('filters: ',filter);
-    return this.httpClient.get<number>(this.baseUrl + '/tickets/filters?' + filter);
-  }
-  getCountTicketsByCategory(filter: string): Observable<number> {
-    // console.log('filters: ',filter);
-    return this.httpClient.get<number>(this.baseUrl + '/tickets/filters?' + filter);
-  }
   
 }

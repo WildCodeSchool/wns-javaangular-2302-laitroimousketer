@@ -20,7 +20,7 @@ export const crudOperationSuccess = createAction('[CRUD] Operation Success');
 
 export const getTicket = createAction(action.GET_TICKET, props<{ payload: number, displayInSidebar?: boolean }>());
 export const saveTicket = createAction(action.SAVE_TICKET, props<{ payload: Ticket }>());
-export const createTicket = createAction(action.CREATE_TICKET, props<{ payload: any }>());
+export const createTicket = createAction(action.CREATE_TICKET, props<{ payload: Ticket }>());
 export const updateTicket = createAction(action.UPDATE_TICKET, props<{ payload: Partial<Ticket> }>());
 export const deleteTicket = createAction(action.DELETE_TICKET, props<{ payload: number }>());
 export const getTickets = createAction(action.GET_TICKETS);

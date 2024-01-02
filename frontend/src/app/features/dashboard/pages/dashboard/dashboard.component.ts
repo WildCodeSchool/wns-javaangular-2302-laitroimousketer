@@ -94,17 +94,17 @@ export class DashboardComponent implements OnInit {
   processTicketData() {
     this.numberOfTickets = this.tickets.length;
     this.ticketsWithoutUser = this.tickets.filter((ticket) => ticket.ticketHaveUsers?.length === 0).length;
-    this.billingCount = this.tickets.filter((ticket) => ticket.categoryTitle === 'BILLING').length;
-    this.featureCount = this.tickets.filter((ticket) => ticket.categoryTitle === 'FEATURE').length;
-    this.technicalCount = this.tickets.filter((ticket) => ticket.categoryTitle === 'TECHNICAL').length;
+    this.billingCount = this.tickets.filter((ticket) => ticket.category.categoryTitle === 'Facturation').length;
+    this.featureCount = this.tickets.filter((ticket) => ticket.category.categoryTitle === 'Fonctionnalité').length;
+    this.technicalCount = this.tickets.filter((ticket) => ticket.category.categoryTitle === 'Technique').length;
 
-    this.lowCount = this.tickets.filter((ticket) => ticket.priorityTitle === 'LOW').length;
-    this.mediumCount = this.tickets.filter((ticket) => ticket.priorityTitle === 'MEDIUM').length;
-    this.highCount = this.tickets.filter((ticket) => ticket.priorityTitle === 'HIGH').length;
+    this.lowCount = this.tickets.filter((ticket) => ticket.priority.priorityTitle === 'Basse').length;
+    this.mediumCount = this.tickets.filter((ticket) => ticket.priority.priorityTitle === 'Moyenne').length;
+    this.highCount = this.tickets.filter((ticket) => ticket.priority.priorityTitle === 'Élevée').length;
 
-    this.toDoCount = this.tickets.filter((ticket) => ticket.statusTitle === 'TODO').length;
-    this.doingCount = this.tickets.filter((ticket) => ticket.statusTitle === 'DOING').length;
-    this.doneCount = this.tickets.filter((ticket) => ticket.statusTitle === 'DONE').length;
+    this.toDoCount = this.tickets.filter((ticket) => ticket.status.statusTitle === 'À faire').length;
+    this.doingCount = this.tickets.filter((ticket) => ticket.status.statusTitle === 'En cours').length;
+    this.doneCount = this.tickets.filter((ticket) => ticket.status.statusTitle === 'Terminé').length;
   }
 
   updateAllChart(): void {
