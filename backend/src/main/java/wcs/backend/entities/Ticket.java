@@ -53,8 +53,11 @@ public class Ticket {
   @JoinColumn(name = "author_id", nullable = true)
   private User author;
 
-  @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = false, fetch = FetchType.EAGER)
   private List<TicketHaveUsers> userAssociations = new ArrayList<>();
+
+  @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = false, fetch = FetchType.LAZY)
+  private List<Chat> chatMessages = new ArrayList<>();
 
   public Ticket() {
   }

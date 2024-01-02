@@ -1,0 +1,19 @@
+meta {
+  name: post chat
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{ip}}/chat
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "ticket_id": 201,
+    "author":"toto",
+    "message":"test"
+  }
+}

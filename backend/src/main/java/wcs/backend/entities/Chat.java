@@ -4,16 +4,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
+import java.util.Date;
 
-import java.io.Serializable;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "chat")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Chat implements Serializable {
+public class Chat  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +21,14 @@ public class Chat implements Serializable {
     @Column(name = "message")
     private String message;
 
-    @Column(name = "sender")
-    private String sender;
+    @Column(name = "author")
+    private String author;
 
-    @Column(name = "receiver")
-    private String receiver;
+    @Column(name = "sent_date")
+    private Date sent_date;
 
-    @Column(name = "timestamp")
-    private LocalDate timestamp;
+    @ManyToOne
+    @JoinColumn(name = "ticket_id", nullable = false)
+    private Ticket ticket;
+
 }
