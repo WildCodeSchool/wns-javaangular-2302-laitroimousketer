@@ -5,7 +5,11 @@ meta {
 }
 
 get {
-  url: {{ip}}/chat
+  url: {{ip}}/chat?ticket_id=201
   body: none
   auth: none
+}
+
+query {
+  ticket_id: 201
 }

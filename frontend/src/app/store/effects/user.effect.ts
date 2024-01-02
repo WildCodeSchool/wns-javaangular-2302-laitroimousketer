@@ -110,7 +110,6 @@ export class UserEffects {
 
 
   getUsers = createEffect(() =>
-
     this.actions$.pipe(
       ofType(action.getUsers),
       switchMap(() => {

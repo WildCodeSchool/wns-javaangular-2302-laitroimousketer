@@ -30,11 +30,7 @@ const entityMetadata: EntityMetadataMap = {
 // Si votre entité a un nom qui ne suit pas cette convention de manière automatique,
 // vous pouvez utiliser pluralNames pour spécifier explicitement ces noms.
 const pluralNames = {
-  tickets: 'tickets',
-  users: 'users',
-  priorities: 'priorities',
-  categories: 'categories',
-  status: 'status',
+
 };
 
 export const entityConfig: EntityDataModuleConfig = {

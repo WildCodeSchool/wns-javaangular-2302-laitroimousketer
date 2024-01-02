@@ -50,13 +50,13 @@ public class Ticket {
   private Status status;
 
   @ManyToOne
-  @JoinColumn(name = "author_id", nullable = true)
+  @JoinColumn(name = "author_id", nullable = false)
   private User author;
 
   @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = false, fetch = FetchType.EAGER)
   private List<TicketHaveUsers> userAssociations = new ArrayList<>();
 
-  @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = false, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = false, fetch = FetchType.EAGER)
   private List<Chat> chatMessages = new ArrayList<>();
 
   public Ticket() {

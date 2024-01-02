@@ -27,6 +27,6 @@ export const getTickets = createAction(action.GET_TICKETS);
 export const saveTickets = createAction(action.SAVE_TICKETS, props<{ payload: Ticket[] }>());
 
 
-export function getTicketToDisplay(getTicketToDisplay: any): import("rxjs").OperatorFunction<import("@ngrx/store").Action, any> {
-  throw new Error("Function not implemented.");
-}
+// export function getTicketToDisplay(getTicketToDisplay: any): import("rxjs").OperatorFunction<import("@ngrx/store").Action, any> {
+//   throw new Error("Function not implemented.");
+// }

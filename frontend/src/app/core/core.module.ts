@@ -19,7 +19,6 @@ import { ActivityComponent } from './components/common/sidebar/sidebar-component
 import { SidebarMenuComponent } from './components/common/sidebar/sidebar-components/sidebar-menu/sidebar-menu.component';
 import { TicketAddComponent } from './components/common/sidebar/sidebar-components/ticket-add/ticket-add.component';
 import { TicketChatComponent } from './components/common/sidebar/sidebar-components/ticket-chat/ticket-chat.component';
-import { TicketEditComponent } from './components/common/sidebar/sidebar-components/ticket-edit/ticket-edit.component';
 import { UserDetailsComponent } from './components/common/sidebar/sidebar-components/user-details/user-details.component';
 import { TicketCardComponent } from './components/tickets/ticket-card/ticket-card.component';
 
@@ -35,7 +34,6 @@ import { TicketCardComponent } from './components/tickets/ticket-card/ticket-car
     SidebarMenuComponent,
     ActivityComponent,
     TicketAddComponent,
-    TicketEditComponent,
     TicketChatComponent,
     MapComponent,
     UserDetailsComponent,
@@ -66,7 +64,6 @@ import { TicketCardComponent } from './components/tickets/ticket-card/ticket-car
     AvatarComponent,
     TicketDetailsComponent,
     TicketAddComponent,
-    TicketEditComponent,
     SidebarMenuComponent,
     ActivityComponent,
     MapComponent,

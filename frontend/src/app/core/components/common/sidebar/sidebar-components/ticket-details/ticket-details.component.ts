@@ -2,12 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MenuItems } from '../sidebar-menu/menu-items.model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { TicketService } from 'src/app/core/services/ticket.service';
-import { AlertService } from 'src/app/core/services/alert.service';
 import { Ticket } from 'src/app/features/ticket/models/ticket';
 import { Store } from '@ngrx/store';
 import * as Reducer from 'src/app/store/reducers/index';
 import * as ticketAction from 'src/app/store/actions/ticket.action';
-import { Observable, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 @Component({
   selector: 'app-ticket-details',
@@ -43,7 +42,6 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
 
   constructor(
     private ticketService: TicketService,
-    private alertService: AlertService,
     private store: Store<Reducer.StateDataStore>,
   ) {
     super();
@@ -51,7 +49,6 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
 
   ngOnInit() {
     this.loadTicket();
-    console.log('ticket details:', this.ticket)
   }
   // pour le reset des
 
@@ -65,23 +62,7 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
       this.ticket = ticket;
     });
       if (this.ticket) {
-        console.log('ticket details:', this.ticket);
-
-      this.ticket.id = this.ticket.id ? this.ticket.id : 0;
-      this.ticket.ticketTitle = this.ticket.ticketTitle ? this.ticket.ticketTitle : '';
-      this.ticket.description = this.ticket.description ? this.ticket.description : '';
-      this.ticket.priority.priorityTitle = this.ticket.priority.priorityTitle ? this.ticket.priority.priorityTitle : '';
-      this.ticket.category.categoryTitle = this.ticket.category.categoryTitle ? this.ticket.category.categoryTitle : '';
-      this.ticket.creationDate = this.ticket.creationDate ? this.ticket.creationDate : '';
-      this.ticket.updateDate = this.ticket.updateDate ? this.ticket.updateDate : '';
-      this.ticket.archiveDate = this.ticket.archiveDate ? this.ticket.archiveDate : '';
-      this.ticket.status.statusTitle = this.ticket.status.statusTitle ? this.ticket.status.statusTitle : '';
-      this.ticket.author.id = this.ticket.author.id ? this.ticket.author.id : 0;
-      this.ticket.author.firstname = this.ticket.author.firstname? this.ticket.author.firstname : '';
-      this.ticket.author.lastname = this.ticket.author.lastname ? this.ticket.author.lastname : '';
-      this.fullnameAuthor = this.ticket.author.lastname + ' ' + this.ticket.author.firstname || '';
-      this.ticket.author.email = this.ticket.author.email ? this.ticket.author.email: '';
-      this.ticket.ticketHaveUsers = this.ticket.ticketHaveUsers ? this.ticket.ticketHaveUsers : [];
+        // console.log('ticket details:', this.ticket);
       this.checkStatus();
       this.checkPriority();
     }
@@ -115,14 +96,24 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
 
 
   archiveTicket(ticketId: number): void {
-    if (this.ticket.archiveDate === '') {
-      this.ticketService.archiveTicket(ticketId)
+    if (!this.ticket.archiveDate) {
+      // Make sure to create a copy of the ticket object to avoid modifying the original object
+      const payload: Partial<Ticket> = {
+        ...this.ticket,
+        archiveDate: new Date().toISOString(),
+      };
+      this.store.dispatch(ticketAction.updateTicket({ payload }));
     }
   }
-
+  
+  
   unarchiveTicket(ticketId: number): void {
-    if (this.ticket.archiveDate !== '') {
-      this.ticketService.unarchiveTicket(ticketId)
+    if (!!this.ticket.archiveDate) {
+      let payload: Partial<Ticket> = {
+        id: ticketId,
+        archiveDate: '',
+      }
+      this.store.dispatch(ticketAction.updateTicket({ payload }));
     }
   }
 

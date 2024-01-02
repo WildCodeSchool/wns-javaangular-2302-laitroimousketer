@@ -4,6 +4,36 @@
   "items": [
     {
       "type": "http",
+      "name": "get adresses",
+      "seq": 10,
+      "request": {
+        "url": "{{ip}}/address",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
       "name": "get categories",
       "seq": 5,
       "request": {
@@ -97,7 +127,7 @@
       "name": "get tickets",
       "seq": 3,
       "request": {
-        "url": "{{ip}}/tickets/204",
+        "url": "{{ip}}/tickets/202",
         "method": "GET",
         "headers": [],
         "body": {
@@ -153,7 +183,7 @@
       "name": "get user",
       "seq": 8,
       "request": {
-        "url": "{{ip}}/users/10",
+        "url": "{{ip}}/users",
         "method": "GET",
         "headers": [],
         "body": {
@@ -175,13 +205,7 @@
         "vars": {},
         "assertions": [],
         "tests": "",
-        "query": [
-          {
-            "name": "",
-            "value": "",
-            "enabled": true
-          }
-        ]
+        "query": []
       }
     },
     {
@@ -233,6 +257,37 @@
             "enabled": false
           }
         ]
+      }
+    },
+    {
+      "type": "http",
+      "name": "post adress",
+      "seq": 11,
+      "request": {
+        "url": "{{ip}}/address",
+        "method": "POST",
+        "headers": [],
+        "body": {
+          "mode": "json",
+          "json": "    {\n    \"city\": \"La Seyne-sur-Mer\",\n    \"country\": \"Serbia\",\n    \"latitude\": -81.912807,\n    \"longitude\": -88.359691,\n    \"postcode\": \"70802\",\n    \"street_l1\": \"723 Allée, Voie de la Ferronnerie\",\n    \"street_l2\": \"Apt. 050\"\n    }",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
       }
     },
     {
@@ -339,10 +394,10 @@
     },
     {
       "type": "http",
-      "name": "get adresses",
-      "seq": 10,
+      "name": "get all status",
+      "seq": 12,
       "request": {
-        "url": "{{ip}}/address",
+        "url": "{{ip}}/status",
         "method": "GET",
         "headers": [],
         "body": {
@@ -366,9 +421,76 @@
         "tests": "",
         "query": []
       }
+    },
+    {
+      "type": "http",
+      "name": "post chat",
+      "seq": 13,
+      "request": {
+        "url": "{{ip}}/chat",
+        "method": "POST",
+        "headers": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"ticket_id\": 202,\n  \"author\":\"toto\",\n  \"message\":\"test\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "get chat",
+      "seq": 14,
+      "request": {
+        "url": "{{ip}}/chat?ticket_id=201",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": [
+          {
+            "name": "ticket_id",
+            "value": "201",
+            "enabled": true
+          }
+        ]
+      }
     }
   ],
-  "activeEnvironmentUid": "Z7mQM8CUvXvIJBiHs6BIg",
+  "activeEnvironmentUid": "F86JeDMBTt0Ia9feRyMhr",
   "environments": [
     {
       "variables": [

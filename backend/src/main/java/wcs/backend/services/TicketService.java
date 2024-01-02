@@ -14,6 +14,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import wcs.backend.dtos.TicketDto;
+import wcs.backend.dtos.TicketUpdateDto;
+import wcs.backend.entities.Address;
 import wcs.backend.entities.Category;
 import wcs.backend.entities.Priority;
 import wcs.backend.entities.Status;
@@ -76,31 +78,40 @@ public class TicketService {
     return modelMapper.map(ticket, TicketDto.class);
   }
 
-  public TicketDto updateTicket(Long id, TicketDto ticketDto) {
+  public TicketUpdateDto updateTicket(Long id, TicketUpdateDto ticketDto) {
     Ticket existingTicket = ticketRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
-    // Utilisation de ModelMapper pour mettre à jour le ticket existant avec les
-    // données du ticketDto
-    modelMapper.map(ticketDto, existingTicket);
+            .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
+
+    // Copy non-null fields manually from TicketDto to existing Ticket
+    if (ticketDto.getTicketTitle() != null) {
+        existingTicket.setTicketTitle(ticketDto.getTicketTitle());
+    }
+    if (ticketDto.getDescription() != null) {
+        existingTicket.setDescription(ticketDto.getDescription());
+    }
+
+    if (ticketDto.getArchiveDate() != null) {
+        existingTicket.setArchiveDate(ticketDto.getArchiveDate());
+    }
+
+    ticketDto.setUpdateDate(new Date());
+    // Set the updateDate after manual copying
+    existingTicket.setUpdateDate(ticketDto.getUpdateDate());
+
+    // Update associations manually if needed (e.g., ticketHaveUsers)
+
+    // Save the updated Ticket
     Ticket savedTicket = ticketRepository.save(existingTicket);
-    return modelMapper.map(savedTicket, TicketDto.class);
-  }
 
-  public TicketDto archiveTicket(Long id) {
-    Ticket existingTicket = ticketRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
-    existingTicket.setArchiveDate(new Date()); // Set the archiving date to the current date
-    Ticket archivedTicket = ticketRepository.save(existingTicket);
-    return modelMapper.map(archivedTicket, TicketDto.class); // Convert Ticket to TicketDto
-  }
+    // Use ModelMapper for DTO conversion
+    TicketUpdateDto updatedTicketDto = modelMapper.map(savedTicket, TicketUpdateDto.class);
 
-  public TicketDto unarchiveTicket(Long id) {
-    Ticket existingTicket = ticketRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
-    existingTicket.setArchiveDate(null); // Remove the archiving date
-    Ticket unarchivedTicket = ticketRepository.save(existingTicket);
-    return modelMapper.map(unarchivedTicket, TicketDto.class); // Convert Ticket to TicketDto
-  }
+    return updatedTicketDto;
+}
+
+
+
+  
 
   public void deleteTicket(Long id) {
     Ticket existingTicket = ticketRepository.findById(id)

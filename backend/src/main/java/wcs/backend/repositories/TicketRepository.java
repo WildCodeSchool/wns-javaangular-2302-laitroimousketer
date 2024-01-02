@@ -1,12 +1,9 @@
 package wcs.backend.repositories;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import wcs.backend.entities.Category;
@@ -23,16 +20,21 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecif
 
     List<Ticket> findByCategory(Category category);
     
-    Optional<Ticket> findById(Long id);
-    @Query("""
-            SELECT t FROM Ticket t WHERE (:status IS NULL OR t.status IN :status) \
-            AND (:priorities IS NULL OR t.priority IN :priorities) \
-            AND (:categories IS NULL OR t.category IN :categories)\
-            """)
-    List<Ticket> findByStatusInAndPriorityInAndCategoryIn(@Param("status") List<Status> status,
-            @Param("priorities") List<Priority> priorities,
-            @Param("categories") List<Category> categories);
 
+ 
+    default List<Ticket> findByQuery(String query) {
+        return findAll((root, criteriaQuery, criteriaBuilder) ->
+                criteriaBuilder.or(
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("ticketTitle")), "%" + query.toLowerCase() + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("status")), "%" + query.toLowerCase() + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("priority")), "%" + query.toLowerCase() + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("category")), "%" + query.toLowerCase() + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("userId")), "%" + query.toLowerCase() + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("id")), "%" + query.toLowerCase() + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), "%" + query.toLowerCase() + "%")
+                )
+        );
+    }        
     long countByCategory(Category category);
 
     long countByPriority(Priority priority);
