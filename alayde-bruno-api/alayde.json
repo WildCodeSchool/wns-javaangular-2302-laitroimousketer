@@ -34,6 +34,36 @@
     },
     {
       "type": "http",
+      "name": "get all status",
+      "seq": 12,
+      "request": {
+        "url": "{{ip}}/status",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
       "name": "get categories",
       "seq": 5,
       "request": {
@@ -60,6 +90,42 @@
         "assertions": [],
         "tests": "",
         "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "get chat",
+      "seq": 14,
+      "request": {
+        "url": "{{ip}}/chat?ticket_id=201",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": [
+          {
+            "name": "ticket_id",
+            "value": "201",
+            "enabled": true
+          }
+        ]
       }
     },
     {
@@ -127,7 +193,7 @@
       "name": "get tickets",
       "seq": 3,
       "request": {
-        "url": "{{ip}}/tickets/202",
+        "url": "{{ip}}/tickets",
         "method": "GET",
         "headers": [],
         "body": {
@@ -183,7 +249,7 @@
       "name": "get user",
       "seq": 8,
       "request": {
-        "url": "{{ip}}/users",
+        "url": "{{ip}}/users/10",
         "method": "GET",
         "headers": [],
         "body": {
@@ -332,6 +398,37 @@
     },
     {
       "type": "http",
+      "name": "post chat",
+      "seq": 13,
+      "request": {
+        "url": "{{ip}}/chat",
+        "method": "POST",
+        "headers": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"ticket_id\": 201,\n  \"author\":\"toto\",\n  \"message\":\"test\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
       "name": "post ticket",
       "seq": 2,
       "request": {
@@ -394,14 +491,15 @@
     },
     {
       "type": "http",
-      "name": "get all status",
-      "seq": 12,
+      "name": "update ticket",
+      "seq": 15,
       "request": {
-        "url": "{{ip}}/status",
-        "method": "GET",
+        "url": "http://localhost:8080/api/tickets/1",
+        "method": "PUT",
         "headers": [],
         "body": {
-          "mode": "none",
+          "mode": "json",
+          "json": " {\n\n    \"archiveDate\": \"2024-01-02T23:05:04.744+00:00\"\n\n }",
           "formUrlEncoded": [],
           "multipartForm": []
         },
@@ -424,15 +522,15 @@
     },
     {
       "type": "http",
-      "name": "post chat",
-      "seq": 13,
+      "name": "update user",
+      "seq": 16,
       "request": {
-        "url": "{{ip}}/chat",
+        "url": "{{ip}}/users",
         "method": "POST",
         "headers": [],
         "body": {
           "mode": "json",
-          "json": "{\n  \"ticket_id\": 202,\n  \"author\":\"toto\",\n  \"message\":\"test\"\n}",
+          "json": "{\n  \"firstname\": \"Eva\",\n  \"lastname\": \"Poret\",\n  \"email\": \"eva@poretgmail.com\",\n  \"password\":\"test\",\n  \"role\": {\n    \"id\": 8,\n    \"roleTitle\": \"Développeur\"\n  },\n  \"address\": {\n    \"id\": 49,\n    \"city\": \"Dijon\",\n    \"country\": \"Serbia\",\n    \"latitude\": 28.131343,\n    \"longitude\": -1.1544298,\n    \"postcode\": \"56514\",\n    \"street_l1\": \"52 Place de la Chaussée-d'Antin\",\n    \"street_l2\": \"Apt. 450\"\n  }\n}",
           "formUrlEncoded": [],
           "multipartForm": []
         },
@@ -452,45 +550,9 @@
         "tests": "",
         "query": []
       }
-    },
-    {
-      "type": "http",
-      "name": "get chat",
-      "seq": 14,
-      "request": {
-        "url": "{{ip}}/chat?ticket_id=201",
-        "method": "GET",
-        "headers": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "auth": {
-          "mode": "none",
-          "basic": {
-            "username": "",
-            "password": ""
-          },
-          "bearer": {
-            "token": ""
-          }
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "query": [
-          {
-            "name": "ticket_id",
-            "value": "201",
-            "enabled": true
-          }
-        ]
-      }
     }
   ],
-  "activeEnvironmentUid": "F86JeDMBTt0Ia9feRyMhr",
+  "activeEnvironmentUid": "MRfKjpISzb5gFoebZzpGK",
   "environments": [
     {
       "variables": [

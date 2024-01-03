@@ -24,8 +24,6 @@ public class TicketController {
   @Autowired
   private TicketService ticketService;
 
-
-
   @GetMapping
   @Operation(summary = "Get Tickets", description = "Get a list of tickets or perform filtering based on optional status, priority, and category filters. If count parameter is true, returns the count instead of tickets.")
   public ResponseEntity<?> getTickets(
@@ -64,9 +62,9 @@ public class TicketController {
 
   @PutMapping("/{id}")
   @Operation(summary = "Update Ticket", description = "Update details of an existing ticket.")
-  public ResponseEntity<TicketUpdateDto> updateTicket(@PathVariable Long id,
-      @RequestBody TicketUpdateDto ticketDto) {
-        TicketUpdateDto updatedTicketDto = ticketService.updateTicket(id,ticketDto);
+  public ResponseEntity<TicketDto> updateTicket(@PathVariable Long id,
+      @RequestBody TicketDto ticketDto) {
+    TicketDto updatedTicketDto = ticketService.updateTicket(id, ticketDto);
     return ResponseEntity.ok(updatedTicketDto);
   }
 
@@ -76,7 +74,5 @@ public class TicketController {
     ticketService.deleteTicket(id);
     return ResponseEntity.noContent().build();
   }
-
-
 
 }
