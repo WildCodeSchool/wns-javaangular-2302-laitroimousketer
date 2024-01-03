@@ -14,6 +14,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import wcs.backend.dtos.TicketDto;
+import wcs.backend.dtos.TicketUpdateDto;
+import wcs.backend.entities.Address;
 import wcs.backend.entities.Category;
 import wcs.backend.entities.Priority;
 import wcs.backend.entities.Status;
@@ -79,27 +81,33 @@ public class TicketService {
   public TicketDto updateTicket(Long id, TicketDto ticketDto) {
     Ticket existingTicket = ticketRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
-    // Utilisation de ModelMapper pour mettre à jour le ticket existant avec les
-    // données du ticketDto
-    modelMapper.map(ticketDto, existingTicket);
+
+    // Copy non-null fields manually from TicketDto to existing Ticket
+    if (ticketDto.getTicketTitle() != null) {
+      existingTicket.setTicketTitle(ticketDto.getTicketTitle());
+    }
+
+    if (ticketDto.getDescription() != null) {
+      existingTicket.setDescription(ticketDto.getDescription());
+    }
+
+    if (ticketDto.getArchiveDate() != null) {
+      existingTicket.setArchiveDate(ticketDto.getArchiveDate());
+    }
+
+    ticketDto.setUpdateDate(new Date());
+    // Set the updateDate after manual copying
+    existingTicket.setUpdateDate(ticketDto.getUpdateDate());
+
+    // Update associations manually if needed (e.g., ticketHaveUsers)
+
+    // Save the updated Ticket
     Ticket savedTicket = ticketRepository.save(existingTicket);
-    return modelMapper.map(savedTicket, TicketDto.class);
-  }
 
-  public TicketDto archiveTicket(Long id) {
-    Ticket existingTicket = ticketRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
-    existingTicket.setArchiveDate(new Date()); // Set the archiving date to the current date
-    Ticket archivedTicket = ticketRepository.save(existingTicket);
-    return modelMapper.map(archivedTicket, TicketDto.class); // Convert Ticket to TicketDto
-  }
+    // Use ModelMapper for DTO conversion
+    TicketDto updatedTicketDto = modelMapper.map(savedTicket, TicketDto.class);
 
-  public TicketDto unarchiveTicket(Long id) {
-    Ticket existingTicket = ticketRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
-    existingTicket.setArchiveDate(null); // Remove the archiving date
-    Ticket unarchivedTicket = ticketRepository.save(existingTicket);
-    return modelMapper.map(unarchivedTicket, TicketDto.class); // Convert Ticket to TicketDto
+    return updatedTicketDto;
   }
 
   public void deleteTicket(Long id) {
@@ -144,30 +152,31 @@ public class TicketService {
         .map(ticket -> modelMapper.map(ticket, TicketDto.class))
         .collect(Collectors.toList());
   }
-public Specification<Ticket> buildSpecificationForFilter(Long id, String statusTitle, String priorityTitle,
-                                                        String categoryTitle, Long authorId) {
+
+  public Specification<Ticket> buildSpecificationForFilter(Long id, String statusTitle, String priorityTitle,
+      String categoryTitle, Long authorId) {
     return (root, query, builder) -> {
-        List<Predicate> predicates = new ArrayList<>();
+      List<Predicate> predicates = new ArrayList<>();
 
-        if (id != null) {
-            predicates.add(builder.equal(root.get("id"), id));
-        }
-        if (statusTitle != null) {
-            predicates.add(builder.equal(root.get("status"), getStatusByTitle(statusTitle)));
-        }
-        if (priorityTitle != null) {
-            predicates.add(builder.equal(root.get("priority"), getPriorityByTitle(priorityTitle)));
-        }
-        if (categoryTitle != null) {
-            predicates.add(builder.equal(root.get("category"), getCategoryByTitle(categoryTitle)));
-        }
-        if (authorId != null) {
-            predicates.add(builder.equal(root.get("author"), getUserById(authorId)));
-        }
+      if (id != null) {
+        predicates.add(builder.equal(root.get("id"), id));
+      }
+      if (statusTitle != null) {
+        predicates.add(builder.equal(root.get("status"), getStatusByTitle(statusTitle)));
+      }
+      if (priorityTitle != null) {
+        predicates.add(builder.equal(root.get("priority"), getPriorityByTitle(priorityTitle)));
+      }
+      if (categoryTitle != null) {
+        predicates.add(builder.equal(root.get("category"), getCategoryByTitle(categoryTitle)));
+      }
+      if (authorId != null) {
+        predicates.add(builder.equal(root.get("author"), getUserById(authorId)));
+      }
 
-        return builder.and(predicates.toArray(new Predicate[0]));
+      return builder.and(predicates.toArray(new Predicate[0]));
     };
-}
+  }
 
   private Status getStatusByTitle(String StatusTitle) {
     Status status = statusRepository.findByStatusTitle(StatusTitle);
@@ -201,27 +210,27 @@ public Specification<Ticket> buildSpecificationForFilter(Long id, String statusT
 
   // COUNT //
   public long countFilteredTickets(Long id, String statusTitle, String priorityTitle, String categoryTitle,
-                                 Long authorId) {
+      Long authorId) {
     Specification<Ticket> spec = Specification.where(null);
 
     if (id != null) {
-        spec = spec.and((root, query, builder) -> builder.equal(root.get("id"), id));
+      spec = spec.and((root, query, builder) -> builder.equal(root.get("id"), id));
     }
     if (statusTitle != null) {
-        spec = spec.and((root, query, builder) -> builder.equal(root.get("status"), getStatusByTitle(statusTitle)));
+      spec = spec.and((root, query, builder) -> builder.equal(root.get("status"), getStatusByTitle(statusTitle)));
     }
     if (priorityTitle != null) {
-        spec = spec.and((root, query, builder) -> builder.equal(root.get("priority"), getPriorityByTitle(priorityTitle)));
+      spec = spec.and((root, query, builder) -> builder.equal(root.get("priority"), getPriorityByTitle(priorityTitle)));
     }
     if (categoryTitle != null) {
-        spec = spec.and((root, query, builder) -> builder.equal(root.get("category"), getCategoryByTitle(categoryTitle)));
+      spec = spec.and((root, query, builder) -> builder.equal(root.get("category"), getCategoryByTitle(categoryTitle)));
     }
     if (authorId != null) {
-        spec = spec.and((root, query, builder) -> builder.equal(root.get("author"), getUserById(authorId)));
+      spec = spec.and((root, query, builder) -> builder.equal(root.get("author"), getUserById(authorId)));
     }
 
     return ticketRepository.count(spec);
-}
+  }
 
   public long countAllTickets() {
     return ticketRepository.count();

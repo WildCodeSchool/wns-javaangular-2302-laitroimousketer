@@ -23,12 +23,6 @@ export class TicketService extends EntityCollectionServiceBase<Ticket> {
     return this.httpClient.get<Ticket[]>(this.baseUrl + '/tickets');
   }
 
-  createTicket(ticket: Ticket, selectedCategory: number): Observable<Ticket[]> {
-    const ticketWithCategory = { ...ticket, category: { id: selectedCategory } };
-    console.log(ticketWithCategory);
-    return this.httpClient.post<Ticket[]>(this.baseUrl + '/tickets', ticketWithCategory);
-  }
-
   getTicket(ticketId: number): Observable<Ticket> {
     return this.httpClient.get<Ticket>(this.baseUrl + '/tickets/' + ticketId);
   }
@@ -37,17 +31,10 @@ export class TicketService extends EntityCollectionServiceBase<Ticket> {
     return this.httpClient.put<Ticket>(this.baseUrl + '/tickets/' + ticketId, ticket);
   }
 
-
-  archiveTicket(ticketId: number): Observable<HttpResponse<any>> {
-    return this.httpClient.put(this.baseUrl + '/tickets/archive/' + ticketId, null, { observe: 'response' });
-  }
-  unarchiveTicket(ticketId: number): Observable<HttpResponse<any>> {
-    return this.httpClient.put(this.baseUrl + '/tickets/unarchive/' + ticketId, null, { observe: 'response' });
-  }
   deleteTicket(ticketId: number): Observable<Ticket[]> {
     return this.httpClient.delete<Ticket[]>(this.baseUrl + '/tickets/' + ticketId);
   }
-  // TicketService
+
   getTicketsByFilters(filter: string | number): Observable<Ticket[]> {
     // console.log('filters: ',filter);
     return this.httpClient.get<Ticket[]>(this.baseUrl + '/tickets?' + filter);
@@ -56,5 +43,5 @@ export class TicketService extends EntityCollectionServiceBase<Ticket> {
     return this.httpClient.get<number>(this.baseUrl + '/tickets?' + filter);
   }
 
-  
+
 }

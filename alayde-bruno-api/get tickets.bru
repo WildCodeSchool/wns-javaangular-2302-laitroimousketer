@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{ip}}/tickets?userId=40
+  url: {{ip}}/tickets
   body: none
   auth: none
 }
 
 query {
-  userId: 40
+  ~userId: 40
   ~status: En cours
   ~priority: Élevée
   ~count: true

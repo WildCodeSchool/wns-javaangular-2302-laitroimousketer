@@ -134,7 +134,6 @@ public class UserService {
             .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
 
     // Supprimer manuellement les relations avant de supprimer l'utilisateur
-    existingUser.getAuthoredTickets().forEach(ticket -> ticket.setAuthor(null));
     existingUser.getTicketHaveUsers().forEach(ticket -> ticket.setUser(null));
     userRepository.delete(existingUser);
 }

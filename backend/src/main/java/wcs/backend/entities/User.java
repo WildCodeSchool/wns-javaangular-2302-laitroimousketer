@@ -38,18 +38,14 @@ public class User implements UserDetails {
   private String password;
 
   @ManyToOne
-  @JoinColumn(name = "role_id", referencedColumnName = "id")
+  @JoinColumn(name = "role_id")
   private Role role;
 
-  @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-  private List<Ticket> authoredTickets;
-
-  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
   private List<TicketHaveUsers> ticketHaveUsers;
 
-
   @ManyToOne
-  @JoinColumn(name = "address_id", referencedColumnName = "id")
+  @JoinColumn(name = "address_id", nullable = true, updatable = true)
   private Address address;
 
   @Override

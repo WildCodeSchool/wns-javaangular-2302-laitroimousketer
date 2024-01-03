@@ -62,12 +62,12 @@
 
         <ng-container *ngIf="this.ticket.archiveDate === null">
           <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill"
-            (click)="archiveTicket(this.ticket!.id)">Archiver</button>
+            (click)="archiveTicket(this.ticket.id)">Archiver</button>
         </ng-container>
         
         <ng-container *ngIf="this.ticket.archiveDate !== null">
           <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill"
-            (click)="unarchiveTicket(this.ticket!.id)">Désarchiver</button>
+            (click)="unarchiveTicket(this.ticket.id)">Désarchiver</button>
         </ng-container>
       </div>
     </section>
