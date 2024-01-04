@@ -9,6 +9,6 @@ export class User {
   public password: string = '';
   public role!: Role;
   public roleTitle: string = '';
-  public address?: Address;
+  public address!: Address;
   public addressId: number = 0;
 }

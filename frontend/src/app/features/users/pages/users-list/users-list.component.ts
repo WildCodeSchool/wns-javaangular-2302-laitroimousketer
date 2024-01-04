@@ -1,7 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
-import { latLng, tileLayer, Map } from 'leaflet';
+import { tileLayer, latLng, marker, icon, Layer, featureGroup, FeatureGroup, Map } from 'leaflet';
 import { MarkerData } from 'src/app/core/components/common/map/marker-data.model';
 import { User } from 'src/app/core/models/user.model';
 import { SharedService } from 'src/app/core/services/shared.service';
@@ -11,6 +11,8 @@ import * as Reducer from 'src/app/store/reducers/index';
 import * as userAction from 'src/app/store/actions/user.action';
 import { takeUntil } from 'rxjs';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
+
+
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
@@ -27,20 +29,24 @@ import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component'
     ]),
   ],
 })
-export class UsersListComponent extends UnsubcribeComponent implements OnInit {
+export class UsersListComponent extends UnsubcribeComponent implements OnInit { 
   map!: Map;
   zoom!: number;
-  mapOptions = {
+  mapOptions  = {
     layers: [
-      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '',
+      })
     ],
-    zoom: 5,
-    center: latLng(48.864716, 2.349014)
+    zoom: 6,
+    center: latLng(46.983930, 2.719502),
+
   };
   markersData: MarkerData[] = [];
-
+  usersMarkers: FeatureGroup[] = [];
   users: User[] = [];
-  user!: User
+  user!: User;
   states: string[] = [
     'Mail (A-Z)',
     'Mail (Z-A)',
@@ -50,7 +56,8 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
     'Prénom (Z-A)',
   ];
   currentSortBy: string = '';
-  placeholderSearchbar: string = "Rechercher un utilisateur par son nom, prénom, mail..."
+  placeholderSearchbar: string = "Rechercher un utilisateur par son nom, prénom, mail...";
+
   constructor(
     private store: Store<Reducer.StateDataStore>,
     private sharedService: SharedService,
@@ -63,6 +70,10 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
     this.loadUsers();
   }
 
+  onMapReady(map: Map) {
+    this.map = map;
+    this.map.attributionControl.setPrefix(false);
+  }
 
   loadUsers() {
     this.store.dispatch(userAction.getUsers());
@@ -71,28 +82,60 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
       .subscribe((data: User[]) => {
         if (data) {
           this.users = data;
-          // this.markersData = this.initializeMarkersData(this.users);
-          // Autres opérations ici...
+          this.markersData = this.initializeMarkersData(this.users); // Populate markersData
+          this.updateMapMarkers(); // Update map markers
         }
       });
   }
-
-  openUserDetails(userId: number) {
-    // Dispatch d'autres actions liées à la sidebar
-    console.log(userId);
-    this.store.dispatch(userAction.getUser({ payload: userId, displayInSidebar: true }));
-
+  updateMapMarkers() {
+    this.usersMarkers = [featureGroup(this.users
+      .map(user => {
+        const m = marker([user.address?.latitude || 0, user.address?.longitude || 0], {
+          icon: icon({
+            iconSize: [25, 41],
+            iconAnchor: [13, 41],
+            iconUrl: 'leaflet/marker-icon.png',
+            shadowUrl: 'leaflet/marker-shadow.png'
+          })
+        });
+        m.bindPopup(user.lastname +' '+ user.firstname);
+        m.on('click', () => {
+          m.openPopup();  // Call openPopup on the marker
+        });
+        return m;
+      }))
+    ];
+    if (!this.map && this.users.length === 0) {
+      this.usersMarkers = [];
+    }
   }
+  
+
 
   initializeMarkersData(users: User[]): MarkerData[] {
     return users.map(user => {
+      const latitude = user.address?.latitude; 
+      const longitude = user.address?.longitude;
+  
       return {
-        latLng: latLng(user.address!.latitude, user.address!.longitude),
+        latLng: latLng(latitude, longitude),
         title: user.firstname + ' ' + user.lastname,
         description: user.email
       };
     });
   }
+  
+
+
+  
+
+  
+  openUserDetails(userId: number) {
+    // Dispatch d'autres actions liées à la sidebar
+    console.log(userId);
+    this.store.dispatch(userAction.getUser({ payload: userId, displayInSidebar: true }));
+  }
+
   isEven(index: number): boolean {
     return index % 2 === 0;
   }
@@ -127,12 +170,15 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
       default:
         break;
     }
+
+    this.markersData = this.initializeMarkersData(this.users); // Update markersData
+    this.updateMapMarkers(); // Update map markers
   }
+
   onSortChange(event: MatSelectChange) {
     this.currentSortBy = event.value;
     this.sortUsers(this.currentSortBy, this.users);
   }
-
 
   receiveMap(map: Map) {
     this.map = map;

@@ -63,7 +63,13 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
     'Prénom (A-Z)',
     'Prénom (Z-A)',
   ];
-
+nameDown: boolean = false;
+numeroDown: boolean = false;
+titleDown: boolean = false;
+categoryDown: boolean = false;
+statusDown: boolean = false;
+priorityDown: boolean = false;
+dateDown: boolean = false;
   filters: any = {
     status: { 'À faire': false, 'En cours': false, 'Terminé': false },
     priority: { 'Basse': false, 'Moyenne': false, 'Élevée': false },
@@ -71,7 +77,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
   };
 
   subscriptions = new Subscription();
-
+  displayedColumns: string[] = ['client','ticketTitle', 'numero', 'category', 'statut', 'priority', 'creationDate'];
 
   constructor(
     private store: Store<Reducer.StateDataStore>,

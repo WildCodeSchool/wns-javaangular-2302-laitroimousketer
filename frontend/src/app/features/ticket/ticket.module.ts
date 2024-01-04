@@ -30,6 +30,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     DatePipe,
     MatCheckboxModule,
     MatSlideToggleModule,
+    
 
 
   ],
