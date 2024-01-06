@@ -23,7 +23,9 @@
   }
 
 }
-
+.show-more {
+  margin-left: 6px;
+}
 .details-profil {
   display: flex;
   align-items: center;
@@ -47,17 +49,6 @@ header {
     opacity: 1;
     font-size: 18px;
   }
-
-  .prefix {
-    font-size: 17px;
-    font-weight: 100;
-    margin-right: 8px;
-    line-height: 1.5;
-    font-style: italic;
-    font-weight: 100;
-    color: rgb(100, 100, 100);
-  }
-
 }
 
 .date span {
@@ -130,12 +121,7 @@ header {
   /* Réglez la largeur à 80% */
   border-bottom: 1px dashed rgba(0, 0, 0, 0.5);
 }
-.date {
-  span {
-    font-weight: 400;
-    color: black;
-  }
-}
+
 .actions {
   h1 {
     margin-bottom: 40px;

@@ -4,31 +4,14 @@ meta {
   seq: 16
 }
 
-post {
-  url: {{ip}}/users
+put {
+  url: {{ip}}/users/2
   body: json
   auth: none
 }
 
 body:json {
   {
-    "firstname": "Eva",
-    "lastname": "Poret",
-    "email": "eva@poretgmail.com",
-    "password":"test",
-    "role": {
-      "id": 8,
-      "roleTitle": "Développeur"
-    },
-    "address": {
-      "id": 49,
-      "city": "Dijon",
-      "country": "Serbia",
-      "latitude": 28.131343,
-      "longitude": -1.1544298,
-      "postcode": "56514",
-      "street_l1": "52 Place de la Chaussée-d'Antin",
-      "street_l2": "Apt. 450"
-    }
+  
   }
 }

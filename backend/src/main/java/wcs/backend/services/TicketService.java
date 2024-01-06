@@ -91,8 +91,25 @@ public class TicketService {
       existingTicket.setDescription(ticketDto.getDescription());
     }
 
+    if (ticketDto.getCategory() != null) {
+      existingTicket.setCategory(categoryRepository.findById(ticketDto.getCategory().getId())
+          .orElseThrow(() -> new EntityNotFoundException("Category not found")));
+    }
+
+    if (ticketDto.getStatus() != null) {
+      existingTicket.setStatus(statusRepository.findById(ticketDto.getStatus().getId())
+          .orElseThrow(() -> new EntityNotFoundException("Status not found")));
+    }
+
+    if (ticketDto.getPriority() != null) {
+      existingTicket.setPriority(priorityRepository.findById(ticketDto.getPriority().getId())
+          .orElseThrow(() -> new EntityNotFoundException("Priority not found")));
+    }
+    // Set or clear the archiveDate
     if (ticketDto.getArchiveDate() != null) {
       existingTicket.setArchiveDate(ticketDto.getArchiveDate());
+    } else {
+      existingTicket.setArchiveDate(null);
     }
 
     ticketDto.setUpdateDate(new Date());

@@ -55,24 +55,25 @@ export class TicketEffects {
   );
 
   updateTicket$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(action.updateTicket),
-    switchMap(({ payload }) => {
-      console.log('Payload received in updateTicket effect:', payload); // Add this line for debugging
-      return this.ticketService.update(payload).pipe(
-        map((data: Ticket) => action.saveTicket({ payload: data })),
-        tap(() => this.msgService.showSuccessAlert('Ticket modifié')),
-        catchError(error => {
-          this.msgService.showErrorAlert('Erreur lors de la modification du ticket');
-          // Handle errors here if necessary
-          return of(/* error action if needed */);
-        })
-      );
-    })
-  )
-);
-
-
+    this.actions$.pipe(
+      ofType(action.updateTicket),
+      switchMap(({ payload }) =>
+        this.ticketService.update(payload).pipe(
+          switchMap(() =>
+            this.ticketService.getByKey(payload.id).pipe(
+              map((data: Ticket) => action.saveTicket({ payload: data })),
+              tap(() => this.msgService.showSuccessAlert('Ticket modifié')),
+              catchError(error => {
+                this.msgService.showErrorAlert('Erreur lors de la modification du ticket');
+                // Handle errors here if necessary
+                return of(/* error action if needed */);
+              })
+            )
+          )
+        )
+      )
+    )
+  );
 
 
   createTicket = createEffect(() =>

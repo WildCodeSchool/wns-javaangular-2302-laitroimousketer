@@ -6,8 +6,10 @@ import { Ticket } from 'src/app/features/ticket/models/ticket';
 import { Store } from '@ngrx/store';
 import * as Reducer from 'src/app/store/reducers/index';
 import * as ticketAction from 'src/app/store/actions/ticket.action';
+import * as userAction from 'src/app/store/actions/user.action';
 import { takeUntil } from 'rxjs';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
+
 @Component({
   selector: 'app-ticket-details',
   templateUrl: './ticket-details.component.html',
@@ -26,7 +28,7 @@ import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component'
 })
 export class TicketDetailsComponent extends UnsubcribeComponent implements OnInit {
 
-  ticket!: Ticket;
+  ticket?: Ticket;
   menuItems: MenuItems[] = [
     { page: 'Info', icon: 'bi bi-info-square-fill' },
     { page: 'Chat', icon: 'bi bi-chat-left-dots-fill' },
@@ -34,8 +36,7 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
   ];
   menuTitle: string = 'Ticket';
   menuIcon: string = 'bi bi-tag-fill';
-  fullnameAuthor : string = '';
-  canClose: boolean = false;
+  fullnameAuthor: string = '';
   page: string = 'Info';
   statutSpan: string = '';
   prioritySpan: string = '';
@@ -45,58 +46,70 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
     private store: Store<Reducer.StateDataStore>,
   ) {
     super();
-   }
+  }
 
   ngOnInit() {
     this.loadTicket();
+    this.fullnameAuthor = this.ticket?.author.firstname + ' ' + this.ticket?.author.lastname;
   }
-  // pour le reset des
+
 
   onPageChange(page: string): void {
     this.page = page;
     // console.log('Page changed to:', this.page);
   }
-
+  displayUser() {
+    this.store.dispatch(userAction.getUser({ payload: this.ticket!.author.id, displayInSidebar: true }));
+  }
+  
   loadTicket() {
-    this.store.select(Reducer.getTicket).pipe(takeUntil(this.destroy$)).subscribe((ticket: Ticket)=>{
-      this.ticket = ticket;
-    });
-      if (this.ticket) {
-        // console.log('ticket details:', this.ticket);
-      this.checkStatus();
-      this.checkPriority();
-    }
+    this.store.select(Reducer.getTicket)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((ticket: Ticket) => {
+        this.ticket = ticket;
+        if (this.ticket) {
+          // console.log('ticket details:', this.ticket);
+          this.checkStatus();
+          this.checkPriority();
+        }
+      });
   }
 
 
   checkStatus() {
-    if (this.ticket.status.statusTitle === 'À faire') {
-      this.statutSpan = 'todo';
+    switch (this.ticket?.status.statusTitle) {
+      case 'À faire':
+        this.statutSpan = 'todo';
+        break;
+      case 'En cours':
+      case 'Terminé':
+        this.statutSpan = 'done';
+        break;
+      default:
+        break;
+    }
 
-    } if (this.ticket.status.statusTitle === 'En cours') {
-      this.statutSpan = 'done';
-    }
-    if (this.ticket.status.statusTitle === 'Terminé') {
-      this.statutSpan = 'done';
-      this.canClose = true;
-    }
   }
 
   checkPriority() {
-    if (this.ticket.priority.priorityTitle === 'Basse') {
-      this.prioritySpan = 'low';
-    }
-    if (this.ticket.priority.priorityTitle === 'Moyenne') {
-      this.prioritySpan = 'medium';
-    }
-    if (this.ticket.priority.priorityTitle === 'Élevée') {
-      this.prioritySpan = 'high';
+    switch (this.ticket?.priority.priorityTitle) {
+      case 'Basse':
+        this.prioritySpan = 'low';
+        break;
+      case 'Moyenne':
+        this.prioritySpan = 'medium';
+        break;
+      case 'Élevée':
+        this.prioritySpan = 'high';
+        break;
+      default:
+        break;
     }
   }
 
 
   archiveTicket(ticketId: number): void {
-    if (!this.ticket.archiveDate) {
+    if (!this.ticket?.archiveDate) {
       // Make sure to create a copy of the ticket object to avoid modifying the original object
       const payload: Partial<Ticket> = {
         ...this.ticket,
@@ -105,22 +118,40 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
       this.store.dispatch(ticketAction.updateTicket({ payload }));
     }
   }
-  
-  
+
+
   unarchiveTicket(ticketId: number): void {
-    if (!!this.ticket.archiveDate) {
+    if (!!this.ticket?.archiveDate) {
       let payload: Partial<Ticket> = {
         id: ticketId,
-        archiveDate: '',
+        archiveDate: null,
       }
       this.store.dispatch(ticketAction.updateTicket({ payload }));
     }
   }
 
   closeTicket() {
+    if (this.ticket?.status.statusTitle !== 'Terminé') {
+      let payload: Partial<Ticket> = {
+        id: this.ticket!.id,
+        status: {
+          id: 3
+        }
+      }
+      this.store.dispatch(ticketAction.updateTicket({ payload }));
+    }
   }
 
   reopenTicket() {
+    if (this.ticket?.status.statusTitle === 'Terminé') {
+      let payload: Partial<Ticket> = {
+        id: this.ticket!.id,
+        status: {
+          id: 1
+        }
+      }
+      this.store.dispatch(ticketAction.updateTicket({ payload }));
+    }
   }
 
 

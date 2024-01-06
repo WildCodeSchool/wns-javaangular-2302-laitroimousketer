@@ -62,13 +62,6 @@
   }
 }
 
-.prefix {
-  font-style: italic;
-  color: #757575;
-  font-size: 15px;
-  margin-right: 6px;
-}
-
 .context-ticket-card-creator {
   margin: auto 10px auto 0;
 }
@@ -87,7 +80,7 @@
 
 // host-context pour garder un style générique et faciliter la réutilisation du composant
 :host-context(.context-ticket-list) .card {
-  margin-top: 16px;
+  margin-bottom: 16px;
   background-color: transparent;
 }
 

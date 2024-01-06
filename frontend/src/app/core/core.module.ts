@@ -13,7 +13,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { AvatarComponent } from './components/common/avatar/avatar.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { MapComponent } from './components/common/map/map.component';
 import { TicketDetailsComponent } from './components/common/sidebar/sidebar-components/ticket-details/ticket-details.component';
 import { ActivityComponent } from './components/common/sidebar/sidebar-components/activity/activity.component';
 import { SidebarMenuComponent } from './components/common/sidebar/sidebar-components/sidebar-menu/sidebar-menu.component';
@@ -35,7 +34,6 @@ import { TicketCardComponent } from './components/tickets/ticket-card/ticket-car
     ActivityComponent,
     TicketAddComponent,
     TicketChatComponent,
-    MapComponent,
     UserDetailsComponent,
     TicketCardComponent,
     
@@ -66,7 +64,6 @@ import { TicketCardComponent } from './components/tickets/ticket-card/ticket-car
     TicketAddComponent,
     SidebarMenuComponent,
     ActivityComponent,
-    MapComponent,
     UserDetailsComponent,
     TicketCardComponent,
   ],

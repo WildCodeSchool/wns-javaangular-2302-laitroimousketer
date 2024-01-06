@@ -51,9 +51,15 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
   font-family: 'Open sans', sans-serif;
+
 }
 h1,h2,h3,h4,h5,h6 {
   font-family: 'Roboto', sans-serif;
+  color: $textColor;
+}
+
+div,p,span {
+  color: $textColor;
 }
 // overlay sidebar //
 .mat-drawer-backdrop.mat-drawer-shown {
@@ -63,11 +69,16 @@ h1,h2,h3,h4,h5,h6 {
 
 //fonts//
 
-.btn
+
+.btn,button,.mat-mdc-button
 {
+  color: white!important;
   font-size: 16px;
   @include tablet {font-size: 15px}
   @include mobile {font-size: 14px}
+  span {
+    color: white;
+  }
 }
 // SCROLLBAR //
 /* width */
@@ -145,11 +156,6 @@ input:-webkit-autofill:active{
   border:0px!important;
 }
 
- mat-accordion {
-  border: 0px!important;
-  border-radius: 0px!important;
-}
-
 .mat-expansion-panel:not([class*=mat-elevation-z]) {
   box-shadow: none;
 }
@@ -167,5 +173,51 @@ input:-webkit-autofill:active{
   margin-left: -10px!important;
   font-weight: 400;
 }
+// COMMON //
+.widget-title {
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  i {
+    color: $primaryColor;
+    margin-right: 2px;
+  }
+  span {
+    font-weight: 300;
+  }
+}
+.widget-small-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  i {
+    color: $primaryColor;
+    margin-right: 2px;
+  }
+}
 
+.prefix {
+  font-size: 17px;
+  font-weight: 100;
+  margin-right: 8px;
+  line-height: 1.5;
+  font-weight: 600;
+  span {
+    font-family: 'Roboto', sans-serif;
+    opacity: 1;
+    font-size: 18px;
+  }
+}
+
+.show-more {
+  color:$primaryColor;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  i {
+    color:$primaryColor;
+    margin-right: 4px;
+  }
+}
 

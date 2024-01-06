@@ -6,6 +6,7 @@ import { UserCardComponent } from './components/user-card/user-card.component';
 import { UsersListComponent } from './pages/users-list/users-list.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 
 
@@ -20,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
     CoreModule,
     MatFormFieldModule,
     MatSelectModule,
+    LeafletModule
   ]
 })
 export class UsersModule { }

@@ -6,20 +6,31 @@
   position: relative;
   margin-bottom: 20px;
 }
+
 .details-profil {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 4px;
   margin-bottom: 20px;
+}
 
-  .name,
-  .firstname {
-    margin-left: 4px;
-    font-size: 20px;
-    font-weight: 500;
-    color: black;
-  }
+.firstname,
+.firstname {
+  font-size: 40px;
 
+}
+
+
+.lastname {
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.title-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
 .buttons-actions {
@@ -30,8 +41,16 @@
 }
 
 h2 {
-  margin-left: 4px;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 500;
   color: black;
+}
+.localisation-c {
+margin-bottom: 20px;
+}
+
+.user-tickets {
+  display: grid;
+  grid-template-columns: repeat(auto, 1fr);
+  gap: 10px;
 }

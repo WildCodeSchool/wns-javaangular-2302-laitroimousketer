@@ -1,12 +1,12 @@
 import { createAction, props } from '@ngrx/store';
 
 export const action = {
-  RESET_SIDE_BAR: '[WindowSideBar] fermeture de tout les panels, et initialisation des options',
+  RESET_SIDE_BAR: '[WindowSideBar] reset and close sidebar',
   // type des action display des panels
-  DISPLAY_TICKET_DETAILS: '[WindowSideBar] sidebar avec panel de détail de ticket',
-  DISPLAY_TICKET_CREATE: '[WindowSideBar] sidebar avec panel de création de ticket',
-  DISPLAY_USER_DETAILS: '[WindowSideBar] sidebar avec panel de détail de user',
-  DISPLAY_ACTIVITY: '[WindowSideBar] sidebar avec panel d\'activité',
+  DISPLAY_TICKET_DETAILS: '[WindowSideBar] panel ticket-details',
+  DISPLAY_TICKET_CREATE: '[WindowSideBar] panel create ticket',
+  DISPLAY_USER_DETAILS: '[WindowSideBar] panel user',
+  DISPLAY_ACTIVITY: '[WindowSideBar] panel activity',
 
 };
 

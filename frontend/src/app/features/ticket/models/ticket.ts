@@ -13,7 +13,7 @@ export class Ticket {
   public priority!: Priority
   public creationDate: string = ''
   public updateDate: string = ''
-  public archiveDate: string = ''
+  public archiveDate: string | null = ''
   public ticketHaveUsers : TicketHaveUsers[] = [];
   public author! : User
 }

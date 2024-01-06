@@ -2,7 +2,7 @@
   <app-search-bar [placerholder]="placeholderSearchbar"></app-search-bar>
 
   <div class="users-list">
-    <header>
+
       <mat-form-field class="select">
         <mat-label>Trier par</mat-label>
         <mat-select class="select" (selectionChange)="onSortChange($event)">
@@ -13,20 +13,23 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      </header>
+
     <div class="left-right">
+
       <div class="left">
-      <div *ngFor="let user of users; let i = index"
-        [ngClass]="{'even': isEven(i), 'odd': !isEven(i)}">
-      <app-user-card class="context-user-list" [user]="user" (click)="openUserDetails(user.id)"></app-user-card>
+        <div *ngFor="let user of users; let i = index" [ngClass]="{'even': isEven(i), 'odd': !isEven(i)}">
+          <app-user-card class="context-user-list" [user]="user"></app-user-card>
+        </div>
+      </div>
+
+      <div class="right">
+   <div class="map" leaflet [leafletOptions]="mapOptions" [leafletLayers]="usersMarkers" (leafletMapReady)="onMapReady($event)"></div>
+
+      </div>
 
     </div>
-  </div>
-  <div class="right">
- <!-- <app-map [options]="mapOptions"></app-map> -->
-  <p>Map Leaflet à venir..</p>
-  </div>
-</div>
 
   </div>
+
+
 </section>
