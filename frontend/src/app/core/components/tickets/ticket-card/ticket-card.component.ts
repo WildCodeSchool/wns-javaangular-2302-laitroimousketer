@@ -83,41 +83,32 @@ export class TicketCardComponent extends UnsubcribeComponent implements OnInit {
   }
 
   loadColorPriority() {
-    if (this.ticketDetails.priority === 'LOW') {
+    if (this.ticketDetails.priority === 'Basse') {
       this.colorPriority = 'green';
-    } else if (this.ticketDetails.priority === 'MEDIUM') {
+    } else if (this.ticketDetails.priority === 'Moyenne') {
       this.colorPriority = 'yellow';
-    } else if (this.ticketDetails.priority === 'HIGH') {
+    } else if (this.ticketDetails.priority === 'Élevée') {
       this.colorPriority = 'red';
     } else {
       this.colorPriority = ''; // Aucune classe par défaut si la priorité n'est pas définie
     }
   }
   loadColorStatus() {
-    if (this.ticketDetails.status === 'TO_DO') {
+    if (this.ticketDetails.status === 'À faire') {
       this.colorStatus = 'red';
 
-    } if (this.ticketDetails.status === 'DOING') {
+    } if (this.ticketDetails.status === 'En cours') {
       this.colorStatus = 'yellow';
     }
-    if (this.ticketDetails.status === 'DONE') {
+    if (this.ticketDetails.status === 'Terminé') {
       this.colorStatus = 'green';
     }
 
   }
 
-  // ...
-
-
-  openContactDetails() {
-    // Dispatch d'autres actions liées à la sidebar
-    console.log(this.ticket.id);
+  openTicketDetails() {
     this.store.dispatch(ticketAction.getTicket({ payload: this.ticket.id, displayInSidebar: true }));
-  
   }
 
-
-
-  // ...
 
 }

@@ -70,6 +70,7 @@ public class UserDataseed {
       userDto.setFirstname(faker.name().firstName());
       userDto.setLastname(faker.name().lastName());
       userDto.setEmail(faker.internet().emailAddress());
+      userDto.setPhone(faker.phoneNumber().cellPhone());
       userDto.setPassword(faker.internet().password());
       RoleDto randomRole = existingRoles.get(faker.random().nextInt(existingRoles.size()));
       userDto.setRole(randomRole);

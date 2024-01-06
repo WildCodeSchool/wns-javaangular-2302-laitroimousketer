@@ -84,6 +84,10 @@ public class UserService {
       if (userDto.getEmail() != null) {
         existingUser.setEmail(userDto.getEmail());
       }
+      
+      if (userDto.getPhone() != null) {
+        existingUser.setPhone(userDto.getPhone());
+      }
 
       if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
         String encryptedPassword = passwordEncoder.encode(userDto.getPassword());

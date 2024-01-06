@@ -41,6 +41,7 @@ export function getReducers() {
 export const getSidebarState = createSelector(
   getFeatureState, state => state.sidebarStore);
 // panel dans sidebar
+
 export const getPanelState = createSelector(
   getSidebarState, sidebarReducer.getPanel);
 

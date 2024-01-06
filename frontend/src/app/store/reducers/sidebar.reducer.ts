@@ -10,6 +10,7 @@ export interface SideBarState {
 }
 const initPanel: PanelSideBar = {
   sidebar: { isOpen: false },
+  activePage: null,
   displayTicketDetails: { isOpen: false },
   displayTicketCreate: { isOpen: false },
   displayUserDetails: { isOpen: false },
@@ -26,6 +27,7 @@ const initialState: SideBarState = {
 export function initPanelElement(state: SideBarState): SideBarState {
   const newPanel: PanelSideBar = {
     sidebar: { isOpen: false },
+    activePage: null,
     displayTicketDetails: { isOpen: false },
     displayTicketCreate: { isOpen: false },
     displayUserDetails: { isOpen: false },
@@ -49,43 +51,43 @@ export function reducer(state = initialState, action: Action & { payload?: any }
     // display ticket details
     // display ticket details
     case sidebarAtion.action.DISPLAY_TICKET_DETAILS: {
-      const newPanel = {
-        ...state.panel,
-        sidebar: { isOpen: true },
-        displayTicketDetails: { isOpen: true },
-      };
+      let modifyPanel = initPanelElement(state).panel;
+      modifyPanel.sidebar.isOpen = true;
+      modifyPanel.displayTicketDetails.isOpen = true;
+      modifyPanel.activePage = action.type;
       return {
         ...state,
-        panel: newPanel,
+        panel: modifyPanel,
       };
     }
-    // display ticket create
+
     case sidebarAtion.action.DISPLAY_TICKET_CREATE: {
       let modifyPanel = initPanelElement(state).panel;
       modifyPanel.sidebar.isOpen = true;
       modifyPanel.displayTicketCreate.isOpen = true;
+      modifyPanel.activePage = action.type;
       return {
         ...state,
         panel: modifyPanel,
       };
     }
+
     case sidebarAtion.action.DISPLAY_USER_DETAILS: {
       let modifyPanel = initPanelElement(state).panel;
       modifyPanel.sidebar.isOpen = true;
       modifyPanel.displayUserDetails.isOpen = true;
-
+      modifyPanel.activePage = action.type;
       return {
         ...state,
         panel: modifyPanel,
       };
     }
-
 
     case sidebarAtion.action.DISPLAY_ACTIVITY: {
       let modifyPanel = initPanelElement(state).panel;
       modifyPanel.sidebar.isOpen = true;
       modifyPanel.displayActivity.isOpen = true;
-
+      modifyPanel.activePage = action.type;
       return {
         ...state,
         panel: modifyPanel,

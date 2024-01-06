@@ -20,6 +20,7 @@ export function reducer(state = initialState, action: Action & { payload?: any }
       return {
         ...state,
         ticket: action.payload,
+        tickets: [...state.tickets, action.payload],//update ticket in tickets too
       };
     }
 

@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { tileLayer, latLng, marker, icon, Layer, featureGroup, FeatureGroup, Map } from 'leaflet';
-import { MarkerData } from 'src/app/core/components/common/map/marker-data.model';
+
 import { User } from 'src/app/core/models/user.model';
 import { SharedService } from 'src/app/core/services/shared.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -43,7 +43,7 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
     center: latLng(46.983930, 2.719502),
 
   };
-  markersData: MarkerData[] = [];
+
   usersMarkers: FeatureGroup[] = [];
   users: User[] = [];
   user!: User;
@@ -82,7 +82,7 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
       .subscribe((data: User[]) => {
         if (data) {
           this.users = data;
-          this.markersData = this.initializeMarkersData(this.users); // Populate markersData
+          this.usersMarkers = this.initializeMarkersData(this.users); // Populate markersData
           this.updateMapMarkers(); // Update map markers
         }
       });
@@ -112,7 +112,7 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
   
 
 
-  initializeMarkersData(users: User[]): MarkerData[] {
+  initializeMarkersData(users: User[]): any[] {
     return users.map(user => {
       const latitude = user.address?.latitude; 
       const longitude = user.address?.longitude;
@@ -125,16 +125,8 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
     });
   }
   
-
-
   
 
-  
-  openUserDetails(userId: number) {
-    // Dispatch d'autres actions liées à la sidebar
-    console.log(userId);
-    this.store.dispatch(userAction.getUser({ payload: userId, displayInSidebar: true }));
-  }
 
   isEven(index: number): boolean {
     return index % 2 === 0;
@@ -146,33 +138,36 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
     if (!this.users) {
       return;
     }
-    // console.log('sortBy', sortBy);
+  
+    // Create a copy of the users array
+    const sortedUsers = [...this.users];
+  
     switch (sortBy) {
       case 'Mail (A-Z)':
-        this.users.sort((a, b) => a.email.localeCompare(b.email));
+        sortedUsers.sort((a, b) => a.email.localeCompare(b.email));
         break;
       case 'Mail (Z-A)':
-        this.users.sort((a, b) => b.email.localeCompare(a.email));
+        sortedUsers.sort((a, b) => b.email.localeCompare(a.email));
         break;
       case 'Nom (A-Z)':
-        this.users.sort((a, b) => a.firstname.localeCompare(b.firstname));
+        sortedUsers.sort((a, b) => a.firstname.localeCompare(b.firstname));
         break;
       case 'Nom (Z-A)':
-        this.users.sort((a, b) => b.firstname.localeCompare(a.firstname));
+        sortedUsers.sort((a, b) => b.firstname.localeCompare(a.firstname));
         break;
       case 'Prénom (A-Z)':
-        this.users.sort((a, b) => a.lastname.localeCompare(b.lastname));
+        sortedUsers.sort((a, b) => a.lastname.localeCompare(b.lastname));
         break;
       case 'Prénom (Z-A)':
-        this.users.sort((a, b) => b.lastname.localeCompare(a.lastname));
+        sortedUsers.sort((a, b) => b.lastname.localeCompare(a.lastname));
         break;
       // Add more cases as needed
       default:
         break;
     }
-
-    this.markersData = this.initializeMarkersData(this.users); // Update markersData
-    this.updateMapMarkers(); // Update map markers
+  
+    // Update the users array with the sorted copy
+    this.users = sortedUsers;
   }
 
   onSortChange(event: MatSelectChange) {

@@ -53,23 +53,14 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
 
   showArchivedTickets: boolean = false;
   currentSortBy: string = '';
-  states: string[] = [
-    'Date de création (asc)',
-    'Date de création (desc)',
-    'Numéro de ticket (asc)',
-    'Numéro de ticket (desc)',
-    'Nom (A-Z)',
-    'Nom (Z-A)',
-    'Prénom (A-Z)',
-    'Prénom (Z-A)',
-  ];
-nameDown: boolean = false;
-numeroDown: boolean = false;
-titleDown: boolean = false;
-categoryDown: boolean = false;
-statusDown: boolean = false;
-priorityDown: boolean = false;
-dateDown: boolean = false;
+
+  firstNameDown: boolean;
+  numeroDown: boolean;
+  titleDown: boolean;
+  categoryDown: boolean;
+  statusDown: boolean;
+  priorityDown: boolean;
+  dateDown: boolean;
   filters: any = {
     status: { 'À faire': false, 'En cours': false, 'Terminé': false },
     priority: { 'Basse': false, 'Moyenne': false, 'Élevée': false },
@@ -77,7 +68,6 @@ dateDown: boolean = false;
   };
 
   subscriptions = new Subscription();
-  displayedColumns: string[] = ['client','ticketTitle', 'numero', 'category', 'statut', 'priority', 'creationDate'];
 
   constructor(
     private store: Store<Reducer.StateDataStore>,
@@ -85,33 +75,26 @@ dateDown: boolean = false;
     private authService: AuthService,
   ) {
     super();
+    this.dateDown = false;
+    this.numeroDown = false;
+    this.titleDown = false;
+    this.firstNameDown = false;
+    this.categoryDown = false;
+    this.statusDown = false;
+    this.priorityDown = false;
   }
 
   ngOnInit() {
     this.getCounts();
     this.checkRole();
     this.getTicketList();
-    this.initializeStates();
   }
 
-
-  private initializeStates() {
-    this.states = [
-      'Date de création (asc)',
-      'Date de création (desc)',
-      'Numéro de ticket (asc)',
-      'Numéro de ticket (desc)',
-      'Nom (A-Z)',
-      'Nom (Z-A)',
-      'Prénom (A-Z)',
-      'Prénom (Z-A)',
-    ];
-  }
 
   checkRole() {
     this.authService.getUserProfile().pipe(takeUntil(this.destroy$)).subscribe((data) => {
-        this.role = data.role;
-        // console.log('role', this.role);
+      this.role = data.role;
+      // console.log('role', this.role);
     });
   }
 
@@ -149,12 +132,12 @@ dateDown: boolean = false;
     }
     // Activer ou désactiver la checkbox sélectionnée
     this.filters[group][value] = !this.filters[group][value];
-  
+
     this.applyFilters();
     this.updateTicketList();
   }
-  
-  
+
+
   applyFilters() {
 
     const queryStringParams: string[] = [];
@@ -162,14 +145,14 @@ dateDown: boolean = false;
     // Build the query string parameters
     for (const key in this.filters) {
       const values = Object.keys(this.filters[key]).filter(subKey => this.filters[key][subKey]);
-  
+
       if (values.length > 0) {
         // Cumulez les valeurs dans la requête
         const joinedValues = values.map(val => encodeURIComponent(val)).join(',');
         queryStringParams.push(`${key}=${joinedValues}`);
       }
     }
-  
+
     const queryString = queryStringParams.join('&');
     // console.log('queryString', queryString);  
     // Appel au service pour construire la requête et retourner les tickets filtrés
@@ -182,54 +165,64 @@ dateDown: boolean = false;
       if (this.role.roleTitle === 'Client') {
         this.tickets = this.tickets.filter((ticket) => ticket.author.id === this.authService.userId);
       }
-      this.sortTickets(this.currentSortBy, this.tickets);
+      // this.sortTickets(this.currentSortBy); // Tri des tickets
     });
   }
-  
+
 
 
   // TRI //
-  sortTickets(sortBy: string, tickets: Ticket[]) {
-    if (!this.tickets) {
-      return;
-    }
-    // console.log('sortBy', sortBy);
+  sortTickets(sortBy: string) {
+    // Toggle sorting order
     switch (sortBy) {
-      case 'Date de création (asc)':
-        this.tickets.sort((a, b) => a.creationDate.localeCompare(b.creationDate));
+      case 'Date de création':
+        this.dateDown = this.currentSortBy === 'Date de création' ? !this.dateDown : true;
+        this.currentSortBy = 'Date de création';
+        this.tickets.sort(this.sortByDate.bind(this)); // Bind the context to the sorting functions
         break;
-      case 'Date de création (desc)':
-        this.tickets.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
+      case 'Numéro':
+        this.numeroDown = this.currentSortBy === 'Numéro' ? !this.numeroDown : true;
+        this.currentSortBy = 'Numéro';
+        this.tickets.sort(this.sortByNumero.bind(this));
         break;
-      case 'Numéro de ticket (asc)':
-        this.tickets.sort((a, b) => a.id.toString().localeCompare(b.id.toString()));
+      case 'Titre':
+        this.titleDown = this.currentSortBy === 'Titre' ? !this.titleDown : true;
+        this.currentSortBy = 'Titre';
+        this.tickets.sort(this.sortByTitle.bind(this));
         break;
-      case 'Numéro de ticket (desc)':
-        this.tickets.sort((a, b) => b.id.toString().localeCompare(a.id.toString()));
+      case 'Prénom':
+        this.firstNameDown = this.currentSortBy === 'Prénom' ? !this.firstNameDown : true;
+        this.currentSortBy = 'Prénom';
+        this.tickets.sort(this.sortByFirstname.bind(this));
         break;
-      case 'Nom (A-Z)':
-        this.tickets.sort((a, b) => a.author.lastname.localeCompare(b.author.lastname));
+      case 'Date':
+        this.dateDown = this.currentSortBy === 'Date' ? !this.dateDown : true;
+        this.currentSortBy = 'Date';
+        this.tickets.sort(this.sortByDate.bind(this));
         break;
-      case 'Nom (Z-A)':
-        this.tickets.sort((a, b) => b.author.lastname.localeCompare(a.author.lastname));
-        break;
-      case 'Prénom (A-Z)':
-        this.tickets.sort((a, b) => a.author.firstname.localeCompare(b.author.firstname));
-        break;
-      case 'Prénom (Z-A)':
-        this.tickets.sort((a, b) => b.author.firstname.localeCompare(a.author.firstname));
-        break;
-      // Add more cases as needed
       default:
         break;
     }
   }
-  onSortChange(event: MatSelectChange) {
-    this.currentSortBy = event.value;
-    this.updateTicketList();
+
+
+  sortByTitle(a: Ticket, b: Ticket): number {
+    console.log('Sorting by title:');
+    return this.titleDown ? a.ticketTitle.localeCompare(b.ticketTitle) : b.ticketTitle.localeCompare(a.ticketTitle);
+  }
+  sortByNumero(a: Ticket, b: Ticket): number {
+    const idA = Number(a.id);
+    const idB = Number(b.id);
+    return this.numeroDown ? idA - idB : idB - idA;
+  }
+  
+  sortByFirstname(a: Ticket, b: Ticket): number {
+    return this.firstNameDown ? a.author.firstname.localeCompare(b.author.firstname) : b.author.firstname.localeCompare(a.author.firstname);
   }
 
-
+  sortByDate(a: Ticket, b: Ticket): number {
+    return this.dateDown ? a.creationDate.localeCompare(b.creationDate) : b.creationDate.localeCompare(a.creationDate);
+  }
 
 
   isEven(index: number): boolean {
@@ -244,7 +237,7 @@ dateDown: boolean = false;
         toDoCount: this.ticketService.getTicketCountByFilters('status=À faire&count=true').pipe(take(1)),
         doingCount: this.ticketService.getTicketCountByFilters('status=En cours&count=true').pipe(take(1)),
         doneCount: this.ticketService.getTicketCountByFilters('status=Terminé&count=true').pipe(take(1)),
-        lowCount:this.ticketService.getTicketCountByFilters('priority=Basse&count=true').pipe(take(1)),
+        lowCount: this.ticketService.getTicketCountByFilters('priority=Basse&count=true').pipe(take(1)),
         mediumCount: this.ticketService.getTicketCountByFilters('priority=Moyenne&count=true').pipe(take(1)),
         highCount: this.ticketService.getTicketCountByFilters('priority=Élevée&count=true').pipe(take(1)),
         billingCount: this.ticketService.getTicketCountByFilters('category=Facturation&count=true').pipe(take(1)),
@@ -274,7 +267,7 @@ dateDown: boolean = false;
     );
     this.subscriptions.add(subscriptions);
   }
-  
+
   ViewArchivedTickets() {
     this.showArchivedTickets = !this.showArchivedTickets;
     this.updateTicketList(); // Mettez à jour la liste des tickets en fonction de la nouvelle valeur

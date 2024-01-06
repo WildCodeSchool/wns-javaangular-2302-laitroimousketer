@@ -18,7 +18,7 @@
 
       <div class="left">
         <div *ngFor="let user of users; let i = index" [ngClass]="{'even': isEven(i), 'odd': !isEven(i)}">
-          <app-user-card class="context-user-list" [user]="user" (click)="openUserDetails(user.id)"></app-user-card>
+          <app-user-card class="context-user-list" [user]="user"></app-user-card>
         </div>
       </div>
 
