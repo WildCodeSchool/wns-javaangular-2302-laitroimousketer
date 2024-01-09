@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @AllArgsConstructor
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("api/auth")
+@RequestMapping("api/auth/")
 @Tag(name = "Authentication", description = "User Authentication and Registration Controller")
 
 public class AuthController {
@@ -28,7 +28,7 @@ public class AuthController {
   private UserService userService;
 
   
-  @PostMapping("/login")
+  @PostMapping("login")
   @Operation(summary = "User Login", description = "Authenticate a user and generate an access token.")
   public ResponseEntity<JWTAuthResponse> authenticate(@RequestBody LoginDto loginDto) {
 
@@ -43,7 +43,7 @@ public class AuthController {
     }
   }
 
-@PostMapping("/register")
+@PostMapping("register")
 @Operation(summary = "User Registration", description = "Register a new user.")
 public ResponseEntity<Object> registerUser(@RequestBody UserDto userDto) {
     try {

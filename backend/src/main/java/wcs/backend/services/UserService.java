@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import wcs.backend.entities.User;
 import wcs.backend.dtos.UserDto;
@@ -27,7 +28,8 @@ public class UserService {
   private final PasswordEncoder passwordEncoder;
   @Autowired
   private final ModelMapper modelMapper;
-
+ @Autowired
+  private final TicketService ticketService;
 
   // GET
   public List<UserReadDto> getAllUsers() {
@@ -132,14 +134,15 @@ public class UserService {
         .collect(Collectors.toList());
   }
 
-  // DELETE
-  public void deleteUser(Long id) {
-    User existingUser = userRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+// DELETE
+@Transactional
+public void deleteUser(Long id) {
+  User existingUser = userRepository.findById(id)
+          .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
 
-    // Supprimer manuellement les relations avant de supprimer l'utilisateur
-    existingUser.getTicketHaveUsers().forEach(ticket -> ticket.setUser(null));
-    userRepository.delete(existingUser);
+  // Dissocier les tickets avant de supprimer l'utilisateur
+  ticketService.dissociateTicketsByUser(existingUser);
+  userRepository.delete(existingUser);
 }
 
 

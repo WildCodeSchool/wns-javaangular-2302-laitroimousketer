@@ -31,4 +31,8 @@ public class Chat  {
     @JoinColumn(name = "ticket_id", nullable = false)
     private Ticket ticket;
 
+    @ManyToOne
+    @JoinColumn(name = "media_id")
+    private Media media;
+    
 }

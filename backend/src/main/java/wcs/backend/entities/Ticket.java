@@ -50,10 +50,10 @@ public class Ticket {
   private Status status;
 
   @ManyToOne
-  @JoinColumn(name = "author_id", nullable = false)
+  @JoinColumn(name = "author_id", nullable = true)
   private User author;
 
-  @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = false, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
   private List<TicketHaveUsers> userAssociations = new ArrayList<>();
 
   @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = false, fetch = FetchType.EAGER)

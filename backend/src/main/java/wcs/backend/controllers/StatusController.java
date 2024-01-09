@@ -15,7 +15,7 @@ import wcs.backend.services.StatusService;
 @AllArgsConstructor
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("api/status")
+@RequestMapping("api/status/")
 @Tag(name = "Status", description = "Status Management Controller")
 public class StatusController {
   @Autowired
@@ -28,7 +28,7 @@ public class StatusController {
     return ResponseEntity.ok(statusDtos);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("{id}")
   @Operation(summary = "Get Status by ID", description = "Get status details by its ID.")
   public ResponseEntity<StatusDto> getStatusById(@PathVariable Long id) {
     StatusDto statusDto = statusService.getStatusById(id);
@@ -46,7 +46,7 @@ public class StatusController {
     return ResponseEntity.ok(createdStatusDto);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   @Operation(summary = "Update Status", description = "Update a status by its ID.")
   public ResponseEntity<StatusDto> updateStatus(@PathVariable Long id, @RequestBody StatusDto statusDto) {
     StatusDto updatedStatusDto = statusService.updateStatus(id, statusDto);
@@ -57,7 +57,7 @@ public class StatusController {
     }
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("{id}")
   @Operation(summary = "Delete Status", description = "Delete a status by its ID.")
   public ResponseEntity<Void> deleteStatus(@PathVariable Long id) {
     statusService.deleteStatus(id);

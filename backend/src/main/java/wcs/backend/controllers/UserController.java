@@ -16,7 +16,7 @@ import wcs.backend.services.UserService;
 @RestController
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
-@RequestMapping("api/users")
+@RequestMapping("api/users/")
 @Tag(name = "Users", description = "Users Controller")
 public class UserController {
   @Autowired
@@ -46,7 +46,7 @@ public class UserController {
     }
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("{id}")
   @Operation(summary = "Get User by ID", description = "Get user details by user ID")
   public ResponseEntity<UserReadDto> getUserById(@PathVariable Long id) {
     UserReadDto userDto = userService.getUserById(id);
@@ -63,7 +63,7 @@ public class UserController {
     return ResponseEntity.ok(userReadDto);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   @Operation(summary = "Update User", description = "Update user details by user ID")
   public ResponseEntity<UserReadDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
     UserDto updatedUserDto = userService.updateUser(id, userDto);
@@ -73,7 +73,7 @@ public class UserController {
     return ResponseEntity.ok(updatedUserReadDto);
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("{id}")
   @Operation(summary = "Delete User", description = "Delete user by user ID")
   public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
     userService.deleteUser(id);

@@ -14,8 +14,6 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import wcs.backend.dtos.TicketDto;
-import wcs.backend.dtos.TicketUpdateDto;
-import wcs.backend.entities.Address;
 import wcs.backend.entities.Category;
 import wcs.backend.entities.Priority;
 import wcs.backend.entities.Status;
@@ -268,4 +266,12 @@ public class TicketService {
     return ticketRepository.countByStatus(status);
   }
 
+  public void dissociateTicketsByUser(User user) {
+    List<Ticket> userTickets = ticketRepository.findByAuthorId(user.getId());
+
+    for (Ticket ticket : userTickets) {
+      ticket.setAuthor(null);
+    }
+  }
+  
 }
