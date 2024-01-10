@@ -41,18 +41,12 @@ export class NavbarComponent extends UnsubcribeComponent implements OnInit {
     private router: Router
   ) {
     super();
-    this.loadUserConnected();
+  
    }
 
   ngOnInit(): void {
     // Appelle getUserProfile() pour récupérer les données de l'utilisateur
-    this.authService.getUserProfile().subscribe((user) => {
-      this.userEmail = this.authService.userEmail;
-      this.userFirstName = this.authService.userFirstname;
-      this.userLastName = this.authService.userLastname;
-      this.userRole = this.authService.userRole;
-      // console.log('Infos utilisateur from navbar component :','mail:', this.userEmail,'firstName:', this.userFirstName,'lastName:', this.userLastName,'Role:', this.userRole);
-    });
+    this.loadUserConnected();
   }
 
   logout() {
@@ -71,17 +65,23 @@ export class NavbarComponent extends UnsubcribeComponent implements OnInit {
   toggleSidebarUserProfil(): void {
     this.store.dispatch(sidebarAction.displayUserProfil());
   }
+
   loadUserConnected() {
-    if (this.user) {
-      return;
+    if (!this.user) {
+      this.authService.getUserProfile().pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: (user: User) => {
+          this.user = user;
+        },
+        error: (error: any) => {
+          console.error('Erreur lors de la récupération du profil utilisateur :', error);
+        }
+      });
     }
-    this.store.select(Reducer.getUserConnected)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: User) => {
-        console.log('user from store',data);
-
-  } );
+  }
+  
 }
 
 
-}

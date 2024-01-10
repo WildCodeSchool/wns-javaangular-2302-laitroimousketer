@@ -1,10 +1,10 @@
 <div class="card" (click)="openUserDetails()">
 
   <div class="user">
-    <app-avatar [userName]="fullname" class="context-user-list"></app-avatar>
+    <app-avatar [user]="user" class="context-user-list"></app-avatar>
     <div><span class="prefix">Client:</span>{{user.firstname}} {{ user.lastname}}</div>
   </div>
   <div class="mail"><span class="prefix">Email:</span> {{ user.email }}</div>
-  <div class="role"><span class="prefix">Rôle:</span> {{ user.role?.roleTitle }}</div>
+  <div class="role"><span class="prefix">Rôle:</span> {{ user.role.roleTitle }}</div>
 
 </div>

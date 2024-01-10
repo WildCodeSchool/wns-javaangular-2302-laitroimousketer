@@ -33,10 +33,7 @@
     <button mat-menu-item (click)="logout()">Se déconnecter</button>
   </mat-menu>
 
-  <div class="avatar" [matMenuTriggerFor]="menu">
-    <img src="{{ avatar }}" class="avatar" />
-
-  </div>
-  <app-avatar [user]="user" ></app-avatar>
+  <app-avatar class="from-navbar" *ngIf="user" [user]="user" [matMenuTriggerFor]="menu" ></app-avatar>
+ 
   <p class="corporation">Alayde INC ©</p>
 </nav>

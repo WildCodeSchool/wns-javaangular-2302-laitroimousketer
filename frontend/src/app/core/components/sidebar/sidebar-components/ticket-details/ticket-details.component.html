@@ -6,7 +6,7 @@
   </h1>
   <div class="details-profil">
     <div class="prefix">Auteur:</div>
-    <app-avatar [userName]="this.fullnameAuthor" class="context-ticket-card-creator"></app-avatar>
+    <app-avatar [user]="ticket.author" class="context-ticket-card-creator"></app-avatar>
     <div class="name"> {{ticket.author?.firstname}}<span class="firstname">{{ticket.author?.lastname}}</span>
     </div>
     <a class="show-more" (click)="displayUser()"><i class="bi bi-person-vcard"></i> Voir la fiche</a>

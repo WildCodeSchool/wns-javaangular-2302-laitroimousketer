@@ -15,6 +15,7 @@ import wcs.backend.repositories.MediaRepository;
 import wcs.backend.repositories.UserRepository;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -110,10 +111,19 @@ public class MediaService {
         .orElse(null);
   }
 
-  public byte[] getMediaContentById(Long id) {
+  public String getMediaContentById(Long id) {
     Optional<Media> optionalMedia = mediaRepository.findById(id);
-    return optionalMedia.map(Media::getData).orElse(null);
-  }
+    if (optionalMedia.isPresent()) {
+        Media media = optionalMedia.get();
+        byte[] data = media.getData();
+        if (data != null) {
+            String base64Image = Base64.getEncoder().encodeToString(data);
+            return "data:" + media.getFileType() + ";base64," + base64Image;
+        }
+    }
+    return null;
+}
+
 
   public List<MediaDto> getMediaByUserId(Long userId) {
     List<Media> userMediaList = mediaRepository.findByUserId(userId);

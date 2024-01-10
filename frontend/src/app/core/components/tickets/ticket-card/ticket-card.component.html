@@ -1,7 +1,7 @@
 <section class="card" (click)="openTicketDetails()" *ngIf="ticket">
 
   <div class="client">
-  <app-avatar [userName]="fullnameAuthor" [isArchive]="isArchive" class="context-ticket-card-fullnameAuthor"></app-avatar>
+  <app-avatar [user]="ticket.author" [isArchive]="isArchive" class="context-ticket-card-fullnameAuthor"></app-avatar>
     <p>{{ fullnameAuthor }}</p>
   </div>
 

@@ -32,11 +32,7 @@ export class AuthService implements OnInit {
   private activeTabSource: BehaviorSubject<'login' | 'register'> = new BehaviorSubject<'login' | 'register'>('login');
   public activeTab$ = this.activeTabSource.asObservable();
 
-  userId: number = 0;
-  userEmail: string = '';
-  userFirstname: string = '';
-  userLastname: string = '';
-  userRole: string = '';
+userConnected!: User;
 
   constructor(
     private alertService: AlertService,
@@ -161,11 +157,7 @@ export class AuthService implements OnInit {
     if (userEmail) {
       return this.userService.getUserByEmail(userEmail).pipe(
         map((user: User) => {
-          this.userId = user.id;
-          this.userEmail = userEmail; // Définis l'e-mail de l'utilisateur
-          this.userFirstname = user.firstname;
-          this.userLastname = user.lastname; // Définis le nom de l'utilisateur à partir des données de l'utilisateur
-          this.userRole = user.role!.roleTitle;
+          this.userConnected = user;
           this.store.dispatch(userAction.saveUserConnected({ payload: user }));
           // console.log('Infos utilisateur récupérées:', this.userEmail, this.userFirstname, this.userLastname, this.userRole);
           return user;

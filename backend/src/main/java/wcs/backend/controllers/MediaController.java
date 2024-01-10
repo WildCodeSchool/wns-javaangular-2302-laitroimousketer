@@ -41,19 +41,20 @@ public ResponseEntity<List<MediaGetAllDto>> getAllMedia() {
   
 
   @GetMapping("{id}")
-  public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) throws IOException {
-    byte[] mediaContent = mediaService.getMediaContentById(id);
-    MediaDto mediaDto = mediaService.getMediaById(id); // Fetch MediaDto
-
-    if (mediaDto != null) {
-      return ResponseEntity.ok()
-          .contentType(MediaType.parseMediaType("application/octet-stream"))
-          .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + mediaDto.getFileName() + "\"")
-          .body(mediaContent);
-    } else {
-      // Handle the case where mediaDto is not found
-      return ResponseEntity.notFound().build();
-    }
-
+  public ResponseEntity<String> displayImage(@PathVariable Long id) throws IOException {
+      MediaDto mediaDto = mediaService.getMediaById(id);
+  
+      if (mediaDto != null) {
+          String mediaContent = mediaService.getMediaContentById(id);
+  
+          return ResponseEntity.ok()
+                  .contentType(MediaType.parseMediaType(mediaDto.getFileType()))
+                  .body(mediaContent);
+      } else {
+          // Handle the case where mediaDto is not found
+          return ResponseEntity.notFound().build();
+      }
   }
+  
+  
 }

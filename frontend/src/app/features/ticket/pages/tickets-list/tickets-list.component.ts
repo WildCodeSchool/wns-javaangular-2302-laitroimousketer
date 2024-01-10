@@ -171,7 +171,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
       }
       this.tickets = tickets; // Affectez le tableau filtré
       if (this.role?.roleTitle === 'Client') {
-        this.tickets = this.tickets.filter((ticket) => ticket.author?.id === this.authService.userId);
+        this.tickets = this.tickets.filter((ticket) => ticket.author?.id === this.authService.userConnected.id);
       }
       // this.sortTickets(this.currentSortBy); // Tri des tickets
     });
