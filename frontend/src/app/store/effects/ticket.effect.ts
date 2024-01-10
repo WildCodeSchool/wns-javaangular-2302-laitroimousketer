@@ -7,7 +7,7 @@ import * as sidebarAction from '../actions/sidebar.action';
 import { crudOperationSuccess } from './../actions/ticket.action';
 import { catchError, map, mergeMap, of, switchMap, tap } from "rxjs";
 import { AlertService } from "src/app/core/services/alert.service";
-import { Ticket } from "src/app/features/ticket/models/ticket";
+import { Ticket } from "src/app/core/models/ticket";
 import { TicketService } from "src/app/core/services/ticket.service";
 
 
@@ -30,7 +30,7 @@ export class TicketEffects {
       switchMap(({ payload, displayInSidebar }) => {
         return this.ticketService.getTicket(payload).pipe(
           tap((data: Ticket) => {
-            console.log('Ticket récupéré dans getTicket:', data);
+            // console.log('Ticket récupéré dans getTicket:', data);
           }),
           switchMap((data: Ticket) => {
             const saveTicketAction = action.saveTicket({ payload: data });

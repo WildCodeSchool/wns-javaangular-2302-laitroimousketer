@@ -7,5 +7,6 @@ export interface PanelSideBar {
   // panel des contacts
   displayUserDetails: { isOpen: boolean },
   displayActivity: { isOpen: boolean },
+  displayUserProfil: { isOpen: boolean },
 
 }

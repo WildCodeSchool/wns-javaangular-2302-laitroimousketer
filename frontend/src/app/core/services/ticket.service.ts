@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of, switchMap } from 'rxjs';
-import { Ticket } from '../../features/ticket/models/ticket';
-import { Category } from '../../features/ticket/models/category';
+import { Ticket } from '../models/ticket';
+import { Category } from '../models/category';
 import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
 import { environment } from 'src/environments/environment';
 
@@ -20,7 +20,7 @@ export class TicketService extends EntityCollectionServiceBase<Ticket> {
   }
 
   getTickets(): Observable<Ticket[]> {
-    return this.httpClient.get<Ticket[]>(this.baseUrl + '/tickets');
+    return this.httpClient.get<Ticket[]>(this.baseUrl + '/tickets/');
   }
 
   getTicket(ticketId: number): Observable<Ticket> {
@@ -37,10 +37,10 @@ export class TicketService extends EntityCollectionServiceBase<Ticket> {
 
   getTicketsByFilters(filter: string | number): Observable<Ticket[]> {
     // console.log('filters: ',filter);
-    return this.httpClient.get<Ticket[]>(this.baseUrl + '/tickets?' + filter);
+    return this.httpClient.get<Ticket[]>(this.baseUrl + '/tickets/?' + filter);
   }
   getTicketCountByFilters(filter: string): Observable<number> {
-    return this.httpClient.get<number>(this.baseUrl + '/tickets?' + filter);
+    return this.httpClient.get<number>(this.baseUrl + '/tickets/?' + filter);
   }
 
 

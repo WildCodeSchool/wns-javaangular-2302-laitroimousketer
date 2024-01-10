@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject, map, take, throwError, tap } from 'rxjs';
+import { Observable, BehaviorSubject, map, take, throwError, tap, EMPTY } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import jwt_decode from 'jwt-decode';
@@ -105,7 +105,7 @@ export class AuthService implements OnInit {
     }
   }
 
-  register(firstname: string, lastname: string, email: string, password: string, adress: Address): Observable<any> {
+  register(firstname: string, lastname: string, email: string, phone: string, password: string, adress: Address): Observable<any> {
     const url = `${this.apiUrl}/auth/register`;
 
     const registerData = {
@@ -113,7 +113,8 @@ export class AuthService implements OnInit {
       lastname: lastname,
       email: email,
       password: password,
-      address: adress
+      address: adress,
+      phone: phone
     };
 
     return this.httpClient.post(url, registerData, this.httpOptions)
@@ -123,7 +124,6 @@ export class AuthService implements OnInit {
         })
       );
   }
-
 
   public setAuthToken(token: string) {
     localStorage.setItem('auth_token', token);
@@ -139,13 +139,11 @@ export class AuthService implements OnInit {
     return this.isLog$.asObservable();
   }
 
-
   logout() {
     this.isLog$.next(false); // Indiquer que l'utilisateur n'est plus connecté
     localStorage.removeItem('auth_token'); // Supprimer le jeton d'authentification
     this.alertService.showSuccessAlert('Vous êtes maintenant déconnecté'); // Afficher une alerte de déconnexion
   }
-
 
   public getUserMailFromToken(token: string | null): string | null {
     if (token) {
@@ -155,9 +153,6 @@ export class AuthService implements OnInit {
     }
     return null;
   }
-
-
-
 
   getUserProfile(): Observable<User> {
     const token = this.getAuthToken();
@@ -170,7 +165,7 @@ export class AuthService implements OnInit {
           this.userEmail = userEmail; // Définis l'e-mail de l'utilisateur
           this.userFirstname = user.firstname;
           this.userLastname = user.lastname; // Définis le nom de l'utilisateur à partir des données de l'utilisateur
-          this.userRole = user.role.roleTitle;
+          this.userRole = user.role!.roleTitle;
           this.store.dispatch(userAction.saveUserConnected({ payload: user }));
           // console.log('Infos utilisateur récupérées:', this.userEmail, this.userFirstname, this.userLastname, this.userRole);
           return user;
@@ -183,9 +178,6 @@ export class AuthService implements OnInit {
       return throwError(() => new Error('Adresse e-mail de l\'utilisateur non valide'));
     }
   }
-
-
-
 
 
 }

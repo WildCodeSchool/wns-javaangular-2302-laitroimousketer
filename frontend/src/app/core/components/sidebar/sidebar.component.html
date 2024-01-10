@@ -1,0 +1,39 @@
+<mat-sidenav-container class="sidenav-c" [ngClass]="!panel.sidebar.isOpen ? 'hide': ''" (backdropClick)="toggle()">
+
+  <mat-sidenav #sidenav [(opened)]="opened" position="end" class="sidenav">
+    <span class="bi bi-x-circle" (click)="toggle()"></span>
+
+    <!-- Contenu de la sidebar selon l'etat du store de sidebar -->
+    @if (panel.displayTicketDetails.isOpen) {
+    <app-ticket-details></app-ticket-details>
+    }
+
+    @if (panel.displayTicketCreate.isOpen) {
+    <app-ticket-add></app-ticket-add>
+    }
+
+    @if (panel.displayUserDetails.isOpen) {
+    <app-user-details></app-user-details>
+    }
+
+    @if (panel.displayActivity.isOpen) {
+    <app-activity></app-activity>
+    }
+
+    @if (panel.displayUserProfil.isOpen) {
+    <app-user-profil></app-user-profil>
+    }
+
+
+
+
+
+
+
+
+
+  </mat-sidenav>
+  <!-- <mat-sidenav-content>
+    contenu à gauche de la sidebar
+  </mat-sidenav-content> -->
+</mat-sidenav-container>

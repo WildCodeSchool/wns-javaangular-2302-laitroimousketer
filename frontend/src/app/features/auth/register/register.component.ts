@@ -9,6 +9,7 @@ import { Address } from 'src/app/core/models/address.model';
 import countries from 'src/assets/json/countries.json';
 import cities from 'cities.json';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -28,7 +29,7 @@ export class RegisterComponent extends UnsubcribeComponent implements OnInit, On
   filteredCountry!: Observable<{ name: string; code: string }[] | string[]>;
   filteredCities!: Observable<string[] | [string, { name: string; code: string; }]>;
 
-
+  isLinear = false;
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -87,34 +88,35 @@ export class RegisterComponent extends UnsubcribeComponent implements OnInit, On
   addAddress(): Observable<Address> {
     if (this.addressForm.valid) {
       const addressData = this.addressForm.value;
-  
+
       return this.addressService.add(addressData).pipe(
         takeUntil(this.destroy$),
       );
     }
-  
+
     return EMPTY; // Return an empty observable if the form is invalid
   }
-  
+
   register(): void {
     this.addAddress().pipe(
       filter(address => !!address), // Filter out invalid addresses
       switchMap((createdAddress: Address) => {
         // console.log('Address created successfully:', createdAddress);
-        
-        const firstName = this.registerForm.get('firstName')?.value;
-        const lastName = this.registerForm.get('lastName')?.value;
+
+        const firstname = this.registerForm.get('firstname')?.value;
+        const lastname = this.registerForm.get('lastname')?.value;
         const email = this.registerForm.get('email')?.value;
+        const phone = this.registerForm.get('phone')?.value;
         const password = this.registerForm.get('password')?.value;
         const confirmPassword = this.registerForm.get('confirmPassword')?.value;
-        
+
         if (password !== confirmPassword) {
           this.registerForm.get('confirmPassword')?.setErrors({ passwordMismatch: true });
           throw new Error('Password mismatch');
         }
-  
+
         // Pass the created address ID to the user registration call
-        return this.authService.register(firstName, lastName, email, password, createdAddress);
+        return this.authService.register(firstname, lastname, email, phone, password, createdAddress);
       }),
       takeUntil(this.destroy$)
     ).subscribe({
@@ -127,14 +129,19 @@ export class RegisterComponent extends UnsubcribeComponent implements OnInit, On
       }
     });
   }
-  
+
 
 
   initRegisterForm() {
     this.registerForm = this.formBuilder.group({
-      firstName: ['', [Validators.required, Validators.pattern(/^[\p{L}\s'-]+$/u)]],
-      lastName: ['', [Validators.required, Validators.pattern(/^[\p{L}\s'-]+$/u)]],
+      firstname: ['', [Validators.required, Validators.pattern(/^[\p{L}\s'-]+$/u)]],
+      lastname: ['', [Validators.required, Validators.pattern(/^[\p{L}\s'-]+$/u)]],
       email: ['', [Validators.required, Validators.email]],
+      phone: [
+        '',
+        [Validators.pattern(/^(?:(\+|00)33|0)[1-9](?:\d{8})$/)], // Accepte les formats +336 et 06
+      ],
+
       password: [
         '',
         [

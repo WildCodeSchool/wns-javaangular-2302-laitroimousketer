@@ -15,6 +15,7 @@ const initPanel: PanelSideBar = {
   displayTicketCreate: { isOpen: false },
   displayUserDetails: { isOpen: false },
   displayActivity: { isOpen: false },
+  displayUserProfil: { isOpen: false },
 }
 
 
@@ -32,6 +33,7 @@ export function initPanelElement(state: SideBarState): SideBarState {
     displayTicketCreate: { isOpen: false },
     displayUserDetails: { isOpen: false },
     displayActivity: { isOpen: false },
+    displayUserProfil: { isOpen: false },
   };
 
   return {
@@ -76,6 +78,16 @@ export function reducer(state = initialState, action: Action & { payload?: any }
       let modifyPanel = initPanelElement(state).panel;
       modifyPanel.sidebar.isOpen = true;
       modifyPanel.displayUserDetails.isOpen = true;
+      modifyPanel.activePage = action.type;
+      return {
+        ...state,
+        panel: modifyPanel,
+      };
+    }
+    case sidebarAtion.action.DISPLAY_USER_PROFIL: {
+      let modifyPanel = initPanelElement(state).panel;
+      modifyPanel.sidebar.isOpen = true;
+      modifyPanel.displayUserProfil.isOpen = true;
       modifyPanel.activePage = action.type;
       return {
         ...state,

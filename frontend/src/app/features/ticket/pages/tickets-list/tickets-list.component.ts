@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TicketService } from '../../../../core/services/ticket.service';
-import { Ticket } from '../../models/ticket';
+import { Ticket } from '../../../../core/models/ticket';
 
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
@@ -11,6 +11,8 @@ import * as Reducer from 'src/app/store/reducers/index';
 import * as ticketAction from 'src/app/store/actions/ticket.action';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 import { Role } from 'src/app/core/models/role.model';
+import { MediaService } from 'src/app/core/services/media.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 
 
@@ -32,13 +34,12 @@ import { Role } from 'src/app/core/models/role.model';
 })
 
 export class TicketsListComponent extends UnsubcribeComponent implements OnInit {
-
   tickets!: Ticket[];
   ticketsClient: Ticket[] | undefined;
   originalTickets: Ticket[] | undefined;
   isUpdatingTickets: boolean = false;
 
-  role!: Role;
+  role?: Role;
 
   // COUNT TICKET //
   billingCount: number = 0;
@@ -73,6 +74,8 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
     private store: Store<Reducer.StateDataStore>,
     private ticketService: TicketService,
     private authService: AuthService,
+    private mediaService: MediaService,
+    private formBuilder: FormBuilder,
   ) {
     super();
     this.dateDown = false;
@@ -84,7 +87,12 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
     this.priorityDown = false;
   }
 
+
+
+  
   ngOnInit() {
+   
+  
     this.getCounts();
     this.checkRole();
     this.getTicketList();
@@ -162,8 +170,8 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
         tickets = tickets.filter((ticket) => ticket.archiveDate === null);
       }
       this.tickets = tickets; // Affectez le tableau filtré
-      if (this.role.roleTitle === 'Client') {
-        this.tickets = this.tickets.filter((ticket) => ticket.author.id === this.authService.userId);
+      if (this.role?.roleTitle === 'Client') {
+        this.tickets = this.tickets.filter((ticket) => ticket.author?.id === this.authService.userId);
       }
       // this.sortTickets(this.currentSortBy); // Tri des tickets
     });
@@ -217,7 +225,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
   }
   
   sortByFirstname(a: Ticket, b: Ticket): number {
-    return this.firstNameDown ? a.author.firstname.localeCompare(b.author.firstname) : b.author.firstname.localeCompare(a.author.firstname);
+    return this.firstNameDown ? a.author!.firstname.localeCompare(b.author!.firstname) : b.author!.firstname.localeCompare(a.author!.firstname);
   }
 
   sortByDate(a: Ticket, b: Ticket): number {

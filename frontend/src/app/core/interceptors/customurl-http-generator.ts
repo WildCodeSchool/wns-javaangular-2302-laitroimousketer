@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DefaultHttpUrlGenerator, HttpResourceUrls, Pluralizer } from '@ngrx/data';
 import { environment } from 'src/environments/environment';
-import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
@@ -10,7 +9,7 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
 
   constructor(
     pluralizer: Pluralizer,
-    private authService: AuthService,
+
   ) {
     super(pluralizer);
   }
@@ -21,7 +20,7 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
     trailingSlashEndpoints?: boolean
   ): HttpResourceUrls {
     let resourceURLs = this.knownHttpResourceUrls[entityName];
-    //! Attention, il faut bien penser à ajouter les / dans le cas des entityRssourceUrl pour respecter l'API et sa convention de nommage
+    //! Attention, il faut bien penser à ajouter les / dans certains cas selon l'API et sa convention
     switch (entityName) {
       case 'tickets':
         resourceURLs = {
@@ -57,6 +56,12 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
         resourceURLs = {
           collectionResourceUrl: this.baseAPI + '/status/',
           entityResourceUrl: this.baseAPI + '/status/',
+        };
+        break;
+      case 'media':
+        resourceURLs = {
+          collectionResourceUrl: this.baseAPI + '/media/',
+          entityResourceUrl: this.baseAPI + '/media/',
         };
         break;
     }

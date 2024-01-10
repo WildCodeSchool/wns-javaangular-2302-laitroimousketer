@@ -18,7 +18,7 @@
       <a class="bi bi-people" routerLink="users/list"></a>
     </li>
 
-    <li *ngIf="userRole !== 'Client'" r>
+    <li *ngIf="userRole !== 'Client'">
       <a class="bi bi-speedometer" routerLink="dashboard"></a>
     </li>
 
@@ -29,7 +29,7 @@
   </ul>
   
   <mat-menu #menu="matMenu">
-    <button mat-menu-item>Voir son profil</button>
+    <button mat-menu-item (click)="toggleSidebarUserProfil()">Voir son profil</button>
     <button mat-menu-item (click)="logout()">Se déconnecter</button>
   </mat-menu>
 
@@ -37,5 +37,6 @@
     <img src="{{ avatar }}" class="avatar" />
 
   </div>
+  <app-avatar [user]="user" ></app-avatar>
   <p class="corporation">Alayde INC ©</p>
 </nav>

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Category } from '../../features/ticket/models/category';
+import { Category } from '../models/category';
 import { environment } from 'src/environments/environment';
 import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
 @Injectable({
@@ -17,7 +17,7 @@ export class CategoryService extends EntityCollectionServiceBase<Category> {
   }
 
   getCategoryList(): Observable<Category[]>{
-    return this.httpClient.get<Category[]>(this.baseUrl+'/categories');  
+    return this.httpClient.get<Category[]>(this.baseUrl+'/categories/');  
   }
 
   createTicket(ticket : Category): Observable<Category[]>{

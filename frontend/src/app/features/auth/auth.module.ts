@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatStepperModule} from '@angular/material/stepper'
 @NgModule({
   declarations: [
     AuthComponent,
@@ -29,6 +30,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatButtonModule,
     ClipboardModule,
     MatAutocompleteModule,
+    MatStepperModule,
     
 
 

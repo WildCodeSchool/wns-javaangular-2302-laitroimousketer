@@ -1,0 +1,25 @@
+@import 'src/assets/scss/template.scss';
+
+header {
+  display: flex;
+  flex-direction: column;
+}
+
+form {
+  margin: 20px 0;
+}
+
+.avatar-c {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: hidden;
+
+  img {
+    width: auto;
+    height: 120px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}

@@ -13,13 +13,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { AvatarComponent } from './components/common/avatar/avatar.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { TicketDetailsComponent } from './components/common/sidebar/sidebar-components/ticket-details/ticket-details.component';
-import { ActivityComponent } from './components/common/sidebar/sidebar-components/activity/activity.component';
-import { SidebarMenuComponent } from './components/common/sidebar/sidebar-components/sidebar-menu/sidebar-menu.component';
-import { TicketAddComponent } from './components/common/sidebar/sidebar-components/ticket-add/ticket-add.component';
-import { TicketChatComponent } from './components/common/sidebar/sidebar-components/ticket-chat/ticket-chat.component';
-import { UserDetailsComponent } from './components/common/sidebar/sidebar-components/user-details/user-details.component';
+import { TicketDetailsComponent } from './components/sidebar/sidebar-components/ticket-details/ticket-details.component';
+import { ActivityComponent } from './components/sidebar/sidebar-components/activity/activity.component';
+import { SidebarMenuComponent } from './components/sidebar/sidebar-components/sidebar-menu/sidebar-menu.component';
+import { TicketAddComponent } from './components/sidebar/sidebar-components/ticket-add/ticket-add.component';
+import { TicketChatComponent } from './components/sidebar/sidebar-components/ticket-chat/ticket-chat.component';
+import { UserDetailsComponent } from './components/sidebar/sidebar-components/user-details/user-details.component';
 import { TicketCardComponent } from './components/tickets/ticket-card/ticket-card.component';
+import { UserProfilComponent } from './components/sidebar/sidebar-components/user-profil/user-profil.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 
@@ -36,6 +38,7 @@ import { TicketCardComponent } from './components/tickets/ticket-card/ticket-car
     TicketChatComponent,
     UserDetailsComponent,
     TicketCardComponent,
+    UserProfilComponent,
     
   ],
   imports: [
@@ -50,7 +53,7 @@ import { TicketCardComponent } from './components/tickets/ticket-card/ticket-car
     MatButtonModule,
     MatInputModule,
     LeafletModule,
-
+    MatAutocompleteModule,
 
   ],
   exports: [
@@ -66,6 +69,7 @@ import { TicketCardComponent } from './components/tickets/ticket-card/ticket-car
     ActivityComponent,
     UserDetailsComponent,
     TicketCardComponent,
+    UserProfilComponent,
   ],
   providers: [],
 })
