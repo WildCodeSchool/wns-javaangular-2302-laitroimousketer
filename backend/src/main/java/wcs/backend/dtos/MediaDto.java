@@ -12,9 +12,10 @@ public class MediaDto {
 
     private Long id;
     private String fileName;
-    private String fileType;
     private byte[] data; // ou une autre représentation, par exemple String base64
-
+    private String base64Content;
+    private String contentType;
+    private String url;
     private Long userId;
     private Long chatid;
 

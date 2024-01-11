@@ -45,12 +45,13 @@ public class MediaService {
     // Create Media entity with optional user and chat
     Media media = new Media();
     media.setFileName(file.getOriginalFilename());
-    media.setFileType(file.getContentType());
+    media.setContentType(file.getContentType());
     media.setData(file.getBytes());
 
     // Save the media entity first
     Media savedMedia = mediaRepository.save(media);
-
+  // Set the URL directly
+  savedMedia.setUrl("/api/media/" + savedMedia.getId() + "/content");
     if (userId != null) {
       // Check if there is an existing media with the same userId
       List<Media> existingMediaList = mediaRepository.findByUserId(userId);
@@ -111,18 +112,28 @@ public class MediaService {
         .orElse(null);
   }
 
-  public String getMediaContentById(Long id) {
+
+
+  public MediaDto getMediaContentById(Long id) {
     Optional<Media> optionalMedia = mediaRepository.findById(id);
     if (optionalMedia.isPresent()) {
         Media media = optionalMedia.get();
         byte[] data = media.getData();
         if (data != null) {
-            String base64Image = Base64.getEncoder().encodeToString(data);
-            return "data:" + media.getFileType() + ";base64," + base64Image;
+            String contentType = media.getContentType();
+
+            MediaDto mediaDto = modelMapper.map(media, MediaDto.class);
+            mediaDto.setBase64Content(Base64.getEncoder().encodeToString(data));
+            mediaDto.setContentType(contentType);
+            mediaDto.setUrl("/api/media/" + id + "/content");
+
+            return mediaDto;
         }
     }
     return null;
 }
+
+
 
 
   public List<MediaDto> getMediaByUserId(Long userId) {

@@ -4,7 +4,7 @@ import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } f
 import { environment } from 'src/environments/environment';
 import { Media } from '../models/media.model';
 import { Observable, map } from 'rxjs';
-import { SafeUrl } from '@angular/platform-browser';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -15,18 +15,21 @@ export class MediaService extends EntityCollectionServiceBase<Media> {
 
   constructor(
     serviceElementsFactory: EntityCollectionServiceElementsFactory,
-    private httpClient: HttpClient) {
+    private httpClient: HttpClient,
+    private sanitizer: DomSanitizer) {
     super('media', serviceElementsFactory)}
 
     addMedia(fileData: FormData): Observable<Media> {
       return this.httpClient.post<Media>(`${this.baseUrl}/media/upload`, fileData);
     }
-    getMediaImageById(id: number): Observable<string> {
-      return this.httpClient.get(`${this.baseUrl}/media/${id}`, {
-        responseType: 'text',
-      });
+
+    getMediaById(id: number): Observable<SafeUrl> {
+      return this.httpClient.get(`${this.baseUrl}/media/file/${id}`, {
+        responseType: 'arraybuffer',
+      }).pipe(
+        map(data => this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(new Blob([data]))))
+      );
     }
-    
     
     
     

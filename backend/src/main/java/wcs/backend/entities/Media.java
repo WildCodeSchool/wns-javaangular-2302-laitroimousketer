@@ -22,13 +22,15 @@ public class Media {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-
   private Long id;
 
   private String fileName;
 
-  private String fileType;
+  private String url;
 
+  private String contentType;
+  
+  private String base64Content;
   @Lob
   @Column(columnDefinition = "LONGBLOB")
   private byte[] data;
@@ -40,5 +42,7 @@ public class Media {
   @ManyToOne
   @JoinColumn(name = "chat_id", nullable = true)
   private Chat chat;
+
+
 
 }

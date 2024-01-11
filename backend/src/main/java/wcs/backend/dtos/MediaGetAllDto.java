@@ -12,8 +12,8 @@ public class MediaGetAllDto {
 
     private Long id;
     private String fileName;
-    private String fileType;
-
+    private String contentType;
+    private String url;
     private Long userId;
     private Long chatid;
 

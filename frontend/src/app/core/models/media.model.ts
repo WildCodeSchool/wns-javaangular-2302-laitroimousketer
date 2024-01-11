@@ -1,7 +1,8 @@
 export interface Media {
   id: number;
   fileName: string;
-  fileType: string;
+  contentType: string;
+  url: string;
   userId?: number;
   chatId?: number;
 }

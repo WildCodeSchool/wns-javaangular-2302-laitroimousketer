@@ -1,23 +1,15 @@
-<!-- <div class="avatar" [style.background-color]="bgColor">
+<div class="avatar" [style.background-color]="bgColor">
+
+  @if (this.userMediaId !== 0 && mediaImageUrl$ ) {
+  <img *ngIf="mediaImageUrl$ | async; let imageUrl" [src]="imageUrl" alt="User Image">
+  }
+
+  @else {
   <p>{{ initials }}</p>
+
   @if (isArchive) {
   <i class="bi bi-archive-fill"></i>
   }
-</div> -->
-<div class="avatar" [style.background-color]="bgColor">
-  <!-- Vérifiez si userMediaId est défini -->
-  <ng-container *ngIf="this.userMediaId !== 0">
-    <!-- Utilisez la balise img pour afficher l'image du MediaService -->
-    <img *ngIf="mediaImageUrl$ | async; let imageUrl" [src]="imageUrl" alt="User Image">
-  </ng-container>
-  <!-- Sinon, affichez les initiales et l'icône d'archive si nécessaire -->
-  <ng-container *ngIf="this.userMediaId === 0">
-    <p>{{ initials }}</p>
-    <ng-container *ngIf="isArchive">
-      <i class="bi bi-archive-fill"></i>
-    </ng-container>
-  </ng-container>
+  }
+
 </div>
-
-
-

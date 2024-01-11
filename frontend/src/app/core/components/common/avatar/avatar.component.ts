@@ -68,16 +68,18 @@ export class AvatarComponent implements OnInit {
   }
 
 
-  getMediaImageUrl(): Observable<string | null> {
+  getMediaImageUrl(): Observable<SafeUrl | null> {
     // Vérifiez si user et user.media existent
     if (this.user && this.user.media) {
-      return this.mediaService.getMediaImageById(this.user.media.id).pipe(
-        tap(imageUrl => console.log('Media Image URL:', imageUrl))
+      return this.mediaService.getMediaById(this.user.media.id).pipe(
+        tap(url => console.log('Media Image URL:', url || 'Image URL is null or undefined'))
       );
     } else {
       console.log('User or user media is null');
       return of(null); // Si user ou user.media est null, retournez un Observable null
     }
   }
+  
+
 
 }
