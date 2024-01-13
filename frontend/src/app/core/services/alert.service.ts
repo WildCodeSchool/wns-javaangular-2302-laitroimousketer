@@ -35,7 +35,7 @@ export class AlertService {
     config.verticalPosition = this.verticalPosition;
     config.duration = this.durationInMs;
     config.panelClass = snackbarClass;
-    console.log(snackbarClass,config.panelClass)
+    // console.log(snackbarClass,config.panelClass)
     this._snackBar.open(message, 'Close', config);
   }
   

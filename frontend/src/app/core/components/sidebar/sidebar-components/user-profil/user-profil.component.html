@@ -113,7 +113,7 @@
 
 
   <div class="actions">
-    <button mat-raised-button color="accent" class="btn" [disabled]="userForm.invalid"><i
+    <button mat-raised-button color="accent" class="btn" [disabled]="userForm.invalid" (click)="onSave()"><i
         class="bi bi-check-lg"></i> Modifier le profil</button>
     <a class="cancel" (click)="onCancel()">Annuler</a>
   </div>

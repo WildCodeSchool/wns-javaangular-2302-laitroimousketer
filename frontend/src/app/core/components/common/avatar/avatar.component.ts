@@ -27,7 +27,7 @@ export class AvatarComponent implements OnInit {
   ) { }
   ngOnInit() {
     this.userMediaId = this.user?.media?.id || 0;
-    console.log('userMediaId:', this.userMediaId);
+    // console.log('userMediaId:', this.userMediaId);
     this.mediaImageUrl$ = this.getMediaImageUrl();
     if (this.userMediaId === 0) {
       this.extractInitials();
@@ -72,10 +72,10 @@ export class AvatarComponent implements OnInit {
     // Vérifiez si user et user.media existent
     if (this.user && this.user.media) {
       return this.mediaService.getMediaById(this.user.media.id).pipe(
-        tap(url => console.log('Media Image URL:', url || 'Image URL is null or undefined'))
+        // tap(url => console.log('Media Image URL:', url || 'Image URL is null or undefined'))
       );
     } else {
-      console.log('User or user media is null');
+      // console.log('User or user media is null');
       return of(null); // Si user ou user.media est null, retournez un Observable null
     }
   }

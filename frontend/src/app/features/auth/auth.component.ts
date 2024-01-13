@@ -21,6 +21,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 })
 
 export class AuthComponent implements OnInit, OnDestroy {
+  
   activeTab: 'login' | 'register' = 'login';
   private activeTabSubscription: Subscription = new Subscription();
 
@@ -31,12 +32,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.activeTab = tab;
     });
   }
-  ngAfterViewInit(): void {
-    const video = this.elementRef.nativeElement.querySelector('#bgVideo');
-    video.addEventListener('canplaythrough', () => {
-      video.play();
-    });
-  }
+
   ngOnDestroy(): void {
     this.activeTabSubscription.unsubscribe();
   }

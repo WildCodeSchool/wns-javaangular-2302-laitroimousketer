@@ -13,6 +13,7 @@ import { MenuItems } from '../sidebar-menu/menu-items.model';
 import countries from 'src/assets/json/countries.json';
 import cities from 'cities.json';
 import { MediaService } from 'src/app/core/services/media.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 @Component({
   selector: 'app-user-profil',
   templateUrl: './user-profil.component.html',
@@ -43,6 +44,7 @@ export class UserProfilComponent extends UnsubcribeComponent implements OnInit {
     private store: Store<Reducer.StateDataStore>,
     private userService: UserService,
     private mediaService: MediaService,
+    private authService: AuthService,
 
   ) {
     super();
@@ -166,12 +168,41 @@ export class UserProfilComponent extends UnsubcribeComponent implements OnInit {
     });
   }
 
-
   onSave() {
+    // Vérifiez si le formulaire d'utilisateur est valide
     if (this.userForm.valid) {
+      // Créez un objet user à partir des données du formulaire utilisateur
       const user = { ...this.user, ...this.userForm.value };
+  
+      // Si le formulaire d'adresse est présent, vérifiez s'il est valide
+      if (this.user.role.roleTitle === "Client") {
+        if (this.addressForm.valid) {
+          // Mettez à jour les informations d'adresse dans l'objet user
+          user.address = { ...this.address, ...this.addressForm.value };
+        } else {
+          // Si le formulaire d'adresse n'est pas valide, affichez un message ou prenez d'autres mesures nécessaires
+          console.error('Le formulaire d\'adresse n\'est pas valide');
+          return;
+        }
+      }
+  
+      // Envoyez les données mises à jour à votre backend ou effectuez d'autres actions nécessaires
+      this.userService.update(user).pipe(
+        takeUntil(this.destroy$)  // Utilisation de l'opérateur takeUntil pour gérer la désinscription automatique
+      ).subscribe({
+        next: (response) => {
+          console.log('Profil mis à jour avec succès:', response);
+          this.authService.login(this.user.email, this.user.password)
+          // Vous pouvez également effectuer d'autres actions après la mise à jour du profil
+        },
+        error: (error) => {
+          console.error('Erreur lors de la mise à jour du profil:', error);
+          // Gérez l'erreur, par exemple, affichez un message d'erreur à l'utilisateur
+        }
+      });
     }
   }
+  
   onCancel() {
     this.userForm.patchValue({
       ...this.user,

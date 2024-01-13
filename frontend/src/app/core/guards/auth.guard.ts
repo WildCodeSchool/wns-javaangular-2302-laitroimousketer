@@ -14,14 +14,15 @@ import { Observable } from 'rxjs';
 export class AuthGuard {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> {
-    const authToken = this.authService.getAuthToken();
-    // console.log('authToken', authToken);
-    this.authService.checkTokenExpiration();
-    if (!authToken || this.authService.isTokenExpired()) {
-      // Utilisateur non authentifié ou pas de token, rediriger vers la page de connexion
-      return this.router.createUrlTree(['/auth']); // Utilisez createUrlTree pour créer une URL Tree
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean | UrlTree | Observable<boolean | UrlTree> {
+    if (this.authService.isAuthenticated()) {
+      return true;
+    } else {
+      // Rediriger l'utilisateur vers la page d'authentification
+      return this.router.createUrlTree(['/auth']);
     }
-    return true; // L'utilisateur est authentifié, autoriser l'accès à la route
   }
-}
+}  
