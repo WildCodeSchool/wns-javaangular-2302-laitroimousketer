@@ -4,12 +4,17 @@
   <img *ngIf="mediaImageUrl$ | async; let imageUrl" [src]="imageUrl" alt="User Image">
   }
 
-  @else {
+  @if (this.userMediaId === 0 && !!this.user) {
   <p>{{ initials }}</p>
+  }
+
+  @else if (!this.user ) {
+  <p class="warning bi bi-exclamation-diamond-fill"></p>
+  } 
 
   @if (isArchive) {
   <i class="bi bi-archive-fill"></i>
   }
-  }
+  
 
 </div>

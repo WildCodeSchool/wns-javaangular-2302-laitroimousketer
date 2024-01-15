@@ -10,7 +10,7 @@ import * as userAction from 'src/app/store/actions/user.action';
 import { takeUntil } from 'rxjs';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 import { TicketService } from 'src/app/core/services/ticket.service';
-import { Ticket } from 'src/app/core/models/ticket';
+import { Ticket } from 'src/app/core/models/ticket.model';
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',

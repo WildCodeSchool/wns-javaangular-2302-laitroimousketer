@@ -36,7 +36,9 @@ i {
   align-items: center;
   justify-content: center;
 }
-
+.warning {
+  color: $secondaryColor!important;
+}
 :host-context(.context-ticket-card-creator) {
   .avatar {
   width: 80px;

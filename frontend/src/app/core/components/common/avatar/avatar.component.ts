@@ -14,7 +14,7 @@ import { UserService } from 'src/app/core/services/user.service';
 export class AvatarComponent implements OnInit, OnChanges {
   @Input() userName: string = '';
   @Input() isArchive: boolean = false;
-  @Input() user!: User;
+  @Input() user: User | null = null;
   initials: string = ''; // Pour stocker les initiales
   bgColor: string = ''; // Pour stocker la couleur de fond
   userMediaId: number = 0;
@@ -59,17 +59,21 @@ export class AvatarComponent implements OnInit, OnChanges {
         .filter(part => part.trim() !== '')
         .map(part => part[0]);
       this.initials = initialsArray.join('');
+    } else {
+      this.initials = '';
     }
   }
 
   // Méthode pour générer une couleur de fond basée sur les initiales et l'ID de l'utilisateur
   generateBackgroundColor() {
+    if (!!this.user) {
     // Utilisez l'ID de l'utilisateur pour générer la couleur
-    const userId = this.hashCode(this.user!.firstname + this.user!.lastname);
+    const userId = this.hashCode(this.user.firstname + this.user.lastname);
     const hue = (userId % 360 + 360) % 360; // Assurez-vous que la valeur est positive et dans la plage 0-359
     const saturation = 50; // Augmentez la saturation à 50%
     const lightness = 50; // Luminosité fixée à 50%
     this.bgColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  }
   }
 
   // Méthode pour calculer un hash de chaîne simple

@@ -4,7 +4,7 @@ import { Subscription, mergeMap, take } from 'rxjs';
 import { TicketService } from 'src/app/core/services/ticket.service';
 import { ChartConfiguration, ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { Ticket } from 'src/app/core/models/ticket';
+import { Ticket } from 'src/app/core/models/ticket.model';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',

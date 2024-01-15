@@ -25,6 +25,11 @@
 }
 .show-more {
   margin-left: 6px;
+  color: $secondaryColor;
+  text-decoration: underline;
+  i {
+    color:$secondaryColor;
+  }
 }
 .details-profil {
   display: flex;

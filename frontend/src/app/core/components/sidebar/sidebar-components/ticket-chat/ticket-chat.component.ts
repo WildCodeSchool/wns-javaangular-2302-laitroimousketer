@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Chat } from 'src/app/core/models/chat.model';
+import { Ticket } from 'src/app/core/models/ticket.model';
 import { ChatService } from 'src/app/core/services/chat.service';
-import { ChatMessage } from 'src/app/core/models/chatMessage.model';
+
 
 @Component({
   selector: 'app-ticket-chat',
@@ -8,51 +11,42 @@ import { ChatMessage } from 'src/app/core/models/chatMessage.model';
   styleUrls: ['./ticket-chat.component.scss']
 })
 export class TicketChatComponent implements OnInit {
+  @Input() ticket?: Ticket;
   newMessage: string = '';
   messages: string[] = [];
-  chatMessages: ChatMessage[] = [];
-
-  constructor(private chatService: ChatService) { }
+  chat: Chat[] = [];
+  
+  chatForm!: FormGroup;
+  constructor(
+    private chatService: ChatService,
+    private fb: FormBuilder,
+    ) { }
 
   ngOnInit() {
+    this.initChatForm();
     this.getChatMessages();
-    this.chatMessages = [
-          {
-            id: 1,
-            text: 'Bonjour, comment ça va ?',
-            sender: 'Alice',
-            timestamp: new Date()
-          },
-          {
-            id: 2,
-            text: 'Salut, je vais bien, merci !',
-            sender: 'Bob',
-            timestamp: new Date()
-          }
-        ];
   }
 
+initChatForm() {
+    this.chatForm = this.fb.group({
+      message: [''],
+      ticket_id: [this.ticket?.id],
+      author: [''],
+      date: [''],
+      media: [''],
+
+    });
+  }
   getChatMessages() {
-    this.chatService.getChats().subscribe((data: any) => {
-      this.chatMessages = data;
+    this.chatService.getWithQuery(`ticket_id=${this.ticket?.id}`).subscribe((data: any) => {
+      console.log("data chat with filters",data);
+      this.chat = data;
     });
   }
 
 
   sendMessage() {
-    const chatMessage: ChatMessage = {
-          id: 0, // L'identifiant sera généré par le serveur
-          text: this.newMessage, // Supposons que 'text' est le champ de texte du message
-          sender: 'Utilisateur', // Supposons que l'utilisateur est l'expéditeur
-          timestamp: new Date() // Supposons que vous ajoutez un horodatage
-        };
 
-        this.chatService.addChat(chatMessage).subscribe(response => {
-          // Vous pouvez gérer la réponse du serveur ici, par exemple, actualiser la liste de messages.
-          this.getChatMessages();
-          // Effacez le champ de texte du message après l'envoi.
-          this.newMessage = '';
-        });
   }
 
 

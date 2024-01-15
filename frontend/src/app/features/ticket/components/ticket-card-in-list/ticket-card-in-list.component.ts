@@ -7,11 +7,11 @@ import * as ticketAction from 'src/app/store/actions/ticket.action';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 
 @Component({
-  selector: 'app-ticket-card',
-  templateUrl: './ticket-card.component.html',
-  styleUrls: ['./ticket-card.component.scss'],
+  selector: 'app-ticket-card-in-list',
+  templateUrl: './ticket-card-in-list.component.html',
+  styleUrls: ['./ticket-card-in-list.component.scss'],
 })
-export class TicketCardComponent extends UnsubcribeComponent implements OnInit {
+export class TicketCardInListComponent extends UnsubcribeComponent implements OnInit {
 
   @Input() ticket!: Ticket;
 

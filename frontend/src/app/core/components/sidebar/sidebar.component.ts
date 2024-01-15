@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { takeUntil } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Ticket } from 'src/app/core/models/ticket';
+import { Ticket } from 'src/app/core/models/ticket.model';
 import { Store } from '@ngrx/store';
 import * as sidebarReducer from 'src/app/store/reducers/index';
 import * as sidebarAction from 'src/app/store/actions/sidebar.action';

@@ -6,6 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import wcs.backend.dtos.MediaDto;
 import wcs.backend.dtos.MediaGetAllDto;
 import wcs.backend.services.MediaService;
@@ -16,6 +19,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/media/")
+@CrossOrigin(origins = "*")
+@Tag(name = "Media", description = "Media Controller")
 public class MediaController {
 
   private final MediaService mediaService;
@@ -31,6 +36,7 @@ public class MediaController {
   }
 
   @PostMapping("upload")
+  @Operation(summary = "Upload File", description = "Upload a file.")
   public ResponseEntity<MediaDto> uploadFile(
       @RequestParam("file") MultipartFile file,
       @RequestParam(value = "userId", required = false) Long userId,
@@ -40,12 +46,14 @@ public class MediaController {
   }
 
   @GetMapping("{id}")
+  @Operation(summary = "Get Media by ID", description = "Get details of a media by its ID.")
   public ResponseEntity<MediaDto> getMediaById(@PathVariable Long id) {
     MediaDto mediaDto = mediaService.getMediaById(id);
     return mediaDto != null ? ResponseEntity.ok(mediaDto) : ResponseEntity.notFound().build();
   }
 
   @GetMapping("file/{id}")
+  @Operation(summary = "Download Media", description = "Download a media.")
   public ResponseEntity<byte[]> downloadMedia(@PathVariable Long id) {
       MediaDto mediaContent = mediaService.getMediaContentById(id);
   

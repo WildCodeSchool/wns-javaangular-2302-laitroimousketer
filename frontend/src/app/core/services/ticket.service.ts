@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of, switchMap } from 'rxjs';
-import { Ticket } from '../models/ticket';
-import { Category } from '../models/category';
+import { Ticket } from '../models/ticket.model';
+import { Category } from '../models/category.model';
 import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
 import { environment } from 'src/environments/environment';
 
