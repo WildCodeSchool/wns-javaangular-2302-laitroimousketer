@@ -7,9 +7,13 @@
   <div class="details-profil">
     <div class="prefix">Auteur:</div>
     <app-avatar [user]="ticket.author" class="context-ticket-card-creator"></app-avatar>
-    <div class="name"> {{ticket.author!.firstname}}<span class="firstname">{{ticket.author!.lastname}}</span>
-    </div>
-    <a class="show-more" (click)="displayUser()"><i class="bi bi-person-vcard"></i> Voir la fiche</a>
+    @if (!!ticket.author) {
+      <div class="name">{{ticket.author.firstname}}<span class="firstname">{{ticket.author.lastname}}</span>
+      </div>
+    } @else {
+      <span class="firstname">Utilisateur inconnu !</span>
+    }
+    <a class="show-more" (click)="displayUser()" *ngIf="!!this.ticket.author"><i class="bi bi-person-vcard"></i> Voir la fiche</a>
   </div>
 
   <div class="prefix">Catégorie: <span class="category-span">{{ticket.category?.categoryTitle}}</span></div>
@@ -50,7 +54,7 @@
 
 @case ('Chat') {
 <div class="widget" [@opacity]="page==='Chat'?'active':''">
-  <app-ticket-chat></app-ticket-chat>
+  <app-ticket-chat [ticket]="ticket"></app-ticket-chat>
 </div>
 }
 
@@ -72,6 +76,8 @@
     <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill"
       (click)="unarchiveTicket(this.ticket!.id)">Désarchiver</button>
     }
+    <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill"
+    (click)="deleteTicket(this.ticket!.id)">Supprimer</button>
   </div>
 </div>
 }

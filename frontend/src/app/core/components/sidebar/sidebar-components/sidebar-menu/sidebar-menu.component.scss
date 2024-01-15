@@ -29,14 +29,15 @@
     i {
       cursor: pointer;
       font-size: 28px;
-      color: $primaryColor;
+      color: white;
 
     }
   }
 
   li.active {
     i {
-    //style pour le li actif
+      color: $secondaryColor;
+      transition: 0.15s;
     }
   }
 
@@ -64,7 +65,7 @@
   }
   .btn-close-sidebar:hover {
     transition: color 0.4s;
-    color: #ff9027;
+    color: $primaryColor;
   }
   .bi-x {
     font-size: 40px;

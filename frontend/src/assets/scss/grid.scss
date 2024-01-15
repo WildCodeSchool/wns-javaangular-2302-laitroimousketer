@@ -7,7 +7,7 @@
 @if variable_exists(grid-columns) {
   $grid-columns: $grid-columns !global;
 } @else {
-  $grid-columns: 6 !global;
+  $grid-columns: 12 !global;
 }
 
 @if variable_exists(gaps) {

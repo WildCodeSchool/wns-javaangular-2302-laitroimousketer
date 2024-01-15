@@ -1,6 +1,6 @@
 import { ActionReducer, Action } from '@ngrx/store';
 import * as ticketAction from '../actions/ticket.action';
-import { Ticket } from 'src/app/core/models/ticket';
+import { Ticket } from 'src/app/core/models/ticket.model';
 
 export interface TicketState {
   ticket: Ticket;

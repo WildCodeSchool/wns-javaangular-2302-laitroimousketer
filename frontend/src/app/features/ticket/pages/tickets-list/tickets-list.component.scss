@@ -89,7 +89,7 @@ header {
   align-items: center;
   width: 24px;
   height: 24px;
-  background-color: #007BFF;
+  background-color: $fourthColor;
   color: #fff;
   border-radius: 50%;
   text-align: center;
@@ -125,13 +125,14 @@ header {
   gap: 4px;
   line-height: 0;
   min-height: 20px;
-  color: $secondaryColor;
+  color: white;
+  cursor: pointer;
   i {
-    color: $secondaryColor;
+    color: white;
     cursor: pointer;
   }
   .bi-chevron-down,.bi-chevron-up {
-    color: white;
+    color: $secondaryColor;
     font-size: 20px;
     padding-left: 2px;
   }

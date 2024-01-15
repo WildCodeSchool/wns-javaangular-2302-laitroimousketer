@@ -12,10 +12,12 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { TicketCardInListComponent } from './components/ticket-card-in-list/ticket-card-in-list.component';
 
 @NgModule({
   declarations: [
     TicketsListComponent,
+    TicketCardInListComponent,
 
   ],
   imports: [

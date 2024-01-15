@@ -5,6 +5,7 @@ import { User } from 'src/app/core/models/user.model';
 import { Store } from '@ngrx/store';
 import * as Reducer from 'src/app/store/reducers/index';
 import * as userAction from 'src/app/store/actions/user.action';
+import * as ticketAction from 'src/app/store/actions/ticket.action';
 import * as sidebarAction from 'src/app/store/actions/sidebar.action';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 import { Observable, map, of, startWith, takeUntil } from 'rxjs';
@@ -227,6 +228,7 @@ export class UserProfilComponent extends UnsubcribeComponent implements OnInit {
           this.store.dispatch(userAction.saveUserConnected({ payload: this.user }));
           this.userMediaId = this.user.media?.id || 0;
           this.mediaImageUrl$ = this.getMediaImageUrl();
+          this.store.dispatch(ticketAction.getTickets());
         }
         );
       },

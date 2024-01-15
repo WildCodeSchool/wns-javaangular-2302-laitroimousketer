@@ -1,8 +1,8 @@
 import { User } from "src/app/core/models/user.model";
-import { Priority } from "./Priority";
-import { Status } from "./Status";
-import { Category } from "./category";
-import { TicketHaveUsers } from "./ticketHaveUsers";
+import { Status } from "./status.model";
+import { Category } from "./category.model";
+import { TicketHaveUsers } from "./ticket-have-users.model";
+import { Priority } from "./priority.model";
 
 export interface Ticket {
   id: number;
@@ -15,5 +15,5 @@ export interface Ticket {
   updateDate: string;
   archiveDate: string | null;
   ticketHaveUsers: TicketHaveUsers[];
-  author: User;
+  author: User | null;
 }

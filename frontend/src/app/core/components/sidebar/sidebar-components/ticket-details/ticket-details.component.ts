@@ -2,11 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MenuItems } from '../sidebar-menu/menu-items.model';
 import { animate, group, state, style, transition, trigger } from '@angular/animations';
 import { TicketService } from 'src/app/core/services/ticket.service';
-import { Ticket } from 'src/app/core/models/ticket';
+import { Ticket } from 'src/app/core/models/ticket.model';
 import { Store } from '@ngrx/store';
 import * as Reducer from 'src/app/store/reducers/index';
 import * as ticketAction from 'src/app/store/actions/ticket.action';
 import * as userAction from 'src/app/store/actions/user.action';
+import * as sidebarAction from 'src/app/store/actions/sidebar.action';
 import { takeUntil } from 'rxjs';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 import { User } from 'src/app/core/models/user.model';
@@ -54,6 +55,7 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
   statutSpan: string = '';
   prioritySpan: string = '';
   userConnected!: User;
+  author!: User;
   constructor(
     private ticketService: TicketService,
     private store: Store<Reducer.StateDataStore>,
@@ -97,6 +99,7 @@ initMenuItems() {
       .pipe(takeUntil(this.destroy$))
       .subscribe((ticket: Ticket) => {
         this.ticket = ticket;
+        this.author = ticket.author || {} as User;
         if (this.ticket) {
           // console.log('ticket details:', this.ticket);
           this.checkStatus();
@@ -160,6 +163,13 @@ initMenuItems() {
     }
   }
 
+  deleteTicket(ticketId: number): void {
+    this.store.dispatch(ticketAction.deleteTicket({ payload: ticketId }));
+    this.store.dispatch(ticketAction.getTickets());
+    this.store.dispatch(sidebarAction.resetSideBar());
+
+  }
+  
   closeTicket() {
     if (this.ticket?.status?.statusTitle !== 'Terminé') {
       let payload: Partial<Ticket> = {

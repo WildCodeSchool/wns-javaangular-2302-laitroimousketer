@@ -14,7 +14,7 @@
   <div class="contact-c" [ngClass]="{ 'not-info': page !== 'Info' }">
     <div class="widget-small-title"><i class="bi bi-person-vcard-fill"></i> Informations de contact</div>
     <div class="contact">
-      <div><span class="prefix">Role:</span> {{user.role?.roleTitle}}</div>
+      <div><span class="prefix">Role:</span> {{user.role!.roleTitle}}</div>
 
       <div class="mail">
         <span class="prefix">Email:</span>
@@ -67,11 +67,13 @@
     <button mat-raised-button color="primary" class="btn" (click)="sendMail()"><i
         class="bi bi-envelope-arrow-up-fill"></i> Envoyer un
       mail</button>
-    @if (roleUserConnected === 'Manager') {
+
+      ne pas utiliser pr le moment, 
+<!-- 
     <button mat-raised-button color="warn" class="btn" (click)="deleteUser(this.user.id)"><i
         class=" bi bi-archive-fill"></i>
-      Supprimer</button>
-    }
+      Supprimer</button> -->
+    
   </div>
 
 </div>

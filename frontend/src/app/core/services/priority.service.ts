@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
 import { Observable } from 'rxjs';
-import { Priority } from 'src/app/core/models/Priority';
+import { Priority } from 'src/app/core/models/priority.model';
 import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'

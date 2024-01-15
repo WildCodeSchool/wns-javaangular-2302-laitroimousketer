@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TicketService } from '../../../../core/services/ticket.service';
-import { Ticket } from '../../../../core/models/ticket';
+import { Ticket } from '../../../../core/models/ticket.model';
 
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
