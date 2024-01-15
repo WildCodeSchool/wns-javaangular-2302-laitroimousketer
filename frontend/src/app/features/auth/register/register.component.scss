@@ -7,7 +7,7 @@
   position: relative;
   margin: auto;
   border: 4px solid $primaryColor;
-  background-color: $thirdColor;
+  background-color: $widgetColor;
   border-radius: 15px;
   width: 35%;
   box-shadow:0px 5px 15px 5px rgba(0, 0, 0, 0.2);
@@ -49,10 +49,9 @@
   background-color: $primaryColor;
   position: absolute;
   width: 100%;
-  bottom: 0;
+  bottom:0;
   left: 0;
   right: 0;
-  border: 0;
   color:white;
   font-size: 15px;
   border-radius: 0;
@@ -69,18 +68,25 @@
     text-decoration: underline;
     cursor: pointer;
     &:hover {
-      color: $thirdColor;
+      color: $widgetColor;
       transition: 0.2s;
     }
   }
 }
 
-input {
-  
-}
-
-.btn {
+.actions-buttons {
   display: flex;
   justify-content: center;
-  margin: 20px auto 30px auto;
+  align-items: center ;
+  gap: 40px;
+  margin-bottom: 50px;
+  margin-top: -20px;
+}
+h2 {
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  i {
+    color: $primaryColor
+  }
 }

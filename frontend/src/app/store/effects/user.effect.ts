@@ -30,7 +30,7 @@ export class UserEffects {
       switchMap(({ payload, displayInSidebar }) => {
         return this.userService.getUser(payload).pipe(
           tap((data: User) => {
-            console.log('user récupéré dans getuser:', data);
+            // console.log('user récupéré dans getuser:', data);
           }),
           switchMap((data: User) => {
             const saveuserAction = action.saveUser({ payload: data });
@@ -55,23 +55,26 @@ export class UserEffects {
   );
 
 
-  updateuser$ = createEffect(() =>
+  updateUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(action.updateUser),
       switchMap(({ payload }) =>
         this.userService.update(payload).pipe(
-          map((data: User) => action.saveUser({ payload: data })),
-          tap(() => this.msgService.showSuccessAlert('user modifié')),
-          catchError(error => {
-            this.msgService.showErrorAlert('Erreur lors de la modification du user');
-            // Gérer les erreurs ici si nécessaire
-            return of(/* action d'erreur si besoin */);
-          })
+          switchMap(() =>
+            this.userService.getByKey(payload.id).pipe(
+              map((data: User) => action.saveUser({ payload: data })),
+              tap(() => this.msgService.showSuccessAlert('Utilisateur modifié avec succès')),
+              catchError(error => {
+                this.msgService.showErrorAlert("Erreur lors de la modification de l'utilisateur");
+                // Handle errors here if necessary
+                return of(/* error action if needed */);
+              })
+            )
+          )
         )
       )
     )
   );
-
 
   createUser = createEffect(() =>
     this.actions$.pipe(
@@ -110,11 +113,9 @@ export class UserEffects {
 
 
   getUsers = createEffect(() =>
-
     this.actions$.pipe(
       ofType(action.getUsers),
       switchMap(() => {
-        console.log('getUsers effect');
         return this.userService.getUsers().pipe(
           map((users: User[]) => {
             return action.saveUsers({ payload: users });

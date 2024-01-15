@@ -1,0 +1,17 @@
+meta {
+  name: PUT ticket
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:8080/api/tickets/2
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+   "archiveDate": ""
+  }
+}

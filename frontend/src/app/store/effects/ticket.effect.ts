@@ -7,7 +7,7 @@ import * as sidebarAction from '../actions/sidebar.action';
 import { crudOperationSuccess } from './../actions/ticket.action';
 import { catchError, map, mergeMap, of, switchMap, tap } from "rxjs";
 import { AlertService } from "src/app/core/services/alert.service";
-import { Ticket } from "src/app/features/ticket/models/ticket";
+import { Ticket } from "src/app/core/models/ticket";
 import { TicketService } from "src/app/core/services/ticket.service";
 
 
@@ -30,7 +30,7 @@ export class TicketEffects {
       switchMap(({ payload, displayInSidebar }) => {
         return this.ticketService.getTicket(payload).pipe(
           tap((data: Ticket) => {
-            console.log('Ticket récupéré dans getTicket:', data);
+            // console.log('Ticket récupéré dans getTicket:', data);
           }),
           switchMap((data: Ticket) => {
             const saveTicketAction = action.saveTicket({ payload: data });
@@ -54,24 +54,26 @@ export class TicketEffects {
     )
   );
 
-
   updateTicket$ = createEffect(() =>
     this.actions$.pipe(
       ofType(action.updateTicket),
       switchMap(({ payload }) =>
         this.ticketService.update(payload).pipe(
-          map((data: Ticket) => action.saveTicket({ payload: data })),
-          tap(() => this.msgService.showSuccessAlert('Ticket modifié')),
-          catchError(error => {
-            this.msgService.showErrorAlert('Erreur lors de la modification du ticket');
-            // Gérer les erreurs ici si nécessaire
-            return of(/* action d'erreur si besoin */);
-          })
+          switchMap(() =>
+            this.ticketService.getByKey(payload.id).pipe(
+              map((data: Ticket) => action.saveTicket({ payload: data })),
+              tap(() => this.msgService.showSuccessAlert('Ticket modifié')),
+              catchError(error => {
+                this.msgService.showErrorAlert('Erreur lors de la modification du ticket');
+                // Handle errors here if necessary
+                return of(/* error action if needed */);
+              })
+            )
+          )
         )
       )
     )
   );
-
 
 
   createTicket = createEffect(() =>

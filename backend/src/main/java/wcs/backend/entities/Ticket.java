@@ -56,6 +56,9 @@ public class Ticket {
   @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
   private List<TicketHaveUsers> userAssociations = new ArrayList<>();
 
+  @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = false, fetch = FetchType.EAGER)
+  private List<Chat> chatMessages = new ArrayList<>();
+
   public Ticket() {
   }
   // Autres getters et setters

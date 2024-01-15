@@ -1,0 +1,78 @@
+<app-sidebar-menu [menuItems]="menuItems" [menuTitle]="menuTitle" [menuIcon]="menuIcon"
+  (page)="onPageChange($event)"></app-sidebar-menu>
+
+<header class="widget details" *ngIf="ticket">
+  <h1 class="title">Ticket {{ticket.id}}:<span class="title-name"> {{ticket.ticketTitle}} </span>
+  </h1>
+  <div class="details-profil">
+    <div class="prefix">Auteur:</div>
+    <app-avatar [user]="ticket.author" class="context-ticket-card-creator"></app-avatar>
+    <div class="name"> {{ticket.author!.firstname}}<span class="firstname">{{ticket.author!.lastname}}</span>
+    </div>
+    <a class="show-more" (click)="displayUser()"><i class="bi bi-person-vcard"></i> Voir la fiche</a>
+  </div>
+
+  <div class="prefix">Catégorie: <span class="category-span">{{ticket.category?.categoryTitle}}</span></div>
+  <div class="prefix">Statut: <span [ngClass]="statutSpan">{{ticket.status?.statusTitle}}</span></div>
+  <div class="prefix">Priorité: <span [ngClass]="prioritySpan"> {{ticket.priority?.priorityTitle}} </span></div>
+
+  <div class="date-c">
+    <div class="prefix date">Date de création: <span>{{ ticket.creationDate | date: 'dd MMMM yyyy' }}</span></div>
+    @if (ticket.archiveDate !== null) {
+    <div class="prefix date">
+      Date d'archivage: <span>{{ ticket.archiveDate | date:'dd MMMM yyyy à HH:mm' }}</span>
+    </div>
+    }
+    @if (ticket.updateDate) {
+    <div class="prefix date">Dernière date de modification:<span> {{ ticket.updateDate | date:'dd MMMM yyyy à HH:mm'
+        }}</span></div>
+    }
+  </div>
+
+  @if (page ==='Info') {
+  <article [@expandCollapse]="page === 'Info' ? 'expanded' : 'collapsed'">
+    <div class="prefix description">Description:</div>
+    <div>{{ ticket.description}}</div>
+  </article>
+  }
+
+  <div class="card-bottom">
+    <!-- <ng-container *ngIf="ticket.ticketHaveUsers.length >=1">
+      <p class="prefix">Développeurs:</p>
+      <ul>
+        <li *ngFor="let developer of ticket.ticketHaveUsers">{{ developer }}</li>
+      </ul>
+    </ng-container> -->
+  </div>
+</header>
+
+@switch (page) {
+
+@case ('Chat') {
+<div class="widget" [@opacity]="page==='Chat'?'active':''">
+  <app-ticket-chat></app-ticket-chat>
+</div>
+}
+
+@case ('Actions') {
+<div class="widget actions" [@opacity]="page==='Actions'?'active':''">
+  <h1 class="weight-500">Actions sur le ticket</h1>
+  <div class="actions-btn">
+    @if(this.ticket?.status?.statusTitle !== 'Terminé') {
+    <button mat-raised-button color="primary" class="btn bi bi-check-lg" (click)="closeTicket()">Cloturer</button>
+    }
+    @else {
+    <button mat-raised-button color="primary" class="btn bi bi-check-lg" (click)="reopenTicket()">Rouvrir</button>
+    }
+
+    @if(this.ticket?.archiveDate === null) {
+    <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill"
+      (click)="archiveTicket(this.ticket!.id)">Archiver</button>
+    } @else {
+    <button mat-raised-button color="accent" class="btn bi bi-file-earmark-zip-fill"
+      (click)="unarchiveTicket(this.ticket!.id)">Désarchiver</button>
+    }
+  </div>
+</div>
+}
+}

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from './components/common/footer/footer.component';
-import { AlertComponent } from './components/common/alerts/alert.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './components/common/header/header.component';
@@ -14,20 +13,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { AvatarComponent } from './components/common/avatar/avatar.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { MapComponent } from './components/common/map/map.component';
-import { TicketDetailsComponent } from './components/common/sidebar/sidebar-components/ticket-details/ticket-details.component';
-import { ActivityComponent } from './components/common/sidebar/sidebar-components/activity/activity.component';
-import { SidebarMenuComponent } from './components/common/sidebar/sidebar-components/sidebar-menu/sidebar-menu.component';
-import { TicketAddComponent } from './components/common/sidebar/sidebar-components/ticket-add/ticket-add.component';
-import { TicketChatComponent } from './components/common/sidebar/sidebar-components/ticket-chat/ticket-chat.component';
-import { TicketEditComponent } from './components/common/sidebar/sidebar-components/ticket-edit/ticket-edit.component';
-import { UserDetailsComponent } from './components/common/sidebar/sidebar-components/user-details/user-details.component';
+import { TicketDetailsComponent } from './components/sidebar/sidebar-components/ticket-details/ticket-details.component';
+import { ActivityComponent } from './components/sidebar/sidebar-components/activity/activity.component';
+import { SidebarMenuComponent } from './components/sidebar/sidebar-components/sidebar-menu/sidebar-menu.component';
+import { TicketAddComponent } from './components/sidebar/sidebar-components/ticket-add/ticket-add.component';
+import { TicketChatComponent } from './components/sidebar/sidebar-components/ticket-chat/ticket-chat.component';
+import { UserDetailsComponent } from './components/sidebar/sidebar-components/user-details/user-details.component';
+import { TicketCardComponent } from './components/tickets/ticket-card/ticket-card.component';
+import { UserProfilComponent } from './components/sidebar/sidebar-components/user-profil/user-profil.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
+
 
 
 @NgModule({
   declarations: [
     FooterComponent,
-    AlertComponent,
     HeaderComponent,
     SearchBarComponent,
     AvatarComponent,
@@ -35,10 +36,10 @@ import { UserDetailsComponent } from './components/common/sidebar/sidebar-compon
     SidebarMenuComponent,
     ActivityComponent,
     TicketAddComponent,
-    TicketEditComponent,
     TicketChatComponent,
-    MapComponent,
     UserDetailsComponent,
+    TicketCardComponent,
+    UserProfilComponent,
     
   ],
   imports: [
@@ -53,10 +54,11 @@ import { UserDetailsComponent } from './components/common/sidebar/sidebar-compon
     MatButtonModule,
     MatInputModule,
     LeafletModule,
+    MatAutocompleteModule,
+    MatSelectModule,
 
   ],
   exports: [
-    AlertComponent,
     MatSidenavModule,
     FormsModule,
     HeaderComponent,
@@ -65,11 +67,11 @@ import { UserDetailsComponent } from './components/common/sidebar/sidebar-compon
     AvatarComponent,
     TicketDetailsComponent,
     TicketAddComponent,
-    TicketEditComponent,
     SidebarMenuComponent,
     ActivityComponent,
-    MapComponent,
     UserDetailsComponent,
+    TicketCardComponent,
+    UserProfilComponent,
   ],
   providers: [],
 })

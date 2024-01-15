@@ -11,13 +11,14 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     Optional<User> findByEmail(String email);
     Boolean existsByEmail(String email);
-
+    
     default List<User> findByQuery(String query) {
         return findAll((root, criteriaQuery, criteriaBuilder) ->
                 criteriaBuilder.or(
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("firstname")), "%" + query.toLowerCase() + "%"),
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("lastname")), "%" + query.toLowerCase() + "%"),
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), "%" + query.toLowerCase() + "%")
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), "%" + query.toLowerCase() + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("id").get("id")), "%" + query.toLowerCase() + "%")
                 )
         );
     }

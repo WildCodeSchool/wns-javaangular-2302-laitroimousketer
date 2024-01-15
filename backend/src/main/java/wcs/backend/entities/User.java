@@ -34,22 +34,26 @@ public class User implements UserDetails {
   @Column(nullable = false, unique = true)
   private String email;
 
+  @Column(nullable = true)
+  private String phone;
+
   @Column(nullable = false)
   private String password;
 
   @ManyToOne
-  @JoinColumn(name = "role_id", referencedColumnName = "id")
+  @JoinColumn(name = "role_id")
   private Role role;
+  
+  @OneToOne
+  @JoinColumn(name = "media_id", nullable = true)
+  private Media media;
 
-  @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-  private List<Ticket> authoredTickets;
-
-  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+  // suppression d'un utilisateur entraîne également la suppression des tickets associés, et donc le lien dans la table de liaison TicketHaveUsers
+  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
   private List<TicketHaveUsers> ticketHaveUsers;
 
-
   @ManyToOne
-  @JoinColumn(name = "address_id", referencedColumnName = "id")
+  @JoinColumn(name = "address_id", nullable = true, updatable = true)
   private Address address;
 
   @Override

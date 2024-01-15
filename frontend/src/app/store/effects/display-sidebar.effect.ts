@@ -7,7 +7,7 @@ import * as ticketAction from '../actions/ticket.action';
 import * as Reducer from '../reducers/index';
 import { TicketService } from "src/app/core/services/ticket.service";
 import { AlertService } from "src/app/core/services/alert.service";
-import { Ticket } from "src/app/features/ticket/models/ticket";
+import { Ticket } from "src/app/core/models/ticket";
 import { of, Observable } from "rxjs";
 import { Action } from '@ngrx/store';
 

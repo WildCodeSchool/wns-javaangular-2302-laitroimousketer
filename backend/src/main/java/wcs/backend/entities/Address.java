@@ -41,9 +41,8 @@ public class Address {
 
   @Column
   private String street_l2;
-  // si address supprimé, useradress supprimé via cascade ALL
-
-  @OneToMany(mappedBy = "address")
+  // si address supprimé, useradress supprimé via cascade REMOVE
+  @OneToMany(mappedBy = "address", cascade = CascadeType.REMOVE, orphanRemoval = false, fetch = FetchType.EAGER)
   private List<User> users = new ArrayList<>();
   // Constructeurs, getters, setters, etc.
 

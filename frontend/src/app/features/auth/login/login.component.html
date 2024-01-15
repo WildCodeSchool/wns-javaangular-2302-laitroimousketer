@@ -31,16 +31,16 @@
           </ng-container>
         </mat-form-field>
       </div>
+      
       <button type="submit" class="btn" mat-raised-button color="primary"
         [ngClass]="!loginForm.valid ? 'disabled' : ''">Se connecter</button>
 
     </form>
 
     <div class="card-footer">
-      <p>
         Pas encore inscrit ?<a (click)="switchToRegister()">Cliquez ici !</a>
-      </p>
     </div>
+
   </div>
 
 </section>

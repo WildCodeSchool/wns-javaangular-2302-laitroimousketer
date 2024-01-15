@@ -22,7 +22,7 @@ public class Role {
   @Column(name = "roleTitle", nullable = false, unique = true)
   private String roleTitle;
 
-  @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+  @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   private List<User> users;
 
   // Constructeurs, getters et setters

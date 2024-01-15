@@ -1,0 +1,23 @@
+meta {
+  name: post adress
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{ip}}/address/
+  body: json
+  auth: none
+}
+
+body:json {
+      {
+      "city": "La Seyne-sur-Mer",
+      "country": "Serbia",
+      "latitude": -81.912807,
+      "longitude": -88.359691,
+      "postcode": "70802",
+      "street_l1": "723 Allée, Voie de la Ferronnerie",
+      "street_l2": "Apt. 050"
+      }
+}

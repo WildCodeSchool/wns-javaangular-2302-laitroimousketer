@@ -16,7 +16,7 @@ import wcs.backend.services.RoleService;
 @AllArgsConstructor
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("api/roles")
+@RequestMapping("api/roles/")
 @Tag(name = "Roles", description = "Role Management Controller")
 public class RoleController {
   @Autowired
@@ -31,7 +31,7 @@ public class RoleController {
     return ResponseEntity.ok(roleDtos);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("{id}")
   @Operation(summary = "Get Role by ID", description = "Get details of a role by its ID.")
   public ResponseEntity<RoleDto> getRoleById(@PathVariable Long id) {
     RoleDto roleDto = roleService.getRoleById(id);
@@ -49,7 +49,7 @@ public class RoleController {
     return ResponseEntity.status(HttpStatus.CREATED).body(createdRole);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   @Operation(summary = "Update Role", description = "Update an existing role.")
   public ResponseEntity<RoleDto> updateRole(@PathVariable Long id, @RequestBody RoleDto roleDto) {
     RoleDto updatedRole = roleService.updateRole(roleDto);
@@ -60,7 +60,7 @@ public class RoleController {
     }
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("{id}")
   @Operation(summary = "Delete Role", description = "Delete a role by its ID.")
   public ResponseEntity<Void> deleteRole(@PathVariable Long id) {
     roleService.deleteRoleById(id);
