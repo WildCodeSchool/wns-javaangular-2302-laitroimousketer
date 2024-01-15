@@ -1,19 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { User } from 'src/app/core/models/user.model';
 import { MediaService } from 'src/app/core/services/media.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Observable, map, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { UserService } from 'src/app/core/services/user.service';
 @Component({
   selector: 'app-avatar',
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss']
 })
-export class AvatarComponent implements OnInit {
+export class AvatarComponent implements OnInit, OnChanges {
   @Input() userName: string = '';
   @Input() isArchive: boolean = false;
-  @Input() user?: User;
+  @Input() user!: User;
   initials: string = ''; // Pour stocker les initiales
   bgColor: string = ''; // Pour stocker la couleur de fond
   userMediaId: number = 0;
@@ -23,18 +24,33 @@ export class AvatarComponent implements OnInit {
   constructor(
     private mediaService: MediaService,
     private sanitizer: DomSanitizer,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private userService: UserService,
   ) { }
+
   ngOnInit() {
     this.userMediaId = this.user?.media?.id || 0;
     // console.log('userMediaId:', this.userMediaId);
-    this.mediaImageUrl$ = this.getMediaImageUrl();
-    if (this.userMediaId === 0) {
+    if (this.userMediaId !== 0) {
+      this.mediaImageUrl$ = this.getMediaImageUrl();
+    } else {
       this.extractInitials();
       this.generateBackgroundColor();
     }
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if (changes['user']) {
+      this.userMediaId = this.user?.media?.id || 0;
+      if (this.userMediaId !== 0) {
+        this.mediaImageUrl$ = this.getMediaImageUrl();
+      } else {
+        this.extractInitials();
+        this.generateBackgroundColor();
+      }
+    }
+  }
   // Méthode pour extraire les initiales à partir du nom d'utilisateur
   extractInitials() {
     if (this.user && this.user.firstname && this.user.lastname) {
@@ -79,7 +95,7 @@ export class AvatarComponent implements OnInit {
       return of(null); // Si user ou user.media est null, retournez un Observable null
     }
   }
-  
+
 
 
 }

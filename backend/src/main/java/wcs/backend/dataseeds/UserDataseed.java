@@ -40,16 +40,16 @@ public class UserDataseed {
     RoleDto roleManager = findRoleByTitle(existingRoles, "Manager");
     UserDto manager = new UserDto();
     manager.setEmail("manager@wcs.com");
-    manager.setFirstname("the");
-    manager.setLastname("manager");
+    manager.setLastname("the");
+    manager.setFirstname("manager");
     manager.setPassword("Alayd3!manager");
     manager.setRole(roleManager);
     userService.createUser(manager);
 
     UserDto dev = new UserDto();
     dev.setEmail("dev@wcs.com");
-    dev.setFirstname("Dave");
-    dev.setLastname("Grohl");
+    dev.setLastname("Dave");
+    dev.setFirstname("Grohl");
     dev.setPassword("Alayd3!dev");
     dev.setRole(roleDev);
     userService.createUser(dev);
@@ -58,6 +58,10 @@ public class UserDataseed {
     userCreated.setLastname("jesapel");
     userCreated.setFirstname("groot");
     userCreated.setEmail("client@wcs.com");
+    AddressDto randomAddressClient =
+          existingAddresses.get(faker.random().nextInt(existingAddresses.size()));
+    userCreated.setAddress(randomAddressClient);
+    userCreated.setPhone(faker.phoneNumber().cellPhone());
     userCreated.setPassword("Alayd3!client");
     userCreated.setRole(roleClient);
     userService.createUser(userCreated);

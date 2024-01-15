@@ -7,77 +7,64 @@ import * as Reducer from 'src/app/store/reducers/index';
 import * as userAction from 'src/app/store/actions/user.action';
 import * as sidebarAction from 'src/app/store/actions/sidebar.action';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
-import { Observable, map, startWith, takeUntil } from 'rxjs';
+import { Observable, map, of, startWith, takeUntil } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
 import { MenuItems } from '../sidebar-menu/menu-items.model';
 import countries from 'src/assets/json/countries.json';
 import cities from 'cities.json';
 import { MediaService } from 'src/app/core/services/media.service';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { SafeUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-user-profil',
   templateUrl: './user-profil.component.html',
   styleUrls: ['./user-profil.component.scss']
 })
 export class UserProfilComponent extends UnsubcribeComponent implements OnInit {
-
-
-
-  userForm!: FormGroup;
-  addressForm!: FormGroup;
   user!: User
   userId!: number;
   address?: Address
 
+  userForm!: FormGroup;
+  addressForm!: FormGroup;
+  uploadForm!: FormGroup;
+
   menuTitle: string = 'Profil';
   menuIcon: string = 'bi bi-person-fill';
+  userMediaId: number = 0;
+  mediaImageUrl$!: Observable<SafeUrl | null>;
   srcResult: any;
-  uploadForm!: FormGroup;
 
   fileSelected: boolean = false;
   countryList: { name: string, code?: string }[] = countries.map(country => ({ name: country.name }));
   citiesList = cities as { name: string, lat: string, lng: string, country: string, admin1: string, admin2?: string | undefined }[];
   filteredCountry!: Observable<{ name: string; code: string }[] | string[]>;
   filteredCities!: Observable<string[] | [string, { name: string; code: string; }]>;
+
   constructor(
     private formBuilder: FormBuilder,
     private store: Store<Reducer.StateDataStore>,
     private userService: UserService,
     private mediaService: MediaService,
     private authService: AuthService,
+    private alertService: AlertService,
 
   ) {
     super();
-  this.uploadForm = this.formBuilder.group({
-      file: [''],
-      userId: [2],
-    });
-  
+
+
   }
 
   ngOnInit() {
     this.loadUserConnected();
     this.initUserForm();
     this.initAddressForm();
+    this.initUploadForm();
   }
-  onSubmit() {
-    const formData = new FormData();
-    formData.append('file', this.uploadForm.get('file')?.value);
-    formData.append('userId', this.uploadForm.get('userId')?.value);
-  
-    this.mediaService.addMedia(formData).subscribe(
-      (response) => {
-        console.log('File uploaded successfully:', response);
-        this
-      },
-      (error) => {
-        console.error('Error uploading file:', error);
-        // Handle error, e.g., show an error message to the user
-      }
-      );
-      this.fileSelected = false;
-  }
-  
+
+
+
   onFileChange(event: any): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -100,32 +87,48 @@ export class UserProfilComponent extends UnsubcribeComponent implements OnInit {
         this.userService.getByKey(this.userId)
           .pipe(takeUntil(this.destroy$))
           .subscribe((userData: User) => {
-            console.log('user from by key',userData);
+            console.log('user from by key', userData);
             this.user = userData;
             this.address = userData.address;
-            // Vérifiez que this.user et this.address sont définis avant de les utiliser
+            this.userMediaId = this.user.media?.id || 0;
+            this.uploadForm.patchValue({ userId: this.user.id });
+            // console.log('user:', this.user);
+            if (this.userMediaId !== 0) {
+              this.mediaImageUrl$ = this.getMediaImageUrl();
+            }
+            // Check if this.user is defined before using it
             if (this.user) {
               this.userForm.patchValue({
                 ...this.user,
               });
             }
-  
+
             if (this.address) {
               this.addressForm.patchValue({
                 ...this.address,
               });
             }
-            console.log(this.address);
+            // console.log(this.address);
           });
       });
   }
 
+
   initUserForm() {
     this.userForm = this.formBuilder.group({
-      firstname: ['', [Validators.required]],
-      lastname: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      phone: ['',],
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
+      email: ['', Validators.email],
+      password: [
+        '',
+        [
+          Validators.minLength(6),
+          Validators.pattern(
+            '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$'
+          ),
+        ],
+      ],
+      phone: [''],
     });
   }
 
@@ -169,40 +172,82 @@ export class UserProfilComponent extends UnsubcribeComponent implements OnInit {
   }
 
   onSave() {
-    // Vérifiez si le formulaire d'utilisateur est valide
+    // Vérifie si le formulaire d'utilisateur est valide
     if (this.userForm.valid) {
-      // Créez un objet user à partir des données du formulaire utilisateur
+      // Crée un objet user à partir des données du formulaire utilisateur
       const user = { ...this.user, ...this.userForm.value };
-  
-      // Si le formulaire d'adresse est présent, vérifiez s'il est valide
-      if (this.user.role.roleTitle === "Client") {
-        if (this.addressForm.valid) {
-          // Mettez à jour les informations d'adresse dans l'objet user
+
+      // Si le formulaire d'adresse est présent et valide
+      if (this.user.role.roleTitle === "Client" && this.addressForm.valid) {
+        // Vérifie si 'this.address' est défini avant de l'utiliser
+        if (this.address) {
+          // Met à jour les informations d'adresse dans l'objet user
           user.address = { ...this.address, ...this.addressForm.value };
         } else {
-          // Si le formulaire d'adresse n'est pas valide, affichez un message ou prenez d'autres mesures nécessaires
-          console.error('Le formulaire d\'adresse n\'est pas valide');
-          return;
+          // Si 'this.address' n'est pas défini, initialisez-le avec les valeurs du formulaire
+          user.address = { ...this.addressForm.value };
         }
       }
-  
-      // Envoyez les données mises à jour à votre backend ou effectuez d'autres actions nécessaires
+
+      // Envoye les données mises à jour à ton backend ou effectue d'autres actions nécessaires
       this.userService.update(user).pipe(
-        takeUntil(this.destroy$)  // Utilisation de l'opérateur takeUntil pour gérer la désinscription automatique
+        takeUntil(this.destroy$)
       ).subscribe({
         next: (response) => {
-          console.log('Profil mis à jour avec succès:', response);
-          this.authService.login(this.user.email, this.user.password)
-          // Vous pouvez également effectuer d'autres actions après la mise à jour du profil
+          this.alertService.showSuccessAlert('Profil mis à jour avec succès !');
+          this.store.dispatch(userAction.saveUserConnected({ payload: user }));
+          // Déconnecte l'utilisateur si l'email ou le mot de passe a été modifié
+          if ((this.userForm.get('email')?.dirty && this.userForm.get('email')?.value !== '') || (this.userForm.get('password')?.dirty && this.userForm.get('password')?.value !== '')) {
+            this.authService.logout();
+          }
+          this.store.dispatch(sidebarAction.resetSideBar());
+          // Tu peux également effectuer d'autres actions après la mise à jour du profil
         },
         error: (error) => {
+          this.alertService.showErrorAlert('Erreur lors de la mise à jour du profil !');
           console.error('Erreur lors de la mise à jour du profil:', error);
-          // Gérez l'erreur, par exemple, affichez un message d'erreur à l'utilisateur
+          // Gère l'erreur, par exemple, affiche un message d'erreur à l'utilisateur
         }
       });
     }
   }
-  
+
+
+  sendFile() {
+    const formData = new FormData();
+    formData.append('file', this.uploadForm.get('file')?.value);
+    formData.append('userId', this.uploadForm.get('userId')?.value);
+
+    this.mediaService.addMedia(formData).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (response) => {
+        // console.log('File uploaded successfully:', response);
+        this.alertService.showSuccessAlert('Image mise à jour avec succès !');
+        this.userService.getByKey(this.userId).pipe(takeUntil(this.destroy$)).subscribe((userData: User) => {
+          this.user = userData;
+          this.store.dispatch(userAction.saveUserConnected({ payload: this.user }));
+          this.userMediaId = this.user.media?.id || 0;
+          this.mediaImageUrl$ = this.getMediaImageUrl();
+        }
+        );
+      },
+      error: (error) => {
+        console.error('Error uploading file:', error);
+        this.alertService.showErrorAlert('Erreur lors de la mise à jour de l\'image !');
+        // Handle error, e.g., show an error message to the user
+      },
+    });
+
+    this.fileSelected = false;
+  }
+
+
+  initUploadForm() {
+    this.uploadForm = this.formBuilder.group({
+      file: [''],
+      userId: [0],
+    });
+  }
+
   onCancel() {
     this.userForm.patchValue({
       ...this.user,
@@ -240,4 +285,17 @@ export class UserProfilComponent extends UnsubcribeComponent implements OnInit {
 
     return filteredCities.slice(0, 10);
   }
+
+  getMediaImageUrl(): Observable<SafeUrl | null> {
+    // Vérifiez si user et user.media existent
+    if (this.user && this.user.media) {
+      return this.mediaService.getMediaById(this.user.media.id).pipe(
+        // tap(url => console.log('Media Image URL:', url || 'Image URL is null or undefined'))
+      );
+    } else {
+      // console.log('User or user media is null');
+      return of(null); // Si user ou user.media est null, retournez un Observable null
+    }
+  }
+
 }

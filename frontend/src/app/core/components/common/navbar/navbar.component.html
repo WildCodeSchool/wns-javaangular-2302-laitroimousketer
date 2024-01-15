@@ -10,7 +10,7 @@
       <a class="bi bi-bookmarks-fill"></a>
     </li>
 
-    <li *ngIf="userRole === 'Client'" class="ticket" (click)="toggleSidebarNewTicket()">
+    <li *ngIf="userConnected.role?.roleTitle === 'Client'" class="ticket" (click)="toggleSidebarNewTicket()">
       <a class="bi bi-bookmark-plus-fill"></a>
     </li>
 
@@ -18,11 +18,11 @@
       <a class="bi bi-people" routerLink="users/list"></a>
     </li>
 
-    <li *ngIf="userRole !== 'Client'">
+    <li *ngIf="userConnected.role?.roleTitle !== 'Client'">
       <a class="bi bi-speedometer" routerLink="dashboard"></a>
     </li>
 
-    <li *ngIf="userRole !== 'Client'" class="menulink">
+    <li *ngIf="userConnected.role?.roleTitle !== 'Client'" class="menulink">
       <a class="bi bi-activity" (click)=" toggleSidebarActivity()"></a>
     </li>
 
@@ -33,7 +33,7 @@
     <button mat-menu-item (click)="logout()">Se déconnecter</button>
   </mat-menu>
 
-  <app-avatar class="from-navbar" *ngIf="user" [user]="user" [matMenuTriggerFor]="menu" ></app-avatar>
+  <app-avatar class="from-navbar" *ngIf="userConnected" [user]="userConnected" [matMenuTriggerFor]="menu" ></app-avatar>
  
   <p class="corporation">Alayde INC ©</p>
 </nav>

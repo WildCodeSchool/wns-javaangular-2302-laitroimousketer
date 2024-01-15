@@ -9,6 +9,7 @@ import * as ticketAction from 'src/app/store/actions/ticket.action';
 import * as userAction from 'src/app/store/actions/user.action';
 import { takeUntil } from 'rxjs';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
+import { User } from 'src/app/core/models/user.model';
 
 @Component({
   selector: 'app-ticket-details',
@@ -45,18 +46,14 @@ import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component'
 export class TicketDetailsComponent extends UnsubcribeComponent implements OnInit {
 
   ticket?: Ticket;
-  menuItems: MenuItems[] = [
-    { page: 'Info', icon: 'bi bi-info-square-fill' },
-    { page: 'Chat', icon: 'bi bi-chat-left-dots-fill' },
-    { page: 'Actions', icon: 'bi bi-pencil-square' }
-  ];
+  menuItems: MenuItems[] = [];
   menuTitle: string = 'Ticket';
   menuIcon: string = 'bi bi-tag-fill';
   fullnameAuthor: string = '';
   page: string = 'Info';
   statutSpan: string = '';
   prioritySpan: string = '';
-
+  userConnected!: User;
   constructor(
     private ticketService: TicketService,
     private store: Store<Reducer.StateDataStore>,
@@ -66,9 +63,26 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
 
   ngOnInit() {
     this.loadTicket();
+    this.initMenuItems();
     this.fullnameAuthor = this.ticket?.author?.firstname + ' ' + this.ticket?.author?.lastname;
   }
 
+initMenuItems() {
+  this.store.select(Reducer.getUserConnected).pipe(takeUntil(this.destroy$)).subscribe((user) => {
+    this.userConnected = user;
+  });
+  if (this.userConnected.role.roleTitle !== 'Client') {
+  this.menuItems = [
+    { page: 'Info', icon: 'bi bi-info-square-fill' },
+    { page: 'Chat', icon: 'bi bi-chat-left-dots-fill' },
+    { page: 'Actions', icon: 'bi bi-pencil-square' }
+  ] } else {
+    this.menuItems = [
+      { page: 'Info', icon: 'bi bi-info-square-fill' },
+      { page: 'Chat', icon: 'bi bi-chat-left-dots-fill' },
+    ];
+  }
+}
 
   onPageChange(page: string): void {
     this.page = page;

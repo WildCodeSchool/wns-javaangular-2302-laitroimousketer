@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user.model';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Role } from '../models/role.model';
 import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
 
 @Injectable({

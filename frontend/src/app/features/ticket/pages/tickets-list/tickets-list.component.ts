@@ -100,7 +100,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
 
 
   checkRole() {
-    this.authService.getUserProfile().pipe(takeUntil(this.destroy$)).subscribe((data) => {
+    this.store.select(Reducer.getUserConnected).pipe(takeUntil(this.destroy$)).subscribe((data) => {
       this.role = data.role;
       // console.log('role', this.role);
     });

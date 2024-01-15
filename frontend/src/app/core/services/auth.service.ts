@@ -40,7 +40,6 @@ export class AuthService implements OnInit {
     private userService: UserService,
     private store: Store<Reducer.StateDataStore>,
   ) {
-
     this.isAuthenticated()
       .pipe(take(1))
       .subscribe((isAuthenticated: boolean) => {
@@ -52,8 +51,6 @@ export class AuthService implements OnInit {
     this.getUserProfile();
   }
 
-
-
   public login(email: string, password: string): Observable<string> {
     return this.httpClient
       .post<LoginResponse>(
@@ -64,19 +61,11 @@ export class AuthService implements OnInit {
       .pipe(
         map((response: LoginResponse) => {
           this.setAuthToken(response.accessToken);
-          this.isLog$.next(true);
-          // Décoder le token pour obtenir la date d'expiration
-          // const decodedToken: any = jwt_decode(response.accessToken);
-          // const expirationTime = decodedToken.exp * 1000;
-
-          // Afficher la durée de validité du token (en millisecondes)
-          // console.log('Durée de validité du token (en millisecondes) :', expirationTime - Date.now());
+          this.isLog$.next(true);     
           return response.accessToken;
         })
       );
   }
-
-  
 
   public setAuthToken(token: string) {
     localStorage.setItem('auth_token', token);
@@ -88,33 +77,9 @@ export class AuthService implements OnInit {
     return token !== null ? token : null;
   }
 
-  
-  checkTokenExpiration(): Observable<boolean> {
-    const isTokenExpired = this.isTokenExpired();
-    return of(!isTokenExpired);
-  }
-  
-  isTokenExpired(): boolean {
-    const token = this.getAuthToken();
-    if (token) {
-      try {
-        const decodedToken: any = jwt_decode(token);
-        const expirationTime = decodedToken.exp * 1000;
-        return expirationTime <= Date.now();
-      } catch (error) {
-        console.error('Erreur lors du décodage du jeton :', error);
-        return true; // En cas d'erreur, considérez le jeton comme expiré
-      }
-    }
-    return true; // Si le token est nul, considérez-le comme expiré
-  }
-  
-
-
   public isAuthenticated(): Observable<boolean> {
     return this.isLog$.asObservable();
   }
-
 
   getUserProfile(): Observable<User> {
     const token = this.getAuthToken();
@@ -166,7 +131,16 @@ export class AuthService implements OnInit {
       );
   }
 
-
+isTokenExpired(): boolean {
+  const token = this.getAuthToken();
+  if (token) {
+    const decodedToken: any = jwt_decode(token);
+    const expirationDate = decodedToken.exp * 3600000; // Convert seconds to milliseconds
+    const currentTimestamp = new Date().getTime();
+    return expirationDate < currentTimestamp;
+  }
+  return false;
+}
   switchToLogin(): void {
     this.activeTabSource.next('login');
   }
@@ -176,7 +150,7 @@ export class AuthService implements OnInit {
   }
 
   logout() {
-    // this.isLog$.next(false); // Indiquer que l'utilisateur n'est plus connecté
+    this.isLog$.next(false); // Indiquer que l'utilisateur n'est plus connecté
     localStorage.removeItem('auth_token'); // Supprimer le jeton d'authentification
     this.alertService.showSuccessAlert('Vous êtes maintenant déconnecté'); // Afficher une alerte de déconnexion
   }

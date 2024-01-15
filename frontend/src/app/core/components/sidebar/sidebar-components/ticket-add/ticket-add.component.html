@@ -1,34 +1,53 @@
 <app-sidebar-menu [menuTitle]="menuTitle" [menuIcon]="menuIcon"></app-sidebar-menu>
 
-<section class="formulaire">
-  <h1 class="ticketAddTitle">Créer un nouveau ticket</h1>
-  <form [formGroup]="ticketAddForm">
-    <div>
-      <label class="form-label" for="title">Titre *</label>
-      <input class="form-control" id="title" type="text" formControlName="title"
-        placeholder="Renseigner le thème du sujet">
-    </div>
+<div class="widget grid grid-cols-1 gap-10">
 
-    <div>
-      <label class="form-label" for="priority">Priorité *</label>
-      <select class="form-control" id="priority" formControlName="selectedPriority">
-        <option *ngFor="let priority of priorities" [ngValue]="priority">{{ priority.priorityTitle }}</option>
-      </select>
+  <header>
+    <div class="widget-title">
+      <i class="bi bi-bookmark-plus-fill"></i><span class="first-word"> Créer un</span> nouveau ticket
     </div>
+  </header>
+
+  <form [formGroup]="ticketAddForm" class="grid grid-cols-1 gap-20">
 
 
-    <div>
-      <label class="form-label" for="category">Catégorie *</label>
-      <select class="form-control" id="category" formControlName="selectedCategory">
-        <option *ngFor="let category of categories" [ngValue]="category">{{ category.categoryTitle }}</option>
-      </select>
-    </div>
+    <mat-form-field appearance="outline" color="primary">
+      <mat-label for="title">Titre</mat-label>
+      <input matInput type="text" id="title" formControlName="title" placeholder="Renseigner le thème du sujet">
+    </mat-form-field>
 
-    <div>
-      <label class="form-label" for="description">Description *</label>
-      <input class="form-control" id="description" type="text" formControlName="description"
-        placeholder="Expliquer avec détails votre problèmatique">
-    </div>
+
+    <mat-form-field appearance="outline" color="primary">
+      <mat-label id="priority">Priorité</mat-label>
+      <mat-select id="priority" formControlName="selectedPriority" name="selectedPriority">
+        @for (priority of priorities; track priority.id) {
+        <mat-option [value]="priority">{{priority.priorityTitle}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline" color="primary">
+      <mat-label for="category">Catégorie</mat-label>
+      <mat-select id="category" formControlName="selectedCategory" name="selectedCategory">
+        @for (category of categories; track category.id) {
+        <mat-option [value]="category">{{category.categoryTitle}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" color="primary">
+      <mat-label for="description">Description</mat-label>
+      <textarea id="description" 
+                matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="10"
+                cdkAutosizeMaxRows="auto"
+                placeholder="Expliquer avec détails votre problèmatique"
+                formControlName="description"
+                ></textarea>
+    </mat-form-field>
 
     <div class="buttons-actions">
 
@@ -39,4 +58,4 @@
     </div>
   </form>
 
-</section>
+</div>

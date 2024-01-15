@@ -15,5 +15,5 @@ export interface Ticket {
   updateDate: string;
   archiveDate: string | null;
   ticketHaveUsers: TicketHaveUsers[];
-  author?: User;
+  author: User;
 }

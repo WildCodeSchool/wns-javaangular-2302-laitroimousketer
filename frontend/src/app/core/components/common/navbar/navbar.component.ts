@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { SharedService } from '../../../services/shared.service';
 import { MatMenuTrigger } from '@angular/material/menu';
@@ -17,23 +17,17 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent extends UnsubcribeComponent implements OnInit {
+
   @ViewChild(MatMenuTrigger) trigger!: MatMenuTrigger;
 
-  openMenu() {
-    this.trigger.openMenu();
-  }
   private sidebarSubscription: Subscription | undefined;
 
   logo: string = 'assets/images/Alayde.png';
   ticket: string = 'assets/images/tickets.png';
   avatar: string = 'assets/images/avatar.png';
-  userRole: string = '';
-  userEmail: string = '';
-  userFirstName: string = '';
-  userLastName: string = '';
   opened: boolean = false;
 
-  user?: User
+  userConnected!: User
   constructor(
     private store: Store<Reducer.StateDataStore>,
     private authService: AuthService,
@@ -41,7 +35,6 @@ export class NavbarComponent extends UnsubcribeComponent implements OnInit {
     private router: Router
   ) {
     super();
-  
    }
 
   ngOnInit(): void {
@@ -66,21 +59,26 @@ export class NavbarComponent extends UnsubcribeComponent implements OnInit {
     this.store.dispatch(sidebarAction.displayUserProfil());
   }
 
+  openMenu() {
+    this.trigger.openMenu();
+  }
+
   loadUserConnected() {
-    if (!this.user) {
-      this.authService.getUserProfile().pipe(
-        takeUntil(this.destroy$)
-      )
-      .subscribe({
-        next: (user: User) => {
-          this.user = user;
-        },
-        error: (error: any) => {
-          console.error('Erreur lors de la récupération du profil utilisateur :', error);
-        }
-      });
+    if (!this.userConnected) {
+      this.store.select(Reducer.getUserConnected)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (user: User) => {
+            this.userConnected = user;
+            // console.log('userConnected:', this.userConnected);
+          },
+          error: (error: any) => {
+            console.error('Erreur lors de la récupération du profil utilisateur :', error);
+          }
+        });
     }
   }
+  
   
 }
 

@@ -2,39 +2,43 @@
 
 <div class="widgets grid grid-cols-1 gap-10" *ngIf="user">
 
-  <div class="widget">
-    <header>
-      <div class="widget-title">
-        <i class="bi bi-person-bounding-box"></i><span class="first-word"> Modifier son</span> profil
-      </div>
-    </header>
+  <header>
+    <div class="widget-title">
+      <i class="bi bi-person-bounding-box"></i><span class="first-word"> Modifier son</span> profil
+    </div>
+  </header>
 
-
-    <div class="widget-small-title"><i class="bi bi-person-lines-fill"></i> Identification</div>
-    <form class="grid lg:grid-cols-2 sm:grid-cols-1 gap-20" [formGroup]="userForm">
-
-
+  <form class="grid grid-cols-1 gap-20" [formGroup]="userForm">
+    <div class="widget grid lg:grid-cols-2 sm:grid-cols-1 gap-10">
+      <div class="widget-small-title"><i class="bi bi-person-lines-fill"></i> Identification</div>
 
       <!-- Aperçu de l'image -->
       <div class="avatar-c row-span-2">
-        <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <!-- Aperçu de l'image -->
-            <img *ngIf="srcResult" [src]="srcResult" alt="Selected Image" />
-      
-            <!-- Bouton de téléchargement -->
-            @if (!fileSelected) {
-              <button type="button" color="primary" mat-raised-button (click)="fileInput.click()">Sélectionner un fichier</button>
-            } 
-            @if (fileSelected) {
-              <button type="button" color="primary" mat-raised-button (click)="onSubmit()">Envoyer</button>
-            }
-            <!-- Champ de fichier caché -->
-            <input type="file" id="file" name="file" (change)="onFileChange($event)" #fileInput style="display: none;" />
-          </div>
+
+        <form class="form-group" [formGroup]="uploadForm">
+          <!-- Aperçu de l'image --> 
+    
+            @if (this.mediaImageUrl$ && !fileSelected) {
+              <img *ngIf="mediaImageUrl$ | async; let imageUrl" [src]="imageUrl" alt="User Image">
+              
+          } @else {
+          <img *ngIf="srcResult" [src]="srcResult" alt="Selected Image" />
+          }
+
+          <!-- Bouton de téléchargement -->
+          @if (!fileSelected) {
+          <button type="button" color="primary" mat-raised-button (click)="fileInput.click()">Sélectionner un
+            fichier</button>
+          }
+          @if (fileSelected) {
+          <button type="button" color="primary" mat-raised-button (click)="sendFile()">Envoyer</button>
+          }
+          <!-- Champ de fichier caché -->
+          <input type="file" id="file" name="file" (change)="onFileChange($event)" #fileInput style="display: none;" />
         </form>
+
       </div>
-      
+
 
       <mat-form-field appearance="outline" color="primary" class="col-span-1">
         <mat-label for="firstname">Prénom</mat-label>
@@ -46,19 +50,31 @@
         <input matInput type="text" id="lastname" formControlName="lastname">
       </mat-form-field>
 
-
-      <mat-form-field appearance="outline" color="primary" class="col-span-1">
-        <mat-label for="email">Email</mat-label>
-        <input matInput type="text" id="email" formControlName="email">
-      </mat-form-field>
-
       <mat-form-field appearance="outline" color="primary" class="col-span-1">
         <mat-label for="phone">Téléphone</mat-label>
         <input matInput type="text" id="phone" formControlName="phone">
       </mat-form-field>
 
-    </form>
-  </div>
+    </div>
+
+    <div class="widget">
+      <div class="widget-small-title"><i class="bi bi-box-arrow-in-right"></i> Authentification</div>
+
+      <div class="grid lg:grid-cols-2 sm:grid-cols-1 gap-10">
+        <mat-form-field appearance="outline" color="primary" class="col-span-1">
+          <mat-label for="email">Email</mat-label>
+          <input matInput type="text" id="email" formControlName="email">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" color="primary" class="col-span-1">
+          <mat-label for="password">Mot de passe</mat-label>
+          <input matInput type="text" id="password" formControlName="password">
+        </mat-form-field>
+
+      </div>
+    </div>
+  </form>
+
 
   <div class="widget">
     <div class="widget-small-title"><i class="bi bi-geo-alt-fill"></i> Localisation</div>

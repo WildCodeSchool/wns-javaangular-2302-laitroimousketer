@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
+import { Status } from 'src/app/core/models/Status';
+import { FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Category } from 'src/app/core/models/category';
@@ -18,7 +19,6 @@ import { User } from 'src/app/core/models/user.model';
 import { takeUntil } from 'rxjs';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 import { StatusService } from 'src/app/core/services/status.service';
-import { Status } from 'src/app/core/models/Status';
 
 @Component({
   selector: 'app-ticket-add',
@@ -70,8 +70,8 @@ export class TicketAddComponent extends UnsubcribeComponent {
     this.ticketAddForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      selectedCategory: [null, Validators.required],
-      selectedPriority: [null, Validators.required],
+      selectedCategory: ['', Validators.required],
+      selectedPriority: ['', Validators.required],
     });
   
     // Ecoutez les changements de sélection pour la catégorie
@@ -86,6 +86,7 @@ export class TicketAddComponent extends UnsubcribeComponent {
       this.ticketAddForm.patchValue({ selectedPriority: selectedPriority }, { emitEvent: false });
     });
   }
+  
   initDefaultStatus() {
     this.statusService.getAll().subscribe((data) => {
       this.status = data;

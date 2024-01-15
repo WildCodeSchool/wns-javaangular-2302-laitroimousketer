@@ -60,7 +60,10 @@ header {
   color: $primaryColor;
   font-weight: 400;
 }
-
+article {
+  // add space betwwen the lines of the description
+  white-space: pre-wrap;
+}
 .description {
   padding-top: 4px;
   max-height: 60vh;
