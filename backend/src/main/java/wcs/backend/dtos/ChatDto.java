@@ -23,4 +23,6 @@ public class ChatDto {
 
     private Date sent_date;
 
+    private MediaDto media;
+
 }

@@ -18,4 +18,5 @@ public class UserDto {
   private String password;
   private RoleDto role;
   private AddressDto address;
+  private MediaGetAllDto media;
 }

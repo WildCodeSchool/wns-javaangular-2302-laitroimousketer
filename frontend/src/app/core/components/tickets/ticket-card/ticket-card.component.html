@@ -1,15 +1,16 @@
-<section class="card" (click)="openTicketDetails()">
+<section class="card" (click)="openTicketDetails()" *ngIf="ticket">
 
   <div class="client">
-  <app-avatar [userName]="ticketDetails.fullnameAuthor" [isArchive]="isArchive" class="context-ticket-card-fullnameAuthor"></app-avatar>
-    <p>{{ ticketDetails.fullnameAuthor }}</p>
+  <app-avatar [user]="ticket.author" [isArchive]="isArchive" class="context-ticket-card-fullnameAuthor"></app-avatar>
+    <p>{{ fullnameAuthor }}</p>
   </div>
 
-    <p class="number">{{ ticketDetails.number }}</p>
-    <p class="title">{{ ticketDetails.name }}</p>
-    <p class="category">{{ ticketDetails.category }}</p>
-    <p class="statut" [ngClass]="colorStatus">{{ ticketDetails.status }}</p>
-    <p class="priority" [ngClass]="colorPriority">{{ ticketDetails.priority }}</p>
-    <p class="date">{{ ticketDetails.creationDate | date:'dd/MM/yyyy' }}</p>
-
+    <p class="number">{{ ticket.id }}</p>
+    <p class="title">{{ ticket.ticketTitle }}</p>
+   
+    <p class="category">{{ ticket.category?.categoryTitle }}</p>
+    <p class="statut" [ngClass]="colorStatus">{{ ticket.status?.statusTitle }}</p>
+    <p class="priority" [ngClass]="colorPriority">{{ ticket.priority?.priorityTitle }}</p>
+    <p class="date">{{ ticket.creationDate | date:'dd/MM/yyyy' }}</p>
+    
 </section>

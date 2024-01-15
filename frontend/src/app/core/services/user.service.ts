@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user.model';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Role } from '../models/role.model';
 import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
 
 @Injectable({
@@ -20,7 +19,7 @@ export class UserService extends EntityCollectionServiceBase<User> {
 
   //CRUD
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/users`);
+    return this.http.get<User[]>(`${this.apiUrl}/users/`);
   }
   getUser(id: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/users/${id}`);
@@ -28,18 +27,18 @@ export class UserService extends EntityCollectionServiceBase<User> {
 
   //others
   getUsersByRole(roleId: number): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/users?role_id=${roleId}`);
+    return this.http.get<User[]>(`${this.apiUrl}/users/?role_id=${roleId}`);
   }
 
   getUsersByNameOrEmail(searchTerm: string): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/users?search=${searchTerm}`);
+    return this.http.get<User[]>(`${this.apiUrl}/users/?search=${searchTerm}`);
   }
 
   registerUser(user: User): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/auth/register`, user);
   }
   getUserByEmail(email: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users?email=${email}`);
+    return this.http.get<User>(`${this.apiUrl}/users/?email=${email}`);
   }
 
 

@@ -1,13 +1,17 @@
 // variables utilitaires scss, couleurs, responsive etc //
 
 // COLORS //
-$primaryColor: #004463;
-$secondaryColor: #F5B445;
-$thirdColor: #EBEEF7;
+$primaryColor: #5A626B;
+$secondaryColor: #FD5842;
+$thirdColor: #4B5765;
+$widgetColor:#F9F9F9;
 $blackColor: #252525;
 $redColor: #EF4C4E;
 $blueColor: #2F78C2;
-$textColor: #4E575C;
+$primaryTextColor: #4E575C;
+$hoverTextColor: #A6A6A6;
+// $primaryColor: #004463;
+// $secondaryColor: #F5B445;
 //DIVERS //
 $boxShadowBtn: -5px -5px 10px  rgba(0,0,0,0.16);
 
@@ -20,6 +24,18 @@ $desktop: 1920px;
 $laptop : 1440px;
 $tablet : 1024px;
 $mobile : 767px;
+
+$breakpoints: (
+  sm: 576px,
+  md: 992px,
+  lg: 1400px,
+  xl: 2560px,
+) !default;
+
+$small: map-get($breakpoints, sm) !default;
+$medium: map-get($breakpoints, md) !default;
+$large: map-get($breakpoints, lg) !default;
+$xlarge: map-get($breakpoints, xl) !default;
 
 @mixin large {
     @media (min-width : ($qhd + 1)) {

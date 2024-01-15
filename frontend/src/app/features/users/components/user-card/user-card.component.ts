@@ -11,8 +11,7 @@ import * as sidebarAction from 'src/app/store/actions/sidebar.action';
 })
 export class UserCardComponent implements OnInit {
   @Input() user!: User;
-  fullname: string = ''
-  ;
+  fullname: string = '';
   constructor(
     private store: Store<Reducer.StateDataStore>,
   ) { }

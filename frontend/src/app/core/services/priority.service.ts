@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
 import { Observable } from 'rxjs';
-import { Priority } from 'src/app/features/ticket/models/Priority';
+import { Priority } from 'src/app/core/models/Priority';
 import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class PriorityService extends EntityCollectionServiceBase<Priority> {
     super('priorities', serviceElementsFactory)}
 
   getPriorityList(): Observable<Priority[]> {
-    return this.httpClient.get<Priority[]>(this.baseUrl+'/priorities');
+    return this.httpClient.get<Priority[]>(this.baseUrl+'/priorities/');
   }
 
 }

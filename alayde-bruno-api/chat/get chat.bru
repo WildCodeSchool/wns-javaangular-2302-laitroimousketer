@@ -1,0 +1,15 @@
+meta {
+  name: get chat
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{ip}}/chat/?ticket_id=201
+  body: none
+  auth: none
+}
+
+query {
+  ticket_id: 201
+}

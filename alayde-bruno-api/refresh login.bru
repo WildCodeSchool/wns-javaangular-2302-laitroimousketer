@@ -1,0 +1,17 @@
+meta {
+  name: refresh login
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{ip}}login/refresh
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "expiredToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYW5hZ2VyQHdjcy5jb20iLCJpYXQiOjE3MDUxNjYyMjAsImV4cCI6MTcwNTE2NjIzMH0.FgpVIBO05IZWbENfHVbonjNeo44QytHGgcI4-PSF7d1DraVhkFrewWphfnwtA98DS5KW4rNw2TnM3Isc_2T0sw"
+  }
+}

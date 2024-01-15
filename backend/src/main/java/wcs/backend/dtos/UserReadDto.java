@@ -17,4 +17,5 @@ public class UserReadDto {
   private String phone;
   private RoleDto role;
   private AddressDto address;
+  private MediaGetAllDto media;
 }

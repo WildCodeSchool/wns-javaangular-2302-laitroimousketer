@@ -1,23 +1,21 @@
 package wcs.backend.controllers;
 
-import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import wcs.backend.dtos.TicketDto;
-import wcs.backend.dtos.TicketUpdateDto;
 import wcs.backend.entities.Ticket;
 import wcs.backend.services.TicketService;
 import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/tickets")
+@RequestMapping("api/tickets/")
 @CrossOrigin(origins = "*")
 @Tag(name = "Tickets", description = "Ticket Management Controller")
 public class TicketController {
@@ -46,7 +44,7 @@ public class TicketController {
     }
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("{id}")
   @Operation(summary = "Get Ticket by ID", description = "Get ticket details by its ID.")
   public ResponseEntity<TicketDto> getTicketById(@PathVariable Long id) {
     TicketDto ticketDto = ticketService.getTicketById(id);
@@ -60,7 +58,7 @@ public class TicketController {
     return ResponseEntity.ok(createdTicketDto);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   @Operation(summary = "Update Ticket", description = "Update details of an existing ticket.")
   public ResponseEntity<TicketDto> updateTicket(@PathVariable Long id,
       @RequestBody TicketDto ticketDto) {
@@ -68,7 +66,7 @@ public class TicketController {
     return ResponseEntity.ok(updatedTicketDto);
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("{id}")
   @Operation(summary = "Delete Ticket", description = "Delete a ticket by its ID.")
   public ResponseEntity<String> deleteTicketAndAssociations(@PathVariable Long id) {
     ticketService.deleteTicket(id);

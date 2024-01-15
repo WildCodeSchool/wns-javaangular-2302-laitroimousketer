@@ -14,7 +14,7 @@ import wcs.backend.services.PriorityService;
 @AllArgsConstructor
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("api/priorities")
+@RequestMapping("api/priorities/")
 @Tag(name = "Priorities", description = "Priority Management Controller")
 public class PriorityController {
   @Autowired
@@ -27,7 +27,7 @@ public class PriorityController {
     return ResponseEntity.ok(priorityDto);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("{id}")
   @Operation(summary = "Get Priority by ID", description = "Get details of a priority by its ID.")
   public ResponseEntity<PriorityDto> getPriorityById(@PathVariable Long priorityId) {
     PriorityDto priorityDto = priorityService.getPriorityById(priorityId);
@@ -41,14 +41,14 @@ public class PriorityController {
     return ResponseEntity.ok(createdPriorityDto);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   @Operation(summary = "Update Priority", description = "Update an existing priority.")
   public ResponseEntity<PriorityDto> updatePriority(@PathVariable Long id, @RequestBody PriorityDto priorityDto) {
     PriorityDto updatedPriorityDto = priorityService.updatePriority(id, priorityDto);
     return ResponseEntity.ok(updatedPriorityDto);
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("{id}")
   @Operation(summary = "Delete Priority", description = "Delete a priority by its ID.")
   public ResponseEntity<Void> deletePriority(@PathVariable Long id) {
     priorityService.deletePriority(id);

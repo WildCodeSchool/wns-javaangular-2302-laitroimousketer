@@ -17,11 +17,11 @@ export class ChatService {
    }
 
   getChats() {
-    return this.http.get(`${this.apiUrl}api/chat`);
+    return this.http.get(`${this.apiUrl}api/chat/`);
   }
 
   addChat(chat: ChatMessage) {
-    return this.http.post(`${this.apiUrl}api/chat`, chat, { headers: this.headers });
+    return this.http.post(`${this.apiUrl}api/chat/`, chat, { headers: this.headers });
   }
 
 }

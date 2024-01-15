@@ -22,7 +22,7 @@ import wcs.backend.services.CategoryService;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/categories")
+@RequestMapping("api/categories/")
 @CrossOrigin(origins = "*")
 @Tag(name = "Categories", description = "Category Management Controller")
 

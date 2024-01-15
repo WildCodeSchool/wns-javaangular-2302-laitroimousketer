@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
-@RequestMapping(path = "api/chat")
+@RequestMapping(path = "api/chat/")
 @Tag(name = "Chat", description = "Chat Controller")
 
 public class ChatController {
@@ -30,7 +30,7 @@ public class ChatController {
     }
     
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     @Operation(summary = "Get chat by ID", description = "Get chat by ID")
     public ChatDto getChatById(@PathVariable Long id) {
         return chatService.getChatById(id);

@@ -43,8 +43,13 @@ public class User implements UserDetails {
   @ManyToOne
   @JoinColumn(name = "role_id")
   private Role role;
+  
+  @OneToOne
+  @JoinColumn(name = "media_id", nullable = true)
+  private Media media;
 
-  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+  // suppression d'un utilisateur entraîne également la suppression des tickets associés, et donc le lien dans la table de liaison TicketHaveUsers
+  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
   private List<TicketHaveUsers> ticketHaveUsers;
 
   @ManyToOne

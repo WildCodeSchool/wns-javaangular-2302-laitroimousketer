@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Ticket } from 'src/app/features/ticket/models/ticket';
+import { Ticket } from 'src/app/core/models/ticket';
 
 
 export const action = {

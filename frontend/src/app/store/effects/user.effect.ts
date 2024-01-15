@@ -30,7 +30,7 @@ export class UserEffects {
       switchMap(({ payload, displayInSidebar }) => {
         return this.userService.getUser(payload).pipe(
           tap((data: User) => {
-            console.log('user récupéré dans getuser:', data);
+            // console.log('user récupéré dans getuser:', data);
           }),
           switchMap((data: User) => {
             const saveuserAction = action.saveUser({ payload: data });
