@@ -1,0 +1,61 @@
+<div class="chat-row">
+  <button mat-icon-button class="icon-menu" *ngIf="message.author.id === userConnected.id" [matMenuTriggerFor]="menu"
+    aria-label="Example icon-button with a menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="editMessage()" *ngIf="!this.message.media">
+      <mat-icon>edit</mat-icon>
+      <span>Éditer</span>
+    </button>
+    <button mat-menu-item (click)="deleteMessage()">
+      <mat-icon color="primary">delete</mat-icon>
+      <span>Supprimer</span>
+    </button>
+  </mat-menu>
+
+  @if(!editMode) {
+  <div class="infos">
+    <app-avatar [user]="message.author"></app-avatar>
+    <div class="author-and-date">
+      <div class="author">
+        {{ message.author.firstname+' '+message.author.lastname }}
+      </div>
+      <div class="date">
+        {{message.sent_date | date: 'dd/MM/yyyy à HH:mm'}}
+      </div>
+    </div>
+  </div>
+
+  <p class="message">
+    {{ message.message }}
+  </p>
+  @if(!!message.media) {
+  <div class="img-container">
+    <img *ngIf="mediaImageUrl$ | async; let imageUrl" [src]="imageUrl" alt="Chat Image"
+      (click)="openImagePopup(imageUrl)">
+    <i class="zoom-icon bi bi-zoom-in"></i>
+    <i class="material-icons" *ngIf="this.editMode">delete_forever</i>
+  </div>
+  }
+  } @else {
+
+  <form [formGroup]="chatForm" class="send-message">
+
+
+    <mat-form-field appearance="outline" color="primary">
+      <mat-label for="description">Éditer le message</mat-label>
+      <textarea id="message" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
+        cdkAutosizeMaxRows="auto" placeholder="Écrivez votre message..." formControlName="message"
+        class="message-input"></textarea>
+    </mat-form-field>
+
+  </form>
+
+  <div class="actions">
+    <button mat-raised-button color="accent" class="btn" [disabled]="chatForm.invalid" (click)="onSave()"><i
+        class="bi bi-check-lg"></i>Modifier le message</button>
+    <a class="cancel" (click)="onCancel()">Annuler</a>
+  </div>
+  }
+</div>

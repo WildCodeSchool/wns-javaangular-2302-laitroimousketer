@@ -17,6 +17,6 @@ public class MediaDto {
     private String contentType;
     private String url;
     private Long userId;
-    private Long chatid;
+    private Long chatId;
 
 }

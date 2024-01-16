@@ -1,5 +1,6 @@
 package wcs.backend.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,9 +40,10 @@ public class Media {
   @JoinColumn(name = "user_id", nullable = true)
   private User user;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.REMOVE)
   @JoinColumn(name = "chat_id", nullable = true)
   private Chat chat;
+  
 
 
 

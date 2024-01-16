@@ -52,6 +52,9 @@ public class User implements UserDetails {
   @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
   private List<TicketHaveUsers> ticketHaveUsers;
 
+  @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+  private List<Chat> chats;
+
   @ManyToOne
   @JoinColumn(name = "address_id", nullable = true, updatable = true)
   private Address address;

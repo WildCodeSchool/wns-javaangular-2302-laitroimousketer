@@ -23,7 +23,8 @@ import { TicketCardComponent } from './components/tickets/ticket-card/ticket-car
 import { UserProfilComponent } from './components/sidebar/sidebar-components/user-profil/user-profil.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
-
+import { ChatRowComponent } from './components/common/chat-row/chat-row.component';
+import { ImagePopUpComponent } from './components/common/image-pop-up/image-pop-up.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { MatSelectModule } from '@angular/material/select';
     UserDetailsComponent,
     TicketCardComponent,
     UserProfilComponent,
-    
+    ChatRowComponent,
+    ImagePopUpComponent,
   ],
   imports: [
     CommonModule,
@@ -56,6 +58,7 @@ import { MatSelectModule } from '@angular/material/select';
     LeafletModule,
     MatAutocompleteModule,
     MatSelectModule,
+
 
   ],
   exports: [
