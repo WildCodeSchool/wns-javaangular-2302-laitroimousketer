@@ -1,8 +1,20 @@
 <div class="avatar" [style.background-color]="bgColor">
+
+  @if (this.userMediaId !== 0 && mediaImageUrl$ ) {
+  <img *ngIf="mediaImageUrl$ | async; let imageUrl" [src]="imageUrl" alt="User Image">
+  }
+
+  @if (this.userMediaId === 0 && !!this.user) {
   <p>{{ initials }}</p>
-  <ng-container *ngIf="isArchive">
-    <div class="avatar-2">
-      <i class="bi bi-archive-fill"></i>
-    </div>
-  </ng-container>
+  }
+
+  @else if (!this.user ) {
+  <p class="warning bi bi-exclamation-diamond-fill"></p>
+  } 
+
+  @if (isArchive) {
+  <i class="bi bi-archive-fill"></i>
+  }
+  
+
 </div>

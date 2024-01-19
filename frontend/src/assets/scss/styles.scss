@@ -1,26 +1,11 @@
-
-// Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-
-// Plus imports for other components in your app.
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
 @include mat.core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/ OU https://www.materialpalette.com/colors
-$angular-frontend-ticketing-primary: mat.define-palette(mat.$blue-palette, 900);
-$angular-frontend-ticketing-accent: mat.define-palette(mat.$amber-palette, A200);
-
-// The warn palette is optional (defaults to red).
-$angular-frontend-ticketing-warn: mat.define-palette(mat.$red-palette);
-
+$angular-frontend-ticketing-primary: mat.define-palette(mat.$red-palette, 500);
+$angular-frontend-ticketing-accent: mat.define-palette(mat.$blue-palette, 600);
+$angular-frontend-ticketing-warn: mat.define-palette(mat.$red-palette,900);
 // Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
 $angular-frontend-ticketing-theme: mat.define-light-theme((
   color: (
     primary: $angular-frontend-ticketing-primary,
@@ -28,24 +13,30 @@ $angular-frontend-ticketing-theme: mat.define-light-theme((
     warn: $angular-frontend-ticketing-warn,
   )
 ));
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
+.dense-1 {
+  @include mat.all-component-densities(-1);
+}
+.dense-2 {
+  @include mat.all-component-densities(-2);
+}
+.dense-3 {
+  @include mat.all-component-densities(-3);
+}
+.dense-4 {
+  @include mat.all-component-densities(-4);
+}
+.dense-5 {
+  @include mat.all-component-densities(-5);
+}
 @include mat.all-component-themes($angular-frontend-ticketing-theme);
-
 /* You can add global styles to this file, and also import other style files */
 // @import "bootstrap/scss/bootstrap";
 //https://icons.getbootstrap.com
-
 @import "~bootstrap-icons/font/bootstrap-icons.css";
+@import './material.scss';
 @import './template.scss';
-
+@import './grid.scss';
 // reset css
-/* http://meyerweb.com/eric/tools/css/reset/ 
-v2.0 | 20110126
-License: none (public domain)
-*/
 
 * {box-sizing: border-box;}
 html, body, div, span, applet, object, iframe,
@@ -68,22 +59,33 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
   font-family: 'Open sans', sans-serif;
+  color: $primaryTextColor;
 }
 h1,h2,h3,h4,h5,h6 {
   font-family: 'Roboto', sans-serif;
+  
 }
-// overlay sidebar //
-.mat-drawer-backdrop.mat-drawer-shown {
-  background-color: rgba(0, 0, 0, 0.2);
-  backdrop-filter:blur(2px);
-}
-//fonts//
 
-.btn
+
+.btn,button,.mat-mdc-button
 {
+  color: white;
   font-size: 16px;
   @include tablet {font-size: 15px}
   @include mobile {font-size: 14px}
+  width: fit-content;
+  span,i,mat-icon {
+    color: white;
+  }
+
+}
+.btn.btn-archive {
+  background-color: rgb(180, 180, 180)!important;
+  color: white!important;
+  width: fit-content;
+  span,i,mat-icon {
+    color: white!important;
+  }
 }
 // SCROLLBAR //
 /* width */
@@ -105,51 +107,14 @@ h1,h2,h3,h4,h5,h6 {
 ::-webkit-scrollbar-thumb:hover {
   background: $secondaryColor;
 }
-// mat-form-field //
 
-.mat-mdc-form-field-flex  {
-  background-color: white;
-}
-.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper  {
-  background-color: white;
-}  
-.mat-mdc-form-field-infix {
-  // background-color: white;
-}
-.mdc-text-field--outlined {
-  background-color: white;
-}
-.mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: white;
-}
-mat-icon {   
-
-}
-mat-form-field {
-  width: 100%;
-
-}
-
-mat-label {
-}
-mat-error {
-  font-size: 11px;
-}
-
-.mat-focused mat-label
-{
-  font-style: italic;
-}
 .disabled {
   background-color: #dddddd!important;
   color: black!important;
   pointer-events: none;
   opacity: 0.5;
 }
-mat-icon {
-  padding-right: 10px;
-  font-size: 20px;
-}
+
 /* Remove color of autofiull by the navigators*/
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
@@ -158,31 +123,93 @@ input:-webkit-autofill:active{
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-//select material//
-.mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.2);
-  border:0px!important;
-}
-
- mat-accordion {
-  border: 0px!important;
-  border-radius: 0px!important;
-}
-
-.mat-expansion-panel:not([class*=mat-elevation-z]) {
-  box-shadow: none;
-}
-
+// COMMON //
 .widget {
-  background-color: $thirdColor;
-  border-radius: 5px;
-  box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.2);
-  padding: 2% 1%;
-  margin: 10px;
+  background-color: $widgetColor;
+  padding: 16px 24px;
+  border-radius: 20px;
 }
-//label checbox material//
-.mat-mdc-checkbox label {
-  color: white;
-  margin-left: -10px!important;
-  font-weight: 400;
+.widget-title {
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  i,mat-icon {
+    color: $secondaryColor;
+    margin-right: 2px;
+  }
+  span {
+    font-weight: 300;
+  }
 }
+.widget-small-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  i,mat-icon {
+    color: $secondaryColor;
+    margin-right: 2px;
+  }
+  span {
+    font-weight: 400;
+  }
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin-bottom: 10px;
+  button {
+    margin: 10px 30px;
+    @include mobile {
+      margin: 10px;
+    }
+  }
+  a {
+    display: inline-block;
+    margin: 10px 30px;
+  }
+}
+.cancel {
+  text-decoration: underline;
+  font-size: 16px;
+  cursor: pointer;
+  &:hover {
+    color: $secondaryColor;
+    transition: 0.5s;
+  }
+}
+.prefix {
+  font-size: 17px;
+  font-weight: 100;
+  margin-right: 8px;
+  line-height: 1.5;
+  font-weight: 600;
+  span {
+    font-family: 'Roboto', sans-serif;
+    opacity: 1;
+    font-size: 18px;
+  }
+}
+
+.show-more {
+  color:$primaryColor;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  i,mat-icon {
+    color:$primaryColor;
+    margin-right: 4px;
+  }
+}
+
+.hr {
+  border: none;
+  height: 1px;
+  background: #000;
+  background: repeating-linear-gradient(90deg, #bebebe, #bebebe 3px, transparent 3px, transparent 6px);
+}
+
+

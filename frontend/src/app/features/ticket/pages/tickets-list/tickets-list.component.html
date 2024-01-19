@@ -1,0 +1,168 @@
+<!-- PARTIE DEV ET MANAGER -->
+<section class="tickets-list-c" [@fadeInOut]>
+
+  <div class="toggle-c">
+    <mat-slide-toggle class="toggle" (click)="ViewArchivedTickets()">
+      <p>Tickets archivés</p>
+    </mat-slide-toggle>
+  </div>
+  <app-search-bar *ngIf="role?.roleTitle !== 'Client'" (searchEvent)="getTicketList($event)"></app-search-bar>
+
+
+  <div class="ticket-list-with-header">
+    <header class="header-tickets-list">
+
+      <div class="checkbox-c" *ngIf="role?.roleTitle !== 'Client'">
+        @if (isSmallScreen) {
+        <mat-tab-group activateInkBar="true"><!-- MOBILE ONLY -->
+          <mat-tab label="Catégorie">
+            <div class="category">
+              <mat-checkbox class="checkbox" (change)="onCheckboxChange('category', 'Facturation')"
+                [checked]="filters.category['Facturation']">Facturation<span
+                  class="badge">{{this.billingCount}}</span></mat-checkbox>
+              <mat-checkbox class="checkbox" (change)="onCheckboxChange('category', 'Fonctionnalité')"
+                [checked]="filters.category['Fonctionnalité']">Fonctionnalité<span
+                  class="badge">{{this.featureCount}}</span></mat-checkbox>
+              <mat-checkbox class="checkbox" (change)="onCheckboxChange('category', 'Technique')"
+                [checked]="filters.category['Technique']">Technique<span
+                  class="badge">{{this.technicalCount}}</span></mat-checkbox>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Statut">
+            <div class="statut">
+              <mat-checkbox class="checkbox" (change)="onCheckboxChange('status', 'À faire')"
+                [checked]="filters.status['À faire']">À faire<span
+                  class="badge">{{this.toDoCount}}</span></mat-checkbox>
+              <mat-checkbox class="checkbox" (change)="onCheckboxChange('status', 'En cours')"
+                [checked]="filters.status['En cours']">En cours <span
+                  class="badge">{{this.doingCount}}</span></mat-checkbox>
+              <mat-checkbox class="checkbox" (change)="onCheckboxChange('status', 'Terminé')"
+                [checked]="filters.status['Terminé']">Terminé<span
+                  class="badge">{{this.doneCount}}</span></mat-checkbox>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Priorité">
+            <div class="priority">
+              <mat-checkbox class="checkbox" (change)="onCheckboxChange('priority', 'Basse')"
+                [checked]="filters.priority['Basse']">Basse<span class="badge">{{this.lowCount}}</span></mat-checkbox>
+              <mat-checkbox class="checkbox" (change)="onCheckboxChange('priority', 'Moyenne')"
+                [checked]="filters.priority['Moyenne']">Moyenne<span
+                  class="badge">{{this.mediumCount}}</span></mat-checkbox>
+              <mat-checkbox class="checkbox" (change)="onCheckboxChange('priority', 'Élevée')"
+                [checked]="filters.priority['Élevée']">Élevée<span
+                  class="badge">{{this.highCount}}</span></mat-checkbox>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+        } @else if (!isSmallScreen){
+        <div class="category">Catégorie:
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('category', 'Facturation')"
+            [checked]="filters.category['Facturation']">Facturation<span
+              class="badge">{{this.billingCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('category', 'Fonctionnalité')"
+            [checked]="filters.category['Fonctionnalité']">Fonctionnalité<span
+              class="badge">{{this.featureCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('category', 'Technique')"
+            [checked]="filters.category['Technique']">Technique<span
+              class="badge">{{this.technicalCount}}</span></mat-checkbox>
+        </div>
+
+
+
+        <div class="statut">Statut:
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('status', 'À faire')"
+            [checked]="filters.status['À faire']">À faire<span class="badge">{{this.toDoCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('status', 'En cours')"
+            [checked]="filters.status['En cours']">En cours <span
+              class="badge">{{this.doingCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('status', 'Terminé')"
+            [checked]="filters.status['Terminé']">Terminé<span class="badge">{{this.doneCount}}</span></mat-checkbox>
+        </div>
+
+
+
+        <div class="priority">Priorité:
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('priority', 'Basse')"
+            [checked]="filters.priority['Basse']">Basse<span class="badge">{{this.lowCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('priority', 'Moyenne')"
+            [checked]="filters.priority['Moyenne']">Moyenne<span
+              class="badge">{{this.mediumCount}}</span></mat-checkbox>
+          <mat-checkbox class="checkbox" (change)="onCheckboxChange('priority', 'Élevée')"
+            [checked]="filters.priority['Élevée']">Élevée<span class="badge">{{this.highCount}}</span></mat-checkbox>
+        </div>
+        }
+
+      </div>
+
+      <!-- MOBILE ONLY -->
+      <div class="sortBySelect">
+        <mat-form-field appearance="outline" color="accent" class="dense-5">
+          <mat-label>Trier par :</mat-label>
+          <mat-select class="my-panel" [(ngModel)]="currentSortBy" (ngModelChange)="sortTickets($event)">
+            <mat-option value="Prénom">Client <i class="bi bi-sort-up"></i></mat-option>
+            <mat-option value="Prénom">Client <i class="bi bi-sort-down"></i></mat-option>
+            <mat-option value="Numéro">Numéro <i class="bi bi-sort-up"></i></mat-option>
+            <mat-option value="Numéro">Numéro <i class="bi bi-sort-down"></i></mat-option>
+            <mat-option value="Titre">Titre <i class="bi bi-sort-up"></i></mat-option>
+            <mat-option value="Titre">Titre <i class="bi bi-sort-down"></i></mat-option>
+            <mat-option value="Date">Date <i class="bi bi-sort-up"></i></mat-option>
+            <mat-option value="Date">Date <i class="bi bi-sort-down"></i></mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      
+      <div class="toggle-mobile-only">
+        <mat-slide-toggle class="toggle" (click)="ViewArchivedTickets()">
+          <p>Tickets archivés</p>
+        </mat-slide-toggle>
+      </div>
+
+      <div class="sort-option-c">
+
+        <div class="sort-option" (click)="sortTickets('Prénom')">
+          Client <i
+            [ngClass]="{'bi-chevron-up': currentSortBy === 'Prénom' && firstNameDown, 'bi-chevron-down': currentSortBy === 'Prénom' && !firstNameDown, 'bi-chevron-expand': currentSortBy !== 'Prénom'}"></i>
+        </div>
+
+        <div class="sort-option" (click)="sortTickets('Numéro')">
+          Numéro <i
+            [ngClass]="{'bi-chevron-up': currentSortBy === 'Numéro' && numeroDown, 'bi-chevron-down': currentSortBy === 'Numéro' && !numeroDown, 'bi-chevron-expand': currentSortBy !=='Numéro'}"></i>
+        </div>
+
+        <div class="sort-option" (click)="sortTickets('Titre')">
+          Titre <i
+            [ngClass]="{'bi-chevron-up': currentSortBy === 'Titre' && titleDown, 'bi-chevron-down': currentSortBy === 'Titre' && !titleDown, 'bi-chevron-expand': currentSortBy !=='Titre'}"></i>
+        </div>
+
+        <div class="sort-option">
+          Catégorie
+        </div>
+
+        <div class="sort-option">
+          Statut
+        </div>
+
+        <div class="sort-option">
+          Priorité
+        </div>
+
+        <div class="sort-option" (click)="sortTickets('Date')">
+          Date <i
+            [ngClass]="{'bi-chevron-up': currentSortBy === 'Date' && dateDown, 'bi-chevron-down': currentSortBy === 'Date' && !dateDown, 'bi-chevron-expand': currentSortBy !=='Date'}"></i>
+        </div>
+      </div>
+
+    </header>
+
+    <div class="tickets-list">
+      <div *ngFor="let ticket of tickets; let i = index" [ngClass]="{'even': isEven(i), 'odd': !isEven(i)}">
+        <app-ticket-card-in-list [ticket]="ticket"></app-ticket-card-in-list>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>

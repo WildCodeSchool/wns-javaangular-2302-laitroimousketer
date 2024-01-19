@@ -1,0 +1,30 @@
+<div class="card md:grid md:grid-cols-7  gap-medium " (click)="openTicketDetails()" *ngIf="ticket">
+
+  <div class="client md:col-span-1">
+    <app-avatar [user]="ticket.author" [isArchive]="isArchive" class="context-ticket-card-fullnameAuthor"></app-avatar>
+    @if (!!ticket.author) {
+      <p>{{ fullnameAuthor }}</p>
+    } @else {
+      <p>Utilisateur inconnu !</p>
+    }
+    <span class="separator"></span>
+  </div>
+
+
+  <p class="number md:col-span-1"><span class="prefix">Numéro :</span>{{ ticket.id }} <span class="separator"></span></p>
+
+  <p class="title md:col-span-1"><span class="prefix">Titre :</span>{{ ticket.ticketTitle }} <span class="separator"></span></p>
+
+
+  <p class="category md:col-span-1"><span class="prefix">Catégorie :</span>{{ ticket.category?.categoryTitle }} <span class="separator"></span></p>
+
+  <p class="statut md:col-span-1" [ngClass]="colorStatus"><span class="prefix">Statut :</span>{{ ticket.status?.statusTitle }} <span class="separator"></span>
+  </p>
+
+  <p class="priority md:col-span-1" [ngClass]="colorPriority"><span class="prefix">Priorité: :</span>{{ ticket.priority?.priorityTitle }} <span
+      class="separator"></span></p>
+
+  <p class="date md:col-span-1"><span class="prefix">Date :</span>{{ ticket.creationDate | date:'dd/MM/yyyy' }}</p>
+
+
+</div>

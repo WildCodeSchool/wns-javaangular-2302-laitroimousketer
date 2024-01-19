@@ -1,0 +1,81 @@
+@import "src/assets/scss/template.scss";
+
+.dashboard{
+  padding: 4vh 2% 2% 2%;
+  color: white;
+  overflow: auto;
+  height: 90%;
+  @include mobiletablet {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+.widget {
+  background-color: $thirdColor;
+  overflow: hidden;
+  min-height: 200px;
+}
+.tickets-c {
+  height: 100%;
+  overflow: auto;
+  padding: 10px;
+  min-height: 400px!important;
+}
+.chart-c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 10%;
+}
+  h1,h2,h3 {
+    font-size: 18px;
+    // font-style: italic;
+    font-weight: 400;
+    color: white!important;
+  }
+
+  .ticket-number,
+  .ticket-user {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  span {
+    font-size: 22px;
+    font-weight: 500;
+    color: $secondaryColor;
+    margin-left: 8px;
+  }
+
+  .over-0 {
+    color: orangered;
+    font-weight: 500;
+  }
+
+
+.chart-wrapper {
+  height: fit-content;
+  width: fit-content;
+
+  h3 {
+    font-size: 22px;
+    font-weight: 500;
+    color: white;
+  }
+}
+
+.chart {
+  // flex-direction: column;
+  // align-items: center;
+  // margin: 5%;
+  width: 250px;
+  height: 250px;
+  margin-bottom: -40px;
+  margin-top: -10px;
+  @include mobiletablet {
+    width: 200px;
+    height: 200px;
+  }
+}

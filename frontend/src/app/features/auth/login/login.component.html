@@ -1,0 +1,67 @@
+<section class="login">
+
+
+  <div class="card">
+    <h1 class="connexion">Connexion</h1>
+
+    <form class="card-body" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+      <div class="form-group">
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label for="email">Email</mat-label>
+          <input matInput type="email" class="form-control" id="email" formControlName="email">
+          <mat-icon matSuffix class="bi bi-envelope-at-fill"></mat-icon>
+          <ng-container
+            *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)">
+            <mat-error *ngIf="loginForm.get('email')?.errors?.['email']">L'email est invalide.</mat-error>
+          </ng-container>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label for="password">Mot de passe</mat-label>
+          <input matInput type="password" id="password" formControlName="password">
+          <mat-icon matSuffix class="bi bi-key-fill"></mat-icon>
+          <ng-container
+            *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)">
+            <mat-error
+              *ngIf="loginForm.get('password')?.errors?.['minlength'] || loginForm.get('password')?.errors?.['pattern']">Le
+              mot de passe doit faire au moins 6 caractères une majuscule, une minuscule et un caractère
+              spécial.</mat-error>
+          </ng-container>
+        </mat-form-field>
+      </div>
+      
+      <button type="submit" class="btn" mat-raised-button color="primary"
+        [ngClass]="!loginForm.valid ? 'disabled' : ''">Se connecter</button>
+
+    </form>
+
+    <div class="card-footer">
+        Pas encore inscrit ?<a (click)="switchToRegister()">Cliquez ici !</a>
+    </div>
+
+  </div>
+
+</section>
+
+<div class="log-tempo">
+  <div class="group-el">
+    <span>Client</span> 
+    <div class="el">client&#64;wcs.com <div [cdkCopyToClipboard]="'client@wcs.com'" class="copy"></div></div>
+    <div class="el"> Alayd3!client <div [cdkCopyToClipboard]="'Alayd3!client'" class="copy"></div></div>
+  </div>
+
+  <div class="group-el">
+    <span>Dev</span>
+    <div class="el">dev&#64;wcs.com <div [cdkCopyToClipboard]="'dev@wcs.com'" class="copy"></div></div>
+    <div class="el">Alayd3!dev <div [cdkCopyToClipboard]="'Alayd3!dev'" class="copy"></div></div>
+  </div>
+
+  <div class="group-el">
+    <span>Manager</span>
+    <div class="el"> manager&#64;wcs.com <div [cdkCopyToClipboard]="'manager@wcs.com'" class="copy"></div></div>
+    <div class="el"> Alayd3!manager <div [cdkCopyToClipboard]="'Alayd3!manager'" class="copy"></div></div>
+  </div>
+
+</div>

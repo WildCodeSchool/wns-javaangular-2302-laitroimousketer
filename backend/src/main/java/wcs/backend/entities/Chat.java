@@ -4,30 +4,36 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
+import java.util.Date;
 
-import java.io.Serializable;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "chat")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Chat implements Serializable {
+public class Chat  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "message")
+    @Column(name = "message", length = 5000)
     private String message;
 
-    @Column(name = "sender")
-    private String sender;
+    @Column(name = "sent_date")
+    private Date sent_date;
 
-    @Column(name = "receiver")
-    private String receiver;
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
 
-    @Column(name = "timestamp")
-    private LocalDate timestamp;
+    @ManyToOne
+    @JoinColumn(name = "ticket_id", nullable = false)
+    private Ticket ticket;
+
+    @ManyToOne
+    @JoinColumn(name = "media_id")
+    private Media media;
+    
 }

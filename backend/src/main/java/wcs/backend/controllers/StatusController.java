@@ -1,8 +1,8 @@
 package wcs.backend.controllers;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +15,10 @@ import wcs.backend.services.StatusService;
 @AllArgsConstructor
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("api/status")
+@RequestMapping("api/status/")
 @Tag(name = "Status", description = "Status Management Controller")
 public class StatusController {
-
+  @Autowired
   private StatusService statusService;
 
   @GetMapping
@@ -28,11 +28,15 @@ public class StatusController {
     return ResponseEntity.ok(statusDtos);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("{id}")
   @Operation(summary = "Get Status by ID", description = "Get status details by its ID.")
   public ResponseEntity<StatusDto> getStatusById(@PathVariable Long id) {
     StatusDto statusDto = statusService.getStatusById(id);
-    return ResponseEntity.ok(statusDto);
+    if (statusDto != null) {
+      return ResponseEntity.ok(statusDto);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
   }
 
   @PostMapping
@@ -42,17 +46,25 @@ public class StatusController {
     return ResponseEntity.ok(createdStatusDto);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   @Operation(summary = "Update Status", description = "Update a status by its ID.")
   public ResponseEntity<StatusDto> updateStatus(@PathVariable Long id, @RequestBody StatusDto statusDto) {
     StatusDto updatedStatusDto = statusService.updateStatus(id, statusDto);
-    return ResponseEntity.ok(updatedStatusDto);
+    if (updatedStatusDto != null) {
+      return ResponseEntity.ok(updatedStatusDto);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("{id}")
   @Operation(summary = "Delete Status", description = "Delete a status by its ID.")
   public ResponseEntity<Void> deleteStatus(@PathVariable Long id) {
     statusService.deleteStatus(id);
-    return ResponseEntity.noContent().build();
+    if (statusService.getStatusById(id) != null) {
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.notFound().build();
+    }
   }
 }

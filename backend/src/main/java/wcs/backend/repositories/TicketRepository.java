@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import wcs.backend.entities.Category;
@@ -16,23 +14,28 @@ import wcs.backend.entities.Ticket;
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecificationExecutor<Ticket> {
 
-  List<Ticket> findByStatus(Status status);
+    List<Ticket> findByStatus(Status status);
 
-  List<Ticket> findByPriority(Priority priority);
+    List<Ticket> findByPriority(Priority priority);
 
-  List<Ticket> findByCategory(Category category);
+    List<Ticket> findByCategory(Category category);
+    
+    default List<Ticket> findByQuery(String query) {
+      return findAll((root, criteriaQuery, criteriaBuilder) ->
+              criteriaBuilder.or(
+                      criteriaBuilder.like(criteriaBuilder.lower(root.get("ticketTitle")), "%" + query.toLowerCase() + "%"),
+                      criteriaBuilder.like(criteriaBuilder.lower(root.get("id").as(String.class)), "%" + query.toLowerCase() + "%"),
+                      criteriaBuilder.like(criteriaBuilder.lower(root.get("author").get("firstname")), "%" + query.toLowerCase() + "%"),
+                      criteriaBuilder.like(criteriaBuilder.lower(root.get("author").get("lastname")), "%" + query.toLowerCase() + "%")
+              )
+      );
+  }
+     
+    long countByCategory(Category category);
 
-  @Query("""
-      SELECT t FROM Ticket t WHERE (:status IS NULL OR t.status IN :status) \
-      AND (:priorities IS NULL OR t.priority IN :priorities) \
-      AND (:categories IS NULL OR t.category IN :categories)\
-      """)
-  List<Ticket> findByStatusInAndPriorityInAndCategoryIn(@Param("status") List<Status> status,
-      @Param("priorities") List<Priority> priorities,
-      @Param("categories") List<Category> categories);
+    long countByPriority(Priority priority);
 
-      long countByCategory(Category category);
-      long countByPriority(Priority priority);
-      long countByStatus(Status status);
-      
+    long countByStatus(Status status);
+
+    List<Ticket> findByAuthorId(Long userId);
 }

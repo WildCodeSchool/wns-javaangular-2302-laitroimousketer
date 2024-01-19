@@ -1,0 +1,109 @@
+@import 'src/assets/scss/template.scss';
+//sidebar//
+.mat-drawer.mat-drawer-end {
+  border-radius: 30px 0px 0px 30px!important;
+  padding: 0!important;
+}
+.mat-drawer-backdrop.mat-drawer-shown {
+  background-color: rgba(0, 0, 0, 0.3)!important;
+  backdrop-filter: blur(3px);
+}
+.mat-drawer-inner-container {
+  padding: 20px 30px 20px 84px!important;
+  @include mobile {
+    padding: 20px 4px 20px 34px!important;
+  }
+}
+//btn//
+.mat-mdc-button
+{
+  color: white!important;
+  font-size: 16px;
+  @include tablet {font-size: 15px}
+  @include mobile {font-size: 14px}
+  span,i {
+    color: white!important;
+  }
+}
+
+// stepper//
+
+.mat-step-header .mat-step-icon-selected{
+  background-color: $secondaryColor!important;
+}
+
+.mat-step-header .mat-step-icon {
+  background-color: $primaryColor;
+}
+.mat-step-icon {
+  * {
+    color: white!important;
+  }
+}
+.mat-stepper-vertical, .mat-stepper-horizontal {
+
+  .mat-step-icon {
+    color: white!important;
+  }
+}
+
+// mat form field //
+mat-form-field {
+  width: 100%;
+}
+mat-icon {
+  margin: 0 10px;
+  font-size: 20px;
+}
+mat-label {
+}
+mat-error {
+  font-size: 11px;
+}
+
+.mat-focused mat-label
+{
+  font-style: italic;
+}
+
+//select material//
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.2);
+  border:0px!important;
+}
+
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+  box-shadow: none;
+}
+
+
+//label checbox material//
+.mat-mdc-checkbox label {
+  color: white;
+  margin-left: -10px!important;
+  font-weight: 400;
+}
+
+// menu material //
+.mat-mdc-menu-content {
+  padding: 0!important;
+}
+.mat-mdc-menu-item {
+  background-color: $thirdColor!important;
+  font-size: 16px;
+  @include tablet {font-size: 15px}
+  @include mobile {font-size: 14px}
+  &:hover {
+    transition: 0.5s;
+    background-color: $secondaryColor!important;
+  }
+ 
+}
+//mdc-tab//
+
+.mdc-tab {
+  @include mobile {
+    font-size: 14px!important;
+    margin-top: -10px!important;
+  }
+}

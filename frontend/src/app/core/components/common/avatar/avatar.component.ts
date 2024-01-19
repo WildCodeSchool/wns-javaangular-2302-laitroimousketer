@@ -1,42 +1,79 @@
-import { Component, Input, OnInit } from '@angular/core';
-
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { User } from 'src/app/core/models/user.model';
+import { MediaService } from 'src/app/core/services/media.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Observable, map, of, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { UserService } from 'src/app/core/services/user.service';
 @Component({
   selector: 'app-avatar',
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss']
 })
-export class AvatarComponent implements OnInit {
+export class AvatarComponent implements OnInit, OnChanges {
   @Input() userName: string = '';
   @Input() isArchive: boolean = false;
+  @Input() user: User | null = null;
   initials: string = ''; // Pour stocker les initiales
   bgColor: string = ''; // Pour stocker la couleur de fond
+  userMediaId: number = 0;
+  mediaImageUrl$!: Observable<SafeUrl | null>;
+  private baseUrl = environment.apiUrl
 
-  constructor() { }
+  constructor(
+    private mediaService: MediaService,
+    private sanitizer: DomSanitizer,
+    private httpClient: HttpClient,
+    private userService: UserService,
+  ) { }
 
   ngOnInit() {
-    this.extractInitials();
-    this.generateBackgroundColor();
-    // console.log(this.bgColor);
+    this.userMediaId = this.user?.media?.id || 0;
+    // console.log('userMediaId:', this.userMediaId);
+    if (this.userMediaId !== 0) {
+      this.mediaImageUrl$ = this.getMediaImageUrl();
+    } else {
+      this.extractInitials();
+      this.generateBackgroundColor();
+    }
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if (changes['user']) {
+      this.userMediaId = this.user?.media?.id || 0;
+      if (this.userMediaId !== 0) {
+        this.mediaImageUrl$ = this.getMediaImageUrl();
+      } else {
+        this.extractInitials();
+        this.generateBackgroundColor();
+      }
+    }
+  }
   // Méthode pour extraire les initiales à partir du nom d'utilisateur
   extractInitials() {
-    const nameParts = this.userName.split(' ');
-    if (nameParts.length >= 2) {
-      this.initials = nameParts[0][0] + nameParts[1][0];
-    } else if (nameParts.length === 1) {
-      this.initials = nameParts[0][0];
+    if (this.user && this.user.firstname && this.user.lastname) {
+      const nameParts = this.user.firstname + ' ' + this.user.lastname;
+      const initialsArray = nameParts.split(' ')
+        .filter(part => part.trim() !== '')
+        .map(part => part[0]);
+      this.initials = initialsArray.join('');
+    } else {
+      this.initials = '';
     }
   }
 
   // Méthode pour générer une couleur de fond basée sur les initiales et l'ID de l'utilisateur
   generateBackgroundColor() {
+    if (!!this.user) {
     // Utilisez l'ID de l'utilisateur pour générer la couleur
-    const userId = this.hashCode(this.userName);
+    const userId = this.hashCode(this.user.firstname + this.user.lastname);
     const hue = (userId % 360 + 360) % 360; // Assurez-vous que la valeur est positive et dans la plage 0-359
     const saturation = 50; // Augmentez la saturation à 50%
     const lightness = 50; // Luminosité fixée à 50%
     this.bgColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  }
   }
 
   // Méthode pour calculer un hash de chaîne simple
@@ -49,4 +86,20 @@ export class AvatarComponent implements OnInit {
     }
     return hash;
   }
+
+
+  getMediaImageUrl(): Observable<SafeUrl | null> {
+    // Vérifiez si user et user.media existent
+    if (this.user && this.user.media) {
+      return this.mediaService.getMediaById(this.user.media.id).pipe(
+        // tap(url => console.log('Media Image URL:', url || 'Image URL is null or undefined'))
+      );
+    } else {
+      // console.log('User or user media is null');
+      return of(null); // Si user ou user.media est null, retournez un Observable null
+    }
+  }
+
+
+
 }

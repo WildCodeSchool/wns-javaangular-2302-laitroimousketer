@@ -1,0 +1,61 @@
+<app-sidebar-menu [menuTitle]="menuTitle" [menuIcon]="menuIcon"></app-sidebar-menu>
+
+<div class="widget grid grid-cols-1 gap-10">
+
+  <header>
+    <div class="widget-title">
+      <i class="bi bi-bookmark-plus-fill"></i><span class="first-word"> Créer un</span> nouveau ticket
+    </div>
+  </header>
+
+  <form [formGroup]="ticketAddForm" class="grid grid-cols-1 gap-20">
+
+
+    <mat-form-field appearance="outline" color="primary">
+      <mat-label for="title">Titre</mat-label>
+      <input matInput type="text" id="title" formControlName="title" placeholder="Renseigner le thème du sujet">
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline" color="primary">
+      <mat-label id="priority">Priorité</mat-label>
+      <mat-select id="priority" formControlName="selectedPriority" name="selectedPriority">
+        @for (priority of priorities; track priority.id) {
+        <mat-option [value]="priority">{{priority.priorityTitle}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline" color="primary">
+      <mat-label for="category">Catégorie</mat-label>
+      <mat-select id="category" formControlName="selectedCategory" name="selectedCategory">
+        @for (category of categories; track category.id) {
+        <mat-option [value]="category">{{category.categoryTitle}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" color="primary">
+      <mat-label for="description">Description</mat-label>
+      <textarea id="description" 
+                matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="10"
+                cdkAutosizeMaxRows="auto"
+                placeholder="Expliquer avec détails votre problèmatique"
+                formControlName="description"
+                ></textarea>
+    </mat-form-field>
+
+    <div class="buttons-actions">
+
+      <button mat-raised-button color="primary" class="btn" type="button" [disabled]="!ticketAddForm.valid"
+        (click)="addTicket()">Créer</button>
+
+      <button mat-raised-button color="accent" class="btn" type="button" (click)="annulate()">Annuler</button>
+    </div>
+  </form>
+
+</div>
