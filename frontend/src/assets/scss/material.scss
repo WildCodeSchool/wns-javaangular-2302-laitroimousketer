@@ -9,7 +9,10 @@
   backdrop-filter: blur(3px);
 }
 .mat-drawer-inner-container {
-  padding: 20px 30px 20px 84px!important
+  padding: 20px 30px 20px 84px!important;
+  @include mobile {
+    padding: 20px 4px 20px 34px!important;
+  }
 }
 //btn//
 .mat-mdc-button
@@ -93,5 +96,14 @@ mat-error {
   &:hover {
     transition: 0.5s;
     background-color: $secondaryColor!important;
+  }
+ 
+}
+//mdc-tab//
+
+.mdc-tab {
+  @include mobile {
+    font-size: 14px!important;
+    margin-top: -10px!important;
   }
 }

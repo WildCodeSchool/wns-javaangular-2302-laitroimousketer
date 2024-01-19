@@ -55,17 +55,22 @@ public class MediaController {
   @GetMapping("file/{id}")
   @Operation(summary = "Download Media", description = "Download a media.")
   public ResponseEntity<byte[]> downloadMedia(@PathVariable Long id) {
-      MediaDto mediaContent = mediaService.getMediaContentById(id);
-  
-      if (mediaContent != null) {
-          HttpHeaders headers = new HttpHeaders();
-          headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-          headers.setContentDispositionFormData("attachment", "media-" + id);
-          return new ResponseEntity<>(Base64.getDecoder().decode(mediaContent.getBase64Content()), headers, HttpStatus.OK);
-      } else {
-          return ResponseEntity.notFound().build();
-      }
+    MediaDto mediaContent = mediaService.getMediaContentById(id);
+
+    if (mediaContent != null) {
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+      headers.setContentDispositionFormData("attachment", "media-" + id);
+      return new ResponseEntity<>(Base64.getDecoder().decode(mediaContent.getBase64Content()), headers, HttpStatus.OK);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
   }
-  
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteMedia(@PathVariable Long id) {
+    mediaService.deleteMedia(id);
+    return ResponseEntity.ok().build();
+  }
 
 }

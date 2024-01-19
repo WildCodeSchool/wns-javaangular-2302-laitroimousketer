@@ -1,0 +1,225 @@
+@import 'src/assets/scss/template.scss';
+
+.details {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  @include mobile {
+    font-size: 28px;
+  }
+  margin-left: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
+
+  .title-name {
+    margin-left: 4px;
+    font-weight: 300;
+    font-size: 34px;
+  }
+
+}
+.show-more {
+  margin-left: 6px;
+  color: $secondaryColor;
+  text-decoration: underline;
+  i {
+    color:$secondaryColor;
+  }
+}
+.details-profil {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 20px;
+
+  .name,
+  .firstname {
+    margin-left: 4px;
+    font-size: 20px;
+    @include mobile {
+      font-size: 16px;
+    }
+    font-weight: 500;
+    color: black;
+  }
+
+}
+
+header {
+  span {
+    font-style: normal;
+    font-family: 'Roboto', sans-serif;
+    opacity: 1;
+    font-size: 18px;
+  }
+}
+
+.date span {
+  font-weight: 400;
+  color: $blackColor;
+}
+
+.category-span {
+  color: $primaryColor;
+  font-weight: 400;
+}
+
+.todo {
+  font-weight: 400;
+  color: red;
+}
+
+.doing {
+  font-weight: 400;
+  color: #F5B445
+}
+
+.done {
+  font-weight: 400;
+  color: green;
+}
+
+.low {
+  font-weight: 400;
+  color: green;
+}
+
+.medium {
+  font-weight: 400;
+  color: #F5B445;
+}
+
+.high {
+  font-weight: 400;
+  color: red;
+}
+
+header {
+  position: relative;
+}
+
+.date-c {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.date-c::after {
+  content: "";
+  position: absolute;
+  bottom: -16px;
+  left: 4%;
+  width: 92%;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.5);
+}
+
+// chat
+article {
+  // add space betwwen the lines of the description
+  white-space: pre-wrap;
+}
+
+.description {
+  padding-top: 4px;
+  max-height: 60vh;
+  overflow: auto;
+
+  p {
+    font-size: 16px;
+    font-weight: 400;
+  }
+}
+
+// suivi technique
+.follow-up .widget-small-title i {
+  font-size: 28px;
+
+}
+.widget-small-title {
+margin-bottom: 20px;
+}
+.follow-up {
+  margin-top: 30px;
+  width: 100%;
+  position: relative;
+}
+.add-follow-up {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 20px;
+  right: 0;
+  gap: 4px;
+  font-size: 16px;
+  @include mobile {
+    font-size: 14px;
+  }
+  color: $secondaryColor;
+  // margin: -20px 0 20px 0;
+  cursor: pointer;
+  width: fit-content;
+
+  &:hover {
+    color: $primaryColor;
+    transition: 0.5s;
+    i {
+      color: $primaryColor;
+      transition: 0.5s;
+    }
+  }
+  i {
+    color: $secondaryColor;
+    font-size: 18px;
+  }
+}
+//row developper
+.developer-row {
+  position: relative;
+  background-color: white;
+  box-shadow: 0px 5px 15px -3px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 5px;
+  font-size: 18px;
+  @include mobile {
+    font-size: 16px;
+  }
+  margin-bottom: 10px;
+  
+}
+.select-dev {
+  width: 33%;
+  @include mobile {
+    width: 100%;
+  }
+}
+.icon-menu {
+  position: absolute;
+  top: 0px;
+  right: 2px;
+  color: $primaryColor;
+  mat-icon {
+    color: $primaryColor;
+    margin: auto;
+  }
+}
+// actions
+.actions {
+  h1 {
+    margin-bottom: 40px;
+  }
+}
+
+
+
+

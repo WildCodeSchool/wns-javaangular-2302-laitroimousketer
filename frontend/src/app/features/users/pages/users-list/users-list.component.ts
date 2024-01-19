@@ -48,12 +48,12 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
   users: User[] = [];
   user!: User;
   states: string[] = [
-    'Mail (A-Z)',
-    'Mail (Z-A)',
     'Nom (A-Z)',
     'Nom (Z-A)',
     'Prénom (A-Z)',
     'Prénom (Z-A)',
+    'Mail (A-Z)',
+    'Mail (Z-A)',
   ];
   currentSortBy: string = '';
   placeholderSearchbar: string = "Rechercher un utilisateur par son nom, prénom, mail...";
@@ -75,7 +75,16 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
     this.map.attributionControl.setPrefix(false);
   }
 
-  loadUsers() {
+  loadUsers(searchQuery?: { searchTerm: string }): void {
+    if (searchQuery) {
+      const query = searchQuery.searchTerm;
+      this.userService.getWithQuery(`query=${query}`)
+        .subscribe((users: User[]) => {
+          this.users = users;
+          this.usersMarkers = this.initializeMarkersData(this.users); // Populate markersData
+          this.updateMapMarkers(); // Update map markers
+        });
+    } else {
     this.store.dispatch(userAction.getUsers());
     this.store.select(Reducer.getUsers)
       .pipe(takeUntil(this.destroy$))
@@ -86,6 +95,7 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
           this.updateMapMarkers(); // Update map markers
         }
       });
+    }
   }
   updateMapMarkers() {
     this.usersMarkers = [featureGroup(this.users

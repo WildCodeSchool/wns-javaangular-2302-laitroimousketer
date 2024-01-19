@@ -13,7 +13,21 @@ $angular-frontend-ticketing-theme: mat.define-light-theme((
     warn: $angular-frontend-ticketing-warn,
   )
 ));
-
+.dense-1 {
+  @include mat.all-component-densities(-1);
+}
+.dense-2 {
+  @include mat.all-component-densities(-2);
+}
+.dense-3 {
+  @include mat.all-component-densities(-3);
+}
+.dense-4 {
+  @include mat.all-component-densities(-4);
+}
+.dense-5 {
+  @include mat.all-component-densities(-5);
+}
 @include mat.all-component-themes($angular-frontend-ticketing-theme);
 /* You can add global styles to this file, and also import other style files */
 // @import "bootstrap/scss/bootstrap";
@@ -49,17 +63,27 @@ time, mark, audio, video {
 }
 h1,h2,h3,h4,h5,h6 {
   font-family: 'Roboto', sans-serif;
-  color: $primaryTextColor;
+  
 }
 
 
 .btn,button,.mat-mdc-button
 {
-  color: white!important;
+  color: white;
   font-size: 16px;
   @include tablet {font-size: 15px}
   @include mobile {font-size: 14px}
-  span,i {
+  width: fit-content;
+  span,i,mat-icon {
+    color: white;
+  }
+
+}
+.btn.btn-archive {
+  background-color: rgb(180, 180, 180)!important;
+  color: white!important;
+  width: fit-content;
+  span,i,mat-icon {
     color: white!important;
   }
 }
@@ -109,7 +133,7 @@ input:-webkit-autofill:active{
   font-size: 25px;
   font-weight: 600;
   margin-bottom: 30px;
-  i {
+  i,mat-icon {
     color: $secondaryColor;
     margin-right: 2px;
   }
@@ -121,16 +145,26 @@ input:-webkit-autofill:active{
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 10px;
-  i {
+  i,mat-icon {
     color: $secondaryColor;
     margin-right: 2px;
   }
+  span {
+    font-weight: 400;
+  }
 }
 .actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   text-align: center;
   align-items: center;
+  margin-bottom: 10px;
   button {
     margin: 10px 30px;
+    @include mobile {
+      margin: 10px;
+    }
   }
   a {
     display: inline-block;
@@ -165,7 +199,7 @@ input:-webkit-autofill:active{
   cursor: pointer;
   display: flex;
   justify-content: center;
-  i {
+  i,mat-icon {
     color:$primaryColor;
     margin-right: 4px;
   }

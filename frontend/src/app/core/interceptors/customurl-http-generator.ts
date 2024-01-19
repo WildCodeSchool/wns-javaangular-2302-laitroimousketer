@@ -70,6 +70,8 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
           entityResourceUrl: this.baseAPI + '/chat/',
         };
         break;
+      default:
+        break;
     }
 
     this.registerHttpResourceUrls({ [entityName]: resourceURLs });

@@ -37,6 +37,7 @@ public class Ticket {
   @Temporal(TemporalType.TIMESTAMP)
   private Date archiveDate;
 
+
   @ManyToOne
   @JoinColumn(name = "category_id", nullable = false)
   private Category category;
@@ -52,14 +53,22 @@ public class Ticket {
   @ManyToOne
   @JoinColumn(name = "author_id", nullable = true)
   private User author;
-
-  @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
-  private List<TicketHaveUsers> userAssociations = new ArrayList<>();
-
+  
   @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = false, fetch = FetchType.EAGER)
   private List<Chat> chatMessages = new ArrayList<>();
 
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(
+      name = "ticket_developer",
+      joinColumns = @JoinColumn(name = "ticket_id"),
+      inverseJoinColumns = @JoinColumn(name = "developer_id")
+  )
+  private List<User> developers = new ArrayList<>();
+  
+
+
   public Ticket() {
   }
+
   // Autres getters et setters
 }
