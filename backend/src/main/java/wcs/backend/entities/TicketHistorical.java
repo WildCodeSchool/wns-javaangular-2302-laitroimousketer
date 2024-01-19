@@ -1,13 +1,12 @@
 package wcs.backend.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,32 +18,18 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Media {
-
+public class TicketHistorical {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
-  private String fileName;
-
-  private String url;
-
-  private String contentType;
-  
-  private String base64Content;
-  @Lob
-  @Column(columnDefinition = "LONGBLOB")
-  private byte[] data;
+  private Long ticketId;
+  private String authorName;
+  private String ticketTitle;
+  private String action;
+  private LocalDateTime timestamp;
+  private boolean isRead;
 
   @ManyToOne
-  @JoinColumn(name = "user_id", nullable = true)
-  private User user;
-
-  @ManyToOne(cascade = CascadeType.REMOVE)
-  @JoinColumn(name = "chat_id", nullable = true)
-  private Chat chat;
-  
-
-
-
+  @JoinColumn(name = "historical_ticket_id")
+  private Ticket ticket;
 }
