@@ -2,66 +2,83 @@
 
 .card{
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  justify-content: space-between;
   background-color: white;
   box-shadow: 0px 5px 15px -2px rgba(0, 0, 0, 0.5);
-  padding: 8px 1% 8px 1%;
+  padding: 6px 1% 0px 1%;
   position: relative;
   overflow: hidden;
   border-radius: 5px 5px;
   flex-wrap: wrap;
-
-  @include laptop {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
+  cursor:pointer;
   @include mobiletablet {
     display: flex;
-    flex-wrap: wrap;
   }
-
-  cursor:pointer;
+  @include mobile {
+    font-size: 13px;
+  }
   p {
     line-height: 1.75;
-    text-align: end;
   }
  
 }
-
+.rest {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
 .date,
 .priority,
 .statut,
 .number,
 .title,
 .category {
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  margin: auto;
-  @include laptop {
-    margin: 0;
-  }
-  @include mobiletablet {
-    margin: 0;
+ text-align: left;
+ margin-right: auto;
+ white-space: nowrap;
+
+}
+.prefix {
+  @include mobile {
+    font-size: 13px;
   }
 }
 
 
 .client {
+  position: relative;
   display: flex;
   align-items: center;
   white-space: nowrap;
+  line-height: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+
   p {
     font-size: 17px;
+   
   }
   app-avatar {
     margin-right: 8px;
   }
 }
-
+.separator {
+  position: absolute;
+  width: 1px;
+  border-right: 1px dashed rgba(0, 0, 0, 0.4) ;
+  right: 0px;
+  top:-4px;
+  bottom: 4px;
+  display: block;
+  @include mobiletablet {
+    display: none;
+  }
+}
 .context-ticket-card-creator {
   margin: auto 10px auto 0;
 }
@@ -78,11 +95,6 @@
   color: red;
 }
 
-// host-context pour garder un style générique et faciliter la réutilisation du composant
-:host-context(.context-ticket-list) .card {
-  margin-bottom: 16px;
-  background-color: transparent;
-}
 
 .context-ticket-card-creator {
   margin-right: 2%;

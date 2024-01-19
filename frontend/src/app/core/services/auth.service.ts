@@ -59,7 +59,8 @@ export class AuthService implements OnInit {
         this.httpOptions
       )
       .pipe(
-        map((response: LoginResponse) => {
+        map((response: any) => {
+          this.store.dispatch(userAction.saveUserConnected({ payload: response.user }));
           this.setAuthToken(response.accessToken);
           this.isLog$.next(true);     
           return response.accessToken;
@@ -131,16 +132,20 @@ export class AuthService implements OnInit {
       );
   }
 
-isTokenExpired(): boolean {
-  const token = this.getAuthToken();
-  if (token) {
-    const decodedToken: any = jwt_decode(token);
-    const expirationDate = decodedToken.exp * 3600000; // Convert seconds to milliseconds
-    const currentTimestamp = new Date().getTime();
-    return expirationDate < currentTimestamp;
+  
+  
+  isTokenExpired(): boolean {
+    const token = this.getAuthToken();
+    if (token) {
+      const decodedToken: any = jwt_decode(token);
+      const expirationDateInSeconds = decodedToken.exp;
+      const currentTimestampInMilliseconds = new Date().getTime();
+      const expirationTimestampInMilliseconds = expirationDateInSeconds * 1000; // Conversion des secondes en millisecondes
+      return expirationTimestampInMilliseconds < currentTimestampInMilliseconds;
+    }
+    return false;
   }
-  return false;
-}
+  
   switchToLogin(): void {
     this.activeTabSource.next('login');
   }
@@ -152,7 +157,9 @@ isTokenExpired(): boolean {
   logout() {
     this.isLog$.next(false); // Indiquer que l'utilisateur n'est plus connecté
     localStorage.removeItem('auth_token'); // Supprimer le jeton d'authentification
+    window.location.href = '/auth'; // Rafraîchit la page en changeant l'URL, nécéssaire pour le changement d'user
     this.alertService.showSuccessAlert('Vous êtes maintenant déconnecté'); // Afficher une alerte de déconnexion
+
   }
 }
 

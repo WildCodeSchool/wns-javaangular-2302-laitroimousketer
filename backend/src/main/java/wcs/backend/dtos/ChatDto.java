@@ -19,10 +19,11 @@ public class ChatDto {
 
     private String message;
 
-    private String author;
-
     private Date sent_date;
 
-    private MediaDto media;
+    private UserReadDto author;
+
+    // media sans le contenu data
+    private MediaGetAllDto media;
 
 }

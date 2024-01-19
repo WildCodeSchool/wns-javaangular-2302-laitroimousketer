@@ -1,0 +1,31 @@
+@import 'src/assets/scss/template.scss';
+
+.chat-container {
+ 
+.message-list {
+
+}
+
+.message-input {
+  position: relative;
+  width: 100%;
+}
+
+.input-action {
+  position: absolute;
+  bottom: 22px;
+  right: 8px;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  i {
+    color: $secondaryColor;
+  }
+  cursor: pointer;
+}
+mat-form-field {
+  margin-top: 40px;
+}
+
+}

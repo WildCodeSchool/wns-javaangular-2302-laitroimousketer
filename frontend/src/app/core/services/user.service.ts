@@ -26,8 +26,12 @@ export class UserService extends EntityCollectionServiceBase<User> {
   }
 
   //others
-  getUsersByRole(roleId: number): Observable<User[]> {
+  getUsersByRoleId(roleId: number): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/users/?role_id=${roleId}`);
+  }
+  
+  getUsersByRoleTitle(roleTitle: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/users/?role=${roleTitle}`);
   }
 
   getUsersByNameOrEmail(searchTerm: string): Observable<User[]> {
@@ -40,6 +44,8 @@ export class UserService extends EntityCollectionServiceBase<User> {
   getUserByEmail(email: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/users/?email=${email}`);
   }
+
+  
 
 
 }

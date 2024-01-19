@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.transaction.Transactional;
 import wcs.backend.dtos.MediaDto;
 import wcs.backend.dtos.MediaGetAllDto;
 import wcs.backend.entities.Chat;
@@ -156,8 +157,27 @@ public class MediaService {
     return modelMapper.map(savedMedia, MediaDto.class);
   }
 
+  @Transactional
   public void deleteMedia(Long id) {
-    mediaRepository.deleteById(id);
+      // Check if media exists
+      Optional<Media> optionalMedia = mediaRepository.findById(id);
+      if (optionalMedia.isPresent()) {
+          Media media = optionalMedia.get();
+
+          // Remove associations with other entities (if any)
+          if (media.getUser() != null) {
+              media.getUser().setMedia(null);
+              userRepository.save(media.getUser());
+          }
+
+          if (media.getChat() != null) {
+              media.getChat().setMedia(null);
+              chatRepository.save(media.getChat());
+          }
+
+          // Delete the media
+          mediaRepository.delete(media);
+      }
   }
 
 }

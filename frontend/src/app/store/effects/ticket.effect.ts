@@ -7,7 +7,7 @@ import * as sidebarAction from '../actions/sidebar.action';
 import { crudOperationSuccess } from './../actions/ticket.action';
 import { catchError, map, mergeMap, of, switchMap, tap } from "rxjs";
 import { AlertService } from "src/app/core/services/alert.service";
-import { Ticket } from "src/app/core/models/ticket";
+import { Ticket } from "src/app/core/models/ticket.model";
 import { TicketService } from "src/app/core/services/ticket.service";
 
 
@@ -101,7 +101,7 @@ export class TicketEffects {
       switchMap(({ payload }) =>
         this.ticketService.delete(payload).pipe(
           tap(() => {
-            this.msgService.showSuccessAlert('Ticket supprimé');
+            this.msgService.showSuccessAlert('Ticket supprimé !');
           }),
           catchError(error => {
             this.msgService.showErrorAlert('Erreur lors de la suppression du ticket');

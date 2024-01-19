@@ -1,10 +1,14 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Subscription, mergeMap, take } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { TicketService } from 'src/app/core/services/ticket.service';
-import { ChartConfiguration, ChartData, ChartOptions } from 'chart.js';
+import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { Ticket } from 'src/app/core/models/ticket';
+import { Ticket } from 'src/app/core/models/ticket.model';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { UserService } from 'src/app/core/services/user.service';
+import { User } from 'src/app/core/models/user.model';
+import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -20,9 +24,11 @@ import { Ticket } from 'src/app/core/models/ticket';
       ]),
     ]),
   ],
+  
 })
 
 export class DashboardComponent implements OnInit {
+
   @ViewChild('priorityChart') priorityChart!: BaseChartDirective;
   @ViewChild('categoryChart') categoryChart!: BaseChartDirective;
   @ViewChild('statusChart') statusChart!: BaseChartDirective;
@@ -42,7 +48,7 @@ export class DashboardComponent implements OnInit {
 
   chartIsUpdated: boolean = false;
   subscriptions = new Subscription();
-
+  ticketsWithoutDev : Ticket[] = [];
   //chart
   dataPriority: ChartConfiguration<'doughnut'>['data']['datasets'] = [
     { data: [this.lowCount], label: 'Priorités' },
@@ -76,24 +82,38 @@ export class DashboardComponent implements OnInit {
       },
     },
   };
-
-  constructor(private ticketService: TicketService) { }
+  ticketForm!: FormGroup;
+  allDevelopers: User[] = [];
+  filteredTickets!: Observable<string[] | [string, { name: string; code: string; }]>;
+  constructor(
+    private ticketService: TicketService,
+    private userService: UserService,
+    ) { }
 
   ngOnInit() {
     this.getAllTickets();
+    this.loadDevelopers();
+  }
+  loadDevelopers() {
+    this.userService.getUsersByRoleTitle('Développeur').subscribe((developers) => {
+      this.allDevelopers = developers;
+      // console.log('Developers:', this.allDevelopers);
+    })
   }
 
   getAllTickets() {
     this.ticketService.getTickets().subscribe((data) => {
       // console.log(data, "data");
       this.tickets = data;
+      this.ticketsWithoutDev = this.tickets.filter(ticket => !ticket.developers || ticket.developers.length === 0);
+      this.ticketsWithoutUser = this.ticketsWithoutDev.length;
       this.processTicketData();
       this.updateAllChart();
     });
   }
+
   processTicketData() {
     this.numberOfTickets = this.tickets.length;
-    this.ticketsWithoutUser = this.tickets.filter((ticket) => ticket.ticketHaveUsers?.length === 0).length;
     this.billingCount = this.tickets.filter((ticket) => ticket.category?.categoryTitle === 'Facturation').length;
     this.featureCount = this.tickets.filter((ticket) => ticket.category?.categoryTitle === 'Fonctionnalité').length;
     this.technicalCount = this.tickets.filter((ticket) => ticket.category?.categoryTitle === 'Technique').length;

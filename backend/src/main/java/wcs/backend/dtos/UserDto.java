@@ -19,4 +19,5 @@ public class UserDto {
   private RoleDto role;
   private AddressDto address;
   private MediaGetAllDto media;
+
 }

@@ -6,7 +6,6 @@ import wcs.backend.dtos.CategoryDto;
 import wcs.backend.dtos.PriorityDto;
 import wcs.backend.dtos.StatusDto;
 import wcs.backend.dtos.TicketDto;
-import wcs.backend.dtos.TicketHaveUsersDto;
 import wcs.backend.dtos.UserReadDto;
 import wcs.backend.services.CategoryService;
 import wcs.backend.services.PriorityService;
@@ -14,7 +13,6 @@ import wcs.backend.services.StatusService;
 import wcs.backend.services.TicketService;
 import wcs.backend.services.UserService;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -56,22 +54,10 @@ public class TicketDataSeed {
       ticket.setPriority(priorities.get(random.nextInt(priorities.size())));
       ticket.setStatus(statuses.get(random.nextInt(statuses.size())));
       ticket.setCreationDate(new Date());
-      ticket.setUpdateDate(new Date());
-      ticket.setArchiveDate(null); // You can set archive date logic if needed
+      ticket.setUpdateDate(null);
+      ticket.setArchiveDate(null);
       ticket.setAuthor(users.get(random.nextInt(users.size())));
-      TicketHaveUsersDto ticketHaveUsers = new TicketHaveUsersDto();
 
-      int numberOfUsersToAdd = random.nextInt(2) + 1; // Nombre aléatoire entre 1 et 2 utilisateurs
-      List<UserReadDto> selectedUsers = new ArrayList<>();
-  
-      // Sélection aléatoire des utilisateurs existants
-      for (int j = 0; j < numberOfUsersToAdd; j++) {
-          UserReadDto randomUser = users.get(random.nextInt(users.size()));
-          selectedUsers.add(randomUser);
-      }
-      ticketHaveUsers.setUsers(selectedUsers);
-
-      // Add ticket to your ticket list, or save it directly
       ticketService.createTicket(ticket);
     }
   }

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { TicketService } from '../../../../core/services/ticket.service';
-import { Ticket } from '../../../../core/models/ticket';
+import { Ticket } from '../../../../core/models/ticket.model';
 
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
@@ -20,6 +20,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   selector: 'app-tickets-list',
   templateUrl: './tickets-list.component.html',
   styleUrls: ['./tickets-list.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
@@ -62,6 +63,11 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
   statusDown: boolean;
   priorityDown: boolean;
   dateDown: boolean;
+  iconSortingNumero: string = 'bi bi-sort-down';
+  iconSortingTitle: string = 'bi bi-sort-down';
+  iconSortingFirstName: string = 'bi bi-sort-down';
+  iconSortingDate: string = 'bi bi-sort-down';
+
   filters: any = {
     status: { 'À faire': false, 'En cours': false, 'Terminé': false },
     priority: { 'Basse': false, 'Moyenne': false, 'Élevée': false },
@@ -88,7 +94,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
   }
 
 
-
+  isSmallScreen = false;
   
   ngOnInit() {
    
@@ -96,8 +102,13 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
     this.getCounts();
     this.checkRole();
     this.getTicketList();
+    this.isSmallScreen = window.innerWidth < 1600;
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.isSmallScreen = window.innerWidth < 1600;
+  }
 
   checkRole() {
     this.store.select(Reducer.getUserConnected).pipe(takeUntil(this.destroy$)).subscribe((data) => {
@@ -106,7 +117,15 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
     });
   }
 
-  getTicketList() {
+  getTicketList(searchQuery?: { searchTerm: string }): void {
+    if (searchQuery) {
+      let query = searchQuery.searchTerm;
+      console.log('query', query);
+      this.ticketService.getWithQuery(`query=${query}`).subscribe((tickets) => {
+        this.tickets = tickets;
+        console.log('tickets', tickets);
+      });
+    } else {
     this.store.dispatch(ticketAction.getTickets());
     this.store.select(Reducer.getTickets)
       .pipe(takeUntil(this.destroy$))
@@ -119,6 +138,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
           // Autres opérations ici...
         }
       });
+    }
   }
 
   private updateTicketList() {
@@ -180,32 +200,39 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
 
 
   // TRI //
+
   sortTickets(sortBy: string) {
-    // Toggle sorting order
+
     switch (sortBy) {
       case 'Date de création':
         this.dateDown = this.currentSortBy === 'Date de création' ? !this.dateDown : true;
         this.currentSortBy = 'Date de création';
-        this.tickets.sort(this.sortByDate.bind(this)); // Bind the context to the sorting functions
+        this.tickets.sort(this.sortByDate.bind(this));
+        this.titleDown ? this.iconSortingTitle = 'bi bi-sort-down' : this.iconSortingTitle = 'bi bi-sort-up';
+         // Bind the context to the sorting functions
         break;
       case 'Numéro':
         this.numeroDown = this.currentSortBy === 'Numéro' ? !this.numeroDown : true;
         this.currentSortBy = 'Numéro';
+        this.numeroDown ? this.iconSortingNumero = 'bi bi-sort-down' : this.iconSortingNumero = 'bi bi-sort-up';
         this.tickets.sort(this.sortByNumero.bind(this));
         break;
       case 'Titre':
         this.titleDown = this.currentSortBy === 'Titre' ? !this.titleDown : true;
         this.currentSortBy = 'Titre';
+        this.titleDown ? this.iconSortingTitle = 'bi bi-sort-down' : this.iconSortingTitle = 'bi bi-sort-up';
         this.tickets.sort(this.sortByTitle.bind(this));
         break;
       case 'Prénom':
         this.firstNameDown = this.currentSortBy === 'Prénom' ? !this.firstNameDown : true;
         this.currentSortBy = 'Prénom';
+        this.firstNameDown ? this.iconSortingFirstName = 'bi bi-sort-down' : this.iconSortingFirstName = 'bi bi-sort-up';
         this.tickets.sort(this.sortByFirstname.bind(this));
         break;
       case 'Date':
         this.dateDown = this.currentSortBy === 'Date' ? !this.dateDown : true;
         this.currentSortBy = 'Date';
+        this.dateDown ? this.iconSortingDate = 'bi bi-sort-down' : this.iconSortingDate = 'bi bi-sort-up';
         this.tickets.sort(this.sortByDate.bind(this));
         break;
       default:
@@ -214,10 +241,11 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
   }
 
 
+
   sortByTitle(a: Ticket, b: Ticket): number {
-    console.log('Sorting by title:');
     return this.titleDown ? a.ticketTitle.localeCompare(b.ticketTitle) : b.ticketTitle.localeCompare(a.ticketTitle);
   }
+
   sortByNumero(a: Ticket, b: Ticket): number {
     const idA = Number(a.id);
     const idB = Number(b.id);

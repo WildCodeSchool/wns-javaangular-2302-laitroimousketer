@@ -18,14 +18,15 @@ public class Chat  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "message")
+    @Column(name = "message", length = 5000)
     private String message;
-
-    @Column(name = "author")
-    private String author;
 
     @Column(name = "sent_date")
     private Date sent_date;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
 
     @ManyToOne
     @JoinColumn(name = "ticket_id", nullable = false)

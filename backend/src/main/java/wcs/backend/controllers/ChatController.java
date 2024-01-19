@@ -5,9 +5,12 @@ import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import wcs.backend.services.ChatService;
 import wcs.backend.dtos.ChatDto;
+import wcs.backend.entities.Chat;
+import wcs.backend.entities.Ticket;
 
 import java.util.List;
 
@@ -41,6 +44,19 @@ public class ChatController {
     public ChatDto addChat(@RequestBody ChatDto chatDto) {
         return chatService.addChat(chatDto);
     }
+
+    @PutMapping("{id}")
+    @Operation(summary = "Update a chat by ID", description = "Update a chat by ID")
+    public ChatDto updateChat(@PathVariable Long id, @RequestBody ChatDto chatDto) {
+        return chatService.updateChat(id, chatDto);
+    }
+
+    @DeleteMapping("{id}")
+    @Operation(summary = "Delete a chat by ID", description = "Delete a chat by ID")
+    public void deleteChat(@PathVariable Long id) {
+        chatService.deleteChat(id);
+    }
+
 
    
 }

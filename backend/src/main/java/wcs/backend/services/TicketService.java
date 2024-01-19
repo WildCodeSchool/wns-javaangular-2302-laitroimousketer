@@ -14,19 +14,18 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import wcs.backend.dtos.TicketDto;
+import wcs.backend.dtos.UserReadDto;
 import wcs.backend.entities.Category;
 import wcs.backend.entities.Priority;
 import wcs.backend.entities.Status;
 import wcs.backend.entities.Ticket;
 import wcs.backend.entities.User;
-import wcs.backend.entities.TicketHaveUsers;
 
 import wcs.backend.repositories.CategoryRepository;
 import wcs.backend.repositories.PriorityRepository;
 import wcs.backend.repositories.StatusRepository;
 import wcs.backend.repositories.TicketRepository;
 import wcs.backend.repositories.UserRepository;
-import wcs.backend.repositories.TicketHaveUsersRepository;
 
 @Service
 @AllArgsConstructor
@@ -40,8 +39,7 @@ public class TicketService {
   private StatusRepository statusRepository;
   @Autowired
   private PriorityRepository priorityRepository;
-  @Autowired
-  private TicketHaveUsersRepository ticketHaveUsersRepository;
+
   @Autowired
   private UserRepository userRepository;
   @Autowired
@@ -51,6 +49,7 @@ public class TicketService {
 
   }
 
+  // GET ALL//
   public List<TicketDto> getAllTicketsDtos() {
     List<Ticket> tickets = ticketRepository.findAll();
     return tickets.stream()
@@ -58,12 +57,14 @@ public class TicketService {
         .collect(Collectors.toList());
   }
 
+  // GET BY ID//
   public TicketDto getTicketById(Long id) {
     Ticket ticket = ticketRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
     return modelMapper.map(ticket, TicketDto.class);
   }
 
+  // CREATE//
   public TicketDto createTicket(TicketDto ticketDto) {
     Ticket ticket = modelMapper.map(ticketDto, Ticket.class);
 
@@ -76,6 +77,7 @@ public class TicketService {
     return modelMapper.map(ticket, TicketDto.class);
   }
 
+  // UPDATE//
   public TicketDto updateTicket(Long id, TicketDto ticketDto) {
     Ticket existingTicket = ticketRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
@@ -103,18 +105,22 @@ public class TicketService {
       existingTicket.setPriority(priorityRepository.findById(ticketDto.getPriority().getId())
           .orElseThrow(() -> new EntityNotFoundException("Priority not found")));
     }
-    // Set or clear the archiveDate
-    if (ticketDto.getArchiveDate() != null) {
-      existingTicket.setArchiveDate(ticketDto.getArchiveDate());
+
+    // Update developers in the ticket directly
+    if (ticketDto.getDevelopers() != null) {
+      List<User> updatedDevelopers = userRepository.findAllById(
+          ticketDto.getDevelopers().stream().map(UserReadDto::getId).collect(Collectors.toList()));
+      existingTicket.setDevelopers(updatedDevelopers);
     } else {
-      existingTicket.setArchiveDate(null);
+      existingTicket.getDevelopers().clear();
     }
 
-    ticketDto.setUpdateDate(new Date());
-    // Set the updateDate after manual copying
-    existingTicket.setUpdateDate(ticketDto.getUpdateDate());
+    // Set or clear the archiveDate
+    existingTicket.setArchiveDate(ticketDto.getArchiveDate());
 
-    // Update associations manually if needed (e.g., ticketHaveUsers)
+    // Set the updateDate after manual copying
+    ticketDto.setUpdateDate(new Date());
+    existingTicket.setUpdateDate(ticketDto.getUpdateDate());
 
     // Save the updated Ticket
     Ticket savedTicket = ticketRepository.save(existingTicket);
@@ -125,19 +131,11 @@ public class TicketService {
     return updatedTicketDto;
   }
 
+  // DELETE//
   public void deleteTicket(Long id) {
     Ticket existingTicket = ticketRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
     ticketRepository.delete(existingTicket);
-  }
-
-  // users to tickets //
-  public void addUserToTicket(Ticket ticket, User user) {
-    // Créez une instance de ticketHaveUsers pour l'utilisateur ajouté
-    TicketHaveUsers ticketHaveUsers = new TicketHaveUsers(user, ticket);
-
-    // Enregistrez ticketHaveUsers pour l'utilisateur ajouté
-    ticketHaveUsersRepository.save(ticketHaveUsers);
   }
 
   // FILTERS //
@@ -191,6 +189,13 @@ public class TicketService {
 
       return builder.and(predicates.toArray(new Predicate[0]));
     };
+  }
+
+  public List<TicketDto> getTicketsByQuery(String query) {
+    List<Ticket> tickets = ticketRepository.findByQuery(query);
+    return tickets.stream()
+        .map(ticket -> modelMapper.map(ticket, TicketDto.class))
+        .collect(Collectors.toList());
   }
 
   private Status getStatusByTitle(String StatusTitle) {
@@ -273,5 +278,5 @@ public class TicketService {
       ticket.setAuthor(null);
     }
   }
-  
+
 }

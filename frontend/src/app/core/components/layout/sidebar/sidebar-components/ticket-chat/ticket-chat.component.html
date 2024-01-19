@@ -1,0 +1,41 @@
+<div class="chat-container">
+
+  <header>
+    <div class="widget-title">
+      <i class="bi bi-chat-left-dots-fill"></i><span class="first-word"> Assistance du</span> développeur
+    </div>
+  </header>
+
+  <div class="message-list grid grid-cols-1 gap-20">
+    @for(message of chat; track message.id) {
+    <app-chat-row [message]="message" class="col-span-1" (deleteMessageEvent)="deleteMessage($event)" (editMessageEvent)="editMessage($event)"></app-chat-row>
+    }
+
+  </div>
+
+  <form [formGroup]="chatForm" class="send-message">
+
+    <div class="message-input">
+      <mat-form-field appearance="outline" color="primary">
+        <mat-label for="description">Envoyer un message</mat-label>
+        <textarea id="message" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="8"
+          cdkAutosizeMaxRows="auto" placeholder="Écrivez votre message..." formControlName="message"
+          class="message-input"></textarea>
+      </mat-form-field>
+
+      <div class="input-action">
+        <span *ngIf="selectedFileName !== ''">{{selectedFileName}}</span>
+        <i class="bi bi-x-circle" *ngIf="fileSelected" (click)="clearFileInput()"></i>
+        <i class="bi bi-file-image" (click)="fileInput.click()"></i>
+        <i class="icon-send bi bi-send-plus-fill" (click)="sendMessage()"></i>
+      </div>
+      <form class="formUpload" [formGroup]="uploadForm">
+        <!-- Champ de fichier caché -->
+        <input type="file" id="file" name="file" (change)="onFileChange($event)" #fileInput accept="image/*"
+          style="display: none;" />
+      </form>
+
+    </div>
+  </form>
+
+</div>

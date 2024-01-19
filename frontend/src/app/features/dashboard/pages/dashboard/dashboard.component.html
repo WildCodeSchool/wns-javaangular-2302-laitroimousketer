@@ -1,47 +1,60 @@
-<article>
-  <header>
+<div class="dashboard lg:grid grid-cols-2 gap-20">
+
+  <div class="widget grid-1 col-span-1 row-span-3">
+
     <div class="ticket-number">
       <h2>Nombre de tickets :</h2>
       <span>{{numberOfTickets}}</span>
     </div>
-
     <div class="ticket-user">
       <h2>Tickets non attribués :</h2>
-
-      <ng-container *ngIf="ticketsWithoutUser > 0">
       <span class="bi bi-exclamation-circle-fill over-0"></span>
       <span class="over-0">{{ticketsWithoutUser}}</span>
-    </ng-container>
 
-    <ng-container *ngIf="ticketsWithoutUser === 0">
+      @if (ticketsWithoutUser === 0) {
       <span class="bi bi-check-circle-fill"></span>
       <span>{{ticketsWithoutUser}}</span>
-    </ng-container>
-    </div>
-  </header>
-
-
-  <div class="chart-wrapper" *ngIf="chartIsUpdated">
-    <div class="chart">
-      <h3>Priorités</h3>
-      <canvas baseChart [labels]="labelsPriority" [datasets]="dataPriority" [options]="Options" [legend]="true"
-        [type]="'doughnut'">
-      </canvas>
+      }
     </div>
 
-    <div class="chart">
-      <h3>Statuts</h3>
-      <canvas baseChart [labels]="labelsStatus" [datasets]="dataStatus" [options]="Options" [legend]="true"
-        [type]="'doughnut'">
-      </canvas>
-    </div>
-
-    <div class="chart">
-      <h3>Catégories</h3>
-      <canvas baseChart [labels]="labelsCategory" [datasets]="dataCategory" [options]="Options" [legend]="true"
-        [type]="'doughnut'">
-      </canvas>
-    </div>
+    <div class="tickets-c grid grid-cols-1 gap-10">
+      @for (ticketWithoutDev of ticketsWithoutDev; track ticketWithoutDev.id) {
+      <app-ticket-card [ticket]="ticketWithoutDev"></app-ticket-card>
+    }
   </div>
 
-</article>
+
+  </div>
+
+
+  <ng-container class="chart-wrapper" *ngIf="chartIsUpdated">
+    <div class="widget chart-c grid-2 col-span-1">
+      <div class="chart">
+        <h3>Priorités</h3>
+        <canvas baseChart [labels]="labelsPriority" [datasets]="dataPriority" [options]="Options" [legend]="true"
+          [type]="'doughnut'">
+        </canvas>
+      </div>
+    </div>
+
+
+    <div class="widget chart-c grid-3 col-span-1">
+      <div class="chart">
+        <h3>Statuts</h3>
+        <canvas baseChart [labels]="labelsStatus" [datasets]="dataStatus" [options]="Options" [legend]="true"
+          [type]="'doughnut'">
+        </canvas>
+      </div>
+    </div>
+
+    <div class="widget chart-c grid-4 col-span-1">
+      <div class="chart">
+        <h3>Catégories</h3>
+        <canvas baseChart [labels]="labelsCategory" [datasets]="dataCategory" [options]="Options" [legend]="true"
+          [type]="'doughnut'">
+        </canvas>
+      </div>
+    </div>
+
+  </ng-container>
+</div>
