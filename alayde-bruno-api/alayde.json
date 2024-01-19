@@ -1,755 +1,383 @@
 {
-  "name": "alayde",
-  "version": "1",
-  "items": [
+  "info": {
+    "name": "alayde",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
     {
-      "type": "http",
       "name": "get categories",
-      "seq": 3,
+      "event": [],
       "request": {
-        "url": "{{ip}}/categories",
         "method": "GET",
-        "headers": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "auth": {
-          "mode": "none",
-          "basic": {
-            "username": "",
-            "password": ""
-          },
-          "bearer": {
-            "token": ""
-          }
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "query": []
+        "header": [],
+        "url": "{{ip}}/categories"
       }
     },
     {
-      "type": "http",
       "name": "get priorities",
-      "seq": 4,
+      "event": [],
       "request": {
-        "url": "{{ip}}/priorities/",
         "method": "GET",
-        "headers": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "auth": {
-          "mode": "none",
-          "basic": {
-            "username": "",
-            "password": ""
-          },
-          "bearer": {
-            "token": ""
-          }
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "query": []
+        "header": [],
+        "url": "{{ip}}/priorities/"
       }
     },
     {
-      "type": "http",
       "name": "get roles",
-      "seq": 2,
+      "event": [],
       "request": {
-        "url": "{{ip}}/roles/",
         "method": "GET",
-        "headers": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "auth": {
-          "mode": "none",
-          "basic": {
-            "username": "",
-            "password": ""
-          },
-          "bearer": {
-            "token": ""
-          }
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "query": []
+        "header": [],
+        "url": "{{ip}}/roles/"
       }
     },
     {
-      "type": "http",
       "name": "get status",
-      "seq": 5,
+      "event": [],
       "request": {
-        "url": "{{ip}}/status",
         "method": "GET",
-        "headers": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "auth": {
-          "mode": "none",
-          "basic": {
-            "username": "",
-            "password": ""
-          },
-          "bearer": {
-            "token": ""
-          }
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "query": []
+        "header": [],
+        "url": "{{ip}}/status"
       }
     },
     {
-      "type": "http",
       "name": "post login",
-      "seq": 1,
+      "event": [],
       "request": {
+        "method": "POST",
+        "header": [],
         "url": "{{ip}}/auth/login",
-        "method": "POST",
-        "headers": [],
         "body": {
-          "mode": "json",
-          "json": "{\n  \"email\": \"manager@wcs.com\",\n  \"password\": \"Alayd3!manager\"\n}",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "auth": {
-          "mode": "none",
-          "basic": {
-            "username": "",
-            "password": ""
-          },
-          "bearer": {
-            "token": ""
-          }
-        },
-        "script": {},
-        "vars": {
-          "res": [
-            {
-              "name": "alayde_token",
-              "value": "res.body.accessToken",
-              "enabled": true,
-              "local": false
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"manager@wcs.com\",\r\n  \"password\": \"Alayd3!manager\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
             }
-          ]
-        },
-        "assertions": [],
-        "tests": "",
-        "query": []
+          }
+        }
       }
     },
     {
-      "type": "http",
       "name": "refresh login",
-      "seq": 6,
+      "event": [],
       "request": {
-        "url": "{{ip}}login/refresh",
         "method": "POST",
-        "headers": [],
+        "header": [],
+        "url": "{{ip}}login/refresh",
         "body": {
-          "mode": "json",
-          "json": "{\n  \"expiredToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYW5hZ2VyQHdjcy5jb20iLCJpYXQiOjE3MDUxNjYyMjAsImV4cCI6MTcwNTE2NjIzMH0.FgpVIBO05IZWbENfHVbonjNeo44QytHGgcI4-PSF7d1DraVhkFrewWphfnwtA98DS5KW4rNw2TnM3Isc_2T0sw\"\n}",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "auth": {
-          "mode": "none",
-          "basic": {
-            "username": "",
-            "password": ""
-          },
-          "bearer": {
-            "token": ""
+          "mode": "raw",
+          "raw": "{\r\n  \"expiredToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYW5hZ2VyQHdjcy5jb20iLCJpYXQiOjE3MDUxNjYyMjAsImV4cCI6MTcwNTE2NjIzMH0.FgpVIBO05IZWbENfHVbonjNeo44QytHGgcI4-PSF7d1DraVhkFrewWphfnwtA98DS5KW4rNw2TnM3Isc_2T0sw\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
           }
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "query": []
+        }
       }
     },
     {
-      "type": "folder",
-      "name": "tickets",
-      "items": [
-        {
-          "type": "http",
-          "name": "DEL ticket",
-          "seq": 4,
-          "request": {
-            "url": "{{ip}}/tickets/204",
-            "method": "DELETE",
-            "headers": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": [
-              {
-                "name": "userId",
-                "value": "40",
-                "enabled": false
-              },
-              {
-                "name": "status",
-                "value": "En cours",
-                "enabled": false
-              },
-              {
-                "name": "priority",
-                "value": "Élevée",
-                "enabled": false
-              },
-              {
-                "name": "count",
-                "value": "true",
-                "enabled": false
-              },
-              {
-                "name": "id",
-                "value": "26",
-                "enabled": false
-              }
-            ]
-          }
-        },
-        {
-          "type": "http",
-          "name": "get tickets",
-          "seq": 2,
-          "request": {
-            "url": "{{ip}}/tickets/",
-            "method": "GET",
-            "headers": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": [
-              {
-                "name": "userId",
-                "value": "40",
-                "enabled": false
-              },
-              {
-                "name": "status",
-                "value": "En cours",
-                "enabled": false
-              },
-              {
-                "name": "priority",
-                "value": "Élevée",
-                "enabled": false
-              },
-              {
-                "name": "count",
-                "value": "true",
-                "enabled": false
-              },
-              {
-                "name": "id",
-                "value": "26",
-                "enabled": false
-              }
-            ]
-          }
-        },
-        {
-          "type": "http",
-          "name": "post ticket",
-          "seq": 1,
-          "request": {
-            "url": "{{ip}}api/tickets/",
-            "method": "POST",
-            "headers": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n  \"ticketTitle\": \"à la main\",\n  \"description\": \"Blanditiis et praesentium adipisci. Ipsum esse aspernatur quod. Harum quaerat quidem delectus voluptas qui vitae. Molestiae ut perspiciatis. Soluta et animi laboriosam aut reiciendis in.\",\n  \"category\": {\n    \"id\": 9,\n    \"categoryTitle\": \"Fonctionnalité\"\n  },\n  \"status\": {\n    \"id\": 8,\n    \"statusTitle\": \"En cours\"\n  },\n  \"priority\": {\n    \"id\": 9,\n    \"priorityTitle\": \"Moyenne\"\n  },\n  \"author\": {\n    \"id\": 40\n}\n}",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
-          }
-        },
-        {
-          "type": "http",
-          "name": "PUT ticket",
-          "seq": 3,
-          "request": {
-            "url": "http://localhost:8080/api/tickets/2",
-            "method": "PUT",
-            "headers": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n \"archiveDate\": \"\"\n}",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
-          }
-        }
-      ]
-    },
-    {
-      "type": "folder",
       "name": "adresses",
-      "items": [
+      "item": [
         {
-          "type": "http",
           "name": "get adresses",
-          "seq": 1,
+          "event": [],
           "request": {
-            "url": "{{ip}}/address/",
             "method": "GET",
-            "headers": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
+            "header": [],
+            "url": "{{ip}}/address/"
           }
         },
         {
-          "type": "http",
           "name": "post adress",
-          "seq": 2,
+          "event": [],
           "request": {
+            "method": "POST",
+            "header": [],
             "url": "{{ip}}/address/",
-            "method": "POST",
-            "headers": [],
             "body": {
-              "mode": "json",
-              "json": "    {\n    \"city\": \"La Seyne-sur-Mer\",\n    \"country\": \"Serbia\",\n    \"latitude\": -81.912807,\n    \"longitude\": -88.359691,\n    \"postcode\": \"70802\",\n    \"street_l1\": \"723 Allée, Voie de la Ferronnerie\",\n    \"street_l2\": \"Apt. 050\"\n    }",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
+              "mode": "raw",
+              "raw": "    {\r\n    \"city\": \"La Seyne-sur-Mer\",\r\n    \"country\": \"Serbia\",\r\n    \"latitude\": -81.912807,\r\n    \"longitude\": -88.359691,\r\n    \"postcode\": \"70802\",\r\n    \"street_l1\": \"723 Allée, Voie de la Ferronnerie\",\r\n    \"street_l2\": \"Apt. 050\"\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
               }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
+            }
           }
         }
       ]
     },
     {
-      "type": "folder",
-      "name": "users",
-      "items": [
-        {
-          "type": "http",
-          "name": "DEL user",
-          "seq": 1,
-          "request": {
-            "url": "{{ip}}/users/56",
-            "method": "DELETE",
-            "headers": [],
-            "body": {
-              "mode": "json",
-              "json": "",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
-          }
-        },
-        {
-          "type": "http",
-          "name": "get users",
-          "seq": 2,
-          "request": {
-            "url": "{{ip}}/users/",
-            "method": "GET",
-            "headers": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": [
-              {
-                "name": "query",
-                "value": "Alexis",
-                "enabled": false
-              },
-              {
-                "name": "query",
-                "value": "Théo",
-                "enabled": false
-              },
-              {
-                "name": "query",
-                "value": "jul",
-                "enabled": false
-              },
-              {
-                "name": "email",
-                "value": "dev@wcs.com",
-                "enabled": false
-              }
-            ]
-          }
-        },
-        {
-          "type": "http",
-          "name": "post user",
-          "seq": 4,
-          "request": {
-            "url": "{{ip}}/users",
-            "method": "POST",
-            "headers": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n  \"firstname\": \"Eva\",\n  \"lastname\": \"Poret\",\n  \"email\": \"eva@poretgmail.com\",\n  \"password\":\"test\",\n  \"role\": {\n    \"id\": 8,\n    \"roleTitle\": \"Développeur\"\n  },\n  \"address\": {\n    \"id\": 49,\n    \"city\": \"Dijon\",\n    \"country\": \"Serbia\",\n    \"latitude\": 28.131343,\n    \"longitude\": -1.1544298,\n    \"postcode\": \"56514\",\n    \"street_l1\": \"52 Place de la Chaussée-d'Antin\",\n    \"street_l2\": \"Apt. 450\"\n  }\n}",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
-          }
-        },
-        {
-          "type": "http",
-          "name": "update user",
-          "seq": 5,
-          "request": {
-            "url": "{{ip}}/users/2",
-            "method": "PUT",
-            "headers": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n\n}",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
-          }
-        }
-      ]
-    },
-    {
-      "type": "folder",
       "name": "chat",
-      "items": [
+      "item": [
         {
-          "type": "http",
           "name": "get chat",
-          "seq": 1,
+          "event": [],
           "request": {
-            "url": "{{ip}}/chat/?ticket_id=201",
             "method": "GET",
-            "headers": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": [
-              {
-                "name": "ticket_id",
-                "value": "201",
-                "enabled": true
-              }
-            ]
+            "header": [],
+            "url": "{{ip}}/chat/?ticket_id=201"
           }
         },
         {
-          "type": "http",
           "name": "post chat",
-          "seq": 2,
+          "event": [],
           "request": {
-            "url": "{{ip}}/chat/",
             "method": "POST",
-            "headers": [],
+            "header": [],
+            "url": "{{ip}}/chat/",
             "body": {
-              "mode": "json",
-              "json": "{\n  \"ticket_id\": 201,\n  \"author\":\"toto\",\n  \"message\":\"test\"\n}",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
+              "mode": "raw",
+              "raw": "{\r\n  \"ticket_id\": 201,\r\n  \"author\":\"toto\",\r\n  \"message\":\"test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
               }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
+            }
           }
         }
       ]
     },
     {
-      "type": "folder",
       "name": "media",
-      "items": [
+      "item": [
         {
-          "type": "http",
           "name": "get all media",
-          "seq": 1,
+          "event": [],
           "request": {
-            "url": "{{ip}}/media/",
             "method": "GET",
-            "headers": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
+            "header": [],
+            "url": "{{ip}}/media/"
           }
         },
         {
-          "type": "http",
           "name": "post media",
-          "seq": 2,
+          "event": [],
           "request": {
-            "url": "{{ip}}/media/upload",
             "method": "POST",
-            "headers": [],
+            "header": [],
+            "url": "{{ip}}/media/upload"
+          }
+        }
+      ]
+    },
+    {
+      "name": "tickets",
+      "item": [
+        {
+          "name": "DEL ticket",
+          "event": [],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{ip}}/tickets/204"
+          }
+        },
+        {
+          "name": "get tickets",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/tickets/"
+          }
+        },
+        {
+          "name": "post ticket",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{ip}}api/tickets/",
             "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
+              "mode": "raw",
+              "raw": "{\r\n  \"ticketTitle\": \"à la main\",\r\n  \"description\": \"Blanditiis et praesentium adipisci. Ipsum esse aspernatur quod. Harum quaerat quidem delectus voluptas qui vitae. Molestiae ut perspiciatis. Soluta et animi laboriosam aut reiciendis in.\",\r\n  \"category\": {\r\n    \"id\": 9,\r\n    \"categoryTitle\": \"Fonctionnalité\"\r\n  },\r\n  \"status\": {\r\n    \"id\": 8,\r\n    \"statusTitle\": \"En cours\"\r\n  },\r\n  \"priority\": {\r\n    \"id\": 9,\r\n    \"priorityTitle\": \"Moyenne\"\r\n  },\r\n  \"author\": {\r\n    \"id\": 40\r\n}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
               }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
+            }
+          }
+        },
+        {
+          "name": "PUT ticket",
+          "event": [],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": "{{ip}}tickets/3",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ticketTitle\": \"qui modif3\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "users",
+      "item": [
+        {
+          "name": "DEL user",
+          "event": [],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{ip}}/users/56",
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "get user by role",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}users/"
+          }
+        },
+        {
+          "name": "get users",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/users/"
+          }
+        },
+        {
+          "name": "post user",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{ip}}/users",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"firstname\": \"Eva\",\r\n  \"lastname\": \"Poret\",\r\n  \"email\": \"eva@poretgmail.com\",\r\n  \"password\":\"test\",\r\n  \"role\": {\r\n    \"id\": 8,\r\n    \"roleTitle\": \"Développeur\"\r\n  },\r\n  \"address\": {\r\n    \"id\": 49,\r\n    \"city\": \"Dijon\",\r\n    \"country\": \"Serbia\",\r\n    \"latitude\": 28.131343,\r\n    \"longitude\": -1.1544298,\r\n    \"postcode\": \"56514\",\r\n    \"street_l1\": \"52 Place de la Chaussée-d'Antin\",\r\n    \"street_l2\": \"Apt. 450\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "update user",
+          "event": [],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": "{{ip}}/users/2",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "historical-user",
+      "item": [
+        {
+          "name": "get all historical-user",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/historical/"
+          }
+        },
+        {
+          "name": "get by id historical-user",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/historical-user/10"
+          }
+        }
+      ]
+    },
+    {
+      "name": "historical-global",
+      "item": [
+        {
+          "name": "get all historical",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/historical/"
+          }
+        },
+        {
+          "name": "get by id  historical",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/historical/160"
+          }
+        }
+      ]
+    },
+    {
+      "name": "historical-ticket",
+      "item": [
+        {
+          "name": "get all historical-ticket",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/historical-ticket/"
+          }
+        },
+        {
+          "name": "get by id historical-ticket",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/historical-ticket/10"
           }
         }
       ]
     }
   ],
-  "activeEnvironmentUid": "ylfRHNWByJX8MqzpppJBg",
-  "environments": [
+  "variable": [
     {
-      "variables": [
-        {
-          "name": "alayde_token",
-          "value": "",
-          "enabled": true,
-          "secret": false,
-          "type": "text"
-        },
-        {
-          "name": "ip",
-          "value": "http://localhost:8080/api",
-          "enabled": true,
-          "secret": false,
-          "type": "text"
-        }
-      ],
-      "name": "alayde"
+      "key": "ip",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "alayde_token",
+      "value": "",
+      "type": "default"
     }
   ]
 }
