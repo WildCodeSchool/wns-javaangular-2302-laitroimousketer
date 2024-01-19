@@ -106,15 +106,6 @@ public class TicketService {
           .orElseThrow(() -> new EntityNotFoundException("Priority not found")));
     }
 
-    // Update developers in the ticket directly
-    if (ticketDto.getDevelopers() != null) {
-      List<User> updatedDevelopers = userRepository.findAllById(
-          ticketDto.getDevelopers().stream().map(UserReadDto::getId).collect(Collectors.toList()));
-      existingTicket.setDevelopers(updatedDevelopers);
-    } else {
-      existingTicket.getDevelopers().clear();
-    }
-
     // Set or clear the archiveDate
     existingTicket.setArchiveDate(ticketDto.getArchiveDate());
 

@@ -13,6 +13,7 @@ import wcs.backend.services.StatusService;
 import wcs.backend.services.TicketService;
 import wcs.backend.services.UserService;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -50,6 +51,7 @@ public class TicketDataSeed {
       TicketDto ticket = new TicketDto();
       ticket.setTicketTitle(faker.lorem().word());
       ticket.setDescription(faker.lorem().paragraph());
+      ticket.setDevelopers(new ArrayList<>());
       ticket.setCategory(categories.get(random.nextInt(categories.size())));
       ticket.setPriority(priorities.get(random.nextInt(priorities.size())));
       ticket.setStatus(statuses.get(random.nextInt(statuses.size())));
@@ -57,7 +59,6 @@ public class TicketDataSeed {
       ticket.setUpdateDate(null);
       ticket.setArchiveDate(null);
       ticket.setAuthor(users.get(random.nextInt(users.size())));
-
       ticketService.createTicket(ticket);
     }
   }

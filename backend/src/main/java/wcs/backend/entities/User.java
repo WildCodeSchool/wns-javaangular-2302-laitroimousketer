@@ -55,8 +55,10 @@ public class User implements UserDetails {
   @JoinColumn(name = "address_id", nullable = true, updatable = true)
   private Address address;
 
-  @ManyToMany(mappedBy = "developers")
-  private List<Ticket> tickets = new ArrayList<>();
+  @OneToMany(mappedBy = "developer", cascade = CascadeType.ALL, orphanRemoval = false)
+  private List<TicketDeveloper> ticketDevelopers = new ArrayList<>();
+  
+  
   
 
   @Override

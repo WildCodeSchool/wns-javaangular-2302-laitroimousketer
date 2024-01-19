@@ -56,14 +56,11 @@ public class Ticket {
   
   @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = false, fetch = FetchType.EAGER)
   private List<Chat> chatMessages = new ArrayList<>();
-
-  @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(
-      name = "ticket_developer",
-      joinColumns = @JoinColumn(name = "ticket_id"),
-      inverseJoinColumns = @JoinColumn(name = "developer_id")
-  )
-  private List<User> developers = new ArrayList<>();
+  
+  @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<TicketDeveloper> ticketDevelopers = new ArrayList<>();
+  
+  
   
 
 
