@@ -20,21 +20,17 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecif
 
     List<Ticket> findByCategory(Category category);
     
-
- 
     default List<Ticket> findByQuery(String query) {
-        return findAll((root, criteriaQuery, criteriaBuilder) ->
-                criteriaBuilder.or(
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("ticketTitle")), "%" + query.toLowerCase() + "%"),
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("status")), "%" + query.toLowerCase() + "%"),
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("priority")), "%" + query.toLowerCase() + "%"),
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("category")), "%" + query.toLowerCase() + "%"),
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("userId")), "%" + query.toLowerCase() + "%"),
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("id")), "%" + query.toLowerCase() + "%"),
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), "%" + query.toLowerCase() + "%")
-                )
-        );
-    }        
+      return findAll((root, criteriaQuery, criteriaBuilder) ->
+              criteriaBuilder.or(
+                      criteriaBuilder.like(criteriaBuilder.lower(root.get("ticketTitle")), "%" + query.toLowerCase() + "%"),
+                      criteriaBuilder.like(criteriaBuilder.lower(root.get("id").as(String.class)), "%" + query.toLowerCase() + "%"),
+                      criteriaBuilder.like(criteriaBuilder.lower(root.get("author").get("firstname")), "%" + query.toLowerCase() + "%"),
+                      criteriaBuilder.like(criteriaBuilder.lower(root.get("author").get("lastname")), "%" + query.toLowerCase() + "%")
+              )
+      );
+  }
+     
     long countByCategory(Category category);
 
     long countByPriority(Priority priority);

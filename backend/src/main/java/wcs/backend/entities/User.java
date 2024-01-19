@@ -48,16 +48,16 @@ public class User implements UserDetails {
   @JoinColumn(name = "media_id", nullable = true)
   private Media media;
 
-  // suppression d'un utilisateur entraîne également la suppression des tickets associés, et donc le lien dans la table de liaison TicketHaveUsers
-  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
-  private List<TicketHaveUsers> ticketHaveUsers;
-
   @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
   private List<Chat> chats;
 
   @ManyToOne
   @JoinColumn(name = "address_id", nullable = true, updatable = true)
   private Address address;
+
+  @ManyToMany(mappedBy = "developers")
+  private List<Ticket> tickets = new ArrayList<>();
+  
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

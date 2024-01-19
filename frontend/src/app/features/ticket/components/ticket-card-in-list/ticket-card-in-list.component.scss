@@ -24,6 +24,9 @@
     flex-wrap: wrap;
     width: 100%; 
   }
+  @include mobile {
+    font-size: 13px;
+  }
 }
 
 .date,
@@ -43,7 +46,9 @@
     width: fit-content;
     margin: 0 10px;
   }
-
+  @include mobile {
+    font-size: 13px;
+  }
   overflow: hidden;
   text-overflow: hidden;
   text-align: center;
@@ -54,6 +59,9 @@
   display: none;
   @include mobiletablet {
     display: inline;
+  }
+  @include mobile {
+    font-size: 13px;
   }
 }
 .separator {

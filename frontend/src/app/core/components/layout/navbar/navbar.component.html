@@ -1,0 +1,41 @@
+<!-- navbar desktop-->
+
+<nav class="navbar">
+  <div class="logo">
+    <img routerLink="/ " src="{{ logo }}" alt="Logo">
+  </div>
+  <ul #navigationList class="links">
+    <ng-container *ngFor="let item of items; let i = index">
+      <li routerLinkActive="active" [routerLink]="item.routerLink" (click)="moveDivToPosition(i, $event)">
+        <a>
+          <i [class]="item.iconClass"></i>
+        </a>
+      </li>
+    </ng-container>
+    <div #liBg class="liBg"></div>
+  </ul>
+  
+  
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="toggleSidebarUserProfil()">Voir son profil</button>
+    <button mat-menu-item (click)="logout()">Se déconnecter</button>
+  </mat-menu>
+
+  <app-avatar class="from-navbar" *ngIf="userConnected" [user]="userConnected" [matMenuTriggerFor]="menu" ></app-avatar>
+ 
+  <p class="corporation">Alayde INC ©</p>
+</nav>
+
+<!-- navbar mobile-->
+<nav class="navbar-mobile">
+  <ul #navigationList class="links-mobile">
+    <ng-container *ngFor="let item of items; let i = index">
+      <li routerLinkActive="active" [routerLink]="item.routerLink" (click)="($event)">
+        <a>
+          <i [class]="item.iconClass"></i>
+        </a>
+      </li>
+    </ng-container>
+  </ul>
+  
+</nav>

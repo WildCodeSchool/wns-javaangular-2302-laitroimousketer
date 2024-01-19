@@ -1,0 +1,73 @@
+@import 'src/assets/scss/template.scss';
+
+.details {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.details-profil {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.firstname,
+.firstname {
+  font-size: 40px;
+  @include mobile {
+    font-size: 28px;
+  }
+}
+
+.show-more {
+  margin-left: 6px;
+  color: $secondaryColor;
+  text-decoration: underline;
+  i {
+    color:$secondaryColor;
+  }
+}
+.lastname {
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.title-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.buttons-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 500;
+  color: black;
+}
+.contact-c {
+margin-bottom: 20px;
+}
+.not-info {
+  margin-bottom: 0;
+}
+.user-tickets {
+  display: grid;
+  grid-template-columns: repeat(auto, 1fr);
+  gap: 10px;
+}
+.mail,.phone {
+  a {
+    text-decoration: none;
+    color: $blueColor;
+  }
+}

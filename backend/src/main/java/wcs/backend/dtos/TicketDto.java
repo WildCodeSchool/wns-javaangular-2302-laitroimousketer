@@ -22,9 +22,7 @@ public class TicketDto {
     private Date creationDate;
     private Date updateDate;
     private Date archiveDate;
-    private List<TicketHaveUsersDto> ticketHaveUsers;
-
+    private List<UserReadDto> developers;
     // Informations sur l'auteur
     private UserReadDto author;
-
 }

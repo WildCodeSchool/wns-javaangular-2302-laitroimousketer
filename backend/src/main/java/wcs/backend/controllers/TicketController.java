@@ -30,12 +30,18 @@ public class TicketController {
       @RequestParam(name = "category", required = false) String categoryTitle,
       @RequestParam(name = "userId", required = false) Long userId,
       @RequestParam(name = "id", required = false) Long id,
+      @RequestParam(required = false) String query,
       @RequestParam(name = "count", required = false, defaultValue = "false") boolean count) {
 
     if (count) {
       long countValue = ticketService.countFilteredTickets(id, statusTitle, priorityTitle, categoryTitle, userId);
       return ResponseEntity.ok(countValue);
-    } else {
+    } 
+    if (query != null) {
+      List<TicketDto> ticketDtos = ticketService.getTicketsByQuery(query);
+      return ResponseEntity.ok(ticketDtos);
+    }
+    else {
       Specification<Ticket> spec = ticketService.buildSpecificationForFilter(id, statusTitle, priorityTitle,
           categoryTitle, userId);
       List<TicketDto> ticketDtos = ticketService.getFilteredTickets(id, statusTitle, priorityTitle, categoryTitle,

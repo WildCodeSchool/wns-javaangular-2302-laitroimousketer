@@ -18,7 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("firstname")), "%" + query.toLowerCase() + "%"),
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("lastname")), "%" + query.toLowerCase() + "%"),
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), "%" + query.toLowerCase() + "%"),
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("id").get("id")), "%" + query.toLowerCase() + "%")
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("id").get("id")), "%" + query.toLowerCase() + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("role").get("roleTitle")), "%" + query.toLowerCase() + "%")
                 )
         );
     }

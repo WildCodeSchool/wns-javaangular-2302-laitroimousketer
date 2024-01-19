@@ -127,12 +127,13 @@ public class UserService {
     return modelMapper.map(user, UserReadDto.class);
   }
 
-  public List<UserDto> getUsersByRoleTitle(String role) {
+  public List<UserReadDto> getUsersByRoleTitle(String role) {
     List<User> users = userRepository.findByRoleTitle(role);
     return users.stream()
-        .map(user -> modelMapper.map(user, UserDto.class))
+        .map(user -> modelMapper.map(user, UserReadDto.class))
         .collect(Collectors.toList());
-  }
+}
+
 
 // DELETE
 @Transactional
