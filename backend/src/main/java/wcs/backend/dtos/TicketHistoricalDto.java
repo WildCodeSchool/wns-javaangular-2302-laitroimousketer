@@ -1,7 +1,6 @@
 package wcs.backend.dtos;
 
 import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,14 +10,12 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class GlobalHistoricalDto {
-
+public class TicketHistoricalDto {
   private Long id;
-  private Long ticketId;
+  private Long  ticketId;
+  private String authorName;
   private String ticketTitle;
   private String action;
-  private String userName;
   private LocalDateTime timestamp;
   private boolean isRead;
 

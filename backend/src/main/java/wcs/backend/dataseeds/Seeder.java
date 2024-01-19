@@ -12,8 +12,8 @@ import jakarta.transaction.Transactional;
 public class Seeder implements CommandLineRunner {
   // inject below the dependencies needed, i.e. class containing seed datas and
   // then add each corresponding resetData() method in run ();
-  @PersistenceContext
-  private EntityManager entityManager;
+ @PersistenceContext
+private EntityManager entityManager;
 
   @Autowired
   private RoleDataseed roleDataseed;
@@ -47,7 +47,6 @@ public class Seeder implements CommandLineRunner {
   }
 
   private void loadEntities() {
-    // Chargez chaque entité une par une, par exemple :
     entityManager.createQuery("SELECT r FROM Role r").getResultList();
     entityManager.createQuery("SELECT a FROM Address a").getResultList();
     entityManager.createQuery("SELECT u FROM User u").getResultList();

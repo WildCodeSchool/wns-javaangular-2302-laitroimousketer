@@ -1,30 +1,70 @@
-// package wcs.backend.services;
+package wcs.backend.services;
 
-// import org.modelmapper.ModelMapper;
-// import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-// import lombok.NoArgsConstructor;
-// import wcs.backend.dtos.GlobalHistoricalDto;
-// import wcs.backend.entities.GlobalHistorical;
-// import wcs.backend.repositories.GlobalHistoricalRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
-// @Service
-// @NoArgsConstructor
-// public class GlobalHistoricalService {
+import lombok.AllArgsConstructor;
+import wcs.backend.dtos.GlobalHistoricalDto;
+import wcs.backend.entities.GlobalHistorical;
+import wcs.backend.repositories.GlobalHistoricalRepository;
 
-//     private GlobalHistoricalRepository globalHistoricalRepository;
-//     private ModelMapper modelMapper;
+@Service
+@AllArgsConstructor
+public class GlobalHistoricalService {
 
-//     public GlobalHistoricalService(GlobalHistoricalRepository globalHistoricalRepository, ModelMapper modelMapper) {
-//         this.globalHistoricalRepository = globalHistoricalRepository;
-//         this.modelMapper = modelMapper;
-//     }
+  private GlobalHistoricalRepository globalHistoricalRepository;
+  private ModelMapper modelMapper;
 
-//     public void addEntry(GlobalHistoricalDto globalHistoricalDto) {
-//         GlobalHistorical globalHistorical = modelMapper.map(globalHistoricalDto, GlobalHistorical.class);
-//         globalHistoricalRepository.save(globalHistorical);
-//     }
+  public List<GlobalHistoricalDto> getAllGlobalHistoricals() {
+    List<GlobalHistorical> globalHistoricals = globalHistoricalRepository.findAll();
+    return globalHistoricals.stream()
+        .map(globalHistorical -> modelMapper.map(globalHistorical, GlobalHistoricalDto.class))
+        .collect(Collectors.toList());
+  }
 
-//     // Ajoutez d'autres méthodes nécessaires selon vos besoins
+  public GlobalHistoricalDto getGlobalHistoricalById(Long id) {
+    Optional<GlobalHistorical> optionalGlobalHistorical = globalHistoricalRepository.findById(id);
 
-// }
+    if (optionalGlobalHistorical.isPresent()) {
+      GlobalHistorical globalHistorical = optionalGlobalHistorical.get();
+      return modelMapper.map(globalHistorical, GlobalHistoricalDto.class);
+    } else {
+      throw new RuntimeException("GlobalHistorical not found with id: " + id);
+    }
+  }
+
+  public void addEntry(GlobalHistoricalDto globalHistoricalDto) {
+    GlobalHistorical globalHistorical = modelMapper.map(globalHistoricalDto, GlobalHistorical.class);
+    globalHistoricalRepository.save(globalHistorical);
+
+    // Vérifiez si le nombre d'entrées dépasse 50
+    long count = globalHistoricalRepository.count();
+    if (count >= 50) {
+      // Supprimez le plus ancien tout en gardant les 50 plus récents
+      List<GlobalHistorical> oldestEntries = globalHistoricalRepository.findOldestEntries();
+      if (!oldestEntries.isEmpty()) {
+        globalHistoricalRepository.delete(oldestEntries.get(0));
+      }
+    }
+  }
+
+  public void updateIsReadStatus(Long id, boolean isRead) {
+    // Vérifiez si l'entrée GlobalHistorical existe
+    Optional<GlobalHistorical> optionalGlobalHistorical = globalHistoricalRepository.findById(id);
+
+    if (optionalGlobalHistorical.isPresent()) {
+      GlobalHistorical globalHistorical = optionalGlobalHistorical.get();
+      // Mettez à jour le champ isRead
+      globalHistorical.setRead(isRead);
+      // Enregistrez la mise à jour
+      globalHistoricalRepository.save(globalHistorical);
+    } else {
+      throw new RuntimeException("GlobalHistorical not found with id: " + id);
+    }
+  }
+
+}

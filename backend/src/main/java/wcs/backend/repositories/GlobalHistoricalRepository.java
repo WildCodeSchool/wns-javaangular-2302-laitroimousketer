@@ -1,8 +1,14 @@
-// package wcs.backend.repositories;
+package wcs.backend.repositories;
 
-// import org.springframework.data.jpa.repository.JpaRepository;
-// import wcs.backend.entities.GlobalHistorical;
+import java.util.List;
 
-// public interface GlobalHistoricalRepository extends JpaRepository<GlobalHistorical, Long> {
-//     // Ajoutez des méthodes spécifiques au besoin
-// }
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import wcs.backend.entities.GlobalHistorical;
+
+public interface GlobalHistoricalRepository extends JpaRepository<GlobalHistorical, Long> {
+    // Ajoutez des méthodes spécifiques au besoin
+    @Query("SELECT gh FROM GlobalHistorical gh ORDER BY gh.timestamp ASC")
+    List<GlobalHistorical> findOldestEntries();
+}

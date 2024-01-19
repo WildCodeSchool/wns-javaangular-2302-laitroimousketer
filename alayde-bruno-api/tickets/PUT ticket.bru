@@ -5,28 +5,14 @@ meta {
 }
 
 put {
-  url: http://localhost:8080/api/tickets/2
+  url: {{ip}}tickets/3
   body: json
   auth: none
 }
 
 body:json {
   {
-    "developers": [
-      {
-        "id": 2,
-        "firstname": "Grohl",
-        "lastname": "Dave",
-        "email": "dev@wcs.com",
-        "phone": null,
-        "role": {
-          "id": 2,
-          "roleTitle": "Développeur"
-        },
-        "address": null,
-        "media": null
-      }
-    ]
+    "ticketTitle": "qui modif3"
   }
   
 }
