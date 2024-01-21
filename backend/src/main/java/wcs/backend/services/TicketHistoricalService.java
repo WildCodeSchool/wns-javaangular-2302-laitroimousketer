@@ -37,22 +37,36 @@ public class TicketHistoricalService {
     }
   }
 
+  public List<TicketHistoricalDto> getTicketHistoricalsByTicketId(Long ticketId) {
+    List<TicketHistorical> ticketHistoricals = ticketHistoricalRepository.findByTicketId(ticketId);
+    return ticketHistoricals.stream()
+            .map(ticketHistorical -> modelMapper.map(ticketHistorical, TicketHistoricalDto.class))
+            .collect(Collectors.toList());
+}
+
+public List<TicketHistoricalDto> getTicketHistoricalsByUserId(Long userId) {
+    List<TicketHistorical> ticketHistoricals = ticketHistoricalRepository.findByUserId(userId);
+    return ticketHistoricals.stream()
+            .map(ticketHistorical -> modelMapper.map(ticketHistorical, TicketHistoricalDto.class))
+            .collect(Collectors.toList());
+}
+
   public void addEntry(TicketHistoricalDto ticketHistoricalDto) {
     TicketHistorical ticketHistorical = modelMapper.map(ticketHistoricalDto, TicketHistorical.class);
     ticketHistoricalRepository.save(ticketHistorical);
 
-    // Vérifiez si le nombre d'entrées dépasse 50
-    long count = ticketHistoricalRepository.count();
+    // Vérifiez si le nombre d'entrées dépasse 20 pour un utilisateur
+    long count = ticketHistoricalRepository.countByUserId(ticketHistoricalDto.getUserId());
     if (count >= 20) {
-        // Supprimez le plus ancien tout en gardant les 50 plus récents
-        // Passer l'ID du ticket comme argument à findOldestEntriesByTicketId
-        List<TicketHistorical> oldestEntries = ticketHistoricalRepository.findOldestEntriesByTicketId(ticketHistoricalDto.getTicketId());
-        if (!oldestEntries.isEmpty()) {
-            ticketHistoricalRepository.delete(oldestEntries.get(0));
-        }
+      // Supprimez le plus ancien tout en gardant les 50 plus récents
+      // Passer l'ID du ticket comme argument à findOldestEntriesByTicketId
+      List<TicketHistorical> oldestEntries = ticketHistoricalRepository
+          .findOldestEntriesByTicketId(ticketHistoricalDto.getTicketId());
+      if (!oldestEntries.isEmpty()) {
+        ticketHistoricalRepository.delete(oldestEntries.get(0));
+      }
     }
-}
-
+  }
 
   public void updateIsReadStatus(Long id, boolean isRead) {
     // Vérifiez si l'entrée TicketHistorical existe

@@ -18,8 +18,6 @@ import lombok.AllArgsConstructor;
 import wcs.backend.dtos.UserHistoricalDto;
 import wcs.backend.services.UserHistoricalService;
 
-
-
 @AllArgsConstructor
 @RestController
 @CrossOrigin(origins = "*")
@@ -28,27 +26,36 @@ import wcs.backend.services.UserHistoricalService;
 public class UserHistoricalController {
   private final UserHistoricalService userHistoricalService;
 
-    // Endpoint pour récupérer tous les userHistoricals
-    @GetMapping
-    @Operation (summary = "Get UserHistoricals", description = "Get a list of userHistoricals.")
-    public ResponseEntity<List<UserHistoricalDto>> getAlluserHistoricals() {
-        List<UserHistoricalDto> userHistoricals = userHistoricalService.getAllUserHistoricals();
-        return new ResponseEntity<>(userHistoricals, HttpStatus.OK);
+  // Endpoint pour récupérer tous les userHistoricals
+  @GetMapping
+  @Operation(summary = "Get UserHistoricals", description = "Get a list of userHistoricals or perform filtering based on query with userId")
+  public ResponseEntity<List<UserHistoricalDto>> getAlluserHistoricals(
+      @RequestParam(name = "ticketId", required = false) Long ticketId,
+      @RequestParam(name = "userId", required = false) Long userId) {
+    List<UserHistoricalDto> userHistoricals;
+    if (ticketId != null) {
+      userHistoricals = userHistoricalService.getUserHistoricalsByTicketId(userId);
+    } else if (userId != null) {
+      userHistoricals = userHistoricalService.getUserHistoricalsByUserId(userId);
+    } else {
+      userHistoricals = userHistoricalService.getAllUserHistoricals();
     }
+    return new ResponseEntity<>(userHistoricals, HttpStatus.OK);
+  }
 
-    // Endpoint pour récupérer un userHistorical par son ID
-    @GetMapping("{id}")
-    @Operation (summary = "Get UserHistorical by ID", description = "Get userHistorical details by its ID.")
-    public ResponseEntity<UserHistoricalDto> getuserHistoricalById(@PathVariable Long id) {
-        UserHistoricalDto userHistorical = userHistoricalService.getUserHistoricalById(id);
-        return new ResponseEntity<>(userHistorical, HttpStatus.OK);
-    }
+  // Endpoint pour récupérer un userHistorical par son ID
+  @GetMapping("{id}")
+  @Operation(summary = "Get UserHistorical by ID", description = "Get userHistorical details by its ID.")
+  public ResponseEntity<UserHistoricalDto> getuserHistoricalById(@PathVariable Long id) {
+    UserHistoricalDto userHistorical = userHistoricalService.getUserHistoricalById(id);
+    return new ResponseEntity<>(userHistorical, HttpStatus.OK);
+  }
 
-    // Endpoint pour mettre à jour le statut isRead d'un userHistorical
-    @PutMapping("{id}")
-    @Operation (summary = "Update UserHistorical isRead status", description = "Update userHistorical isRead status by its ID.")
-    public ResponseEntity<Void> updateIsReadStatus(@PathVariable Long id, @RequestParam boolean isRead) {
-        userHistoricalService.updateIsReadStatus(id, isRead);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+  // Endpoint pour mettre à jour le statut isRead d'un userHistorical
+  @PutMapping("{id}")
+  @Operation(summary = "Update UserHistorical isRead status", description = "Update userHistorical isRead status by its ID.")
+  public ResponseEntity<Void> updateIsReadStatus(@PathVariable Long id, @RequestParam boolean isRead) {
+    userHistoricalService.updateIsReadStatus(id, isRead);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
 }

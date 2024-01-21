@@ -25,7 +25,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { ChatRowComponent } from './components/common/chat-row/chat-row.component';
 import { ImagePopUpComponent } from './components/common/image-pop-up/image-pop-up.component';
 import { UserCardComponent } from './components/users/user-card/user-card.component';
-import { CountUpModule } from 'ngx-countup';
 
 @NgModule({
   declarations: [
@@ -43,7 +42,7 @@ import { CountUpModule } from 'ngx-countup';
     ChatRowComponent,
     ImagePopUpComponent,
     UserCardComponent,
- 
+
   ],
   imports: [
     CommonModule,
@@ -59,7 +58,7 @@ import { CountUpModule } from 'ngx-countup';
     LeafletModule,
     MatAutocompleteModule,
     MatSelectModule,
- 
+
 
 
   ],
@@ -78,7 +77,7 @@ import { CountUpModule } from 'ngx-countup';
     TicketCardComponent,
     UserProfilComponent,
     UserCardComponent,
- 
+
   ],
   providers: [],
 })

@@ -1,9 +1,9 @@
 package wcs.backend.services;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
-import wcs.backend.dtos.GlobalHistoricalDto;
 import wcs.backend.dtos.TicketDto;
-import wcs.backend.dtos.TicketHistoricalDto;
-import wcs.backend.dtos.UserHistoricalDto;
 import wcs.backend.dtos.UserReadDto;
 import wcs.backend.entities.Category;
 import wcs.backend.entities.Priority;
@@ -46,11 +43,8 @@ public class TicketService {
   @Autowired
   private UserRepository userRepository;
   @Autowired
-  private GlobalHistoricalService globalHistoricalService;
-  @Autowired
-  private UserHistoricalService userHistoricalService;
-  @Autowired
-  private TicketHistoricalService ticketHistoricalService;
+  private HistoricalEntryService historicalEntryService;
+
   @Autowired
   private ModelMapper modelMapper;
 
@@ -83,133 +77,107 @@ public class TicketService {
     ticket.setStatus(statusRepository.findById(ticketDto.getStatus().getId()).orElse(null));
     ticket.setCreationDate(new Date());
     ticket = ticketRepository.save(ticket);
-    // Créez l'entrée GlobalHistorical après la création du ticket
-    GlobalHistoricalDto globalHistoricalDto = new GlobalHistoricalDto();
-    globalHistoricalDto.setTicketId(ticket.getId());
-    globalHistoricalDto.setTicketTitle(ticket.getTicketTitle());
-    globalHistoricalDto.setAction("Création du ticket");
-    globalHistoricalDto.setUserName(ticketDto.getAuthor().getFirstname() + " " + ticketDto.getAuthor().getLastname());
-    globalHistoricalDto.setTimestamp(LocalDateTime.now());
-    globalHistoricalDto.setRead(false);
-    globalHistoricalService.addEntry(globalHistoricalDto);
-
-    // Créez l'entrée UserHistorical après la création du ticket
-    UserHistoricalDto userHistoricalDto = new UserHistoricalDto();
-    userHistoricalDto.setTicketId(ticket.getId());
-    userHistoricalDto.setTicketTitle(ticket.getTicketTitle());
-    userHistoricalDto.setAction("Création du ticket");
-    userHistoricalDto.setUserId(ticketDto.getAuthor().getId());
-    userHistoricalDto.setFirstname(ticketDto.getAuthor().getFirstname());
-    userHistoricalDto.setLastname(ticketDto.getAuthor().getLastname());
-    userHistoricalDto.setTimestamp(LocalDateTime.now());
-    userHistoricalDto.setRead(false); 
-    userHistoricalService.addEntry(userHistoricalDto);
-
-    // Créez l'entrée TicketHistorical après la création du ticket
-    TicketHistoricalDto ticketHistoricalDto = new TicketHistoricalDto();
-    ticketHistoricalDto.setTicketId(ticket.getId());
-    ticketHistoricalDto.setTicketTitle(ticket.getTicketTitle());
-    ticketHistoricalDto.setAction("Création du ticket");
-    ticketHistoricalDto.setAuthorName(ticketDto.getAuthor().getFirstname() + " " + ticketDto.getAuthor().getLastname());
-    ticketHistoricalDto.setTimestamp(LocalDateTime.now());
-    ticketHistoricalDto.setRead(false);
-    ticketHistoricalService.addEntry(ticketHistoricalDto);
+        // Récupérez l'ID du ticket après l'enregistrement
+        Long ticketId = ticket.getId();
+    // Determinez l'action (création dans ce cas)
+    String action = "Création";
+    // Créer les entrées historiques après la mise à jour du ticket
+    historicalEntryService.createTicketHistoricalEntries(ticketDto, action, ticketId);
     return modelMapper.map(ticket, TicketDto.class);
   }
 
-  // UPDATE//
-  public TicketDto updateTicket(Long id, TicketDto ticketDto) {
-    Ticket existingTicket = ticketRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
-    if (ticketDto.getTicketTitle() != null) {
+// UPDATE//
+public TicketDto updateTicket(Long id, TicketDto ticketDto) {
+  Ticket existingTicket = ticketRepository.findById(id)
+          .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
+  
+  // Determine the action (modification in this case)
+  List<String> modifications = new ArrayList<>();
+
+  // Copy non-null fields manually from TicketDto to existing Ticket
+  if (ticketDto.getTicketTitle() != null) {
       existingTicket.setTicketTitle(ticketDto.getTicketTitle());
-    }
-    if (ticketDto.getDescription() != null) {
-      existingTicket.setDescription(ticketDto.getDescription());
-    }
-    if (ticketDto.getCategory() != null) {
-      existingTicket.setCategory(categoryRepository.findById(ticketDto.getCategory().getId())
-          .orElseThrow(() -> new EntityNotFoundException("Category not found")));
-    }
-    if (ticketDto.getStatus() != null) {
-      existingTicket.setStatus(statusRepository.findById(ticketDto.getStatus().getId())
-          .orElseThrow(() -> new EntityNotFoundException("Status not found")));
-    }
-    if (ticketDto.getPriority() != null) {
-      existingTicket.setPriority(priorityRepository.findById(ticketDto.getPriority().getId())
-          .orElseThrow(() -> new EntityNotFoundException("Priority not found")));
-    }
-    // Update developers in the ticket directly
-    if (ticketDto.getDevelopers() != null) {
-      List<User> updatedDevelopers = userRepository.findAllById(
-          ticketDto.getDevelopers().stream().map(UserReadDto::getId).collect(Collectors.toList()));
-      existingTicket.setDevelopers(updatedDevelopers);
-    } else {
-      existingTicket.getDevelopers().clear();
-    }
-    // Set or clear the archiveDate
-    existingTicket.setArchiveDate(ticketDto.getArchiveDate());
-    // Set the updateDate after manual copying
-    ticketDto.setUpdateDate(new Date());
-    existingTicket.setUpdateDate(ticketDto.getUpdateDate());
-
-    // Save the updated Ticket
-    Ticket savedTicket = ticketRepository.save(existingTicket);
-    // Use ModelMapper for DTO conversion
-    TicketDto updatedTicketDto = modelMapper.map(savedTicket, TicketDto.class);
-    GlobalHistoricalDto globalHistoricalDto = new GlobalHistoricalDto();
-    globalHistoricalDto.setTicketId(existingTicket.getId());
-    globalHistoricalDto.setTicketTitle(existingTicket.getTicketTitle());
-    globalHistoricalDto.setAction("Mise à jour du ticket");
-    globalHistoricalDto.setUserName(existingTicket.getAuthor().getFirstname() + " " + existingTicket.getAuthor().getLastname());
-    globalHistoricalDto.setTimestamp(LocalDateTime.now());
-    globalHistoricalDto.setRead(false);
-    globalHistoricalService.addEntry(globalHistoricalDto);
-    // Créez l'entrée UserHistorical après la mise à jour du ticket
-    UserHistoricalDto userHistoricalDto = new UserHistoricalDto();
-    userHistoricalDto.setTicketId(existingTicket.getId());
-    userHistoricalDto.setTicketTitle(existingTicket.getTicketTitle());
-    userHistoricalDto.setAction("Mise à jour du ticket");
-    userHistoricalDto.setUserId(existingTicket.getAuthor().getId());
-    userHistoricalDto.setFirstname(existingTicket.getAuthor().getFirstname());
-    userHistoricalDto.setLastname(existingTicket.getAuthor().getLastname());
-    userHistoricalDto.setTimestamp(LocalDateTime.now());
-    userHistoricalDto.setRead(false);
-    userHistoricalService.addEntry(userHistoricalDto);
-    // Créez l'entrée TicketHistorical après la mise à jour du ticket
-    TicketHistoricalDto ticketHistoricalDto = new TicketHistoricalDto();
-    ticketHistoricalDto.setTicketId(existingTicket.getId());
-    ticketHistoricalDto.setTicketTitle(existingTicket.getTicketTitle());
-    ticketHistoricalDto.setAction("Mise à jour du ticket");
-    ticketHistoricalDto.setAuthorName(existingTicket.getAuthor().getFirstname() + " " + existingTicket.getAuthor().getLastname());
-    ticketHistoricalDto.setTimestamp(LocalDateTime.now());
-    ticketHistoricalDto.setRead(false);
-    ticketHistoricalService.addEntry(ticketHistoricalDto);
-
-    return updatedTicketDto;
+      modifications.add("Titre");
   }
 
-// DELETE//
-public void deleteTicket(Long id) {
-  Ticket existingTicket = ticketRepository.findById(id)
-      .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
+  if (ticketDto.getDescription() != null) {
+      existingTicket.setDescription(ticketDto.getDescription());
+      modifications.add("Description");
+  }
 
-  // Créez l'entrée GlobalHistorical avant la suppression du ticket
-  GlobalHistoricalDto globalHistoricalDto = new GlobalHistoricalDto();
-  globalHistoricalDto.setTicketId(existingTicket.getId());
-  globalHistoricalDto.setTicketTitle(existingTicket.getTicketTitle());
-  globalHistoricalDto.setAction("Suppression du ticket");
-  globalHistoricalDto.setUserName(existingTicket.getAuthor().getFirstname() + " "
-      + existingTicket.getAuthor().getLastname());
-  globalHistoricalDto.setTimestamp(LocalDateTime.now());
-  globalHistoricalDto.setRead(false);
+  // Check if ticketDto.getCategory() is not null before updating the existingTicket
+  if (ticketDto.getCategory() != null) {
+      modifications.add("Catégorie");
+      existingTicket.setCategory(categoryRepository.findById(ticketDto.getCategory().getId())
+              .orElseThrow(() -> new EntityNotFoundException("Category not found")));
+  }
 
-  globalHistoricalService.addEntry(globalHistoricalDto);
+  // Check if ticketDto.getStatus() is not null before updating the existingTicket
+  if (ticketDto.getStatus() != null) {
+      modifications.add("Statut");
+      existingTicket.setStatus(statusRepository.findById(ticketDto.getStatus().getId())
+              .orElseThrow(() -> new EntityNotFoundException("Status not found")));
+  }
 
-  // Supprimez le ticket après avoir créé l'entrée GlobalHistorical
-  ticketRepository.delete(existingTicket);
+  // Check if ticketDto.getPriority() is not null before updating the existingTicket
+  if (ticketDto.getPriority() != null) {
+      modifications.add("Priorité");
+      existingTicket.setPriority(priorityRepository.findById(ticketDto.getPriority().getId())
+              .orElseThrow(() -> new EntityNotFoundException("Priority not found")));
+  }
+
+  // Update developers in the ticket directly
+  if (ticketDto.getDevelopers() != null) {
+      List<User> updatedDevelopers = userRepository.findAllById(
+        ticketDto.getDevelopers().stream().map(UserReadDto::getId).collect(Collectors.toList()));
+        modifications.add("Développeurs");
+      existingTicket.setDevelopers(updatedDevelopers);
+  } else {
+      existingTicket.getDevelopers().clear();
+  }
+
+  // Set or clear the archiveDate
+  if (ticketDto.getArchiveDate() != null) {
+      modifications.add("Ticket archivé");
+  }
+  existingTicket.setArchiveDate(ticketDto.getArchiveDate());
+
+  // Set the updateDate after manual copying
+  existingTicket.setUpdateDate(new Date());
+
+  // Save the updated Ticket
+  Ticket savedTicket = ticketRepository.save(existingTicket);
+
+  // Use ModelMapper for DTO conversion
+  TicketDto updatedTicketDto = modelMapper.map(savedTicket, TicketDto.class);
+
+  // Create historical entries after updating the ticket
+  String modificationDetails = "Modification - " + String.join(" - ", modifications);
+  historicalEntryService.createTicketHistoricalEntries(updatedTicketDto, modificationDetails, id);
+
+  return updatedTicketDto;
 }
 
+
+
+
+  // DELETE//
+  public void deleteTicket(Long id) {
+    Ticket existingTicket = ticketRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Ticket not found with id: " + id));
+    
+    // Convertir l'objet existingTicket en TicketDto
+    TicketDto ticketDto = modelMapper.map(existingTicket, TicketDto.class);
+
+    // Determinez l'action (suppression dans ce cas)
+    String action = "Suppression";
+
+    // Créer les entrées historiques après la suppression du ticket
+    historicalEntryService.createTicketHistoricalEntries(ticketDto, action, id);
+
+    // Supprimez le ticket après avoir créé les entrées historiques
+    ticketRepository.delete(existingTicket);
+}
 
   // FILTERS //
   public List<TicketDto> getFilteredTickets(Long id, String statusTitle, String priorityTitle, String categoryTitle,

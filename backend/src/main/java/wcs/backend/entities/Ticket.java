@@ -64,8 +64,6 @@ public class Ticket {
       inverseJoinColumns = @JoinColumn(name = "developer_id")
   )
   private List<User> developers = new ArrayList<>();
-  
-
 
   public Ticket() {
   }

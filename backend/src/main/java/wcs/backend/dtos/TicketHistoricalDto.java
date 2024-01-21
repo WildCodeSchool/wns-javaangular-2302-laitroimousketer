@@ -13,7 +13,8 @@ import lombok.Setter;
 public class TicketHistoricalDto {
   private Long id;
   private Long  ticketId;
-  private String authorName;
+  private Long userId;
+  private String userName;
   private String ticketTitle;
   private String action;
   private LocalDateTime timestamp;

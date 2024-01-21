@@ -27,11 +27,22 @@ public class GlobalHistoricalController {
 
     // Endpoint pour récupérer tous les GlobalHistoricals
     @GetMapping
-    public ResponseEntity<List<GlobalHistoricalDto>> getAllGlobalHistoricals() {
-        List<GlobalHistoricalDto> globalHistoricals = globalHistoricalService.getAllGlobalHistoricals();
+    public ResponseEntity<List<GlobalHistoricalDto>> getAllGlobalHistoricals(
+            @RequestParam(name = "ticketId", required = false) Long ticketId,
+            @RequestParam(name = "userId", required = false) Long userId
+    ) {
+        List<GlobalHistoricalDto> globalHistoricals;
+
+        if (ticketId != null) {
+            globalHistoricals = globalHistoricalService.getGlobalHistoricalsByTicketId(ticketId);
+        } else if (userId != null) {
+            globalHistoricals = globalHistoricalService.getGlobalHistoricalsByUserId(userId);
+        } else {
+            globalHistoricals = globalHistoricalService.getAllGlobalHistoricals();
+        }
+
         return new ResponseEntity<>(globalHistoricals, HttpStatus.OK);
     }
-
     // Endpoint pour récupérer un GlobalHistorical par son ID
     @GetMapping("{id}")
     public ResponseEntity<GlobalHistoricalDto> getGlobalHistoricalById(@PathVariable Long id) {

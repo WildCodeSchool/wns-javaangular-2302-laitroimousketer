@@ -13,6 +13,7 @@ import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component'
 import { User } from 'src/app/core/models/user.model';
 import { UserService } from 'src/app/core/services/user.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
   selector: 'app-ticket-details',
@@ -71,6 +72,7 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
     private userService: UserService,
     private store: Store<Reducer.StateDataStore>,
     private fb: FormBuilder,
+    private alertService: AlertService,
   ) {
     super();
   }
@@ -103,6 +105,8 @@ saveFollowUp() {
     this.ticketService.update(updatedTicket).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.isAddingDeveloper = false;
       this.ticket = updatedTicket as Ticket;
+      this.alertService.showSuccessAlert(`Développeur assigné au ticket numéro ${this.ticket.id} avec succès`);
+      this.checkIfUserCanChat();// Vérifier si l'utilisateur peut chatter après l'ajout du développeur
     });
   }
 }

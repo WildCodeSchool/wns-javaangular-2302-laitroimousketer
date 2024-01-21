@@ -18,6 +18,5 @@ public class UserHistoricalDto {
   private String action;
   private LocalDateTime timestamp;
   private boolean isRead;
-  private String firstname;
-  private String lastname;
+  private String userName;
 }

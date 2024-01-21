@@ -26,27 +26,37 @@ import wcs.backend.services.TicketHistoricalService;
 public class TicketHistoricalController {
   private final TicketHistoricalService ticketHistoricalService;
 
-    // Endpoint pour récupérer tous les TicketHistoricals
-    @GetMapping
-    @Operation(summary = "Get TicketHistoricals", description = "Get a list of ticketHistoricals.")
-    public ResponseEntity<List<TicketHistoricalDto>> getAllTicketHistoricals() {
-        List<TicketHistoricalDto> ticketHistoricals = ticketHistoricalService.getAllTicketHistoricals();
-        return new ResponseEntity<>(ticketHistoricals, HttpStatus.OK);
+  // Endpoint pour récupérer tous les TicketHistoricals
+  @GetMapping
+  @Operation(summary = "Get TicketHistoricals", description = "Get a list of ticketHistoricals or a list of ticketHistoricals by ticketId or userId.")
+  public ResponseEntity<List<TicketHistoricalDto>> getAllTicketHistoricals(
+      @RequestParam(name = "ticketId", required = false) Long ticketId,
+      @RequestParam(name = "userId", required = false) Long userId) {
+    List<TicketHistoricalDto> ticketHistoricals;
+    if (ticketId != null) {
+      ticketHistoricals = ticketHistoricalService.getTicketHistoricalsByTicketId(ticketId);
+    } else if (userId != null) {
+      ticketHistoricals = ticketHistoricalService.getTicketHistoricalsByUserId(userId);
+    } else {
+      ticketHistoricals = ticketHistoricalService.getAllTicketHistoricals();
     }
 
-    // Endpoint pour récupérer un TicketHistorical par son ID
-    @GetMapping("{id}")
-    @Operation(summary = "Get TicketHistorical by ID", description = "Get ticketHistorical details by its ID.")
-    public ResponseEntity<TicketHistoricalDto> getTicketHistoricalById(@PathVariable Long id) {
-        TicketHistoricalDto ticketHistorical = ticketHistoricalService.getTicketHistoricalById(id);
-        return new ResponseEntity<>(ticketHistorical, HttpStatus.OK);
-    }
+    return new ResponseEntity<>(ticketHistoricals, HttpStatus.OK);
+  }
 
-    // Endpoint pour mettre à jour le statut isRead d'un TicketHistorical
-    @PutMapping("{id}")
-    @Operation(summary = "Update TicketHistorical isRead status", description = "Update ticketHistorical isRead status by its ID.")
-    public ResponseEntity<Void> updateIsReadStatus(@PathVariable Long id, @RequestParam boolean isRead) {
-        ticketHistoricalService.updateIsReadStatus(id, isRead);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+  // Endpoint pour récupérer un TicketHistorical par son ID
+  @GetMapping("{id}")
+  @Operation(summary = "Get TicketHistorical by ID", description = "Get ticketHistorical details by its ID.")
+  public ResponseEntity<TicketHistoricalDto> getTicketHistoricalById(@PathVariable Long id) {
+    TicketHistoricalDto ticketHistorical = ticketHistoricalService.getTicketHistoricalById(id);
+    return new ResponseEntity<>(ticketHistorical, HttpStatus.OK);
+  }
+
+  // Endpoint pour mettre à jour le statut isRead d'un TicketHistorical
+  @PutMapping("{id}")
+  @Operation(summary = "Update TicketHistorical isRead status", description = "Update ticketHistorical isRead status by its ID.")
+  public ResponseEntity<Void> updateIsReadStatus(@PathVariable Long id, @RequestParam boolean isRead) {
+    ticketHistoricalService.updateIsReadStatus(id, isRead);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
 }
