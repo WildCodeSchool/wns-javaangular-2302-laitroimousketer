@@ -1,18 +1,17 @@
 meta {
   name: PUT ticket
   type: http
-  seq: 3
+  seq: 4
 }
 
 put {
-  url: {{ip}}tickets/3
+  url: {{ip}}/tickets/4
   body: json
   auth: none
 }
 
 body:json {
   {
-    "ticketTitle": "qui modif3"
+    "description":"cc"
   }
-  
 }

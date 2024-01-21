@@ -23,6 +23,7 @@ public class GlobalHistorical {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long ticketId;
+    private Long userId;
     private String ticketTitle;
     private String action;
     private String userName;

@@ -1,6 +1,6 @@
-<div class="dashboard lg:grid grid-cols-2 gap-20">
+<div class="dashboard lg:grid grid-cols-12 gap-20">
 
-  <div class="widget grid-1 col-span-1 row-span-3">
+  <div class="widget grid-1 col-span-8 row-span-3">
 
     <div class="ticket-number">
       <h2>Nombre de tickets :</h2>
@@ -28,7 +28,7 @@
 
 
   <ng-container class="chart-wrapper" *ngIf="chartIsUpdated">
-    <div class="widget chart-c grid-2 col-span-1">
+    <div class="widget chart-c grid-2 col-span-4">
       <div class="chart">
         <h3>Priorités</h3>
         <canvas baseChart [labels]="labelsPriority" [datasets]="dataPriority" [options]="Options" [legend]="true"
@@ -38,7 +38,7 @@
     </div>
 
 
-    <div class="widget chart-c grid-3 col-span-1">
+    <div class="widget chart-c grid-3 col-span-4">
       <div class="chart">
         <h3>Statuts</h3>
         <canvas baseChart [labels]="labelsStatus" [datasets]="dataStatus" [options]="Options" [legend]="true"
@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <div class="widget chart-c grid-4 col-span-1">
+    <div class="widget chart-c grid-4 col-span-4">
       <div class="chart">
         <h3>Catégories</h3>
         <canvas baseChart [labels]="labelsCategory" [datasets]="dataCategory" [options]="Options" [legend]="true"

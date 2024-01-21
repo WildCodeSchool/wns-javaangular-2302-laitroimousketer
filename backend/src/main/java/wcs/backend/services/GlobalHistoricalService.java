@@ -37,6 +37,20 @@ public class GlobalHistoricalService {
     }
   }
 
+  public List<GlobalHistoricalDto> getGlobalHistoricalsByTicketId(Long ticketId) {
+    List<GlobalHistorical> globalHistoricals = globalHistoricalRepository.findByTicketId(ticketId);
+    return globalHistoricals.stream()
+        .map(globalHistorical -> modelMapper.map(globalHistorical, GlobalHistoricalDto.class))
+        .collect(Collectors.toList());
+  }
+
+  public List<GlobalHistoricalDto> getGlobalHistoricalsByUserId(Long userId) {
+    List<GlobalHistorical> globalHistoricals = globalHistoricalRepository.findByUserId(userId);
+    return globalHistoricals.stream()
+        .map(globalHistorical -> modelMapper.map(globalHistorical, GlobalHistoricalDto.class))
+        .collect(Collectors.toList());
+  }
+
   public void addEntry(GlobalHistoricalDto globalHistoricalDto) {
     GlobalHistorical globalHistorical = modelMapper.map(globalHistoricalDto, GlobalHistorical.class);
     globalHistoricalRepository.save(globalHistorical);

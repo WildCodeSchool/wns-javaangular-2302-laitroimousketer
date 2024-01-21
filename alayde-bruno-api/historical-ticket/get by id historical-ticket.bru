@@ -5,7 +5,12 @@ meta {
 }
 
 get {
-  url: {{ip}}/historical-ticket/10
+  url: {{ip}}/historical-ticket/10?ticketId=20
   body: none
   auth: none
+}
+
+query {
+  ticketId: 20
+  ~userId: 2
 }

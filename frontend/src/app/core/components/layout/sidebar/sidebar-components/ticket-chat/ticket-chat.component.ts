@@ -86,7 +86,7 @@ export class TicketChatComponent extends UnsubcribeComponent implements OnInit {
   
   getChatMessages() {
     this.chatService.getWithQuery(`ticket_id=${this.ticket?.id}`).subscribe((data: any) => {
-      // console.log("data chat with filters", data);
+      console.log("data chat with filters", data);
       this.chat = data;
     });
   }

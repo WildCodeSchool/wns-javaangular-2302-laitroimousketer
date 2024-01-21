@@ -6,8 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,13 +21,10 @@ public class TicketHistorical {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private Long ticketId;
-  private String authorName;
+  private Long userId;
+  private String userName;
   private String ticketTitle;
   private String action;
   private LocalDateTime timestamp;
   private boolean isRead;
-
-  @ManyToOne
-  @JoinColumn(name = "historical_ticket_id")
-  private Ticket ticket;
 }

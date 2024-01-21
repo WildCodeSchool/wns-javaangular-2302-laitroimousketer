@@ -58,8 +58,6 @@ public class User implements UserDetails {
   @ManyToMany(mappedBy = "developers")
   private List<Ticket> tickets = new ArrayList<>();
   
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserHistorical> userHistoricals = new ArrayList<>();
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

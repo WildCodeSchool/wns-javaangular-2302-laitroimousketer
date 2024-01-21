@@ -43,6 +43,7 @@
 
 }
 .prefix {
+  color: $primaryTextColor;
   @include mobile {
     font-size: 13px;
   }

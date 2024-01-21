@@ -6,7 +6,7 @@
   </div>
   <ul #navigationList class="links">
     <ng-container *ngFor="let item of items; let i = index">
-      <li routerLinkActive="active" [routerLink]="item.routerLink" (click)="moveDivToPosition(i, $event)">
+      <li routerLinkActive="active" [routerLink]="item.routerLink" (click)="moveDivToPosition(i, $event); handleItemClick(item)">
         <a>
           <i [class]="item.iconClass"></i>
         </a>
