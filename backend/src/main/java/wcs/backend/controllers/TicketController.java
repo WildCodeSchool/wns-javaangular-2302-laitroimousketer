@@ -71,12 +71,13 @@ public class TicketController {
     TicketDto updatedTicketDto = ticketService.updateTicket(id, ticketDto);
     return ResponseEntity.ok(updatedTicketDto);
   }
-
+  
   @DeleteMapping("{id}")
   @Operation(summary = "Delete Ticket", description = "Delete a ticket by its ID.")
   public ResponseEntity<String> deleteTicketAndAssociations(@PathVariable Long id) {
     ticketService.deleteTicket(id);
     return ResponseEntity.noContent().build();
   }
+
 
 }

@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `alayde`.`address` (
   `street_l2` VARCHAR(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 101
+AUTO_INCREMENT = 51
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -44,33 +44,7 @@ CREATE TABLE IF NOT EXISTS `alayde`.`category` (
   `category_title` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `alayde`.`priority`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`priority` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `priority_title` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 7
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `alayde`.`status`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`status` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `status_title` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -84,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `alayde`.`role` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `UK_ikpaq20ybdpnppqng5bbn188m` (`role_title` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -98,12 +72,18 @@ CREATE TABLE IF NOT EXISTS `alayde`.`user` (
   `firstname` VARCHAR(255) NOT NULL,
   `lastname` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
+  `phone` VARCHAR(255) NULL DEFAULT NULL,
   `address_id` BIGINT NULL DEFAULT NULL,
+  `media_id` BIGINT NULL DEFAULT NULL,
   `role_id` BIGINT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `UK_ob8kqyqqgmefl0aco34akdtpe` (`email` ASC) VISIBLE,
+  UNIQUE INDEX `UK_si1iro9oa394kabk5aob8puem` (`media_id` ASC) VISIBLE,
   INDEX `FKddefmvbrws3hvl5t0hnnsv8ox` (`address_id` ASC) VISIBLE,
   INDEX `FKn82ha3ccdebhokx3a8fgdqeyy` (`role_id` ASC) VISIBLE,
+  CONSTRAINT `FKckl2664alrm10nvld2d1ewa05`
+    FOREIGN KEY (`media_id`)
+    REFERENCES `alayde`.`media` (`id`),
   CONSTRAINT `FKddefmvbrws3hvl5t0hnnsv8ox`
     FOREIGN KEY (`address_id`)
     REFERENCES `alayde`.`address` (`id`),
@@ -111,7 +91,59 @@ CREATE TABLE IF NOT EXISTS `alayde`.`user` (
     FOREIGN KEY (`role_id`)
     REFERENCES `alayde`.`role` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 107
+AUTO_INCREMENT = 54
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `alayde`.`media`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alayde`.`media` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `base64content` VARCHAR(255) NULL DEFAULT NULL,
+  `content_type` VARCHAR(255) NULL DEFAULT NULL,
+  `data` LONGBLOB NULL DEFAULT NULL,
+  `file_name` VARCHAR(255) NULL DEFAULT NULL,
+  `url` VARCHAR(255) NULL DEFAULT NULL,
+  `chat_id` BIGINT NULL DEFAULT NULL,
+  `user_id` BIGINT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `FKpenbfvs2scby0lgdjaxhvchwo` (`chat_id` ASC) VISIBLE,
+  INDEX `FK64mp2rjcwcgqpnu3weakxvwq0` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `FK64mp2rjcwcgqpnu3weakxvwq0`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `alayde`.`user` (`id`),
+  CONSTRAINT `FKpenbfvs2scby0lgdjaxhvchwo`
+    FOREIGN KEY (`chat_id`)
+    REFERENCES `alayde`.`chat` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `alayde`.`priority`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alayde`.`priority` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `priority_title` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `alayde`.`status`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alayde`.`status` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `status_title` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -148,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `alayde`.`ticket` (
     FOREIGN KEY (`author_id`)
     REFERENCES `alayde`.`user` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 401
+AUTO_INCREMENT = 201
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -158,15 +190,24 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `alayde`.`chat` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `author` VARCHAR(255) NULL DEFAULT NULL,
-  `message` VARCHAR(255) NULL DEFAULT NULL,
+  `message` VARCHAR(5000) NULL DEFAULT NULL,
   `sent_date` DATETIME(6) NULL DEFAULT NULL,
+  `author_id` BIGINT NOT NULL,
+  `media_id` BIGINT NULL DEFAULT NULL,
   `ticket_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
+  INDEX `FKpi6wbwfasijlfbc64tk0sa4t9` (`author_id` ASC) VISIBLE,
+  INDEX `FK87vukkk3wov21n90og92bdq52` (`media_id` ASC) VISIBLE,
   INDEX `FKbddfi5rin7my8lvtki9igfaq4` (`ticket_id` ASC) VISIBLE,
+  CONSTRAINT `FK87vukkk3wov21n90og92bdq52`
+    FOREIGN KEY (`media_id`)
+    REFERENCES `alayde`.`media` (`id`),
   CONSTRAINT `FKbddfi5rin7my8lvtki9igfaq4`
     FOREIGN KEY (`ticket_id`)
-    REFERENCES `alayde`.`ticket` (`id`))
+    REFERENCES `alayde`.`ticket` (`id`),
+  CONSTRAINT `FKpi6wbwfasijlfbc64tk0sa4t9`
+    FOREIGN KEY (`author_id`)
+    REFERENCES `alayde`.`user` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -194,22 +235,77 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `alayde`.`ticket_have_users`
+-- Table `alayde`.`global_historical`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`ticket_have_users` (
+CREATE TABLE IF NOT EXISTS `alayde`.`global_historical` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `ticket_id` BIGINT NOT NULL,
-  `user_id` BIGINT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `FKg928j3l9199p0wkfiy871k5ih` (`ticket_id` ASC) VISIBLE,
-  INDEX `FKlgthyufe1sy660e4aqkalpunl` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `FKg928j3l9199p0wkfiy871k5ih`
-    FOREIGN KEY (`ticket_id`)
-    REFERENCES `alayde`.`ticket` (`id`),
-  CONSTRAINT `FKlgthyufe1sy660e4aqkalpunl`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `alayde`.`user` (`id`))
+  `action` VARCHAR(255) NULL DEFAULT NULL,
+  `is_read` BIT(1) NOT NULL,
+  `ticket_id` BIGINT NULL DEFAULT NULL,
+  `ticket_title` VARCHAR(255) NULL DEFAULT NULL,
+  `timestamp` DATETIME(6) NULL DEFAULT NULL,
+  `user_id` BIGINT NULL DEFAULT NULL,
+  `user_name` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 201
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `alayde`.`ticket_developer`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alayde`.`ticket_developer` (
+  `ticket_id` BIGINT NOT NULL,
+  `developer_id` BIGINT NOT NULL,
+  INDEX `FKhntq1a7u200rurkv9uqd8e92p` (`developer_id` ASC) VISIBLE,
+  INDEX `FKpo3oefxb42tyr3hnaxvgha4it` (`ticket_id` ASC) VISIBLE,
+  CONSTRAINT `FKhntq1a7u200rurkv9uqd8e92p`
+    FOREIGN KEY (`developer_id`)
+    REFERENCES `alayde`.`user` (`id`),
+  CONSTRAINT `FKpo3oefxb42tyr3hnaxvgha4it`
+    FOREIGN KEY (`ticket_id`)
+    REFERENCES `alayde`.`ticket` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `alayde`.`ticket_historical`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alayde`.`ticket_historical` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `action` VARCHAR(255) NULL DEFAULT NULL,
+  `is_read` BIT(1) NOT NULL,
+  `ticket_id` BIGINT NULL DEFAULT NULL,
+  `ticket_title` VARCHAR(255) NULL DEFAULT NULL,
+  `timestamp` DATETIME(6) NULL DEFAULT NULL,
+  `user_id` BIGINT NULL DEFAULT NULL,
+  `user_name` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 201
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `alayde`.`user_historical`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `alayde`.`user_historical` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `action` VARCHAR(255) NULL DEFAULT NULL,
+  `is_read` BIT(1) NOT NULL,
+  `ticket_id` BIGINT NULL DEFAULT NULL,
+  `ticket_title` VARCHAR(255) NULL DEFAULT NULL,
+  `timestamp` DATETIME(6) NULL DEFAULT NULL,
+  `user_id` BIGINT NULL DEFAULT NULL,
+  `user_name` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 201
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 

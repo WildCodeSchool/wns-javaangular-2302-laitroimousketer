@@ -42,7 +42,13 @@ export class NavbarComponent extends UnsubcribeComponent implements OnInit {
   ) {
     super();
   }
-
+  
+  handleItemClick(item: any): void {
+    if (item.action) {
+      item.action();
+    }
+  }
+  
   moveDivToPosition(positionMenu: number, event: Event) {
     const liElements = this.navigationList.nativeElement.querySelectorAll('li');
 

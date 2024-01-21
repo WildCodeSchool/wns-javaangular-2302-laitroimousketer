@@ -53,7 +53,7 @@ public class Ticket {
   @ManyToOne
   @JoinColumn(name = "author_id", nullable = true)
   private User author;
-  
+
   @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = false, fetch = FetchType.EAGER)
   private List<Chat> chatMessages = new ArrayList<>();
 
@@ -64,8 +64,6 @@ public class Ticket {
       inverseJoinColumns = @JoinColumn(name = "developer_id")
   )
   private List<User> developers = new ArrayList<>();
-  
-
 
   public Ticket() {
   }

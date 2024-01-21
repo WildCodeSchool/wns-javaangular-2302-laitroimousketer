@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,30 @@ public class AuthService {
       throw new UsernameNotFoundException("User not found");
     }
   }
+  public UserReadDto getLoggedInUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String userEmail = userDetails.getUsername();
+
+        // Retrieve user details from the repository
+        Optional<User> optionalUser = userRepository.findByEmail(userEmail);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            // Convert the User entity to DTO using ModelMapper
+            UserReadDto userDto = modelMapper.map(user, UserReadDto.class);
+            return userDto;
+        } else {
+            // Handle the case where the user is not found
+            throw new UsernameNotFoundException("User not found");
+        }
+    } else {
+        // Handle the case where the user is not authenticated
+        throw new IllegalStateException("User not authenticated");
+    }
+}
 
   public String extractEmailFromToken(String token) {
     return jwtTokenProvider.getUsername(token);

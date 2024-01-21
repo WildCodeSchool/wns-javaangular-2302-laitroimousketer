@@ -59,7 +59,6 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
   font-family: 'Open sans', sans-serif;
-  color: $primaryTextColor;
 }
 h1,h2,h3,h4,h5,h6 {
   font-family: 'Roboto', sans-serif;
@@ -128,6 +127,7 @@ input:-webkit-autofill:active{
   background-color: $widgetColor;
   padding: 16px 24px;
   border-radius: 20px;
+  color: $primaryTextColor;
 }
 .widget-title {
   font-size: 25px;

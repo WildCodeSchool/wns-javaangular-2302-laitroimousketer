@@ -1,32 +1,17 @@
 meta {
   name: PUT ticket
   type: http
-  seq: 3
+  seq: 4
 }
 
 put {
-  url: http://localhost:8080/api/tickets/2
+  url: {{ip}}/tickets/4
   body: json
   auth: none
 }
 
 body:json {
   {
-    "developers": [
-      {
-        "id": 2,
-        "firstname": "Grohl",
-        "lastname": "Dave",
-        "email": "dev@wcs.com",
-        "phone": null,
-        "role": {
-          "id": 2,
-          "roleTitle": "Développeur"
-        },
-        "address": null,
-        "media": null
-      }
-    ]
+    "description":"cc"
   }
-  
 }
