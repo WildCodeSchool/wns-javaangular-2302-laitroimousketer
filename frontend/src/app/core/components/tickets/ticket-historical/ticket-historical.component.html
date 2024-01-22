@@ -1,0 +1,10 @@
+<div class="container" *ngIf="!!ticketHistoricals">
+  @for (ticketHistorical of ticketHistoricals; track ticketHistorical.id ) {
+
+    <div> {{ticketHistorical.action}}</div>
+    <div> par {{ticketHistorical.userName}}</div>
+    <div>Numéro de ticket: {{ticketHistorical.id}}</div>
+    <div>  {{ticketHistorical.timestamp | date: 'dd/MM/yyyy HH:mm'}}</div>
+  }
+</div>
+

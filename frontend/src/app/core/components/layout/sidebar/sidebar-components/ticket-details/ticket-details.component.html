@@ -105,7 +105,11 @@
   <app-ticket-chat [userCanChat]="userCanChat" [ticket]="ticket"></app-ticket-chat>
 </div>
 }
-
+@case ('Historical-Ticket') {
+  <div class="widget" [@opacity]="page==='Historical-Ticket'?'active':''">
+    <app-ticket-historical [ticket]="ticket"></app-ticket-historical>
+  </div>
+}
 @case ('Actions') {
 <div class="widget" [@opacity]="page==='Actions'?'active':''">
   <div class="widget-title"><i class="bi bi-gear-fill"></i> Actions <span>sur le ticket</span></div>
