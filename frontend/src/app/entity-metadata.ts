@@ -6,6 +6,9 @@ import { Category } from './core/models/category.model';
 import { Priority } from './core/models/priority.model';
 import { Status } from './core/models/status.model';
 import { Media } from './core/models/media.model';
+import { GlobalHistorical } from './core/models/global-historical.model';
+import { TicketHistorical } from './core/models/ticket-historical.model';
+import { UserHistorical } from './core/models/user-historical.model';
 
 const entityMetadata: EntityMetadataMap = {
   tickets: {
@@ -31,7 +34,16 @@ const entityMetadata: EntityMetadataMap = {
   },
   chat: {
     selectId: (chat: Media) => chat.id,
-  }
+  },
+  global_historical: {
+    selectId: (global_historical: GlobalHistorical) => global_historical.id,
+  },
+  ticket_historical: {
+    selectId: (ticket_historical: TicketHistorical) => ticket_historical.id,
+  },
+  user_historical: {
+    selectId: (user_historical: UserHistorical) => user_historical.id,
+  },
 };
 // pluralNames est utilisé pour spécifier les noms pluriels pour les entités lorsque le nom de l'entité dans le store ne peut pas être déduit du nom de l'entité lui-même.
 // Par exemple, si le nom de votre entité est Ticket, le nom dans le store serait tickets.

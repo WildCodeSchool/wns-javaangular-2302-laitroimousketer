@@ -25,6 +25,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { ChatRowComponent } from './components/common/chat-row/chat-row.component';
 import { ImagePopUpComponent } from './components/common/image-pop-up/image-pop-up.component';
 import { UserCardComponent } from './components/users/user-card/user-card.component';
+import { TicketHistoricalComponent } from './components/tickets/ticket-historical/ticket-historical.component';
+import { TicketHistoricalCardComponent } from './components/tickets/ticket-historical-card/ticket-historical-card.component';
+import { UserHistoricalComponent } from './components/users/user-historical-component/user-historical.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,9 @@ import { UserCardComponent } from './components/users/user-card/user-card.compon
     ChatRowComponent,
     ImagePopUpComponent,
     UserCardComponent,
+    TicketHistoricalComponent,
+    TicketHistoricalCardComponent,
+    UserHistoricalComponent,
 
   ],
   imports: [
@@ -77,6 +83,9 @@ import { UserCardComponent } from './components/users/user-card/user-card.compon
     TicketCardComponent,
     UserProfilComponent,
     UserCardComponent,
+    TicketHistoricalComponent,
+    TicketHistoricalCardComponent,
+    UserHistoricalComponent,
 
   ],
   providers: [],

@@ -146,12 +146,14 @@ deleteFollowUp(developer: User) {
       this.menuItems = [
         { page: 'Info', icon: 'bi bi-info-square-fill' },
         { page: 'Chat', icon: 'bi bi-chat-left-dots-fill' },
-        { page: 'Actions', icon: 'bi bi-gear-fill' }
+        { page: 'Historical-Ticket', icon: 'bi bi-clock-history'},
+        { page: 'Actions', icon: 'bi bi-gear-fill' },
       ]
     } else {
       this.menuItems = [
         { page: 'Info', icon: 'bi bi-info-square-fill' },
         { page: 'Chat', icon: 'bi bi-chat-left-dots-fill' },
+        { page: 'Historical-Ticket', icon: 'bi bi-clock-history'}
       ];
     }
   }

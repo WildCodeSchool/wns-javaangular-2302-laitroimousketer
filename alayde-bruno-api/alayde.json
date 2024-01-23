@@ -117,7 +117,7 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{ip}}/chat/?ticket_id=201"
+            "url": "{{ip}}/chat/?ticket_id=1"
           }
         },
         {
@@ -172,7 +172,7 @@
           "request": {
             "method": "DELETE",
             "header": [],
-            "url": "{{ip}}/tickets/204"
+            "url": "{{ip}}/tickets/1"
           }
         },
         {
@@ -181,7 +181,7 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{ip}}/tickets/"
+            "url": "{{ip}}/tickets/?ticketId=1"
           }
         },
         {
@@ -208,10 +208,10 @@
           "request": {
             "method": "PUT",
             "header": [],
-            "url": "{{ip}}tickets/3",
+            "url": "{{ip}}/tickets/4",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"ticketTitle\": \"qui modif3\"\n}\n",
+              "raw": "{\n  \"description\":\"cc\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -307,7 +307,7 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{ip}}/historical/"
+            "url": "{{ip}}/historical-user/"
           }
         },
         {
@@ -339,7 +339,7 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{ip}}/historical/160"
+            "url": "{{ip}}/historical/160?ticketId=10&userId=150"
           }
         }
       ]
@@ -362,7 +362,7 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{ip}}/historical-ticket/10"
+            "url": "{{ip}}/historical-ticket/10?ticketId=20"
           }
         }
       ]

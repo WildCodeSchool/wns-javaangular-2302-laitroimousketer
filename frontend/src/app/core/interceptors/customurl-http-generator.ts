@@ -70,6 +70,24 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
           entityResourceUrl: this.baseAPI + '/chat/',
         };
         break;
+      case 'global_historical':
+        resourceURLs = {
+          collectionResourceUrl: this.baseAPI + '/historical/',
+          entityResourceUrl: this.baseAPI + '/historical/',
+        };
+        break;
+      case 'ticket_historical':
+        resourceURLs = {
+          collectionResourceUrl: this.baseAPI + '/historical-ticket/',
+          entityResourceUrl: this.baseAPI + '/historical-ticket/',
+        };
+        break;
+      case 'user_historical':
+        resourceURLs = {
+          collectionResourceUrl: this.baseAPI + '/historical-user/',
+          entityResourceUrl: this.baseAPI + '/historical-user/',
+        };
+        break;
       default:
         break;
     }

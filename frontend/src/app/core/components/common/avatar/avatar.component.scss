@@ -9,9 +9,16 @@
   justify-content: center;
   text-transform: uppercase;
   position: relative;
+  @include mobiletablet {
+  width: 36px;
+  height: 36px
+  }
  p {
   text-align: center;
   font-size: 1.4em;
+  @include mobiletablet {
+    font-size: 1.1em;
+  }
   color: white;
  }
 }
@@ -43,13 +50,15 @@ i {
   .avatar {
   width: 80px;
   height: 80px;
-  @include mobile {
-    width: 56px;
-    height: 56px;
+  @include mobiletablet {
+    width: 48px;
+    height: 48px;
   }
   p {
-    font-size: 2.4em;
     font-size: 1.6em;
+    @include mobiletablet {
+      font-size: 1.2em;
+    }
    }
    img {
     width: 80px;
@@ -57,6 +66,10 @@ i {
     border-radius: 50%;
     aspect-ratio: 1/1;
     object-fit: cover;
+    @include mobiletablet {
+      width: 48px;
+      height: 48px;
+    }
   }
 }
 }
@@ -82,8 +95,15 @@ img {
   .avatar {
   width: 40px;
   height: 40px;
+  @include mobiletablet {
+    width: 32px;
+    height: 32px;
+  }
   p {
     font-size: 0.9em;
+    @include mobiletablet {
+      font-size: 0.8em;
+    }
    }
 } 
 }

@@ -1,0 +1,67 @@
+
+@import 'src/assets/scss/template.scss';
+
+.historical-card {
+  position: relative;
+  padding: 2px 0;
+  color: $primaryTextColor;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.16);
+  border-radius: 10px;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin: auto;
+  @include mobile {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.author {
+  font-size: 17px;
+  line-height: 1.25;
+  @include mobile {
+    font-size: 14px;
+  }
+}
+
+.date {
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.25;
+  @include mobile {
+    font-size: 12px;
+  }
+}
+
+.comment {
+  font-size: 16px;
+  line-height: 1.25;
+  .bold {
+    font-weight: 600;
+  }
+  @include mobile {
+    font-size: 13px;
+}
+}
+.msg-system {
+  position: absolute;
+  top:6px;
+  right: 6px;
+  font-size: 15px;
+  border-radius: 5px;
+  padding: 4px 8px;
+  background-color: $fourthColor;
+  color: white;
+  @include mobile {
+    font-size: 12px;
+  }
+}

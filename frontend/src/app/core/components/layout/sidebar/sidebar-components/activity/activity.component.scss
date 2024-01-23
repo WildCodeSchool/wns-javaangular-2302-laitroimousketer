@@ -1,17 +1,27 @@
 @import 'src/assets/scss/template.scss';
 
-.header {
+.activity {
+  color: $primaryTextColor;
+  display: block;
+}
+
+.widget-title {
   font-size: 30px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 
-  span {
-    font-size: 64px;
-    color: $primaryColor;
+  i {
+    font-size: 54px;
   }
 
-  h1 {
-    font-weight: 500;
-  }
+
+}
+
+.subtitle {
+  font-weight: 400;
+  opacity: 0.7;
+  font-size: 20px;
+  margin-top: -24px;
+  margin-bottom: 10px;
 }
