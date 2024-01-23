@@ -10,8 +10,11 @@
 }
 .mat-drawer-inner-container {
   padding: 20px 30px 20px 84px!important;
+  @include tablet {
+    padding: 20px 16px 20px 56px!important;
+  }
   @include mobile {
-    padding: 20px 4px 20px 34px!important;
+    padding: 20px 6px 20px 36px!important;
   }
 }
 //btn//

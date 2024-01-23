@@ -13,8 +13,11 @@
   overflow: hidden;
   z-index: 99999;
   margin-top: -20px;
+  @include tablet {
+    width: 44px;
+  }
   @include mobile {
-    width: 40px;
+    width: 32px;
   }
 
   ul {
@@ -33,10 +36,12 @@
       cursor: pointer;
       color: white;
       font-size: 28px;
-      @include mobile {
-        font-size: 22px;
+      @include tablet {
+        font-size: 24px;
       }
-
+      @include mobile {
+        font-size: 18px
+      }
     }
   }
 
@@ -61,11 +66,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    @include mobile {
+    @include tablet {
+      top: 12px;
       left: 8px;
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
+    }
+    @include mobile {
+      top: 12px;
+      left: 6px;
+      width: 22px;
+      height: 22px;
     }
     transition: color 0.4s;
   }
@@ -76,8 +87,11 @@
   .bi-x {
     font-size: 40px;
     font-weight: 900;
-    @include mobile {
+    @include tablet {
       font-size: 30px;
+    }
+    @include mobile {
+      font-size: 24px;
     }
   }
 
@@ -93,8 +107,11 @@
     background-image: url('/assets/images/nav-white.svg');
     background-repeat: no-repeat;
     background-size: 100%;
+    @include tablet {
+      top: -17px;
+    }
     @include mobile {
-      top: -15px;
+      top: -12px;
     }
   }
 
@@ -107,6 +124,9 @@
     background-color: $thirdColor;
     z-index: 20;
     padding-bottom: 2vh;
+    @include tablet {
+      padding-bottom: 3vh;
+    }
     @include mobile {
       padding-bottom: 7vh;
     }
@@ -134,6 +154,12 @@
     height: 4px; /* Hauteur de l'ombre */
     background-color: rgba(0, 0, 0, 0.2); /* Couleur de l'ombre avec transparence */
     z-index: 19 ; /* Placer l'ombre sous #gradient */
+    @include tablet {
+      top: -15px;
+    }
+    @include mobile {
+      top: -12px;
+    }
   }
   .menu-title {
     writing-mode: vertical-lr;
@@ -147,10 +173,24 @@
     font-size: 28px;
     letter-spacing: 3.36px;
     color: white;
+    @include tablet {
+      font-size: 24px;
+      letter-spacing: 2.84px;
+    }
+    @include mobile {
+      font-size: 18px;
+      letter-spacing: 2.16px;
+    }
   }
   
   .icone {
     color: white;
     font-size: 32px;
+    @include tablet {
+      font-size: 24px;
+    }
+    @include mobile {
+      font-size: 20px;
+    }
   }
 }

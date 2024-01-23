@@ -47,6 +47,7 @@ export class UserDetailsComponent extends UnsubcribeComponent implements OnInit 
   menuItems: MenuItems[] = [
     { page: 'Info', icon: 'bi bi-info-square-fill' },
     { page: 'Tickets', icon: 'bi bi-tag-fill'},
+    { page: 'Historical-User', icon: 'bi bi-clock-history'},
     { page: 'Actions', icon: 'bi bi-gear-fill' },
   ];
   page: string = 'Info';

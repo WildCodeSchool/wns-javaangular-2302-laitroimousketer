@@ -8,6 +8,7 @@ import * as sidebarAction from 'src/app/store/actions/sidebar.action';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 import { PanelSideBar } from 'src/app/store/models/sidebar';
 
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -23,7 +24,8 @@ export class SidebarComponent extends UnsubcribeComponent implements OnInit, OnD
 
   constructor(
     private sidebarStore: Store<sidebarReducer.StateDataStore>,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+   
   ) {
     super();
     this.sidebarStore.select(sidebarReducer.getPanelState)
@@ -34,12 +36,11 @@ export class SidebarComponent extends UnsubcribeComponent implements OnInit, OnD
         this.opened = panel.sidebar.isOpen;
       });
   }
-  
 
   ngOnInit() {
-    
+  
   }
-
+ 
   toggle(): void {
     this.sidebarStore.dispatch(sidebarAction.resetSideBar());
   }

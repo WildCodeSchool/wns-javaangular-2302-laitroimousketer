@@ -2,7 +2,7 @@ export interface TicketHistorical {
   id: number;
   ticketId: number;
   userId: number;
-  authorName: string;
+  userName: string;
   ticketTitle: string;
   action: string;
   timestamp: Date;

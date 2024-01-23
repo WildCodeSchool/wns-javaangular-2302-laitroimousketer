@@ -1,0 +1,8 @@
+<div class="grid grid-cols-1 gap-10" *ngIf="!!ticketHistoricals">
+  <div class="widget-title">
+    <i class="bi bi-clock-history"></i> Historique <span>du ticket</span>
+  </div>
+  @for (ticketHistorical of ticketHistoricals; track ticketHistorical.id ) {
+  <app-ticket-historical-card [data]="ticketHistorical"></app-ticket-historical-card>
+  }
+</div>

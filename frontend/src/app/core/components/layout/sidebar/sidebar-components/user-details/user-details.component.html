@@ -58,6 +58,11 @@
   </div>
 }
 
+@if (page ==='Historical-User' && userConnected.role.roleTitle !== 'Client') {
+  <div class="widget" [@opacity]="page==='Historical-User'?'active':''">
+    <app-user-historical [user]="user"></app-user-historical>
+  </div>
+}
 
 @if (page ==='Actions') {
 <div class="widget" [@opacity]="page==='Actions'?'active':''">
