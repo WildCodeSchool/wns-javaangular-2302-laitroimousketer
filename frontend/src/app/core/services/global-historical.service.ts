@@ -15,7 +15,7 @@ export class GlobalHistoricalService extends EntityCollectionServiceBase<GlobalH
     serviceElementsFactory: EntityCollectionServiceElementsFactory,
     private httpClient: HttpClient,
   ) {
-    super('global-historical', serviceElementsFactory)
+    super('global_historical', serviceElementsFactory)
   }
 
 

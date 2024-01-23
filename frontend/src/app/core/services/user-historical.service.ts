@@ -15,7 +15,7 @@ export class UserHistoricalService extends EntityCollectionServiceBase<UserHisto
     serviceElementsFactory: EntityCollectionServiceElementsFactory,
     private httpClient: HttpClient,
   ) {
-    super('user-historical', serviceElementsFactory)
+    super('user_historical', serviceElementsFactory)
   }
 
 

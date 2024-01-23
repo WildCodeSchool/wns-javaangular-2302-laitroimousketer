@@ -72,8 +72,8 @@ export class CustomurlHttpGenerator extends DefaultHttpUrlGenerator {
         break;
       case 'global_historical':
         resourceURLs = {
-          collectionResourceUrl: this.baseAPI + '/historical-global/',
-          entityResourceUrl: this.baseAPI + '/historical-global/',
+          collectionResourceUrl: this.baseAPI + '/historical/',
+          entityResourceUrl: this.baseAPI + '/historical/',
         };
         break;
       case 'ticket_historical':

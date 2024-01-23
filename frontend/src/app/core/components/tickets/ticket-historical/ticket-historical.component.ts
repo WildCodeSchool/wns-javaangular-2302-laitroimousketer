@@ -13,7 +13,7 @@ export class TicketHistoricalComponent implements OnInit {
 ticketHistoricals: TicketHistorical [] = [];
   constructor(
     private ticketHistoricalService: TicketHistoricalService,
- 
+
   ) { }
 
   ngOnInit() {
@@ -22,7 +22,7 @@ ticketHistoricals: TicketHistorical [] = [];
 getTicketHistorical() {
   this.ticketHistoricalService.getWithQuery(`ticketId=${this.ticket?.id}`).subscribe((ticketHistoricals: any) => {
     this.ticketHistoricals = ticketHistoricals;
-    console.log(ticketHistoricals);
+    // console.log(ticketHistoricals);
   })
 }
 }

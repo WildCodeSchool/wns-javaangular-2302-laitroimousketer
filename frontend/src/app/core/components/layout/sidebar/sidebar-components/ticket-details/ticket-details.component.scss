@@ -13,7 +13,7 @@
   justify-content: center;
   align-items: center;
   font-size: 36px;
-  @include mobile {
+  @include mobiletablet {
     font-size: 28px;
   }
   margin-left: 8px;
@@ -24,6 +24,9 @@
     margin-left: 4px;
     font-weight: 300;
     font-size: 34px;
+    @include mobiletablet {
+      font-size: 26px;
+    }
   }
 
 }
@@ -33,6 +36,10 @@
   text-decoration: underline;
   i {
     color:$secondaryColor;
+  }
+  @include mobile {
+    margin-left: -20px;
+    margin-top: -40px;
   }
 }
 .details-profil {
@@ -45,7 +52,7 @@
   .firstname {
     margin-left: 4px;
     font-size: 20px;
-    @include mobile {
+    @include mobiletablet {
       font-size: 16px;
     }
     font-weight: 500;
@@ -60,6 +67,9 @@ header {
     font-family: 'Roboto', sans-serif;
     opacity: 1;
     font-size: 18px;
+    @include mobiletablet {
+      font-size: 15px;
+    }
   }
 }
 
@@ -135,12 +145,18 @@ article {
   p {
     font-size: 16px;
     font-weight: 400;
+    @include mobiletablet {
+      font-size: 14px;
+    }
   }
 }
 
 // suivi technique
 .follow-up .widget-small-title i {
   font-size: 28px;
+  @include mobiletablet {
+    font-size: 22px;
+  }
 
 }
 .widget-small-title {
@@ -159,7 +175,7 @@ margin-bottom: 20px;
   right: 0;
   gap: 4px;
   font-size: 16px;
-  @include mobile {
+  @include mobiletablet {
     font-size: 14px;
   }
   color: $secondaryColor;
@@ -191,8 +207,8 @@ margin-bottom: 20px;
   padding: 4px 12px;
   border-radius: 5px;
   font-size: 18px;
-  @include mobile {
-    font-size: 16px;
+  @include mobiletablet {
+    font-size: 15px;
   }
   margin-bottom: 10px;
   
