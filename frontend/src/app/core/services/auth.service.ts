@@ -2,15 +2,15 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, map, take, throwError, tap, EMPTY, of } from 'rxjs';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import jwt_decode from 'jwt-decode';
 import { User } from '../models/user.model';
 import { UserService } from './user.service';
 import { catchError, switchMap } from 'rxjs/operators';
 import { AlertService } from './alert.service';
 import { Store } from '@ngrx/store';
-import * as Reducer from 'src/app/store/reducers/index';
-import * as userAction from 'src/app/store/actions/user.action';
+import * as Reducer from '../../../app/store/reducers/index';
+import * as userAction from '../../../app/store/actions/user.action';
 import { Address } from '../models/address.model';
 //accessToken est le nom de la propriete du token renvoyée par le serveur
 interface LoginResponse {
