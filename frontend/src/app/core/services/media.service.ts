@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { Media } from '../models/media.model';
 import { Observable, map } from 'rxjs';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
