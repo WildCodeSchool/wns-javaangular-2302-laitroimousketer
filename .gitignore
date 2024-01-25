@@ -1,3 +1,6 @@
+# Ignorer le fichier .env
+.env
+
 HELP.md
 
 backend/target/
@@ -40,3 +43,6 @@ node_modules/
 # Ignorer les fichiers d'installation de paquets npm
 package-lock.json
 npm-debug.log
+
+### environnment de developpement contenant des infos sensibles
+application-dev.properties
