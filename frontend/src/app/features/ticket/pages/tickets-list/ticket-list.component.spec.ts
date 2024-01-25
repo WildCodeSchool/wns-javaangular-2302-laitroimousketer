@@ -59,8 +59,6 @@ describe('TicketsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  
-
   it('should sort tickets by title in ascending order', () => {
     // Arrange
     const mockTickets = [
