@@ -64,10 +64,6 @@ jobs:
       - name: Build and Test Backend Docker Image
         working-directory: ./backend
         run: ./mvnw --batch-mode --update-snapshots spring-boot:build-image -Dimage.tag=${GITHUB_REF##*/} "-Dimage.dockeruser=${{ secrets.DOCKERHUB_USERNAME }}/"
-
-      - name: Run Backend Tests
-        working-directory: ./backend
-        run: ./mvnw test
   
       - name: Display local images
         run: docker images
