@@ -60,9 +60,7 @@ jobs:
         with:
           java-version: "17"
           distribution: "temurin"
-      - name: Copy .env to backend directory
-        run: cp backend/.env backend/
-        
+
       - name: Build and Test Backend Docker Image
         working-directory: ./backend
         run: ./mvnw --batch-mode --update-snapshots spring-boot:build-image -Dimage.tag=${GITHUB_REF##*/} "-Dimage.dockeruser=${{ secrets.DOCKERHUB_USERNAME }}/"
