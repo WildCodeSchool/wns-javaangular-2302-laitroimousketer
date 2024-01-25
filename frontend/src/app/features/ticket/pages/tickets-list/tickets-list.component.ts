@@ -2,16 +2,16 @@ import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/cor
 import { TicketService } from '../../../../core/services/ticket.service';
 import { Ticket } from '../../../../core/models/ticket.model';
 
-import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Subscription, forkJoin, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as Reducer from 'src/app/store/reducers/index';
-import * as ticketAction from 'src/app/store/actions/ticket.action';
-import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
-import { Role } from 'src/app/core/models/role.model';
-import { MediaService } from 'src/app/core/services/media.service';
+import * as Reducer from '../../../../store/reducers/index';
+import * as ticketAction from '../../../../store/actions/ticket.action';
+import { UnsubcribeComponent } from '../../../../core/classes/unsubscribe.component';
+import { Role } from '../../../../core/models/role.model';
+import { MediaService } from '../../../../core/services/media.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 

@@ -4,7 +4,7 @@ import { Observable, catchError, map, of, switchMap } from 'rxjs';
 import { Ticket } from '../models/ticket.model';
 import { Category } from '../models/category.model';
 import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

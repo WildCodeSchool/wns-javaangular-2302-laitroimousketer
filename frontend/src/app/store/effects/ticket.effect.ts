@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import * as action from '../actions/ticket.action';
 import * as sidebarAction from '../actions/sidebar.action';
 import { crudOperationSuccess } from './../actions/ticket.action';
 import { catchError, map, mergeMap, of, switchMap, tap } from "rxjs";
-import { AlertService } from "src/app/core/services/alert.service";
-import { Ticket } from "src/app/core/models/ticket.model";
-import { TicketService } from "src/app/core/services/ticket.service";
+import { AlertService } from "../../core/services/alert.service";
+import { Ticket } from "../../core/models/ticket.model";
+import { TicketService } from "../../core/services/ticket.service";
 
 
 @Injectable()
