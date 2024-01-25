@@ -8,7 +8,7 @@ COPY pom.xml .
 RUN mvn clean install
 
 COPY src ./src
-RUN mvn package
+RUN mvn package -P prod
 
 # Étape de production du backend
 FROM openjdk:17-jdk-alpine AS backend
