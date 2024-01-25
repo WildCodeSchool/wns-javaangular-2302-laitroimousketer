@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_and_test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,31 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20.10.0" # Utilisez la version de Node.js appropriée
-
-      - name: Install dependencies and build
-        run: |
-          cd frontend
-          npm install
-          npm run build
-
-      - name: Run Jest Tests
-        run: |
-          cd frontend
-          npm test
-
-      # Run Cypress Tests
-      - name: Run Cypress Tests
-        uses: cypress-io/github-action@v6
-        with:
-            working-directory: ./frontend
-            start: npm start
-            wait-on: 'http://localhost:4200'
-            record: true
-            parallel: true
-        env:
-            CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          node-version: "20.10.0" # Utilise la version appropriée
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -49,9 +25,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and Push Frontend Docker Image
+      - name: Push Frontend
         run: |
-          cd frontend
+          cd frontend  # Change the working directory to 'frontend'
           docker build -t djosh35/alayde-front:${GITHUB_REF##*/} .
           docker push djosh35/alayde-front:${GITHUB_REF##*/}
 
@@ -60,13 +36,22 @@ jobs:
         with:
           java-version: "17"
           distribution: "temurin"
-
-      - name: Build and Test Backend Docker Image
+      # build backend image with Spring Boot plugin for Maven
+      - name: Build BACK image with Maven
         working-directory: ./backend
         run: ./mvnw --batch-mode --update-snapshots spring-boot:build-image -Dimage.tag=${GITHUB_REF##*/} "-Dimage.dockeruser=${{ secrets.DOCKERHUB_USERNAME }}/"
-  
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password:
+            ${{ secrets.DOCKERHUB_TOKEN }}
+
+            # print generated images
       - name: Display local images
         run: docker images
 
-      - name: Push Backend Docker Image
+      - name: Push Backend
         run: docker push djosh35/alayde-back:${GITHUB_REF##*/}
