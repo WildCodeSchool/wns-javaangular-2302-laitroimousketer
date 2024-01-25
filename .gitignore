@@ -46,3 +46,4 @@ npm-debug.log
 
 ### environnment de developpement contenant des infos sensibles
 application-dev.properties
+application-prod.properties
