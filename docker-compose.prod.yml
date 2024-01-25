@@ -26,6 +26,8 @@ services:
       - .env
     networks:
       appinternals:
+        aliases:
+          - back
 
   nginx:
     container_name: app_${APP_ENV}_front
