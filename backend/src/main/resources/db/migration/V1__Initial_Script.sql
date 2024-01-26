@@ -1,315 +1,449 @@
--- MySQL Workbench Forward Engineering
+CREATE DATABASE  IF NOT EXISTS `alayde` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `alayde`;
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+--
+-- Host: localhost    Database: alayde
+-- ------------------------------------------------------
+-- Server version	8.0.35
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema alayde
--- -----------------------------------------------------
+--
+-- Table structure for table `address`
+--
 
--- -----------------------------------------------------
--- Schema alayde
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `alayde` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-USE `alayde` ;
+DROP TABLE IF EXISTS `address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `address` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `city` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
+  `postcode` varchar(255) NOT NULL,
+  `street_l1` varchar(255) NOT NULL,
+  `street_l2` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- -----------------------------------------------------
--- Table `alayde`.`address`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`address` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `city` VARCHAR(255) NOT NULL,
-  `country` VARCHAR(255) NOT NULL,
-  `latitude` DOUBLE NULL DEFAULT NULL,
-  `longitude` DOUBLE NULL DEFAULT NULL,
-  `postcode` VARCHAR(255) NOT NULL,
-  `street_l1` VARCHAR(255) NOT NULL,
-  `street_l2` VARCHAR(255) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 51
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+--
+-- Dumping data for table `address`
+--
 
+LOCK TABLES `address` WRITE;
+/*!40000 ALTER TABLE `address` DISABLE KEYS */;
+INSERT INTO `address` VALUES (1,'Paris','France',48.8566,2.3522,'75000','39 Quai des Saussaies','Apt. 404'),(2,'Marseille','France',43.2965,5.3698,'13000','4512 Impasse Marcadet','1 étage'),(3,'Lyon','France',45.7578,4.832,'69000','823 Allée, Voie de Rivoli','Apt. 147'),(4,'Toulouse','France',43.6047,1.4442,'31000','2157 Impasse Delesseux','Apt. 309'),(5,'Nice','France',43.7102,7.262,'06000','7 Avenue des Saussaies','7 étage'),(6,'Nantes','France',47.2184,-1.5536,'44000','46 Place de Montmorency','6 étage'),(7,'Strasbourg','France',48.5734,7.7521,'67000','5901 Avenue de Solférino','5 étage'),(8,'Montpellier','France',43.611,3.8767,'34000','736 Rue Royale','2 étage'),(9,'Bordeaux','France',44.8378,-0.5792,'33000','7737 Rue Dauphine','6 étage'),(10,'Lille','France',50.6292,3.0573,'59000','81 Passage Saint-Dominique','Apt. 096'),(11,'Rennes','France',48.1173,-1.6778,'35000','259 Boulevard Joubert','4 étage'),(12,'Le Havre','France',49.4944,0.107,'76600','51 Boulevard de l\'Odéon','Apt. 724'),(13,'Reims','France',49.2583,4.0317,'51100','1 Passage de Presbourg','0 étage'),(14,'Saint-Étienne','France',45.4397,4.3872,'42000','6 Rue Vaneau','Apt. 222'),(15,'Toulon','France',43.1242,5.928,'83000','5 Impasse de Rivoli','5 étage'),(16,'Grenoble','France',45.1885,5.7245,'38000','583 Impasse du Faubourg Saint-Honoré','Apt. 291'),(17,'Dijon','France',47.3216,5.0415,'21000','34 Passage de Caumartin','0 étage'),(18,'Angers','France',47.4784,-0.5632,'49000','206 Avenue Montorgueil','7 étage'),(19,'Nîmes','France',43.8367,4.3601,'30000','96 Quai de Rivoli','3 étage'),(20,'Villeurbanne','France',45.7719,4.89,'69100','923 Place de la Ferronnerie','4 étage'),(21,'Lorient','France',47.7489,-3.37,'56100','98 Impasse Royale','Apt. 302'),(22,'Amiens','France',49.8941,2.3024,'80000','57 Rue Montorgueil','Apt. 565'),(23,'Limoges','France',45.8336,1.2611,'87000','5 Impasse du Chat-qui-Pêche','5 étage'),(24,'Clermont-Ferrand','France',45.7772,3.087,'63000','4553 Quai Laffitte','Apt. 025'),(25,'Besançon','France',47.2378,6.0241,'25000','9 Place du Chat-qui-Pêche','8 étage'),(26,'Le Mans','France',48.0061,0.1996,'72000','33 Rue de Paris','3 étage'),(27,'Brest','France',48.3904,-4.4864,'29200','94 Quai de l\'Abbaye','2 étage'),(28,'Perpignan','France',42.6986,2.8954,'66000','98 Passage Saint-Jacques','Apt. 568'),(29,'Nancy','France',48.6921,6.1844,'54000','458 Passage des Saussaies','0 étage'),(30,'Rouen','France',49.4431,1.0993,'76000','847 Boulevard Saint-Séverin','Apt. 952'),(31,'Avignon','France',43.9493,4.8055,'84000','1689 Place de la Huchette','8 étage'),(32,'La Rochelle','France',46.1591,-1.152,'17000','603 Place de Seine','Apt. 818'),(33,'Annecy','France',45.8992,6.1294,'74000','0399 Passage du Faubourg-Saint-Denis','1 étage'),(34,'Poitiers','France',46.5802,0.3404,'86000','2 Boulevard de Solférino','Apt. 936'),(35,'Dunkerque','France',51.0345,2.3776,'59140','889 Place de la Huchette','Apt. 936'),(36,'Pau','France',43.2965,-0.37,'64000','29 Passage de Tilsitt','6 étage'),(37,'Saint-Nazaire','France',47.27,-2.21,'44600','9 Passage de la Huchette','4 étage'),(38,'Cholet','France',47.0602,-0.879,'49300','17 Avenue Marcadet','Apt. 036'),(39,'Auxerre','France',47.7994,3.5666,'89000','8249 Passage de la Victoire','1 étage'),(40,'Troyes','France',48.297,4.0743,'10000','8 Allée, Voie des Francs-Bourgeois','Apt. 344'),(41,'Saint-Malo','France',48.6481,-2.0076,'35400','582 Allée, Voie Saint-Denis','4 étage'),(42,'Paris','France',48.8566,2.3522,'75000','228 Quai de la Victoire','5 étage'),(43,'Marseille','France',43.2965,5.3698,'13000','9 Rue Charlemagne','Apt. 823'),(44,'Lyon','France',45.7578,4.832,'69000','3152 Place de la Victoire','Apt. 141'),(45,'Toulouse','France',43.6047,1.4442,'31000','88 Place Molière','6 étage'),(46,'Nice','France',43.7102,7.262,'06000','006 Avenue d\'Alésia','Apt. 303'),(47,'Nantes','France',47.2184,-1.5536,'44000','463 Avenue Saint-Dominique','5 étage'),(48,'Strasbourg','France',48.5734,7.7521,'67000','9 Place des Panoramas','Apt. 096'),(49,'Montpellier','France',43.611,3.8767,'34000','4863 Passage d\'Alésia','Apt. 627'),(50,'Bordeaux','France',44.8378,-0.5792,'33000','25 Place des Panoramas','Apt. 643');
+/*!40000 ALTER TABLE `address` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- -----------------------------------------------------
--- Table `alayde`.`category`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`category` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `category_title` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+--
+-- Table structure for table `category`
+--
 
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `category` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `category_title` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- -----------------------------------------------------
--- Table `alayde`.`role`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`role` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `role_title` VARCHAR(255) NOT NULL,
+--
+-- Dumping data for table `category`
+--
+
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'Technique'),(2,'Fonctionnalité'),(3,'Facturation');
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `chat`
+--
+
+DROP TABLE IF EXISTS `chat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chat` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `message` varchar(5000) DEFAULT NULL,
+  `sent_date` datetime(6) DEFAULT NULL,
+  `author_id` bigint NOT NULL,
+  `media_id` bigint DEFAULT NULL,
+  `ticket_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `UK_ikpaq20ybdpnppqng5bbn188m` (`role_title` ASC) VISIBLE)
-ENGINE = InnoDB
-AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+  KEY `FKpi6wbwfasijlfbc64tk0sa4t9` (`author_id`),
+  KEY `FK87vukkk3wov21n90og92bdq52` (`media_id`),
+  KEY `FKbddfi5rin7my8lvtki9igfaq4` (`ticket_id`),
+  CONSTRAINT `FK87vukkk3wov21n90og92bdq52` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
+  CONSTRAINT `FKbddfi5rin7my8lvtki9igfaq4` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`),
+  CONSTRAINT `FKpi6wbwfasijlfbc64tk0sa4t9` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `chat`
+--
 
--- -----------------------------------------------------
--- Table `alayde`.`user`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`user` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `email` VARCHAR(255) NOT NULL,
-  `firstname` VARCHAR(255) NOT NULL,
-  `lastname` VARCHAR(255) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
-  `phone` VARCHAR(255) NULL DEFAULT NULL,
-  `address_id` BIGINT NULL DEFAULT NULL,
-  `media_id` BIGINT NULL DEFAULT NULL,
-  `role_id` BIGINT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `UK_ob8kqyqqgmefl0aco34akdtpe` (`email` ASC) VISIBLE,
-  UNIQUE INDEX `UK_si1iro9oa394kabk5aob8puem` (`media_id` ASC) VISIBLE,
-  INDEX `FKddefmvbrws3hvl5t0hnnsv8ox` (`address_id` ASC) VISIBLE,
-  INDEX `FKn82ha3ccdebhokx3a8fgdqeyy` (`role_id` ASC) VISIBLE,
-  CONSTRAINT `FKckl2664alrm10nvld2d1ewa05`
-    FOREIGN KEY (`media_id`)
-    REFERENCES `alayde`.`media` (`id`),
-  CONSTRAINT `FKddefmvbrws3hvl5t0hnnsv8ox`
-    FOREIGN KEY (`address_id`)
-    REFERENCES `alayde`.`address` (`id`),
-  CONSTRAINT `FKn82ha3ccdebhokx3a8fgdqeyy`
-    FOREIGN KEY (`role_id`)
-    REFERENCES `alayde`.`role` (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 54
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+LOCK TABLES `chat` WRITE;
+/*!40000 ALTER TABLE `chat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chat` ENABLE KEYS */;
+UNLOCK TABLES;
 
+--
+-- Table structure for table `flyway_schema_history`
+--
 
--- -----------------------------------------------------
--- Table `alayde`.`media`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`media` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `base64content` VARCHAR(255) NULL DEFAULT NULL,
-  `content_type` VARCHAR(255) NULL DEFAULT NULL,
-  `data` LONGBLOB NULL DEFAULT NULL,
-  `file_name` VARCHAR(255) NULL DEFAULT NULL,
-  `url` VARCHAR(255) NULL DEFAULT NULL,
-  `chat_id` BIGINT NULL DEFAULT NULL,
-  `user_id` BIGINT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `FKpenbfvs2scby0lgdjaxhvchwo` (`chat_id` ASC) VISIBLE,
-  INDEX `FK64mp2rjcwcgqpnu3weakxvwq0` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `FK64mp2rjcwcgqpnu3weakxvwq0`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `alayde`.`user` (`id`),
-  CONSTRAINT `FKpenbfvs2scby0lgdjaxhvchwo`
-    FOREIGN KEY (`chat_id`)
-    REFERENCES `alayde`.`chat` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `alayde`.`priority`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`priority` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `priority_title` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `alayde`.`status`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`status` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `status_title` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `alayde`.`ticket`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`ticket` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `archive_date` DATETIME(6) NULL DEFAULT NULL,
-  `creation_date` DATETIME(6) NULL DEFAULT NULL,
-  `description` VARCHAR(5000) NOT NULL,
-  `ticket_title` VARCHAR(255) NOT NULL,
-  `update_date` DATETIME(6) NULL DEFAULT NULL,
-  `author_id` BIGINT NULL DEFAULT NULL,
-  `category_id` BIGINT NOT NULL,
-  `priority_id` BIGINT NOT NULL,
-  `status_id` BIGINT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `FKcyppkplfbc92v0xoju6j4bqxq` (`author_id` ASC) VISIBLE,
-  INDEX `FK3g2gmlm6p2o4hc5oggcvq51x3` (`category_id` ASC) VISIBLE,
-  INDEX `FK67q89ifbffc2rds9hvk9sywpw` (`priority_id` ASC) VISIBLE,
-  INDEX `FK7h1wcba93khggbl1ahgwjlssu` (`status_id` ASC) VISIBLE,
-  CONSTRAINT `FK3g2gmlm6p2o4hc5oggcvq51x3`
-    FOREIGN KEY (`category_id`)
-    REFERENCES `alayde`.`category` (`id`),
-  CONSTRAINT `FK67q89ifbffc2rds9hvk9sywpw`
-    FOREIGN KEY (`priority_id`)
-    REFERENCES `alayde`.`priority` (`id`),
-  CONSTRAINT `FK7h1wcba93khggbl1ahgwjlssu`
-    FOREIGN KEY (`status_id`)
-    REFERENCES `alayde`.`status` (`id`),
-  CONSTRAINT `FKcyppkplfbc92v0xoju6j4bqxq`
-    FOREIGN KEY (`author_id`)
-    REFERENCES `alayde`.`user` (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 201
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `alayde`.`chat`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`chat` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `message` VARCHAR(5000) NULL DEFAULT NULL,
-  `sent_date` DATETIME(6) NULL DEFAULT NULL,
-  `author_id` BIGINT NOT NULL,
-  `media_id` BIGINT NULL DEFAULT NULL,
-  `ticket_id` BIGINT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `FKpi6wbwfasijlfbc64tk0sa4t9` (`author_id` ASC) VISIBLE,
-  INDEX `FK87vukkk3wov21n90og92bdq52` (`media_id` ASC) VISIBLE,
-  INDEX `FKbddfi5rin7my8lvtki9igfaq4` (`ticket_id` ASC) VISIBLE,
-  CONSTRAINT `FK87vukkk3wov21n90og92bdq52`
-    FOREIGN KEY (`media_id`)
-    REFERENCES `alayde`.`media` (`id`),
-  CONSTRAINT `FKbddfi5rin7my8lvtki9igfaq4`
-    FOREIGN KEY (`ticket_id`)
-    REFERENCES `alayde`.`ticket` (`id`),
-  CONSTRAINT `FKpi6wbwfasijlfbc64tk0sa4t9`
-    FOREIGN KEY (`author_id`)
-    REFERENCES `alayde`.`user` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `alayde`.`flyway_schema_history`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`flyway_schema_history` (
-  `installed_rank` INT NOT NULL,
-  `version` VARCHAR(50) NULL DEFAULT NULL,
-  `description` VARCHAR(200) NOT NULL,
-  `type` VARCHAR(20) NOT NULL,
-  `script` VARCHAR(1000) NOT NULL,
-  `checksum` INT NULL DEFAULT NULL,
-  `installed_by` VARCHAR(100) NOT NULL,
-  `installed_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `execution_time` INT NOT NULL,
-  `success` TINYINT(1) NOT NULL,
+DROP TABLE IF EXISTS `flyway_schema_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `flyway_schema_history` (
+  `installed_rank` int NOT NULL,
+  `version` varchar(50) DEFAULT NULL,
+  `description` varchar(200) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `script` varchar(1000) NOT NULL,
+  `checksum` int DEFAULT NULL,
+  `installed_by` varchar(100) NOT NULL,
+  `installed_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `execution_time` int NOT NULL,
+  `success` tinyint(1) NOT NULL,
   PRIMARY KEY (`installed_rank`),
-  INDEX `flyway_schema_history_s_idx` (`success` ASC) VISIBLE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+  KEY `flyway_schema_history_s_idx` (`success`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `flyway_schema_history`
+--
 
--- -----------------------------------------------------
--- Table `alayde`.`global_historical`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`global_historical` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `action` VARCHAR(255) NULL DEFAULT NULL,
-  `is_read` BIT(1) NOT NULL,
-  `ticket_id` BIGINT NULL DEFAULT NULL,
-  `ticket_title` VARCHAR(255) NULL DEFAULT NULL,
-  `timestamp` DATETIME(6) NULL DEFAULT NULL,
-  `user_id` BIGINT NULL DEFAULT NULL,
-  `user_name` VARCHAR(255) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 201
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+LOCK TABLES `flyway_schema_history` WRITE;
+/*!40000 ALTER TABLE `flyway_schema_history` DISABLE KEYS */;
+INSERT INTO `flyway_schema_history` VALUES (1,'1','<< Flyway Baseline >>','BASELINE','<< Flyway Baseline >>',NULL,'root','2024-01-26 08:16:07',0,1);
+/*!40000 ALTER TABLE `flyway_schema_history` ENABLE KEYS */;
+UNLOCK TABLES;
 
+--
+-- Table structure for table `global_historical`
+--
 
--- -----------------------------------------------------
--- Table `alayde`.`ticket_developer`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`ticket_developer` (
-  `ticket_id` BIGINT NOT NULL,
-  `developer_id` BIGINT NOT NULL,
-  INDEX `FKhntq1a7u200rurkv9uqd8e92p` (`developer_id` ASC) VISIBLE,
-  INDEX `FKpo3oefxb42tyr3hnaxvgha4it` (`ticket_id` ASC) VISIBLE,
-  CONSTRAINT `FKhntq1a7u200rurkv9uqd8e92p`
-    FOREIGN KEY (`developer_id`)
-    REFERENCES `alayde`.`user` (`id`),
-  CONSTRAINT `FKpo3oefxb42tyr3hnaxvgha4it`
-    FOREIGN KEY (`ticket_id`)
-    REFERENCES `alayde`.`ticket` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+DROP TABLE IF EXISTS `global_historical`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `global_historical` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `action` varchar(255) DEFAULT NULL,
+  `is_read` bit(1) NOT NULL,
+  `ticket_id` bigint DEFAULT NULL,
+  `ticket_title` varchar(255) DEFAULT NULL,
+  `timestamp` datetime(6) DEFAULT NULL,
+  `user_id` bigint DEFAULT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `global_historical`
+--
 
--- -----------------------------------------------------
--- Table `alayde`.`ticket_historical`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`ticket_historical` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `action` VARCHAR(255) NULL DEFAULT NULL,
-  `is_read` BIT(1) NOT NULL,
-  `ticket_id` BIGINT NULL DEFAULT NULL,
-  `ticket_title` VARCHAR(255) NULL DEFAULT NULL,
-  `timestamp` DATETIME(6) NULL DEFAULT NULL,
-  `user_id` BIGINT NULL DEFAULT NULL,
-  `user_name` VARCHAR(255) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 201
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+LOCK TABLES `global_historical` WRITE;
+/*!40000 ALTER TABLE `global_historical` DISABLE KEYS */;
+INSERT INTO `global_historical` VALUES (152,'Création',_binary '\0',152,'earum','2024-01-26 09:14:36.622108',34,'Alicia Laurent'),(153,'Création',_binary '\0',153,'repellat','2024-01-26 09:14:36.636782',14,'Valentin Simon'),(154,'Création',_binary '\0',154,'sequi','2024-01-26 09:14:36.653863',19,'Adam Nicolas'),(155,'Création',_binary '\0',155,'nostrum','2024-01-26 09:14:36.669540',34,'Alicia Laurent'),(156,'Création',_binary '\0',156,'illum','2024-01-26 09:14:36.686556',46,'Evan Clément'),(157,'Création',_binary '\0',157,'amet','2024-01-26 09:14:36.702216',5,'Victor Lemoine'),(158,'Création',_binary '\0',158,'alias','2024-01-26 09:14:36.718099',25,'Antoine Vidal'),(159,'Création',_binary '\0',159,'ducimus','2024-01-26 09:14:36.733584',31,'Alice Dubois'),(160,'Création',_binary '\0',160,'quas','2024-01-26 09:14:36.748595',10,'Hugo Roche'),(161,'Création',_binary '\0',161,'atque','2024-01-26 09:14:36.765212',49,'Nicolas Gonzalez'),(162,'Création',_binary '\0',162,'officiis','2024-01-26 09:14:36.780473',1,'manager the'),(163,'Création',_binary '\0',163,'vero','2024-01-26 09:14:36.796943',21,'Maeva Vidal'),(164,'Création',_binary '\0',164,'omnis','2024-01-26 09:14:36.813871',14,'Valentin Simon'),(165,'Création',_binary '\0',165,'omnis','2024-01-26 09:14:36.829938',12,'Paul Marchal'),(166,'Création',_binary '\0',166,'rerum','2024-01-26 09:14:36.845971',41,'Lou Rey'),(167,'Création',_binary '\0',167,'recusandae','2024-01-26 09:14:36.861632',24,'Mathis Le roux'),(168,'Création',_binary '\0',168,'occaecati','2024-01-26 09:14:36.878080',12,'Paul Marchal'),(169,'Création',_binary '\0',169,'eum','2024-01-26 09:14:36.893017',11,'Louise Vincent'),(170,'Création',_binary '\0',170,'ut','2024-01-26 09:14:36.910736',6,'Arthur Huet'),(171,'Création',_binary '\0',171,'neque','2024-01-26 09:14:36.926723',39,'Yanis Laurent'),(172,'Création',_binary '\0',172,'ullam','2024-01-26 09:14:36.945239',7,'Lucas Dvnis'),(173,'Création',_binary '\0',173,'laboriosam','2024-01-26 09:14:36.961025',10,'Hugo Roche'),(174,'Création',_binary '\0',174,'voluptas','2024-01-26 09:14:36.976688',22,'Ethan Cousin'),(175,'Création',_binary '\0',175,'autem','2024-01-26 09:14:36.991718',43,'Pierre Royer'),(176,'Création',_binary '\0',176,'porro','2024-01-26 09:14:37.008352',31,'Alice Dubois'),(177,'Création',_binary '\0',177,'at','2024-01-26 09:14:37.025032',36,'Clémence Gonzalez'),(178,'Création',_binary '\0',178,'aut','2024-01-26 09:14:37.041679',26,'Quentin Francois'),(179,'Création',_binary '\0',179,'totam','2024-01-26 09:14:37.057255',10,'Hugo Roche'),(180,'Création',_binary '\0',180,'tenetur','2024-01-26 09:14:37.074902',41,'Lou Rey'),(181,'Création',_binary '\0',181,'voluptatem','2024-01-26 09:14:37.089885',32,'Carla Sanchez'),(182,'Création',_binary '\0',182,'asperiores','2024-01-26 09:14:37.107930',21,'Maeva Vidal'),(183,'Création',_binary '\0',183,'ut','2024-01-26 09:14:37.125151',14,'Valentin Simon'),(184,'Création',_binary '\0',184,'rerum','2024-01-26 09:14:37.141451',30,'Maxime Cousin'),(185,'Création',_binary '\0',185,'officiis','2024-01-26 09:14:37.157371',1,'manager the'),(186,'Création',_binary '\0',186,'debitis','2024-01-26 09:14:37.178635',25,'Antoine Vidal'),(187,'Création',_binary '\0',187,'enim','2024-01-26 09:14:37.195183',47,'Alicia Lévêque'),(188,'Création',_binary '\0',188,'iste','2024-01-26 09:14:37.211623',24,'Mathis Le roux'),(189,'Création',_binary '\0',189,'laborum','2024-01-26 09:14:37.227506',42,'Laura Schmitt'),(190,'Création',_binary '\0',190,'consequuntur','2024-01-26 09:14:37.243184',1,'manager the'),(191,'Création',_binary '\0',191,'aut','2024-01-26 09:14:37.258743',7,'Lucas Dvnis'),(192,'Création',_binary '\0',192,'esse','2024-01-26 09:14:37.275872',50,'Enzo Mercier'),(193,'Création',_binary '\0',193,'veniam','2024-01-26 09:14:37.293528',8,'Mathis Renault'),(194,'Création',_binary '\0',194,'est','2024-01-26 09:14:37.310623',16,'Rayan Blanc'),(195,'Création',_binary '\0',195,'explicabo','2024-01-26 09:14:37.325503',12,'Paul Marchal'),(196,'Création',_binary '\0',196,'eum','2024-01-26 09:14:37.341601',24,'Mathis Le roux'),(197,'Création',_binary '\0',197,'ducimus','2024-01-26 09:14:37.357924',12,'Paul Marchal'),(198,'Création',_binary '\0',198,'iusto','2024-01-26 09:14:37.375033',26,'Quentin Francois'),(199,'Création',_binary '\0',199,'quia','2024-01-26 09:14:37.396450',25,'Antoine Vidal'),(200,'Création',_binary '\0',200,'qui','2024-01-26 09:14:37.411324',9,'Anaïs Adam');
+/*!40000 ALTER TABLE `global_historical` ENABLE KEYS */;
+UNLOCK TABLES;
 
+--
+-- Table structure for table `media`
+--
 
--- -----------------------------------------------------
--- Table `alayde`.`user_historical`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `alayde`.`user_historical` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `action` VARCHAR(255) NULL DEFAULT NULL,
-  `is_read` BIT(1) NOT NULL,
-  `ticket_id` BIGINT NULL DEFAULT NULL,
-  `ticket_title` VARCHAR(255) NULL DEFAULT NULL,
-  `timestamp` DATETIME(6) NULL DEFAULT NULL,
-  `user_id` BIGINT NULL DEFAULT NULL,
-  `user_name` VARCHAR(255) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 201
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+DROP TABLE IF EXISTS `media`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `media` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `base64content` varchar(255) DEFAULT NULL,
+  `content_type` varchar(255) DEFAULT NULL,
+  `data` longblob,
+  `file_name` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `chat_id` bigint DEFAULT NULL,
+  `user_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKpenbfvs2scby0lgdjaxhvchwo` (`chat_id`),
+  KEY `FK64mp2rjcwcgqpnu3weakxvwq0` (`user_id`),
+  CONSTRAINT `FK64mp2rjcwcgqpnu3weakxvwq0` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `FKpenbfvs2scby0lgdjaxhvchwo` FOREIGN KEY (`chat_id`) REFERENCES `chat` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `media`
+--
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+LOCK TABLES `media` WRITE;
+/*!40000 ALTER TABLE `media` DISABLE KEYS */;
+/*!40000 ALTER TABLE `media` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `priority`
+--
+
+DROP TABLE IF EXISTS `priority`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `priority` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `priority_title` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `priority`
+--
+
+LOCK TABLES `priority` WRITE;
+/*!40000 ALTER TABLE `priority` DISABLE KEYS */;
+INSERT INTO `priority` VALUES (1,'Basse'),(2,'Moyenne'),(3,'Élevée');
+/*!40000 ALTER TABLE `priority` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role`
+--
+
+DROP TABLE IF EXISTS `role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `role` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `role_title` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_ikpaq20ybdpnppqng5bbn188m` (`role_title`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role`
+--
+
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (1,'Client'),(2,'Développeur'),(3,'Manager');
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `status`
+--
+
+DROP TABLE IF EXISTS `status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `status` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `status_title` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `status`
+--
+
+LOCK TABLES `status` WRITE;
+/*!40000 ALTER TABLE `status` DISABLE KEYS */;
+INSERT INTO `status` VALUES (1,'À faire'),(2,'En cours'),(3,'Terminé');
+/*!40000 ALTER TABLE `status` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ticket`
+--
+
+DROP TABLE IF EXISTS `ticket`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ticket` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `archive_date` datetime(6) DEFAULT NULL,
+  `creation_date` datetime(6) DEFAULT NULL,
+  `description` varchar(5000) NOT NULL,
+  `ticket_title` varchar(255) NOT NULL,
+  `update_date` datetime(6) DEFAULT NULL,
+  `author_id` bigint DEFAULT NULL,
+  `category_id` bigint NOT NULL,
+  `priority_id` bigint NOT NULL,
+  `status_id` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKcyppkplfbc92v0xoju6j4bqxq` (`author_id`),
+  KEY `FK3g2gmlm6p2o4hc5oggcvq51x3` (`category_id`),
+  KEY `FK67q89ifbffc2rds9hvk9sywpw` (`priority_id`),
+  KEY `FK7h1wcba93khggbl1ahgwjlssu` (`status_id`),
+  CONSTRAINT `FK3g2gmlm6p2o4hc5oggcvq51x3` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
+  CONSTRAINT `FK67q89ifbffc2rds9hvk9sywpw` FOREIGN KEY (`priority_id`) REFERENCES `priority` (`id`),
+  CONSTRAINT `FK7h1wcba93khggbl1ahgwjlssu` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`),
+  CONSTRAINT `FKcyppkplfbc92v0xoju6j4bqxq` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ticket`
+--
+
+LOCK TABLES `ticket` WRITE;
+/*!40000 ALTER TABLE `ticket` DISABLE KEYS */;
+INSERT INTO `ticket` VALUES (1,NULL,'2024-01-26 09:14:34.497000','Ex illum ut porro ad voluptates blanditiis nihil. Magnam sint et consequatur error quidem non temporibus. Ea voluptatibus nulla. Debitis odit debitis autem facere eum.','impedit',NULL,13,3,2,3),(2,NULL,'2024-01-26 09:14:34.538000','Error libero explicabo quia et. Quidem nesciunt omnis ipsam hic et incidunt. Sapiente error consequuntur voluptates atque enim. Natus voluptatem magnam. Est totam magni consectetur voluptates omnis.','veritatis',NULL,47,1,3,1),(3,NULL,'2024-01-26 09:14:34.552000','Libero minus fugit ut fugit quibusdam ex vero. Vel neque enim nisi beatae et incidunt doloribus. Ex vel quos.','dignissimos',NULL,3,3,3,1),(4,NULL,'2024-01-26 09:14:34.562000','Aut illo accusantium modi quae reiciendis ut dolore. Et quo repellendus at dolores. Qui eum animi. Voluptatem nihil recusandae deserunt consequatur et ut. Illo optio repellat nihil laborum.','nostrum',NULL,9,2,3,3),(5,NULL,'2024-01-26 09:14:34.573000','Labore quidem harum. Minus qui sunt consequuntur eum quis. Et sunt aut facilis aliquam ipsum totam debitis. Praesentium necessitatibus et. Sequi sit porro amet.','et',NULL,4,3,2,2),(6,NULL,'2024-01-26 09:14:34.582000','Consectetur esse officiis autem nemo. Soluta quos sed voluptatem illum. Dignissimos amet molestias iure ut. Nam non provident magni ea.','debitis',NULL,44,2,3,3),(7,NULL,'2024-01-26 09:14:34.591000','Earum ea voluptas sit vel sint tenetur. Amet dignissimos dolores aut aut. Sint quia dolorem exercitationem est ipsa et. Aliquid aliquam quidem maiores quas nobis repellendus quia. Explicabo provident consequatur consequatur incidunt illum assumenda nobis.','odio',NULL,10,1,3,1),(8,NULL,'2024-01-26 09:14:34.602000','Labore beatae non sit ut quod dignissimos. Fugit soluta quibusdam. Distinctio laboriosam perferendis dicta iure.','veritatis',NULL,27,3,3,2),(9,NULL,'2024-01-26 09:14:34.614000','Iusto molestiae molestiae et totam. Vero sapiente iste animi voluptatum. Molestiae ipsam aliquid fugit aut iure.','id',NULL,27,1,2,3),(10,NULL,'2024-01-26 09:14:34.625000','Dolorem culpa ipsum modi aut odio omnis. Ut aliquam sint ut praesentium perspiciatis sed. Earum officiis soluta. Non beatae et rem illum velit atque alias. Ex voluptas aliquam dolores iusto dolorum perspiciatis.','fugiat',NULL,22,2,3,1),(11,NULL,'2024-01-26 09:14:34.637000','Eligendi eum officiis. Cupiditate sapiente dolor eum quia laudantium. Autem et dolorem dolorem beatae odio. Quia et doloribus nesciunt sed.','molestiae',NULL,17,2,3,1),(12,NULL,'2024-01-26 09:14:34.650000','Est non quis in doloribus et. Aut beatae reprehenderit et dolore quae sunt. Quasi doloribus qui quo. Soluta temporibus rerum nihil exercitationem. Culpa quae totam aut quo.','voluptatem',NULL,31,2,2,3),(13,NULL,'2024-01-26 09:14:34.662000','Voluptatem consectetur sint id necessitatibus eaque non eius. Aliquid a sit. Aut beatae mollitia vel ullam laborum.','qui',NULL,10,3,2,1),(14,NULL,'2024-01-26 09:14:34.676000','Officia id cupiditate cupiditate saepe. Et sit harum. Aspernatur necessitatibus distinctio.','nihil',NULL,27,1,1,2),(15,NULL,'2024-01-26 09:14:34.686000','Est deleniti quod esse aut. Voluptatibus dolore qui. Et illo at. Id quaerat veritatis sed ipsum accusamus officiis.','odio',NULL,42,3,1,1),(16,NULL,'2024-01-26 09:14:34.701000','Omnis asperiores animi est qui id molestias. Itaque inventore natus est. Debitis cum nihil a est. Nostrum aut eveniet impedit. Fugit dignissimos sed et unde cupiditate hic aliquam.','amet',NULL,28,1,3,2),(17,NULL,'2024-01-26 09:14:34.721000','Sed mollitia temporibus dolorem molestiae vel. Eum et qui. Corrupti eum maxime sit et suscipit dicta. Consectetur debitis dolorem consequatur minima neque. At id at optio.','commodi',NULL,9,3,2,1),(18,NULL,'2024-01-26 09:14:34.732000','Qui voluptas architecto explicabo corrupti voluptas. Soluta magnam cumque accusamus accusamus illum ab deserunt. Corporis doloremque id est ut id.','ut',NULL,14,3,3,3),(19,NULL,'2024-01-26 09:14:34.741000','Nobis ducimus fuga ducimus exercitationem ut sed aut. Cumque officiis atque eos voluptatem accusantium. Quas modi iusto tenetur veritatis. Consequuntur quia et. Error quos in.','facilis',NULL,32,1,1,1),(20,NULL,'2024-01-26 09:14:34.750000','Omnis placeat quibusdam quaerat occaecati veniam quia et. Ut hic aperiam voluptatibus quia et omnis. Quos ipsum alias ratione maxime. Omnis a ratione debitis sunt rerum fuga explicabo.','eveniet',NULL,30,1,1,1),(21,NULL,'2024-01-26 09:14:34.760000','Nam similique voluptas totam ipsam iste sit. Et autem corporis beatae et iste. Non quidem quae veniam eum delectus.','nisi',NULL,32,2,1,1),(22,NULL,'2024-01-26 09:14:34.771000','Quia reprehenderit rerum illo saepe magni minus. Amet velit ea doloremque facilis harum esse repellendus. Sint labore ipsam suscipit. Ex cumque expedita veniam.','maxime',NULL,39,2,1,1),(23,NULL,'2024-01-26 09:14:34.782000','In quia rem ab placeat. Occaecati mollitia perferendis sit modi voluptatem. Tenetur totam repellat est. Repellat ea porro.','rerum',NULL,27,1,1,3),(24,NULL,'2024-01-26 09:14:34.792000','Quia animi et dolor dicta nihil cum. Ab quasi repellat incidunt doloribus sint nihil. Unde neque rerum dolore in. Corporis eos tempore sunt error eveniet. Adipisci at rerum suscipit possimus.','at',NULL,25,1,1,3),(25,NULL,'2024-01-26 09:14:34.804000','Autem culpa saepe sit atque. Ut provident consequuntur. Eos occaecati eius.','est',NULL,34,2,1,1),(26,NULL,'2024-01-26 09:14:34.814000','Ipsam enim rerum. Iste officiis libero. Aut ut nihil architecto.','quia',NULL,39,2,3,2),(27,NULL,'2024-01-26 09:14:34.825000','Et aspernatur quam minus aperiam voluptas aliquam. Quo itaque temporibus nesciunt delectus. Assumenda dolores ut sunt. Dolor ea et.','incidunt',NULL,6,3,1,3),(28,NULL,'2024-01-26 09:14:34.836000','Quasi consequatur maxime eum. Enim voluptas vel praesentium dolores quaerat sint. Iste sint autem.','explicabo',NULL,3,1,2,3),(29,NULL,'2024-01-26 09:14:34.845000','Et illum voluptas voluptate at facilis repellat. Est pariatur asperiores. Voluptates tempore consequuntur qui ex consequatur nostrum. Amet et nemo laboriosam quas. Nihil commodi assumenda doloremque hic.','ut',NULL,40,2,2,2),(30,NULL,'2024-01-26 09:14:34.855000','Dolores adipisci sunt doloremque sed illum ut. Ut ad quia. Eius sapiente consequatur sit. Alias magnam eos libero nostrum odio.','quod',NULL,12,3,1,1),(31,NULL,'2024-01-26 09:14:34.866000','Doloremque error reiciendis enim ipsam sunt possimus nam. Aut distinctio accusantium nostrum incidunt sed sunt. Neque incidunt id. Saepe laborum possimus ipsa nam molestiae accusantium consequuntur. Dolorem molestiae id rerum.','ut',NULL,32,2,2,1),(32,NULL,'2024-01-26 09:14:34.877000','Commodi id necessitatibus et atque ad. Nobis rerum repellat animi. Harum quia iure vel quisquam rerum.','consequatur',NULL,4,3,2,3),(33,NULL,'2024-01-26 09:14:34.888000','Labore praesentium voluptas. Sint rerum qui repudiandae voluptas. Aperiam officia exercitationem est. Sapiente in voluptate quasi. Voluptatibus dolor sint totam odio labore velit autem.','delectus',NULL,33,3,2,2),(34,NULL,'2024-01-26 09:14:34.898000','Enim laboriosam omnis nesciunt. Eos dolorem dolores ab qui. Ea dolor sint mollitia rem consequatur. Quod et nam quod nemo quibusdam quo. Molestias pariatur consectetur impedit.','quibusdam',NULL,38,2,1,3),(35,NULL,'2024-01-26 09:14:34.909000','At reprehenderit rerum labore rem officiis. Molestiae reprehenderit explicabo id rerum aliquam ut. Dolor ullam quidem voluptas reprehenderit. Ducimus temporibus adipisci et in quis.','sunt',NULL,31,1,3,1),(36,NULL,'2024-01-26 09:14:34.921000','Aut ipsum et quae harum explicabo aperiam. Quos id illo placeat assumenda id. Ut dolores beatae incidunt. Eligendi deleniti quam eos qui distinctio totam.','id',NULL,10,1,1,1),(37,NULL,'2024-01-26 09:14:34.935000','Explicabo officia fuga accusamus est. Illum cum minus corrupti quo beatae nihil quis. At aut velit consequatur dolores nostrum minus mollitia. Molestiae sunt necessitatibus. Voluptatum dolor placeat ut.','sit',NULL,47,2,3,3),(38,NULL,'2024-01-26 09:14:34.944000','Natus quaerat ut hic quasi voluptatem. Quis in facilis sed eum porro eligendi minima. Nam odit voluptatem. Eos suscipit sit quibusdam. Voluptates laborum praesentium inventore a ratione.','similique',NULL,25,2,1,1),(39,NULL,'2024-01-26 09:14:34.955000','At consequatur possimus est accusamus. Quia cumque ab. Eum vel voluptatem earum. Sapiente error odio aspernatur. Eligendi laborum aut non quam corrupti id corporis.','quia',NULL,3,3,3,1),(40,NULL,'2024-01-26 09:14:34.966000','Nesciunt omnis dolor. Repudiandae voluptatem magni saepe veniam. Accusamus tenetur reiciendis ut consequatur necessitatibus explicabo earum. Et omnis veniam tempora impedit aperiam. Sunt aperiam dolor labore pariatur minus animi molestiae.','culpa',NULL,1,2,2,1),(41,NULL,'2024-01-26 09:14:34.979000','Assumenda labore sed. Est et minus doloribus dolorum et odio. Adipisci dolorum molestiae dolorem deleniti laborum excepturi.','similique',NULL,42,3,3,2),(42,NULL,'2024-01-26 09:14:34.989000','Quasi est consequatur consequatur at. Nulla rem rerum. Quidem quam magnam impedit suscipit repellat. Ut assumenda harum et consequuntur quia. Laborum minus ratione.','et',NULL,5,3,1,2),(43,NULL,'2024-01-26 09:14:35.000000','Et ut veritatis nihil omnis ut eveniet. Eum est voluptas eos quisquam nobis. Repellat ut quis velit ipsam officiis possimus. Veritatis quidem sit. Qui voluptates est architecto nihil itaque commodi.','et',NULL,29,1,2,2),(44,NULL,'2024-01-26 09:14:35.011000','Sequi rerum tempore sint a sed numquam aliquam. Dolores necessitatibus debitis quis voluptas. Qui aut necessitatibus quisquam quis ut distinctio neque. Voluptatem soluta sed neque tempora officia autem eum.','dolores',NULL,8,3,3,1),(45,NULL,'2024-01-26 09:14:35.021000','Qui ad nostrum qui. Nihil enim quia iusto rerum. Excepturi minus quis in eius aut ea repellat.','ipsum',NULL,21,3,2,2),(46,NULL,'2024-01-26 09:14:35.030000','Expedita exercitationem velit sint perferendis voluptas deserunt nisi. Blanditiis optio magnam ut laboriosam esse architecto illo. Nihil molestias odio. Architecto delectus id perferendis rem et atque et. Eligendi quae sunt commodi est.','illo',NULL,16,3,2,2),(47,NULL,'2024-01-26 09:14:35.041000','Quod et similique velit labore nemo. Et dolorum ab repudiandae qui hic autem ea. Voluptas quasi et aut rerum est ex.','explicabo',NULL,36,2,3,2),(48,NULL,'2024-01-26 09:14:35.051000','Aliquam asperiores voluptatem eos qui totam illum velit. Non aspernatur perferendis eum enim aliquam sint. In ducimus et.','dolor',NULL,53,3,2,3),(49,NULL,'2024-01-26 09:14:35.061000','Animi corrupti sequi voluptates. Consequatur amet et quae voluptatem totam quia at. Aliquam explicabo eaque qui. Eum non veritatis ipsum qui sunt aut praesentium. Ut est eius eius nisi laudantium ut velit.','esse',NULL,48,1,3,2),(50,NULL,'2024-01-26 09:14:35.073000','Vel soluta voluptas recusandae tenetur veniam. Exercitationem vel quo. Omnis ut placeat voluptatem facere.','neque',NULL,50,1,3,3),(51,NULL,'2024-01-26 09:14:35.092000','Incidunt in consequatur ut sed cumque nulla. Repellendus beatae dolorem itaque et veritatis. Quo nihil possimus.','aut',NULL,15,2,1,2),(52,NULL,'2024-01-26 09:14:35.118000','Fugiat et minima consequatur ipsum sunt voluptatum quia. Sunt assumenda repellat odio odit architecto. Et quod molestiae dolorem.','quia',NULL,24,2,1,2),(53,NULL,'2024-01-26 09:14:35.133000','Qui et voluptatibus sed minima quibusdam. Hic nulla dolor odio fugit assumenda repellendus a. Quia officia quam placeat est sit.','voluptate',NULL,9,2,2,1),(54,NULL,'2024-01-26 09:14:35.146000','Et quis ducimus recusandae eos maxime. Rerum doloremque aut quasi perspiciatis non sit. Quo quibusdam saepe id sint impedit. Qui totam est sequi omnis accusamus eveniet magni. Asperiores et deleniti non eligendi libero.','explicabo',NULL,45,3,3,2),(55,NULL,'2024-01-26 09:14:35.159000','Esse harum incidunt. Ut qui molestiae ut. Deserunt dolores placeat provident exercitationem ut vel. Non odio eos saepe quasi qui.','tempore',NULL,16,2,2,3),(56,NULL,'2024-01-26 09:14:35.174000','Voluptatem consequatur molestias. Odio quidem repudiandae commodi recusandae aut. A aspernatur aspernatur velit ut et quo sunt. Sint excepturi ex perferendis autem provident quis ratione.','laborum',NULL,23,1,2,1),(57,NULL,'2024-01-26 09:14:35.189000','Voluptatibus voluptatem sequi. Est dolorem vel vitae. Fugit ex culpa ut eum. Et temporibus corrupti.','consequuntur',NULL,29,3,2,3),(58,NULL,'2024-01-26 09:14:35.204000','Doloribus consectetur ullam nulla animi recusandae quis dolores. Vero corrupti sed culpa. Consequuntur culpa repellat soluta voluptates nesciunt tenetur. Cupiditate corporis et consectetur vero.','aut',NULL,23,3,1,3),(59,NULL,'2024-01-26 09:14:35.219000','Aliquam porro sint nam earum unde enim. Unde et perspiciatis. Non quam quaerat nihil laborum porro. Aliquam ut rem sunt suscipit quos sunt. Illum rem officia sunt incidunt.','voluptas',NULL,47,2,1,2),(60,NULL,'2024-01-26 09:14:35.233000','Ut optio ipsa. Omnis ea libero quis. Quia nemo sed maiores doloremque.','modi',NULL,49,2,2,1),(61,NULL,'2024-01-26 09:14:35.249000','Quia odit est sit et sint est. Velit rerum error totam quo voluptate et sit. Labore labore dolorem sequi hic possimus temporibus.','autem',NULL,51,3,2,3),(62,NULL,'2024-01-26 09:14:35.267000','Corporis ut animi soluta nam doloremque nihil. Eligendi suscipit ut consequatur sint cumque sapiente. Excepturi et accusamus. Omnis fugit consectetur quae ad omnis id. Sed libero assumenda incidunt assumenda.','sint',NULL,27,1,2,2),(63,NULL,'2024-01-26 09:14:35.284000','Nisi aliquam vitae velit alias aut est. Hic ut asperiores id deleniti. Autem perferendis eaque. Dolorem et doloremque.','sunt',NULL,16,2,3,2),(64,NULL,'2024-01-26 09:14:35.303000','Aut repudiandae atque rerum. Excepturi quasi repellendus qui molestias et. Sed at vitae quasi et. Impedit eos sunt. Est earum fugit dolore eum voluptate aut.','aut',NULL,46,1,2,2),(65,NULL,'2024-01-26 09:14:35.321000','Eaque qui nesciunt similique earum cumque. Voluptas quo qui incidunt sed. Et maiores voluptas error aliquam laborum. A culpa est ducimus amet sit. Dolorum repudiandae dolor.','non',NULL,48,3,1,2),(66,NULL,'2024-01-26 09:14:35.340000','Quae minus cum voluptatem quas. Maxime vel totam vel animi. Placeat dolor neque quo quos aut sint et. Quam sunt sapiente recusandae fugiat tempore hic.','necessitatibus',NULL,22,2,2,1),(67,NULL,'2024-01-26 09:14:35.355000','Totam quia quo nam exercitationem id. Quaerat quia est voluptas natus voluptas occaecati aut. A quidem nostrum deleniti. Enim quia nulla qui sunt magnam exercitationem. Ducimus nemo aut ut ut eum nesciunt voluptatem.','reprehenderit',NULL,22,1,3,2),(68,NULL,'2024-01-26 09:14:35.373000','Temporibus consequatur officiis exercitationem velit quia optio in. Quia quod dolore modi sit. Cumque aut amet inventore mollitia sit quam. Consectetur doloremque in beatae aut eos. Quod expedita autem.','qui',NULL,16,3,3,3),(69,NULL,'2024-01-26 09:14:35.390000','Deserunt quam accusamus omnis magni animi tenetur. Quis labore natus sed molestias in cum. Rerum ut libero fugiat dolor nihil. Quaerat vel aut maiores quam rerum.','ut',NULL,52,2,2,3),(70,NULL,'2024-01-26 09:14:35.408000','Neque non tempore molestiae facere in esse non. Omnis quis qui praesentium cupiditate facilis voluptatum quia. Laudantium qui dolor.','quod',NULL,24,2,1,1),(71,NULL,'2024-01-26 09:14:35.423000','Non quod ipsum. Voluptatum corporis et sunt et aliquam consequatur. Reprehenderit explicabo sunt. Optio et dolor consectetur. Sint tenetur quam quos ut aut iure enim.','odio',NULL,14,3,1,1),(72,NULL,'2024-01-26 09:14:35.437000','Possimus dolores aut unde possimus itaque sit numquam. Rerum occaecati officiis minus. Et earum at ea. Ex velit laudantium sed architecto beatae.','sunt',NULL,48,3,1,2),(73,NULL,'2024-01-26 09:14:35.450000','Amet optio dolorem optio temporibus alias eum deleniti. Nihil eveniet reiciendis. Itaque optio non enim.','velit',NULL,51,2,3,1),(74,NULL,'2024-01-26 09:14:35.464000','Blanditiis et ea delectus veniam distinctio. Vitae placeat consequatur. Veniam est sed eaque possimus at.','cumque',NULL,14,2,1,1),(75,NULL,'2024-01-26 09:14:35.477000','Tenetur rerum maiores aut quidem autem quidem. Ea dignissimos est eum dolorem odit tempora quis. Commodi ut a ipsum excepturi facere qui.','impedit',NULL,3,1,1,1),(76,NULL,'2024-01-26 09:14:35.488000','Atque voluptate rem repellat omnis itaque occaecati quo. Molestias maiores dolore ea. Voluptates aut atque aut porro. Quaerat et laboriosam incidunt. Facere odit corporis laboriosam.','quasi',NULL,9,3,1,3),(77,NULL,'2024-01-26 09:14:35.500000','Veniam ut magnam itaque est. Vitae soluta rerum suscipit incidunt blanditiis commodi. Dolore laboriosam neque dolorum est asperiores.','quod',NULL,30,2,2,3),(78,NULL,'2024-01-26 09:14:35.512000','Ut ipsam eveniet magnam sed libero. Earum id numquam. Odit similique vel. Ipsum tenetur fugiat voluptas sed corrupti fuga.','facilis',NULL,21,2,3,2),(79,NULL,'2024-01-26 09:14:35.525000','Dolorem facere voluptas quia vero aspernatur quibusdam temporibus. Aut in reprehenderit est sed esse. Sunt debitis culpa non quidem in. Voluptatem odio quia eum. Et sit iure ut quod ea consequatur dolorum.','et',NULL,39,3,3,3),(80,NULL,'2024-01-26 09:14:35.542000','Recusandae ab cupiditate optio id. Sit mollitia aut ipsum cumque voluptatem. Eos vero in ad excepturi officiis.','at',NULL,40,3,1,1),(81,NULL,'2024-01-26 09:14:35.555000','Distinctio sed doloribus beatae dolore odit qui harum. Nisi quis debitis qui consequatur nihil officiis vel. Sit adipisci ut cum omnis.','enim',NULL,50,1,2,2),(82,NULL,'2024-01-26 09:14:35.568000','Consequuntur consequatur sint. Quas laboriosam quaerat blanditiis. Soluta sequi autem vel. Deserunt aliquam voluptas laudantium eveniet dolores accusantium.','aut',NULL,52,3,3,2),(83,NULL,'2024-01-26 09:14:35.581000','Quis impedit vero sed quod qui. Temporibus neque aut. Itaque possimus ut at numquam repellat voluptate.','libero',NULL,41,2,2,1),(84,NULL,'2024-01-26 09:14:35.594000','Qui quae dolorem quod earum autem. Quae quibusdam rerum ea. Omnis nulla tenetur maiores eligendi est. Qui animi et veniam ut. Voluptatem numquam quod.','a',NULL,5,1,2,2),(85,NULL,'2024-01-26 09:14:35.608000','Non quasi magnam facilis nihil necessitatibus dicta. Inventore consequatur veritatis ea modi deserunt nulla. Aperiam ut animi. Totam nisi quasi non delectus ipsa.','occaecati',NULL,37,1,1,3),(86,NULL,'2024-01-26 09:14:35.623000','Laborum consectetur porro corrupti similique quidem ut dolore. Et quod voluptatum dolor unde. Beatae ut qui reprehenderit rerum.','cumque',NULL,16,2,2,2),(87,NULL,'2024-01-26 09:14:35.636000','Vero distinctio illum aut. Culpa excepturi dolorum. Consequatur iste eius reiciendis. Aut alias quisquam consequatur et perspiciatis.','sint',NULL,52,2,3,1),(88,NULL,'2024-01-26 09:14:35.648000','Sed nostrum ullam esse delectus recusandae esse excepturi. Molestiae cupiditate atque. Itaque occaecati sunt laborum facilis et at dolores. Assumenda dignissimos repellat ut quibusdam deleniti est quod.','eos',NULL,4,3,3,3),(89,NULL,'2024-01-26 09:14:35.661000','Sunt nobis vero et dolores. Quis aspernatur facilis iusto dolores fugiat soluta. Aspernatur molestias molestiae. Et et ab molestias. Quaerat eius eum expedita totam voluptas sunt et.','velit',NULL,9,2,3,3),(90,NULL,'2024-01-26 09:14:35.676000','Qui et animi maiores aliquid exercitationem enim et. Ratione omnis impedit eum et cum. Consectetur dolorum unde.','illum',NULL,23,1,2,2),(91,NULL,'2024-01-26 09:14:35.692000','Nesciunt vero quia eveniet qui. Deleniti est sit culpa tempore qui mollitia. Rerum dolorem et aut placeat sit.','beatae',NULL,41,1,1,1),(92,NULL,'2024-01-26 09:14:35.708000','In perspiciatis iusto. Qui consequatur amet. Quam fuga distinctio quae expedita officia.','quo',NULL,25,3,1,2),(93,NULL,'2024-01-26 09:14:35.723000','Amet veniam ut aut magnam et. Fuga reiciendis quibusdam. Itaque ab non ullam fuga. Quia tenetur qui natus et consequatur atque tempora. Aut doloribus molestiae voluptas quia.','deleniti',NULL,28,1,3,1),(94,NULL,'2024-01-26 09:14:35.738000','Impedit impedit dolor eum. Quia quia fuga eligendi. Aut voluptas adipisci delectus.','in',NULL,38,1,2,1),(95,NULL,'2024-01-26 09:14:35.752000','Atque iure provident temporibus consequatur odio. A maxime omnis sed sit veniam eaque aliquid. Saepe expedita mollitia nostrum ipsum eligendi deleniti. Modi dignissimos laudantium non est sed consequuntur.','totam',NULL,34,1,3,1),(96,NULL,'2024-01-26 09:14:35.767000','Accusamus accusantium voluptatum odit. Eos omnis qui. Unde in voluptate aliquam itaque enim tempora. Non excepturi dolores omnis corporis dolor vitae laboriosam.','et',NULL,41,3,1,3),(97,NULL,'2024-01-26 09:14:35.783000','Aut incidunt soluta ducimus eaque. Autem quidem et amet ullam et. Est ad dolorem. Ut nostrum quo necessitatibus reprehenderit.','vel',NULL,8,3,3,1),(98,NULL,'2024-01-26 09:14:35.798000','Laudantium vel aut corporis omnis. Ut eaque ipsum labore. Dolores quis cumque enim. Autem quaerat voluptas. Qui exercitationem aut qui quia.','expedita',NULL,1,2,1,2),(99,NULL,'2024-01-26 09:14:35.812000','Rerum aut et laudantium et est et. Velit impedit ut id et molestiae. Nihil itaque et soluta.','aut',NULL,26,2,1,1),(100,NULL,'2024-01-26 09:14:35.826000','Et excepturi eaque nihil labore facilis id. Sunt aut veritatis quis. Commodi et ullam saepe est occaecati et quidem. Sapiente fugit fuga et nesciunt eveniet ad necessitatibus.','qui',NULL,44,1,3,2),(101,NULL,'2024-01-26 09:14:35.844000','Aut vel deserunt quis officia. Quas earum ex blanditiis omnis repellendus. Error explicabo dignissimos accusamus perspiciatis. Dolor recusandae animi. Est voluptates optio eius minima.','et',NULL,14,2,3,3),(102,NULL,'2024-01-26 09:14:35.858000','Qui dolor ipsa facere aut aut laudantium. Laborum iste aspernatur. Officiis magni dolor voluptatem est minima ducimus nihil. Et in et numquam.','neque',NULL,34,2,1,2),(103,NULL,'2024-01-26 09:14:35.873000','Reprehenderit consequatur delectus. Omnis quae delectus optio ipsa est dignissimos sed. Consequatur perspiciatis sint dolores nostrum sunt eos. Saepe qui sequi est. Deleniti et quasi consequatur necessitatibus quos est.','itaque',NULL,16,2,1,1),(104,NULL,'2024-01-26 09:14:35.888000','Voluptatem consequatur exercitationem molestiae soluta aliquam dignissimos. Minus fugiat officiis rerum quod est est error. Beatae facilis aspernatur. Voluptas aliquid laborum animi unde molestias.','iure',NULL,41,3,1,2),(105,NULL,'2024-01-26 09:14:35.904000','Ipsum ab sed rerum. Voluptatem voluptatem culpa quis. Natus cupiditate quis voluptatem.','et',NULL,27,1,2,2),(106,NULL,'2024-01-26 09:14:35.919000','Earum et eum voluptates ipsa quia. Quaerat ut dignissimos ipsa voluptatem nemo. Libero veritatis pariatur ipsum voluptatem.','eos',NULL,43,2,1,1),(107,NULL,'2024-01-26 09:14:35.933000','Iusto nulla iste ut cum. Unde deserunt numquam ratione itaque. Nobis fugiat quia aliquam eum molestias. Adipisci id neque ipsa odit modi sint amet.','tenetur',NULL,39,1,1,1),(108,NULL,'2024-01-26 09:14:35.947000','Eius nisi magni id dolorem ut aliquam. Architecto doloribus odio perferendis dolore aut. Inventore soluta ea quod porro non eum ipsa. Officia illum expedita quasi. Voluptate eaque aut laudantium esse eveniet animi neque.','et',NULL,10,2,3,1),(109,NULL,'2024-01-26 09:14:35.961000','Amet voluptatum nostrum eum odit neque. Minima rem aut doloribus. Perferendis nemo itaque et iste iste incidunt corporis.','necessitatibus',NULL,29,3,1,2),(110,NULL,'2024-01-26 09:14:35.974000','Atque aut nemo odit quasi. Tenetur tenetur aut laboriosam architecto quisquam dolorum facilis. Eos et aspernatur ipsam repudiandae sit nemo. Soluta dolor est rerum omnis ipsum iste eum.','et',NULL,51,1,2,1),(111,NULL,'2024-01-26 09:14:35.989000','Esse rerum sed atque quia dicta veniam. Amet officiis exercitationem vel. Amet id in sed qui expedita porro atque. Sapiente quia quae laudantium possimus unde itaque eum.','dicta',NULL,13,3,1,3),(112,NULL,'2024-01-26 09:14:36.004000','Qui nihil quis magnam. Quisquam adipisci maiores corporis quae velit. Placeat architecto laudantium iusto quis reiciendis.','ad',NULL,51,1,2,1),(113,NULL,'2024-01-26 09:14:36.020000','Est ex quo illum iste magni alias. Ex quidem quod id possimus cum numquam. Consequatur dolorem blanditiis velit ut quia. Neque hic eveniet accusamus. Odit id expedita.','rerum',NULL,18,3,2,2),(114,NULL,'2024-01-26 09:14:36.033000','Ratione explicabo eius qui. Ratione quo aut. Vitae necessitatibus non beatae aliquid rerum. Sit qui provident repellat facere sapiente nulla. Ex voluptate earum exercitationem ipsa facere in consequuntur.','ullam',NULL,22,3,3,1),(115,NULL,'2024-01-26 09:14:36.047000','Necessitatibus sit adipisci vitae repellendus debitis debitis. Nobis aut ut non officiis omnis non. Voluptatum temporibus enim iure ea quis voluptatum ut. Doloribus perspiciatis accusamus qui fugiat fuga reiciendis. Officia nostrum dolorem facilis tenetur velit est voluptas.','qui',NULL,32,1,1,2),(116,NULL,'2024-01-26 09:14:36.062000','Sunt at sunt qui voluptatem voluptate rerum aliquid. Delectus rerum sed incidunt qui cupiditate dolor quaerat. Distinctio ea modi laborum minima mollitia. Repellendus tenetur dolorem consequuntur.','culpa',NULL,37,3,1,2),(117,NULL,'2024-01-26 09:14:36.078000','Repellat omnis iure ducimus saepe. Debitis necessitatibus cupiditate. Et assumenda omnis vero aut quis eveniet quis.','tempore',NULL,16,2,2,3),(118,NULL,'2024-01-26 09:14:36.093000','Dolore a eaque et consequatur eligendi et fugit. Harum voluptatem sit id voluptas soluta voluptatem. Eum eum accusamus laboriosam voluptas expedita non. Eius enim qui consequatur ea hic consequatur omnis. Et aliquam ratione voluptas voluptatem tempora at exercitationem.','omnis',NULL,38,1,2,1),(119,NULL,'2024-01-26 09:14:36.109000','Unde dolores sed ut fuga quis. Reiciendis cum eos sequi officiis. Voluptatum quos harum dolores ea repellat. A doloribus sit adipisci maxime saepe repellat. Distinctio minima neque.','iure',NULL,53,3,1,1),(120,NULL,'2024-01-26 09:14:36.125000','Voluptatem ducimus et eum. Quia pariatur excepturi cum nisi. Distinctio cumque facere. Impedit non ipsam qui sint.','provident',NULL,22,3,2,2),(121,NULL,'2024-01-26 09:14:36.138000','Cumque sed placeat consectetur aspernatur. Molestiae voluptate voluptate eveniet. Quisquam rem sint. Odio non quis minus possimus et pariatur dolorem.','aut',NULL,31,3,2,1),(122,NULL,'2024-01-26 09:14:36.154000','Facere facere tempore animi dolorem et unde consectetur. Est provident deleniti nesciunt molestiae. Sint eaque atque dolores sequi sit.','delectus',NULL,3,3,2,1),(123,NULL,'2024-01-26 09:14:36.171000','Voluptatibus assumenda consequatur aut veritatis. Sed blanditiis et. Et aut repellat possimus hic nihil. Unde ratione quaerat deserunt occaecati dolores esse.','earum',NULL,39,3,1,1),(124,NULL,'2024-01-26 09:14:36.190000','Molestiae labore cupiditate expedita. Cum suscipit aperiam voluptatum. Iusto et aliquid. Rem sunt occaecati.','sed',NULL,8,1,1,1),(125,NULL,'2024-01-26 09:14:36.205000','Non sint eligendi voluptate laboriosam ut nisi. Dolorem odio voluptatem. Id nobis eveniet.','minima',NULL,45,3,3,1),(126,NULL,'2024-01-26 09:14:36.222000','Natus modi repellendus et officiis doloribus quas. Et nostrum qui eveniet odio non facere dolor. Cumque harum velit impedit ea et. Dolorem iure odio quibusdam sed.','repudiandae',NULL,45,3,1,1),(127,NULL,'2024-01-26 09:14:36.237000','Sunt ex qui reiciendis. Perferendis voluptate consectetur repudiandae eum et. Sunt similique ea sunt non molestiae fugiat. Quo aliquam corrupti maiores eaque temporibus alias.','reprehenderit',NULL,14,2,1,3),(128,NULL,'2024-01-26 09:14:36.253000','Consequatur maxime aut non quia. Delectus aut qui. Perspiciatis in odio dolor quia nihil consectetur expedita.','iure',NULL,2,3,3,1),(129,NULL,'2024-01-26 09:14:36.270000','Dolores in laudantium ut minima. Ipsum dolores enim aut quaerat. Sapiente numquam ipsam excepturi eius voluptatum ipsum.','impedit',NULL,23,2,1,2),(130,NULL,'2024-01-26 09:14:36.283000','Exercitationem qui ab non explicabo voluptatibus. Incidunt aspernatur quia laborum animi aliquid sint vitae. Sequi omnis doloribus ut. Debitis perspiciatis minus aperiam ducimus pariatur.','qui',NULL,49,1,3,1),(131,NULL,'2024-01-26 09:14:36.297000','Accusantium laborum aut ullam recusandae eius harum dolorem. Placeat aliquid est. Modi porro sit.','odio',NULL,49,1,2,1),(132,NULL,'2024-01-26 09:14:36.312000','Ab suscipit explicabo nihil ut. Quo vel iste optio maiores et quasi. Et repellendus hic.','enim',NULL,28,1,2,1),(133,NULL,'2024-01-26 09:14:36.329000','Aperiam est molestias error. Eligendi consequatur assumenda eos perferendis dolor. Rerum natus laboriosam velit.','aliquam',NULL,28,3,3,3),(134,NULL,'2024-01-26 09:14:36.343000','Molestiae qui et in minima itaque aspernatur a. Quis rerum facilis quos dignissimos dolorem quam repudiandae. Quia dolorum quo est laborum. A quibusdam quo.','tempore',NULL,5,1,1,3),(135,NULL,'2024-01-26 09:14:36.358000','Dolor qui voluptas. Quia unde architecto voluptatem omnis facilis qui nam. Inventore aut perferendis consequatur quia vel molestiae consequuntur. Id quis rerum maiores id et. Dolore sunt qui sint facilis cupiditate voluptatem.','cum',NULL,3,2,2,2),(136,NULL,'2024-01-26 09:14:36.373000','Asperiores reiciendis quae rerum voluptas ea. Pariatur similique deserunt vitae velit et. Quaerat repudiandae velit. Saepe ea ipsa cum ipsa inventore animi. Minima ut officia voluptas qui in aliquam.','optio',NULL,39,1,3,3),(137,NULL,'2024-01-26 09:14:36.389000','Laborum voluptatem est quibusdam ut doloribus. Ut sint consequatur mollitia a ut sint omnis. Maxime eaque vero impedit fugit. Id iste illum omnis. Tempore voluptatum ut temporibus fuga molestiae autem deserunt.','tempore',NULL,32,2,3,2),(138,NULL,'2024-01-26 09:14:36.405000','Alias architecto unde corrupti reprehenderit facere voluptatum. Blanditiis molestias dolor aut nihil. Nihil doloremque aut fugiat ipsa quas nobis. Est enim itaque quidem vitae. Nisi est expedita accusantium praesentium enim.','dicta',NULL,49,3,2,2),(139,NULL,'2024-01-26 09:14:36.421000','Praesentium qui magni reiciendis qui iure ea. Voluptate qui unde reiciendis impedit. Et aliquam rerum qui. Quasi voluptas reprehenderit nisi dolor atque. Porro molestiae architecto.','ullam',NULL,37,1,2,2),(140,NULL,'2024-01-26 09:14:36.436000','Vel qui est nemo esse corrupti maiores. Inventore qui maxime omnis quidem officia praesentium. Nulla voluptates mollitia eos nemo ut quia. Delectus unde similique ut. Asperiores consequuntur quia qui necessitatibus hic minus.','aut',NULL,46,3,1,2),(141,NULL,'2024-01-26 09:14:36.450000','Temporibus nihil enim aut fugiat autem. Nihil veniam impedit. Expedita et occaecati dolorum blanditiis optio voluptatem consequatur.','nesciunt',NULL,20,3,2,2),(142,NULL,'2024-01-26 09:14:36.464000','Voluptatibus nobis temporibus dicta aut eos ut. Eos recusandae voluptas deserunt consequatur temporibus. Voluptas veniam eveniet.','qui',NULL,51,1,1,1),(143,NULL,'2024-01-26 09:14:36.479000','Suscipit ex quis laudantium inventore aut atque assumenda. At sit inventore et nihil quisquam. Iure dolorem sit sed odio eligendi.','odio',NULL,37,1,2,3),(144,NULL,'2024-01-26 09:14:36.497000','Ex ut doloribus repellat. Dolores illum qui. Rem nostrum nesciunt aspernatur laborum est ad. Et deleniti fugiat consequatur. Similique velit velit tempore exercitationem.','ab',NULL,25,2,2,2),(145,NULL,'2024-01-26 09:14:36.512000','Quos repudiandae qui et. Asperiores odit error delectus. Rem aut deleniti harum quis accusantium quis. Facere voluptas ut quis voluptas rem voluptas animi. Earum quia culpa est excepturi.','sint',NULL,9,1,1,2),(146,NULL,'2024-01-26 09:14:36.528000','Ea distinctio animi velit recusandae et. Tenetur ut fuga odit aut pariatur quo et. Officia culpa minima non dicta facere ipsum voluptatem. Minima magnam vel. Sit quia occaecati suscipit et.','repellendus',NULL,6,3,2,3),(147,NULL,'2024-01-26 09:14:36.545000','Sint dolores deserunt quisquam. Provident ipsa dicta qui. Quo repellendus perferendis qui excepturi alias vitae dolores. Ducimus est fugiat. Necessitatibus earum quia ipsam qui omnis.','dolorem',NULL,23,2,3,1),(148,NULL,'2024-01-26 09:14:36.559000','Aut voluptatem voluptas. Quibusdam odio quae. Quo maiores aut. Ut quas suscipit illo facilis quos. In est voluptatum perspiciatis voluptatum inventore dolorem.','ullam',NULL,29,2,2,2),(149,NULL,'2024-01-26 09:14:36.575000','Non quo et itaque aut accusantium. Atque a aspernatur nostrum. Ut laborum nisi non repellendus. Dolor earum animi nobis.','iure',NULL,5,2,1,1),(150,NULL,'2024-01-26 09:14:36.590000','Et maxime ipsam eaque odio dolorum est. Laboriosam error exercitationem et exercitationem eveniet repudiandae. Voluptatem dolor et qui ut est.','officia',NULL,15,3,1,1),(151,NULL,'2024-01-26 09:14:36.605000','Quisquam voluptatem et deserunt officiis voluptatem. Ea porro molestiae. Pariatur dolores totam ea. Et perspiciatis consequatur expedita error eos. Est dolorem nemo iusto atque id.','nesciunt',NULL,32,1,2,1),(152,NULL,'2024-01-26 09:14:36.621000','Est veniam qui facere. In et tempora voluptatibus culpa et ex perferendis. Error enim rerum occaecati voluptatibus quisquam quia maxime. Minus doloribus vel aut qui. Et numquam cum.','earum',NULL,34,2,2,2),(153,NULL,'2024-01-26 09:14:36.635000','Aut eaque enim. Soluta cupiditate unde ex. Neque ea voluptatem non quod excepturi omnis. Voluptas earum quidem facilis rerum.','repellat',NULL,14,2,1,1),(154,NULL,'2024-01-26 09:14:36.652000','Molestias aut officiis a voluptatem. Tempore repellat et maiores alias. Consequatur quos quis soluta qui incidunt est.','sequi',NULL,19,2,2,1),(155,NULL,'2024-01-26 09:14:36.668000','Est sunt ab. Et sed nemo architecto. Enim velit incidunt illum voluptas perspiciatis aliquam veritatis. Voluptatum id quaerat perspiciatis in voluptatem. Omnis sunt eaque.','nostrum',NULL,34,3,2,3),(156,NULL,'2024-01-26 09:14:36.685000','Itaque vero pariatur. Eum eveniet quidem. Molestiae non ipsa.','illum',NULL,46,1,3,1),(157,NULL,'2024-01-26 09:14:36.701000','Hic corrupti aliquam. Earum quo quae non deleniti voluptas non dolores. Adipisci maxime qui non aut nulla adipisci.','amet',NULL,5,2,1,2),(158,NULL,'2024-01-26 09:14:36.717000','Voluptates voluptatem tenetur. Hic ullam recusandae facilis et ut qui. Quasi voluptatibus excepturi assumenda ea in dolores. Quos dolorem facere reprehenderit est est et. Voluptatem nostrum reprehenderit ut veritatis autem consectetur et.','alias',NULL,25,2,3,2),(159,NULL,'2024-01-26 09:14:36.732000','Commodi quo qui eaque quia excepturi iure sapiente. Commodi et itaque reiciendis nostrum. Excepturi nulla quaerat voluptatibus.','ducimus',NULL,31,2,1,2),(160,NULL,'2024-01-26 09:14:36.747000','Totam quia sunt odit et velit maiores asperiores. Et explicabo debitis alias explicabo assumenda deserunt sit. Ut voluptatem et dolores consequuntur aut suscipit. Itaque minus et dolorem vel. Dolorem mollitia illo repudiandae rerum porro itaque enim.','quas',NULL,10,2,1,2),(161,NULL,'2024-01-26 09:14:36.764000','Velit qui dolor nihil voluptas sed. Recusandae reprehenderit quasi. Ducimus earum quo aut fugiat mollitia libero. Ducimus explicabo incidunt provident. Quisquam in rem iusto sapiente fugit in assumenda.','atque',NULL,49,3,3,2),(162,NULL,'2024-01-26 09:14:36.780000','Aut nulla nisi. Ipsum voluptas consectetur in rem rerum ducimus consequatur. Officia consectetur doloribus consequatur voluptatum dignissimos.','officiis',NULL,1,3,1,1),(163,NULL,'2024-01-26 09:14:36.795000','Et laborum tenetur laudantium voluptatem qui. Non sunt et voluptatem quos. Enim nesciunt suscipit facilis natus.','vero',NULL,21,2,1,1),(164,NULL,'2024-01-26 09:14:36.811000','Temporibus nihil culpa neque porro accusantium quia. Temporibus dignissimos facere quos. Et voluptate facilis. Et delectus possimus voluptatum nihil possimus aspernatur et. Pariatur vero pariatur enim.','omnis',NULL,14,3,1,1),(165,NULL,'2024-01-26 09:14:36.829000','Occaecati vel mollitia aspernatur. Cumque sint provident sint aut omnis atque aliquam. Expedita molestiae ut. Explicabo rerum deleniti sit error qui.','omnis',NULL,12,3,3,1),(166,NULL,'2024-01-26 09:14:36.844000','In perferendis natus quos est rerum reiciendis. Et exercitationem tenetur explicabo aut voluptas perferendis quos. Ut dignissimos vitae numquam explicabo ut.','rerum',NULL,41,1,3,1),(167,NULL,'2024-01-26 09:14:36.860000','Facere nisi fuga aut facere et rem eum. Eum soluta dolores blanditiis. Rerum sint qui. Cupiditate reprehenderit id sint voluptate fugit deleniti.','recusandae',NULL,24,3,1,2),(168,NULL,'2024-01-26 09:14:36.876000','Voluptates qui quod est quae sit impedit. Ut et itaque fugiat sapiente atque. Dolores itaque ad id et ducimus deleniti asperiores.','occaecati',NULL,12,3,3,1),(169,NULL,'2024-01-26 09:14:36.892000','Magnam velit dolores dolore expedita. Libero fugiat libero excepturi soluta provident. Sunt quo et.','eum',NULL,11,3,1,3),(170,NULL,'2024-01-26 09:14:36.909000','Unde dolor quis quaerat aut adipisci. Tempore sunt ducimus aut et labore quia. Cupiditate amet facilis eos doloremque dignissimos voluptates. Enim vero consequatur aut pariatur consequuntur quis quasi.','ut',NULL,6,2,2,1),(171,NULL,'2024-01-26 09:14:36.925000','Non ut consequatur soluta ea rem voluptas illo. Placeat in asperiores cupiditate placeat nemo quia itaque. Et quia voluptas provident explicabo et libero. Ut quibusdam nisi eos ullam.','neque',NULL,39,3,1,3),(172,NULL,'2024-01-26 09:14:36.945000','Vel omnis voluptatum pariatur deleniti reprehenderit. Impedit nulla incidunt error quibusdam tempore iure iste. Accusantium sint illum velit rerum iste.','ullam',NULL,7,1,3,1),(173,NULL,'2024-01-26 09:14:36.959000','Magnam rerum omnis. Et rerum nihil tenetur quo officiis. In nemo nam. Rerum harum hic necessitatibus dolores ducimus dolor.','laboriosam',NULL,10,1,1,3),(174,NULL,'2024-01-26 09:14:36.975000','Aspernatur qui reprehenderit eaque. Reiciendis tempore quae nihil asperiores rerum ut. Est facere consectetur ea.','voluptas',NULL,22,2,3,2),(175,NULL,'2024-01-26 09:14:36.991000','Ex commodi suscipit voluptas iure. Occaecati laboriosam pariatur ratione et nihil. Quis ipsa eius. Repellat eligendi in cum aut.','autem',NULL,43,1,1,2),(176,NULL,'2024-01-26 09:14:37.007000','Atque expedita incidunt et deleniti optio dolorum. Repudiandae ea pariatur nostrum aperiam ipsum officiis. Perferendis voluptatibus iure delectus. Quisquam veritatis in atque totam. Nisi odit aspernatur tenetur quod quo in sed.','porro',NULL,31,1,2,2),(177,NULL,'2024-01-26 09:14:37.024000','Mollitia neque quia ex quas molestiae. Dolore consequatur molestias blanditiis aut qui iure. Vero eos sunt aperiam beatae. Aut sint temporibus velit aut sunt. Facilis sed saepe fugiat.','at',NULL,36,2,2,2),(178,NULL,'2024-01-26 09:14:37.040000','Et nihil sequi quos placeat vel consequatur culpa. Eaque quibusdam dolorem blanditiis porro mollitia. Non at quaerat.','aut',NULL,26,3,1,1),(179,NULL,'2024-01-26 09:14:37.056000','Molestiae eius possimus doloremque. Beatae sed debitis nisi quidem nulla. Dolore enim harum rerum. Laudantium quidem nulla quis praesentium.','totam',NULL,10,2,1,1),(180,NULL,'2024-01-26 09:14:37.074000','Accusamus eos consequatur rerum vel. Qui ducimus non ullam nesciunt assumenda qui ipsam. Dicta alias et incidunt fugiat.','tenetur',NULL,41,1,1,2),(181,NULL,'2024-01-26 09:14:37.089000','Sit velit soluta non aut. Quis facere eos molestiae provident. Est voluptatem et sed repellendus. Illo aut dolore minima incidunt voluptas accusamus. Ipsam quod qui saepe.','voluptatem',NULL,32,1,1,2),(182,NULL,'2024-01-26 09:14:37.106000','Sit facere aut. Voluptatum sapiente reiciendis tenetur reiciendis modi. Nobis libero doloremque est illo. Modi id quibusdam delectus est aut.','asperiores',NULL,21,1,3,2),(183,NULL,'2024-01-26 09:14:37.123000','Et non est. Eos quam assumenda perspiciatis consequatur quos et sequi. Reiciendis aut quod libero aut enim. Incidunt eveniet reprehenderit ut quia ipsa.','ut',NULL,14,2,3,3),(184,NULL,'2024-01-26 09:14:37.140000','Laudantium rerum molestiae est quia. Ipsam quis omnis. Voluptate et eos dolor.','rerum',NULL,30,1,3,2),(185,NULL,'2024-01-26 09:14:37.156000','Aut eaque delectus distinctio nemo. Facere minima atque vel reiciendis. Dolor ex iste esse nemo. Consequatur nam voluptatibus eos architecto officiis ex.','officiis',NULL,1,1,1,1),(186,NULL,'2024-01-26 09:14:37.177000','Iure quaerat voluptatem laborum numquam eos hic qui. Reiciendis quam ut quo. Ut incidunt omnis asperiores magnam qui officia.','debitis',NULL,25,1,2,3),(187,NULL,'2024-01-26 09:14:37.194000','Quia doloremque corporis nobis sunt voluptas atque. Porro dignissimos sunt numquam facilis animi. Natus cumque quidem alias.','enim',NULL,47,2,2,2),(188,NULL,'2024-01-26 09:14:37.210000','Magni laborum ducimus modi dolores adipisci et. Debitis corporis nesciunt qui soluta ea sint quasi. Voluptatum asperiores ut totam repudiandae molestiae praesentium eius. Est dolor adipisci error facere minima id beatae. Debitis impedit ut nihil repellat nobis voluptas.','iste',NULL,24,2,3,2),(189,NULL,'2024-01-26 09:14:37.226000','Dolores quam ducimus exercitationem voluptatem sit. Minima est aut est. Eius quaerat ut voluptatem. Et tempore sequi ut laudantium ipsa delectus sint. Ut deserunt esse non facere beatae nemo.','laborum',NULL,42,1,2,2),(190,NULL,'2024-01-26 09:14:37.242000','Delectus odio facere nihil nisi odio. Temporibus aut tempore provident ducimus. Est nulla provident sint ipsam atque atque sunt. Temporibus voluptatibus eaque quia et. Voluptates est laborum voluptatem atque.','consequuntur',NULL,1,2,1,3),(191,NULL,'2024-01-26 09:14:37.257000','Earum dolor accusamus officiis dolorem quia dolores. Odio molestiae consectetur et dicta a voluptatum. Officiis aut cumque perferendis vel voluptatem.','aut',NULL,7,2,3,1),(192,NULL,'2024-01-26 09:14:37.274000','Quisquam accusantium voluptatem quos. Officia deserunt nihil distinctio. Reiciendis nam consequatur quo dolorem.','esse',NULL,50,3,3,2),(193,NULL,'2024-01-26 09:14:37.292000','Velit fugiat tempore voluptates beatae fugit aut. Inventore inventore ex sit totam provident. Odio eos est praesentium nostrum eveniet.','veniam',NULL,8,1,2,2),(194,NULL,'2024-01-26 09:14:37.309000','Voluptatem similique iure quaerat. Provident asperiores excepturi ipsam ut officia. Modi magnam autem facilis aut aut molestiae qui.','est',NULL,16,2,2,1),(195,NULL,'2024-01-26 09:14:37.324000','Voluptatem autem reprehenderit consequuntur similique quos alias ut. Porro enim beatae. Et voluptatem iusto iste eveniet. Dolores libero quia assumenda.','explicabo',NULL,12,1,3,2),(196,NULL,'2024-01-26 09:14:37.340000','Aut esse et quae voluptates aut id qui. Modi nihil doloribus. Enim est ipsum autem et dolorum cumque magni. Perspiciatis tempore omnis sapiente dolor asperiores architecto.','eum',NULL,24,3,3,1),(197,NULL,'2024-01-26 09:14:37.356000','Quaerat ab sed enim. Et reiciendis labore officia necessitatibus rerum quasi. Cumque voluptatem dignissimos tempora inventore aperiam expedita error.','ducimus',NULL,12,2,3,3),(198,NULL,'2024-01-26 09:14:37.374000','Rem aut cupiditate modi voluptas. Et eius voluptatibus laborum rerum ipsum et accusamus. Voluptas consequatur ea libero id voluptatem dolor odio. Quam rerum quo quia neque sequi ullam. Optio exercitationem delectus.','iusto',NULL,26,3,1,2),(199,NULL,'2024-01-26 09:14:37.395000','Optio qui quia accusamus. Cum culpa voluptate nostrum magni. Magni culpa aut quos quos dolores enim.','quia',NULL,25,1,2,2),(200,NULL,'2024-01-26 09:14:37.410000','Molestiae consectetur voluptate dignissimos dolorem fugiat et. Sed provident consequatur nostrum. Optio qui non rerum veritatis minima facilis sed.','qui',NULL,9,2,1,1);
+/*!40000 ALTER TABLE `ticket` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ticket_developer`
+--
+
+DROP TABLE IF EXISTS `ticket_developer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ticket_developer` (
+  `ticket_id` bigint NOT NULL,
+  `developer_id` bigint NOT NULL,
+  KEY `FKhntq1a7u200rurkv9uqd8e92p` (`developer_id`),
+  KEY `FKpo3oefxb42tyr3hnaxvgha4it` (`ticket_id`),
+  CONSTRAINT `FKhntq1a7u200rurkv9uqd8e92p` FOREIGN KEY (`developer_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `FKpo3oefxb42tyr3hnaxvgha4it` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ticket_developer`
+--
+
+LOCK TABLES `ticket_developer` WRITE;
+/*!40000 ALTER TABLE `ticket_developer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ticket_developer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ticket_historical`
+--
+
+DROP TABLE IF EXISTS `ticket_historical`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ticket_historical` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `action` varchar(255) DEFAULT NULL,
+  `is_read` bit(1) NOT NULL,
+  `ticket_id` bigint DEFAULT NULL,
+  `ticket_title` varchar(255) DEFAULT NULL,
+  `timestamp` datetime(6) DEFAULT NULL,
+  `user_id` bigint DEFAULT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ticket_historical`
+--
+
+LOCK TABLES `ticket_historical` WRITE;
+/*!40000 ALTER TABLE `ticket_historical` DISABLE KEYS */;
+INSERT INTO `ticket_historical` VALUES (1,'Création',_binary '\0',1,'impedit','2024-01-26 09:14:34.531348',13,'Juliette André'),(2,'Création',_binary '\0',2,'veritatis','2024-01-26 09:14:34.547776',47,'Alicia Lévêque'),(3,'Création',_binary '\0',3,'dignissimos','2024-01-26 09:14:34.559404',3,'groot jesapel'),(4,'Création',_binary '\0',4,'nostrum','2024-01-26 09:14:34.570345',9,'Anaïs Adam'),(5,'Création',_binary '\0',5,'et','2024-01-26 09:14:34.579345',4,'Mathis Blanchard'),(6,'Création',_binary '\0',6,'debitis','2024-01-26 09:14:34.588324',44,'Lucas Arnaud'),(7,'Création',_binary '\0',7,'odio','2024-01-26 09:14:34.597882',10,'Hugo Roche'),(8,'Création',_binary '\0',8,'veritatis','2024-01-26 09:14:34.611052',27,'Anaïs Thomas'),(9,'Création',_binary '\0',9,'id','2024-01-26 09:14:34.622149',27,'Anaïs Thomas'),(10,'Création',_binary '\0',10,'fugiat','2024-01-26 09:14:34.633756',22,'Ethan Cousin'),(11,'Création',_binary '\0',11,'molestiae','2024-01-26 09:14:34.645860',17,'Adrien Huet'),(12,'Création',_binary '\0',12,'voluptatem','2024-01-26 09:14:34.658127',31,'Alice Dubois'),(13,'Création',_binary '\0',13,'qui','2024-01-26 09:14:34.671708',10,'Hugo Roche'),(14,'Création',_binary '\0',14,'nihil','2024-01-26 09:14:34.683873',27,'Anaïs Thomas'),(15,'Création',_binary '\0',15,'odio','2024-01-26 09:14:34.694660',42,'Laura Schmitt'),(16,'Création',_binary '\0',16,'amet','2024-01-26 09:14:34.711755',28,'Maxime Perrin'),(17,'Création',_binary '\0',17,'commodi','2024-01-26 09:14:34.728504',9,'Anaïs Adam'),(18,'Création',_binary '\0',18,'ut','2024-01-26 09:14:34.738509',14,'Valentin Simon'),(19,'Création',_binary '\0',19,'facilis','2024-01-26 09:14:34.747504',32,'Carla Sanchez'),(20,'Création',_binary '\0',20,'eveniet','2024-01-26 09:14:34.756667',30,'Maxime Cousin'),(21,'Création',_binary '\0',21,'nisi','2024-01-26 09:14:34.768125',32,'Carla Sanchez'),(22,'Création',_binary '\0',22,'maxime','2024-01-26 09:14:34.779464',39,'Yanis Laurent'),(23,'Création',_binary '\0',23,'rerum','2024-01-26 09:14:34.789464',27,'Anaïs Thomas'),(24,'Création',_binary '\0',24,'at','2024-01-26 09:14:34.800590',25,'Antoine Vidal'),(25,'Création',_binary '\0',25,'est','2024-01-26 09:14:34.811954',34,'Alicia Laurent'),(26,'Création',_binary '\0',26,'quia','2024-01-26 09:14:34.822539',39,'Yanis Laurent'),(27,'Création',_binary '\0',27,'incidunt','2024-01-26 09:14:34.833635',6,'Arthur Huet'),(28,'Création',_binary '\0',28,'explicabo','2024-01-26 09:14:34.842670',3,'groot jesapel'),(29,'Création',_binary '\0',29,'ut','2024-01-26 09:14:34.852643',40,'Maëlle Meyer'),(30,'Création',_binary '\0',30,'quod','2024-01-26 09:14:34.862194',12,'Paul Marchal'),(31,'Création',_binary '\0',31,'ut','2024-01-26 09:14:34.873206',32,'Carla Sanchez'),(32,'Création',_binary '\0',32,'consequatur','2024-01-26 09:14:34.884641',4,'Mathis Blanchard'),(33,'Création',_binary '\0',33,'delectus','2024-01-26 09:14:34.895110',33,'Evan Guyot'),(34,'Création',_binary '\0',34,'quibusdam','2024-01-26 09:14:34.906114',38,'Kylian Philippe'),(35,'Création',_binary '\0',35,'sunt','2024-01-26 09:14:34.917763',31,'Alice Dubois'),(36,'Création',_binary '\0',36,'id','2024-01-26 09:14:34.931356',10,'Hugo Roche'),(37,'Création',_binary '\0',37,'sit','2024-01-26 09:14:34.941839',47,'Alicia Lévêque'),(38,'Création',_binary '\0',38,'similique','2024-01-26 09:14:34.951866',25,'Antoine Vidal'),(39,'Création',_binary '\0',39,'quia','2024-01-26 09:14:34.962868',3,'groot jesapel'),(40,'Création',_binary '\0',40,'culpa','2024-01-26 09:14:34.976290',1,'manager the'),(41,'Création',_binary '\0',41,'similique','2024-01-26 09:14:34.986219',42,'Laura Schmitt'),(42,'Création',_binary '\0',42,'et','2024-01-26 09:14:34.996989',5,'Victor Lemoine'),(43,'Création',_binary '\0',43,'et','2024-01-26 09:14:35.009020',29,'Ines Michel'),(44,'Création',_binary '\0',44,'dolores','2024-01-26 09:14:35.018096',8,'Mathis Renault'),(45,'Création',_binary '\0',45,'ipsum','2024-01-26 09:14:35.028032',21,'Maeva Vidal'),(46,'Création',_binary '\0',46,'illo','2024-01-26 09:14:35.037553',16,'Rayan Blanc'),(47,'Création',_binary '\0',47,'explicabo','2024-01-26 09:14:35.048464',36,'Clémence Gonzalez'),(48,'Création',_binary '\0',48,'dolor','2024-01-26 09:14:35.058463',53,'Adam Guérin'),(49,'Création',_binary '\0',49,'esse','2024-01-26 09:14:35.069817',48,'Pauline Lemaire'),(50,'Création',_binary '\0',50,'neque','2024-01-26 09:14:35.090309',50,'Enzo Mercier'),(51,'Création',_binary '\0',51,'aut','2024-01-26 09:14:35.114315',15,'Maxence Jacquet'),(52,'Création',_binary '\0',52,'quia','2024-01-26 09:14:35.129308',24,'Mathis Le roux'),(53,'Création',_binary '\0',53,'voluptate','2024-01-26 09:14:35.143412',9,'Anaïs Adam'),(54,'Création',_binary '\0',54,'explicabo','2024-01-26 09:14:35.156403',45,'Lilou Gautier'),(55,'Création',_binary '\0',55,'tempore','2024-01-26 09:14:35.171465',16,'Rayan Blanc'),(56,'Création',_binary '\0',56,'laborum','2024-01-26 09:14:35.186064',23,'Julie Julien'),(57,'Création',_binary '\0',57,'consequuntur','2024-01-26 09:14:35.201644',29,'Ines Michel'),(58,'Création',_binary '\0',58,'aut','2024-01-26 09:14:35.215349',23,'Julie Julien'),(59,'Création',_binary '\0',59,'voluptas','2024-01-26 09:14:35.229404',47,'Alicia Lévêque'),(60,'Création',_binary '\0',60,'modi','2024-01-26 09:14:35.244938',49,'Nicolas Gonzalez'),(61,'Création',_binary '\0',61,'autem','2024-01-26 09:14:35.262934',51,'Tom Fournier'),(62,'Création',_binary '\0',62,'sint','2024-01-26 09:14:35.280949',27,'Anaïs Thomas'),(63,'Création',_binary '\0',63,'sunt','2024-01-26 09:14:35.297549',16,'Rayan Blanc'),(64,'Création',_binary '\0',64,'aut','2024-01-26 09:14:35.316028',46,'Evan Clément'),(65,'Création',_binary '\0',65,'non','2024-01-26 09:14:35.336127',48,'Pauline Lemaire'),(66,'Création',_binary '\0',66,'necessitatibus','2024-01-26 09:14:35.351028',22,'Ethan Cousin'),(67,'Création',_binary '\0',67,'reprehenderit','2024-01-26 09:14:35.368035',22,'Ethan Cousin'),(68,'Création',_binary '\0',68,'qui','2024-01-26 09:14:35.386033',16,'Rayan Blanc'),(69,'Création',_binary '\0',69,'ut','2024-01-26 09:14:35.404547',52,'Yanis Lacroix'),(70,'Création',_binary '\0',70,'quod','2024-01-26 09:14:35.420002',24,'Mathis Le roux'),(71,'Création',_binary '\0',71,'odio','2024-01-26 09:14:35.433925',14,'Valentin Simon'),(72,'Création',_binary '\0',72,'sunt','2024-01-26 09:14:35.446921',48,'Pauline Lemaire'),(73,'Création',_binary '\0',73,'velit','2024-01-26 09:14:35.461278',51,'Tom Fournier'),(74,'Création',_binary '\0',74,'cumque','2024-01-26 09:14:35.474280',14,'Valentin Simon'),(75,'Création',_binary '\0',75,'impedit','2024-01-26 09:14:35.485306',3,'groot jesapel'),(76,'Création',_binary '\0',76,'quasi','2024-01-26 09:14:35.496819',9,'Anaïs Adam'),(77,'Création',_binary '\0',77,'quod','2024-01-26 09:14:35.509798',30,'Maxime Cousin'),(78,'Création',_binary '\0',78,'facilis','2024-01-26 09:14:35.522463',21,'Maeva Vidal'),(79,'Création',_binary '\0',79,'et','2024-01-26 09:14:35.539354',39,'Yanis Laurent'),(80,'Création',_binary '\0',80,'at','2024-01-26 09:14:35.552858',40,'Maëlle Meyer'),(81,'Création',_binary '\0',81,'enim','2024-01-26 09:14:35.564860',50,'Enzo Mercier'),(82,'Création',_binary '\0',82,'aut','2024-01-26 09:14:35.578916',52,'Yanis Lacroix'),(83,'Création',_binary '\0',83,'libero','2024-01-26 09:14:35.592745',41,'Lou Rey'),(84,'Création',_binary '\0',84,'a','2024-01-26 09:14:35.605056',5,'Victor Lemoine'),(85,'Création',_binary '\0',85,'occaecati','2024-01-26 09:14:35.619116',37,'Chloé Roussel'),(86,'Création',_binary '\0',86,'cumque','2024-01-26 09:14:35.633155',16,'Rayan Blanc'),(87,'Création',_binary '\0',87,'sint','2024-01-26 09:14:35.645256',52,'Yanis Lacroix'),(88,'Création',_binary '\0',88,'eos','2024-01-26 09:14:35.658200',4,'Mathis Blanchard'),(89,'Création',_binary '\0',89,'velit','2024-01-26 09:14:35.672390',9,'Anaïs Adam'),(90,'Création',_binary '\0',90,'illum','2024-01-26 09:14:35.688570',23,'Julie Julien'),(91,'Création',_binary '\0',91,'beatae','2024-01-26 09:14:35.705754',41,'Lou Rey'),(92,'Création',_binary '\0',92,'quo','2024-01-26 09:14:35.720490',25,'Antoine Vidal'),(93,'Création',_binary '\0',93,'deleniti','2024-01-26 09:14:35.735322',28,'Maxime Perrin'),(94,'Création',_binary '\0',94,'in','2024-01-26 09:14:35.748329',38,'Kylian Philippe'),(95,'Création',_binary '\0',95,'totam','2024-01-26 09:14:35.764203',34,'Alicia Laurent'),(96,'Création',_binary '\0',96,'et','2024-01-26 09:14:35.778639',41,'Lou Rey'),(97,'Création',_binary '\0',97,'vel','2024-01-26 09:14:35.795062',8,'Mathis Renault'),(98,'Création',_binary '\0',98,'expedita','2024-01-26 09:14:35.809375',1,'manager the'),(99,'Création',_binary '\0',99,'aut','2024-01-26 09:14:35.823185',26,'Quentin Francois'),(100,'Création',_binary '\0',100,'qui','2024-01-26 09:14:35.840989',44,'Lucas Arnaud'),(101,'Création',_binary '\0',101,'et','2024-01-26 09:14:35.854537',14,'Valentin Simon'),(102,'Création',_binary '\0',102,'neque','2024-01-26 09:14:35.869336',34,'Alicia Laurent'),(103,'Création',_binary '\0',103,'itaque','2024-01-26 09:14:35.884380',16,'Rayan Blanc'),(104,'Création',_binary '\0',104,'iure','2024-01-26 09:14:35.900962',41,'Lou Rey'),(105,'Création',_binary '\0',105,'et','2024-01-26 09:14:35.915137',27,'Anaïs Thomas'),(106,'Création',_binary '\0',106,'eos','2024-01-26 09:14:35.930250',43,'Pierre Royer'),(107,'Création',_binary '\0',107,'tenetur','2024-01-26 09:14:35.944260',39,'Yanis Laurent'),(108,'Création',_binary '\0',108,'et','2024-01-26 09:14:35.958256',10,'Hugo Roche'),(109,'Création',_binary '\0',109,'necessitatibus','2024-01-26 09:14:35.971921',29,'Ines Michel'),(110,'Création',_binary '\0',110,'et','2024-01-26 09:14:35.985339',51,'Tom Fournier'),(111,'Création',_binary '\0',111,'dicta','2024-01-26 09:14:36.000896',13,'Juliette André'),(112,'Création',_binary '\0',112,'ad','2024-01-26 09:14:36.016045',51,'Tom Fournier'),(113,'Création',_binary '\0',113,'rerum','2024-01-26 09:14:36.030692',18,'Ambre Perez'),(114,'Création',_binary '\0',114,'ullam','2024-01-26 09:14:36.044357',22,'Ethan Cousin'),(115,'Création',_binary '\0',115,'qui','2024-01-26 09:14:36.059266',32,'Carla Sanchez'),(116,'Création',_binary '\0',116,'culpa','2024-01-26 09:14:36.074070',37,'Chloé Roussel'),(117,'Création',_binary '\0',117,'tempore','2024-01-26 09:14:36.089600',16,'Rayan Blanc'),(118,'Création',_binary '\0',118,'omnis','2024-01-26 09:14:36.105381',38,'Kylian Philippe'),(119,'Création',_binary '\0',119,'iure','2024-01-26 09:14:36.121137',53,'Adam Guérin'),(120,'Création',_binary '\0',120,'provident','2024-01-26 09:14:36.135637',22,'Ethan Cousin'),(121,'Création',_binary '\0',121,'aut','2024-01-26 09:14:36.150608',31,'Alice Dubois'),(122,'Création',_binary '\0',122,'delectus','2024-01-26 09:14:36.166615',3,'groot jesapel'),(123,'Création',_binary '\0',123,'earum','2024-01-26 09:14:36.186621',39,'Yanis Laurent'),(124,'Création',_binary '\0',124,'sed','2024-01-26 09:14:36.201518',8,'Mathis Renault'),(125,'Création',_binary '\0',125,'minima','2024-01-26 09:14:36.218665',45,'Lilou Gautier'),(126,'Création',_binary '\0',126,'repudiandae','2024-01-26 09:14:36.233731',45,'Lilou Gautier'),(127,'Création',_binary '\0',127,'reprehenderit','2024-01-26 09:14:36.249913',14,'Valentin Simon'),(128,'Création',_binary '\0',128,'iure','2024-01-26 09:14:36.266687',2,'Grohl Dave'),(129,'Création',_binary '\0',129,'impedit','2024-01-26 09:14:36.280692',23,'Julie Julien'),(130,'Création',_binary '\0',130,'qui','2024-01-26 09:14:36.294093',49,'Nicolas Gonzalez'),(131,'Création',_binary '\0',131,'odio','2024-01-26 09:14:36.308786',49,'Nicolas Gonzalez'),(132,'Création',_binary '\0',132,'enim','2024-01-26 09:14:36.325794',28,'Maxime Perrin'),(133,'Création',_binary '\0',133,'aliquam','2024-01-26 09:14:36.339793',28,'Maxime Perrin'),(134,'Création',_binary '\0',134,'tempore','2024-01-26 09:14:36.355187',5,'Victor Lemoine'),(135,'Création',_binary '\0',135,'cum','2024-01-26 09:14:36.369286',3,'groot jesapel'),(136,'Création',_binary '\0',136,'optio','2024-01-26 09:14:36.386056',39,'Yanis Laurent'),(137,'Création',_binary '\0',137,'tempore','2024-01-26 09:14:36.401218',32,'Carla Sanchez'),(138,'Création',_binary '\0',138,'dicta','2024-01-26 09:14:36.417440',49,'Nicolas Gonzalez'),(139,'Création',_binary '\0',139,'ullam','2024-01-26 09:14:36.432434',37,'Chloé Roussel'),(140,'Création',_binary '\0',140,'aut','2024-01-26 09:14:36.446563',46,'Evan Clément'),(141,'Création',_binary '\0',141,'nesciunt','2024-01-26 09:14:36.461932',20,'Yanis Moulin'),(142,'Création',_binary '\0',142,'qui','2024-01-26 09:14:36.477242',51,'Tom Fournier'),(143,'Création',_binary '\0',143,'odio','2024-01-26 09:14:36.493845',37,'Chloé Roussel'),(144,'Création',_binary '\0',144,'ab','2024-01-26 09:14:36.509220',25,'Antoine Vidal'),(145,'Création',_binary '\0',145,'sint','2024-01-26 09:14:36.525795',9,'Anaïs Adam'),(146,'Création',_binary '\0',146,'repellendus','2024-01-26 09:14:36.541785',6,'Arthur Huet'),(147,'Création',_binary '\0',147,'dolorem','2024-01-26 09:14:36.556929',23,'Julie Julien'),(148,'Création',_binary '\0',148,'ullam','2024-01-26 09:14:36.571685',29,'Ines Michel'),(149,'Création',_binary '\0',149,'iure','2024-01-26 09:14:36.587612',5,'Victor Lemoine'),(150,'Création',_binary '\0',150,'officia','2024-01-26 09:14:36.602230',15,'Maxence Jacquet'),(151,'Création',_binary '\0',151,'nesciunt','2024-01-26 09:14:36.618128',32,'Carla Sanchez'),(152,'Création',_binary '\0',152,'earum','2024-01-26 09:14:36.632889',34,'Alicia Laurent'),(153,'Création',_binary '\0',153,'repellat','2024-01-26 09:14:36.648789',14,'Valentin Simon'),(154,'Création',_binary '\0',154,'sequi','2024-01-26 09:14:36.664605',19,'Adam Nicolas'),(155,'Création',_binary '\0',155,'nostrum','2024-01-26 09:14:36.680728',34,'Alicia Laurent'),(156,'Création',_binary '\0',156,'illum','2024-01-26 09:14:36.697071',46,'Evan Clément'),(157,'Création',_binary '\0',157,'amet','2024-01-26 09:14:36.713100',5,'Victor Lemoine'),(158,'Création',_binary '\0',158,'alias','2024-01-26 09:14:36.728579',25,'Antoine Vidal'),(159,'Création',_binary '\0',159,'ducimus','2024-01-26 09:14:36.743678',31,'Alice Dubois'),(160,'Création',_binary '\0',160,'quas','2024-01-26 09:14:36.760116',10,'Hugo Roche'),(161,'Création',_binary '\0',161,'atque','2024-01-26 09:14:36.775768',49,'Nicolas Gonzalez'),(162,'Création',_binary '\0',162,'officiis','2024-01-26 09:14:36.791436',1,'manager the'),(163,'Création',_binary '\0',163,'vero','2024-01-26 09:14:36.807965',21,'Maeva Vidal'),(164,'Création',_binary '\0',164,'omnis','2024-01-26 09:14:36.825106',14,'Valentin Simon'),(165,'Création',_binary '\0',165,'omnis','2024-01-26 09:14:36.842003',12,'Paul Marchal'),(166,'Création',_binary '\0',166,'rerum','2024-01-26 09:14:36.856831',41,'Lou Rey'),(167,'Création',_binary '\0',167,'recusandae','2024-01-26 09:14:36.873759',24,'Mathis Le roux'),(168,'Création',_binary '\0',168,'occaecati','2024-01-26 09:14:36.889048',12,'Paul Marchal'),(169,'Création',_binary '\0',169,'eum','2024-01-26 09:14:36.906596',11,'Louise Vincent'),(170,'Création',_binary '\0',170,'ut','2024-01-26 09:14:36.921720',6,'Arthur Huet'),(171,'Création',_binary '\0',171,'neque','2024-01-26 09:14:36.941147',39,'Yanis Laurent'),(172,'Création',_binary '\0',172,'ullam','2024-01-26 09:14:36.956321',7,'Lucas Dvnis'),(173,'Création',_binary '\0',173,'laboriosam','2024-01-26 09:14:36.971525',10,'Hugo Roche'),(174,'Création',_binary '\0',174,'voluptas','2024-01-26 09:14:36.987713',22,'Ethan Cousin'),(175,'Création',_binary '\0',175,'autem','2024-01-26 09:14:37.004403',43,'Pierre Royer'),(176,'Création',_binary '\0',176,'porro','2024-01-26 09:14:37.020315',31,'Alice Dubois'),(177,'Création',_binary '\0',177,'at','2024-01-26 09:14:37.036621',36,'Clémence Gonzalez'),(178,'Création',_binary '\0',178,'aut','2024-01-26 09:14:37.052253',26,'Quentin Francois'),(179,'Création',_binary '\0',179,'totam','2024-01-26 09:14:37.070755',10,'Hugo Roche'),(180,'Création',_binary '\0',180,'tenetur','2024-01-26 09:14:37.085887',41,'Lou Rey'),(181,'Création',_binary '\0',181,'voluptatem','2024-01-26 09:14:37.101899',32,'Carla Sanchez'),(182,'Création',_binary '\0',182,'asperiores','2024-01-26 09:14:37.119932',21,'Maeva Vidal'),(183,'Création',_binary '\0',183,'ut','2024-01-26 09:14:37.137449',14,'Valentin Simon'),(184,'Création',_binary '\0',184,'rerum','2024-01-26 09:14:37.152322',30,'Maxime Cousin'),(185,'Création',_binary '\0',185,'officiis','2024-01-26 09:14:37.172266',1,'manager the'),(186,'Création',_binary '\0',186,'debitis','2024-01-26 09:14:37.191178',25,'Antoine Vidal'),(187,'Création',_binary '\0',187,'enim','2024-01-26 09:14:37.206689',47,'Alicia Lévêque'),(188,'Création',_binary '\0',188,'iste','2024-01-26 09:14:37.222578',24,'Mathis Le roux'),(189,'Création',_binary '\0',189,'laborum','2024-01-26 09:14:37.239168',42,'Laura Schmitt'),(190,'Création',_binary '\0',190,'consequuntur','2024-01-26 09:14:37.254153',1,'manager the'),(191,'Création',_binary '\0',191,'aut','2024-01-26 09:14:37.270741',7,'Lucas Dvnis'),(192,'Création',_binary '\0',192,'esse','2024-01-26 09:14:37.287529',50,'Enzo Mercier'),(193,'Création',_binary '\0',193,'veniam','2024-01-26 09:14:37.306695',8,'Mathis Renault'),(194,'Création',_binary '\0',194,'est','2024-01-26 09:14:37.321887',16,'Rayan Blanc'),(195,'Création',_binary '\0',195,'explicabo','2024-01-26 09:14:37.337539',12,'Paul Marchal'),(196,'Création',_binary '\0',196,'eum','2024-01-26 09:14:37.352874',24,'Mathis Le roux'),(197,'Création',_binary '\0',197,'ducimus','2024-01-26 09:14:37.370758',12,'Paul Marchal'),(198,'Création',_binary '\0',198,'iusto','2024-01-26 09:14:37.392150',26,'Quentin Francois'),(199,'Création',_binary '\0',199,'quia','2024-01-26 09:14:37.407315',25,'Antoine Vidal'),(200,'Création',_binary '\0',200,'qui','2024-01-26 09:14:37.424350',9,'Anaïs Adam');
+/*!40000 ALTER TABLE `ticket_historical` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `lastname` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `address_id` bigint DEFAULT NULL,
+  `media_id` bigint DEFAULT NULL,
+  `role_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_ob8kqyqqgmefl0aco34akdtpe` (`email`),
+  UNIQUE KEY `UK_si1iro9oa394kabk5aob8puem` (`media_id`),
+  KEY `FKddefmvbrws3hvl5t0hnnsv8ox` (`address_id`),
+  KEY `FKn82ha3ccdebhokx3a8fgdqeyy` (`role_id`),
+  CONSTRAINT `FKckl2664alrm10nvld2d1ewa05` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
+  CONSTRAINT `FKddefmvbrws3hvl5t0hnnsv8ox` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`),
+  CONSTRAINT `FKn82ha3ccdebhokx3a8fgdqeyy` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'manager@wcs.com','manager','the','$2a$10$yQJf65R08TCgm98XWLCDl.ukU47y8dTMgAHYa5vJ/sgMabXXHllTG',NULL,NULL,NULL,3),(2,'dev@wcs.com','Grohl','Dave','$2a$10$4gjo/t5grsuBbqtn0c6VZ.7cmzjdZ8IWjWVJYhLFlwbRGGJXuPs/G',NULL,NULL,NULL,2),(3,'client@wcs.com','groot','jesapel','$2a$10$x/yq9qIVJGemHxUyqqhBbOjoNq4eIAU35zkheLOJTV89ZwScs8TjG','+33 729084278',20,NULL,1),(4,'tom.laine@yahoo.fr','Mathis','Blanchard','$2a$10$///tkl1CSULmFfDwDQvBLutC.SqoUkLmcy52fv2XnjjBZY80NETlq','+33 679705625',44,NULL,1),(5,'justine.jacquet@yahoo.fr','Victor','Lemoine','$2a$10$pGiDjSn6/fI7/e/0yeUBXu78FTCT35X/AefW7eOd54q4kNL2jftfa','+33 7 59 80 42 63',15,NULL,3),(6,'tom.rey@hotmail.fr','Arthur','Huet','$2a$10$1nXnfhn/u7hsx2I5cM.lcOKg8OTRWwN3E3YYgsrJdQTVNDMCiGt1q','+33 616362347',40,NULL,2),(7,'lena.vincent@hotmail.fr','Lucas','Dvnis','$2a$10$CgjKby0d7O.vLP/xMQ0WNOb1oxRRWdtcJh1eNsIkri/BSy/e.2fdi','07 09 45 21 66',29,NULL,2),(8,'ambre.roy@yahoo.fr','Mathis','Renault','$2a$10$SNFBgu/wfsrNW6gDxLsbReAgYnMOhjYMgGE5ivDVU2SA2SiyyWiz.','+33 704575007',8,NULL,1),(9,'noa.rey@yahoo.fr','Anaïs','Adam','$2a$10$35xVU/0kL6Tz/uO7xipTIefxHbhxQ1SD/CHVeglx6Rnic9rMSVuuW','0681671800',14,NULL,3),(10,'arthur.renault@yahoo.fr','Hugo','Roche','$2a$10$rH1TMIA2XsQsxm3OOW9Sg.X7.U4tbIA1o8zI6xvjkpjWX4Bb9eWlm','06 04 92 02 05',45,NULL,3),(11,'theo.durand@hotmail.fr','Louise','Vincent','$2a$10$yFqZv5dqmsKOoFTDxvR3nOmY6YyQJX.LK9/d7MaNiK11G8u8ZsOGW','0744856807',32,NULL,2),(12,'axel.brunet@gmail.com','Paul','Marchal','$2a$10$PBiTvPIIF5WYp3r/AnJjZOzH0a1wlaPJFb9ZDIr2auKd1f6P3c3oK','07 57 50 28 70',36,NULL,3),(13,'adam.bernard@hotmail.fr','Juliette','André','$2a$10$4RpD6tOwMK1MOyIM7iTLUub/T2Rf3sll8uBp/343R.ge964VIGwfG','0646972781',6,NULL,1),(14,'lilou.dvnis@gmail.com','Valentin','Simon','$2a$10$vScyJxqD.dZFJghz3V9cM.vGYRsYVUvlKC7ALsunGXDgsBMcufKpK','+33 7 04 84 22 67',10,NULL,3),(15,'lisa.lacroix@yahoo.fr','Maxence','Jacquet','$2a$10$eYuADcoj6hXschdRUYHJd.7XPkuxHz0/DZXv5YYIy0B0YHXhyGEsS','06 66 94 35 88',33,NULL,2),(16,'manon.guyot@yahoo.fr','Rayan','Blanc','$2a$10$RgOaLEjiwfn/Gg72dm0UZ.aSVFam6w1j49R71AOpLR5MPsKB8ybf.','+33 653911292',33,NULL,1),(17,'enzo.gerard@yahoo.fr','Adrien','Huet','$2a$10$a8QZh9rzhU3QgnVFk.gZn.8QjsegOJEOeSk.mlumqTVOwwUXS4KqC','+33 642666101',26,NULL,3),(18,'axel.roux@gmail.com','Ambre','Perez','$2a$10$tDJKV39dWPrPeEHXI9pGoOezMsMUW6GugFb/.Twe1MuKUPGPD8yoK','+33 698156672',44,NULL,1),(19,'maxime.blanchard@hotmail.fr','Adam','Nicolas','$2a$10$R8Dv3xekq3avXTAwvOSk9.ceiXEzs8a4S.1URorM3ix5koL6xKzqW','06 17 36 70 71',26,NULL,1),(20,'elisa.leroux@hotmail.fr','Yanis','Moulin','$2a$10$6Cvsticy6ZnkANjcU/dz0Onk6WuUGhO0Ap.XLOZ/y8iI6.7wpyoHm','0679863995',40,NULL,2),(21,'clemence.dasilva@gmail.com','Maeva','Vidal','$2a$10$ItAE1qyXhr.SbEsvCarwa.QW2rm.2ZU.rBh4Z.LjhsYtUy2q0/88G','+33 7 88 36 52 63',17,NULL,2),(22,'mathis.marchand@yahoo.fr','Ethan','Cousin','$2a$10$wUWGaVfP46/vO2/YDqFKGu4Fx57Mz9G2zbXJmGf9Eig0W27TaAlYe','06 49 15 20 83',49,NULL,3),(23,'enzo.morin@yahoo.fr','Julie','Julien','$2a$10$WEu4E9SIPfil1Vg.AnhdN.opZO75fHd2lqiayk76FhI4jE.AJKbki','+33 640553898',49,NULL,2),(24,'lucie.renard@gmail.com','Mathis','Le roux','$2a$10$uzq/.lj2.pdHkKtxdY2E2uUf8gkv5Fx89RGFopDLYgcnp9GuWiXAe','07 02 02 02 73',5,NULL,2),(25,'hugo.richard@yahoo.fr','Antoine','Vidal','$2a$10$UYAf.9UtI7hC3JHmME16uufhs9pEWSbmtHh9uO6jAFBp9/XSXCn5W','+33 7 38 50 11 88',11,NULL,1),(26,'lucas.bertrand@hotmail.fr','Quentin','Francois','$2a$10$kOk.PwWlB/Ziuku0UFFgPOHuSGc.a9TxdTn9E2w3yWPOLZhFLLJPq','+33 7 35 37 58 33',28,NULL,2),(27,'adrien.jacquet@gmail.com','Anaïs','Thomas','$2a$10$RzP4LvWWJnKi0n1MEyPFXukwIqfVGc5mpcf18X/6M9BNmDsnjIO1e','+33 7 20 57 29 38',10,NULL,2),(28,'nathan.bernard@gmail.com','Maxime','Perrin','$2a$10$00RhzyTnjeHh3qOqUs.KyOZVn6UX8Rd/OUUi2hjAJzacF5PsRHjOW','0758783447',46,NULL,2),(29,'juliette.mercier@gmail.com','Ines','Michel','$2a$10$1PEHOBsSodJQyFXjUs9G1es5Ttn7bkJJJfNTM7F.KPlpRfR90uW3a','0667341162',23,NULL,1),(30,'jeanne.roux@hotmail.fr','Maxime','Cousin','$2a$10$HGcNrDE1KpkBbwp6p4EKTuuhCFdTL7mcipyzMp6d3YS/hIcVkWSPi','0769559935',2,NULL,3),(31,'maelle.nguyen@hotmail.fr','Alice','Dubois','$2a$10$.lhIi/6qQVMkvO/HfE79pOVYWf/IveMTwK9GZXKPNEWB9tEI74c9W','+33 6 15 50 54 93',42,NULL,1),(32,'pierre.boyer@yahoo.fr','Carla','Sanchez','$2a$10$jE7y9oOqOfMc4v3bCIuMbOrngWJ/3LwS1fVt.AiJJU3LGvx.USdie','07 50 11 63 62',9,NULL,1),(33,'rayan.francois@gmail.com','Evan','Guyot','$2a$10$trc0ue0rdI8YcH1VurO4je4OeMOgiIea.FUwk6wYwVe274YXGqhjS','0629831258',20,NULL,1),(34,'louis.charpentier@hotmail.fr','Alicia','Laurent','$2a$10$tEM1q6p1Wko5s4fZ3nmJuOD2LgC0oIG5c5Bp/9/3NrzZT9ZqXODm6','06 86 91 75 78',45,NULL,3),(35,'arthur.fernandez@hotmail.fr','Marie','Renaud','$2a$10$tK8pd/1OZfjcvYA58yJlE.cOGLtyzgStpr/wsATBdFwVaZspV41hW','+33 6 14 79 74 05',28,NULL,3),(36,'jade.joly@yahoo.fr','Clémence','Gonzalez','$2a$10$iS/FBq0SI43p1hAFLkxeduElpJNRXVip/yLv76P097H3d11LY3oS2','+33 6 92 84 80 64',8,NULL,1),(37,'tom.lecomte@gmail.com','Chloé','Roussel','$2a$10$a1z2rXSckY/H7jCdRtGm7OSWleqimk5n9PS16hqahObhWuMyGKe0e','+33 794329383',15,NULL,1),(38,'pauline.barre@gmail.com','Kylian','Philippe','$2a$10$ia3IYrm43sB4ENXgZ9IdJuK43UUMr3JwcT1ra3StkNR/xHbjIX082','+33 611525584',4,NULL,1),(39,'matteo.dufour@hotmail.fr','Yanis','Laurent','$2a$10$CwasZ8xuAhkGaehjksLO7u1zm.k8zo1c/8QhxrUKGTknoV0zee81.','0603066762',41,NULL,1),(40,'baptiste.rey@hotmail.fr','Maëlle','Meyer','$2a$10$/t187CORohKY3JMJ1Q0HluwUPcyi0hEwTwYtJjsJ.Vu0R/0nZdBJm','07 83 68 01 47',26,NULL,3),(41,'charlotte.lacroix@yahoo.fr','Lou','Rey','$2a$10$VKXCKJu0knPAnqNaHTuKqu7hTNECLtn9Y8iNgvxB/gyWsIsRpkpRa','+33 7 35 06 62 03',38,NULL,1),(42,'antoine.colin@gmail.com','Laura','Schmitt','$2a$10$74fIMudzIYmNAoUuMgNJ5u9fl6DzVOvpHu7kVojkGIeudT004wM1i','+33 702325207',40,NULL,2),(43,'romain.michel@gmail.com','Pierre','Royer','$2a$10$QXXmmsspPGngkzOByVXaaeT12VFd22GernPDLZO11wxBBSilRs6sa','+33 6 22 01 39 12',5,NULL,3),(44,'pauline.fabre@yahoo.fr','Lucas','Arnaud','$2a$10$P/Wi4bZSDdVaAE/lsmBS.OJcbbEUTbSOTjV4ztNKq3Tz8BO2d2qKy','0776775267',34,NULL,1),(45,'ines.duval@yahoo.fr','Lilou','Gautier','$2a$10$m/bldJ5XoaVHoW/BtmdnE.789EXlrKmP58MAfU5MVPw0ngWOrFyga','+33 7 93 92 37 18',3,NULL,3),(46,'jules.guerin@hotmail.fr','Evan','Clément','$2a$10$V8p4goLr7EiLzwKON1iP/.3I1gA1Q8uxsxSZv1HThHUfAdJjsZaaK','07 86 25 95 79',38,NULL,2),(47,'lena.robert@gmail.com','Alicia','Lévêque','$2a$10$SkW2q8ea4us9IeM.TcYkJex.oIRL.kpmZU/GrhqBWDB.v4nW92QkS','06 44 91 90 12',4,NULL,3),(48,'chloe.rousseau@yahoo.fr','Pauline','Lemaire','$2a$10$TYmH5KroJW.q6p0Rl/tAkOc7w2TCe/EouLFmLvBRsjIZ/JbUGvOBy','+33 608690094',4,NULL,2),(49,'tom.pons@gmail.com','Nicolas','Gonzalez','$2a$10$gHgmfJPP8MwSatSfLR7t8ee4r/N0XF1ryj3zlLP.n50Pbq.DqhK7O','+33 764016818',39,NULL,2),(50,'theo.dupuis@hotmail.fr','Enzo','Mercier','$2a$10$.GVGTYkbnuvkN5innoF21.j9KGqYi4gzMy7DLozE9oUVelzYDTePm','06 18 81 27 29',49,NULL,1),(51,'elisa.andre@hotmail.fr','Tom','Fournier','$2a$10$iEiCAQWLTne/SNGwK290t.CR4FB2xzYmdiLUddqq0Y6JOPZBQs77m','0746198933',24,NULL,3),(52,'thomas.remy@gmail.com','Yanis','Lacroix','$2a$10$BUAw0K4JeZZ5GorhBp/jXugtJpIBFgzMRLK3JpwdOqkii2TMGgsQC','06 59 18 50 21',15,NULL,2),(53,'juliette.legall@gmail.com','Adam','Guérin','$2a$10$kgx.u0XRA1Wo0ZJfiRlQEeIfll18ASNjezhvFB7PFmp3z63cRpo5q','+33 6 33 01 05 40',28,NULL,1);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_historical`
+--
+
+DROP TABLE IF EXISTS `user_historical`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_historical` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `action` varchar(255) DEFAULT NULL,
+  `is_read` bit(1) NOT NULL,
+  `ticket_id` bigint DEFAULT NULL,
+  `ticket_title` varchar(255) DEFAULT NULL,
+  `timestamp` datetime(6) DEFAULT NULL,
+  `user_id` bigint DEFAULT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_historical`
+--
+
+LOCK TABLES `user_historical` WRITE;
+/*!40000 ALTER TABLE `user_historical` DISABLE KEYS */;
+INSERT INTO `user_historical` VALUES (1,'Création',_binary '\0',1,'impedit','2024-01-26 09:14:34.515299',13,'Juliette André'),(2,'Création',_binary '\0',2,'veritatis','2024-01-26 09:14:34.544678',47,'Alicia Lévêque'),(3,'Création',_binary '\0',3,'dignissimos','2024-01-26 09:14:34.556418',3,'groot jesapel'),(4,'Création',_binary '\0',4,'nostrum','2024-01-26 09:14:34.568320',9,'Anaïs Adam'),(5,'Création',_binary '\0',5,'et','2024-01-26 09:14:34.576342',4,'Mathis Blanchard'),(6,'Création',_binary '\0',6,'debitis','2024-01-26 09:14:34.585324',44,'Lucas Arnaud'),(7,'Création',_binary '\0',7,'odio','2024-01-26 09:14:34.594857',10,'Hugo Roche'),(8,'Création',_binary '\0',8,'veritatis','2024-01-26 09:14:34.608137',27,'Anaïs Thomas'),(9,'Création',_binary '\0',9,'id','2024-01-26 09:14:34.619057',27,'Anaïs Thomas'),(10,'Création',_binary '\0',10,'fugiat','2024-01-26 09:14:34.629748',22,'Ethan Cousin'),(11,'Création',_binary '\0',11,'molestiae','2024-01-26 09:14:34.642748',17,'Adrien Huet'),(12,'Création',_binary '\0',12,'voluptatem','2024-01-26 09:14:34.655232',31,'Alice Dubois'),(13,'Création',_binary '\0',13,'qui','2024-01-26 09:14:34.668707',10,'Hugo Roche'),(14,'Création',_binary '\0',14,'nihil','2024-01-26 09:14:34.680914',27,'Anaïs Thomas'),(15,'Création',_binary '\0',15,'odio','2024-01-26 09:14:34.690875',42,'Laura Schmitt'),(16,'Création',_binary '\0',16,'amet','2024-01-26 09:14:34.708665',28,'Maxime Perrin'),(17,'Création',_binary '\0',17,'commodi','2024-01-26 09:14:34.725506',9,'Anaïs Adam'),(18,'Création',_binary '\0',18,'ut','2024-01-26 09:14:34.736506',14,'Valentin Simon'),(19,'Création',_binary '\0',19,'facilis','2024-01-26 09:14:34.745504',32,'Carla Sanchez'),(20,'Création',_binary '\0',20,'eveniet','2024-01-26 09:14:34.754509',30,'Maxime Cousin'),(21,'Création',_binary '\0',21,'nisi','2024-01-26 09:14:34.764122',32,'Carla Sanchez'),(22,'Création',_binary '\0',22,'maxime','2024-01-26 09:14:34.774938',39,'Yanis Laurent'),(23,'Création',_binary '\0',23,'rerum','2024-01-26 09:14:34.787464',27,'Anaïs Thomas'),(24,'Création',_binary '\0',24,'at','2024-01-26 09:14:34.797589',25,'Antoine Vidal'),(25,'Création',_binary '\0',25,'est','2024-01-26 09:14:34.808954',34,'Alicia Laurent'),(26,'Création',_binary '\0',26,'quia','2024-01-26 09:14:34.820518',39,'Yanis Laurent'),(27,'Création',_binary '\0',27,'incidunt','2024-01-26 09:14:34.830636',6,'Arthur Huet'),(28,'Création',_binary '\0',28,'explicabo','2024-01-26 09:14:34.840636',3,'groot jesapel'),(29,'Création',_binary '\0',29,'ut','2024-01-26 09:14:34.849643',40,'Maëlle Meyer'),(30,'Création',_binary '\0',30,'quod','2024-01-26 09:14:34.860213',12,'Paul Marchal'),(31,'Création',_binary '\0',31,'ut','2024-01-26 09:14:34.871205',32,'Carla Sanchez'),(32,'Création',_binary '\0',32,'consequatur','2024-01-26 09:14:34.881620',4,'Mathis Blanchard'),(33,'Création',_binary '\0',33,'delectus','2024-01-26 09:14:34.892133',33,'Evan Guyot'),(34,'Création',_binary '\0',34,'quibusdam','2024-01-26 09:14:34.903114',38,'Kylian Philippe'),(35,'Création',_binary '\0',35,'sunt','2024-01-26 09:14:34.914360',31,'Alice Dubois'),(36,'Création',_binary '\0',36,'id','2024-01-26 09:14:34.926354',10,'Hugo Roche'),(37,'Création',_binary '\0',37,'sit','2024-01-26 09:14:34.939377',47,'Alicia Lévêque'),(38,'Création',_binary '\0',38,'similique','2024-01-26 09:14:34.948863',25,'Antoine Vidal'),(39,'Création',_binary '\0',39,'quia','2024-01-26 09:14:34.959867',3,'groot jesapel'),(40,'Création',_binary '\0',40,'culpa','2024-01-26 09:14:34.972194',1,'manager the'),(41,'Création',_binary '\0',41,'similique','2024-01-26 09:14:34.983223',42,'Laura Schmitt'),(42,'Création',_binary '\0',42,'et','2024-01-26 09:14:34.994221',5,'Victor Lemoine'),(43,'Création',_binary '\0',43,'et','2024-01-26 09:14:35.005088',29,'Ines Michel'),(44,'Création',_binary '\0',44,'dolores','2024-01-26 09:14:35.015995',8,'Mathis Renault'),(45,'Création',_binary '\0',45,'ipsum','2024-01-26 09:14:35.024997',21,'Maeva Vidal'),(46,'Création',_binary '\0',46,'illo','2024-01-26 09:14:35.035462',16,'Rayan Blanc'),(47,'Création',_binary '\0',47,'explicabo','2024-01-26 09:14:35.045464',36,'Clémence Gonzalez'),(48,'Création',_binary '\0',48,'dolor','2024-01-26 09:14:35.056462',53,'Adam Guérin'),(49,'Création',_binary '\0',49,'esse','2024-01-26 09:14:35.066815',48,'Pauline Lemaire'),(50,'Création',_binary '\0',50,'neque','2024-01-26 09:14:35.086482',50,'Enzo Mercier'),(51,'Création',_binary '\0',51,'aut','2024-01-26 09:14:35.111291',15,'Maxence Jacquet'),(52,'Création',_binary '\0',52,'quia','2024-01-26 09:14:35.125604',24,'Mathis Le roux'),(53,'Création',_binary '\0',53,'voluptate','2024-01-26 09:14:35.140310',9,'Anaïs Adam'),(54,'Création',_binary '\0',54,'explicabo','2024-01-26 09:14:35.153377',45,'Lilou Gautier'),(55,'Création',_binary '\0',55,'tempore','2024-01-26 09:14:35.168463',16,'Rayan Blanc'),(56,'Création',_binary '\0',56,'laborum','2024-01-26 09:14:35.182557',23,'Julie Julien'),(57,'Création',_binary '\0',57,'consequuntur','2024-01-26 09:14:35.197647',29,'Ines Michel'),(58,'Création',_binary '\0',58,'aut','2024-01-26 09:14:35.212373',23,'Julie Julien'),(59,'Création',_binary '\0',59,'voluptas','2024-01-26 09:14:35.226350',47,'Alicia Lévêque'),(60,'Création',_binary '\0',60,'modi','2024-01-26 09:14:35.241942',49,'Nicolas Gonzalez'),(61,'Création',_binary '\0',61,'autem','2024-01-26 09:14:35.259940',51,'Tom Fournier'),(62,'Création',_binary '\0',62,'sint','2024-01-26 09:14:35.278036',27,'Anaïs Thomas'),(63,'Création',_binary '\0',63,'sunt','2024-01-26 09:14:35.293022',16,'Rayan Blanc'),(64,'Création',_binary '\0',64,'aut','2024-01-26 09:14:35.312029',46,'Evan Clément'),(65,'Création',_binary '\0',65,'non','2024-01-26 09:14:35.332028',48,'Pauline Lemaire'),(66,'Création',_binary '\0',66,'necessitatibus','2024-01-26 09:14:35.347028',22,'Ethan Cousin'),(67,'Création',_binary '\0',67,'reprehenderit','2024-01-26 09:14:35.364028',22,'Ethan Cousin'),(68,'Création',_binary '\0',68,'qui','2024-01-26 09:14:35.382033',16,'Rayan Blanc'),(69,'Création',_binary '\0',69,'ut','2024-01-26 09:14:35.399550',52,'Yanis Lacroix'),(70,'Création',_binary '\0',70,'quod','2024-01-26 09:14:35.416997',24,'Mathis Le roux'),(71,'Création',_binary '\0',71,'odio','2024-01-26 09:14:35.430925',14,'Valentin Simon'),(72,'Création',_binary '\0',72,'sunt','2024-01-26 09:14:35.443949',48,'Pauline Lemaire'),(73,'Création',_binary '\0',73,'velit','2024-01-26 09:14:35.458450',51,'Tom Fournier'),(74,'Création',_binary '\0',74,'cumque','2024-01-26 09:14:35.471281',14,'Valentin Simon'),(75,'Création',_binary '\0',75,'impedit','2024-01-26 09:14:35.483288',3,'groot jesapel'),(76,'Création',_binary '\0',76,'quasi','2024-01-26 09:14:35.494792',9,'Anaïs Adam'),(77,'Création',_binary '\0',77,'quod','2024-01-26 09:14:35.506817',30,'Maxime Cousin'),(78,'Création',_binary '\0',78,'facilis','2024-01-26 09:14:35.519161',21,'Maeva Vidal'),(79,'Création',_binary '\0',79,'et','2024-01-26 09:14:35.536372',39,'Yanis Laurent'),(80,'Création',_binary '\0',80,'at','2024-01-26 09:14:35.549862',40,'Maëlle Meyer'),(81,'Création',_binary '\0',81,'enim','2024-01-26 09:14:35.561965',50,'Enzo Mercier'),(82,'Création',_binary '\0',82,'aut','2024-01-26 09:14:35.575864',52,'Yanis Lacroix'),(83,'Création',_binary '\0',83,'libero','2024-01-26 09:14:35.588849',41,'Lou Rey'),(84,'Création',_binary '\0',84,'a','2024-01-26 09:14:35.602056',5,'Victor Lemoine'),(85,'Création',_binary '\0',85,'occaecati','2024-01-26 09:14:35.616072',37,'Chloé Roussel'),(86,'Création',_binary '\0',86,'cumque','2024-01-26 09:14:35.630020',16,'Rayan Blanc'),(87,'Création',_binary '\0',87,'sint','2024-01-26 09:14:35.642242',52,'Yanis Lacroix'),(88,'Création',_binary '\0',88,'eos','2024-01-26 09:14:35.655283',4,'Mathis Blanchard'),(89,'Création',_binary '\0',89,'velit','2024-01-26 09:14:35.669389',9,'Anaïs Adam'),(90,'Création',_binary '\0',90,'illum','2024-01-26 09:14:35.686057',23,'Julie Julien'),(91,'Création',_binary '\0',91,'beatae','2024-01-26 09:14:35.702181',41,'Lou Rey'),(92,'Création',_binary '\0',92,'quo','2024-01-26 09:14:35.716439',25,'Antoine Vidal'),(93,'Création',_binary '\0',93,'deleniti','2024-01-26 09:14:35.730533',28,'Maxime Perrin'),(94,'Création',_binary '\0',94,'in','2024-01-26 09:14:35.745374',38,'Kylian Philippe'),(95,'Création',_binary '\0',95,'totam','2024-01-26 09:14:35.760195',34,'Alicia Laurent'),(96,'Création',_binary '\0',96,'et','2024-01-26 09:14:35.775212',41,'Lou Rey'),(97,'Création',_binary '\0',97,'vel','2024-01-26 09:14:35.791960',8,'Mathis Renault'),(98,'Création',_binary '\0',98,'expedita','2024-01-26 09:14:35.806372',1,'manager the'),(99,'Création',_binary '\0',99,'aut','2024-01-26 09:14:35.820073',26,'Quentin Francois'),(100,'Création',_binary '\0',100,'qui','2024-01-26 09:14:35.837990',44,'Lucas Arnaud'),(101,'Création',_binary '\0',101,'et','2024-01-26 09:14:35.852532',14,'Valentin Simon'),(102,'Création',_binary '\0',102,'neque','2024-01-26 09:14:35.866280',34,'Alicia Laurent'),(103,'Création',_binary '\0',103,'itaque','2024-01-26 09:14:35.881264',16,'Rayan Blanc'),(104,'Création',_binary '\0',104,'iure','2024-01-26 09:14:35.897401',41,'Lou Rey'),(105,'Création',_binary '\0',105,'et','2024-01-26 09:14:35.912126',27,'Anaïs Thomas'),(106,'Création',_binary '\0',106,'eos','2024-01-26 09:14:35.926214',43,'Pierre Royer'),(107,'Création',_binary '\0',107,'tenetur','2024-01-26 09:14:35.941260',39,'Yanis Laurent'),(108,'Création',_binary '\0',108,'et','2024-01-26 09:14:35.955256',10,'Hugo Roche'),(109,'Création',_binary '\0',109,'necessitatibus','2024-01-26 09:14:35.968861',29,'Ines Michel'),(110,'Création',_binary '\0',110,'et','2024-01-26 09:14:35.982250',51,'Tom Fournier'),(111,'Création',_binary '\0',111,'dicta','2024-01-26 09:14:35.996869',13,'Juliette André'),(112,'Création',_binary '\0',112,'ad','2024-01-26 09:14:36.012037',51,'Tom Fournier'),(113,'Création',_binary '\0',113,'rerum','2024-01-26 09:14:36.027639',18,'Ambre Perez'),(114,'Création',_binary '\0',114,'ullam','2024-01-26 09:14:36.041256',22,'Ethan Cousin'),(115,'Création',_binary '\0',115,'qui','2024-01-26 09:14:36.056262',32,'Carla Sanchez'),(116,'Création',_binary '\0',116,'culpa','2024-01-26 09:14:36.071121',37,'Chloé Roussel'),(117,'Création',_binary '\0',117,'tempore','2024-01-26 09:14:36.086553',16,'Rayan Blanc'),(118,'Création',_binary '\0',118,'omnis','2024-01-26 09:14:36.101374',38,'Kylian Philippe'),(119,'Création',_binary '\0',119,'iure','2024-01-26 09:14:36.117929',53,'Adam Guérin'),(120,'Création',_binary '\0',120,'provident','2024-01-26 09:14:36.132150',22,'Ethan Cousin'),(121,'Création',_binary '\0',121,'aut','2024-01-26 09:14:36.146241',31,'Alice Dubois'),(122,'Création',_binary '\0',122,'delectus','2024-01-26 09:14:36.162614',3,'groot jesapel'),(123,'Création',_binary '\0',123,'earum','2024-01-26 09:14:36.181618',39,'Yanis Laurent'),(124,'Création',_binary '\0',124,'sed','2024-01-26 09:14:36.198478',8,'Mathis Renault'),(125,'Création',_binary '\0',125,'minima','2024-01-26 09:14:36.214642',45,'Lilou Gautier'),(126,'Création',_binary '\0',126,'repudiandae','2024-01-26 09:14:36.230688',45,'Lilou Gautier'),(127,'Création',_binary '\0',127,'reprehenderit','2024-01-26 09:14:36.245910',14,'Valentin Simon'),(128,'Création',_binary '\0',128,'iure','2024-01-26 09:14:36.262676',2,'Grohl Dave'),(129,'Création',_binary '\0',129,'impedit','2024-01-26 09:14:36.277690',23,'Julie Julien'),(130,'Création',_binary '\0',130,'qui','2024-01-26 09:14:36.291183',49,'Nicolas Gonzalez'),(131,'Création',_binary '\0',131,'odio','2024-01-26 09:14:36.305821',49,'Nicolas Gonzalez'),(132,'Création',_binary '\0',132,'enim','2024-01-26 09:14:36.322956',28,'Maxime Perrin'),(133,'Création',_binary '\0',133,'aliquam','2024-01-26 09:14:36.337795',28,'Maxime Perrin'),(134,'Création',_binary '\0',134,'tempore','2024-01-26 09:14:36.351849',5,'Victor Lemoine'),(135,'Création',_binary '\0',135,'cum','2024-01-26 09:14:36.366197',3,'groot jesapel'),(136,'Création',_binary '\0',136,'optio','2024-01-26 09:14:36.382208',39,'Yanis Laurent'),(137,'Création',_binary '\0',137,'tempore','2024-01-26 09:14:36.398105',32,'Carla Sanchez'),(138,'Création',_binary '\0',138,'dicta','2024-01-26 09:14:36.413437',49,'Nicolas Gonzalez'),(139,'Création',_binary '\0',139,'ullam','2024-01-26 09:14:36.429435',37,'Chloé Roussel'),(140,'Création',_binary '\0',140,'aut','2024-01-26 09:14:36.443453',46,'Evan Clément'),(141,'Création',_binary '\0',141,'nesciunt','2024-01-26 09:14:36.458471',20,'Yanis Moulin'),(142,'Création',_binary '\0',142,'qui','2024-01-26 09:14:36.473932',51,'Tom Fournier'),(143,'Création',_binary '\0',143,'odio','2024-01-26 09:14:36.489840',37,'Chloé Roussel'),(144,'Création',_binary '\0',144,'ab','2024-01-26 09:14:36.505851',25,'Antoine Vidal'),(145,'Création',_binary '\0',145,'sint','2024-01-26 09:14:36.522227',9,'Anaïs Adam'),(146,'Création',_binary '\0',146,'repellendus','2024-01-26 09:14:36.538877',6,'Arthur Huet'),(147,'Création',_binary '\0',147,'dolorem','2024-01-26 09:14:36.553743',23,'Julie Julien'),(148,'Création',_binary '\0',148,'ullam','2024-01-26 09:14:36.568724',29,'Ines Michel'),(149,'Création',_binary '\0',149,'iure','2024-01-26 09:14:36.583437',5,'Victor Lemoine'),(150,'Création',_binary '\0',150,'officia','2024-01-26 09:14:36.599230',15,'Maxence Jacquet'),(151,'Création',_binary '\0',151,'nesciunt','2024-01-26 09:14:36.614056',32,'Carla Sanchez'),(152,'Création',_binary '\0',152,'earum','2024-01-26 09:14:36.628940',34,'Alicia Laurent'),(153,'Création',_binary '\0',153,'repellat','2024-01-26 09:14:36.644880',14,'Valentin Simon'),(154,'Création',_binary '\0',154,'sequi','2024-01-26 09:14:36.661982',19,'Adam Nicolas'),(155,'Création',_binary '\0',155,'nostrum','2024-01-26 09:14:36.677536',34,'Alicia Laurent'),(156,'Création',_binary '\0',156,'illum','2024-01-26 09:14:36.693564',46,'Evan Clément'),(157,'Création',_binary '\0',157,'amet','2024-01-26 09:14:36.709100',5,'Victor Lemoine'),(158,'Création',_binary '\0',158,'alias','2024-01-26 09:14:36.725172',25,'Antoine Vidal'),(159,'Création',_binary '\0',159,'ducimus','2024-01-26 09:14:36.740682',31,'Alice Dubois'),(160,'Création',_binary '\0',160,'quas','2024-01-26 09:14:36.756218',10,'Hugo Roche'),(161,'Création',_binary '\0',161,'atque','2024-01-26 09:14:36.772674',49,'Nicolas Gonzalez'),(162,'Création',_binary '\0',162,'officiis','2024-01-26 09:14:36.788482',1,'manager the'),(163,'Création',_binary '\0',163,'vero','2024-01-26 09:14:36.804712',21,'Maeva Vidal'),(164,'Création',_binary '\0',164,'omnis','2024-01-26 09:14:36.821917',14,'Valentin Simon'),(165,'Création',_binary '\0',165,'omnis','2024-01-26 09:14:36.837997',12,'Paul Marchal'),(166,'Création',_binary '\0',166,'rerum','2024-01-26 09:14:36.853830',41,'Lou Rey'),(167,'Création',_binary '\0',167,'recusandae','2024-01-26 09:14:36.869636',24,'Mathis Le roux'),(168,'Création',_binary '\0',168,'occaecati','2024-01-26 09:14:36.885501',12,'Paul Marchal'),(169,'Création',_binary '\0',169,'eum','2024-01-26 09:14:36.901818',11,'Louise Vincent'),(170,'Création',_binary '\0',170,'ut','2024-01-26 09:14:36.918722',6,'Arthur Huet'),(171,'Création',_binary '\0',171,'neque','2024-01-26 09:14:36.934682',39,'Yanis Laurent'),(172,'Création',_binary '\0',172,'ullam','2024-01-26 09:14:36.953234',7,'Lucas Dvnis'),(173,'Création',_binary '\0',173,'laboriosam','2024-01-26 09:14:36.968613',10,'Hugo Roche'),(174,'Création',_binary '\0',174,'voluptas','2024-01-26 09:14:36.983874',22,'Ethan Cousin'),(175,'Création',_binary '\0',175,'autem','2024-01-26 09:14:37.000408',43,'Pierre Royer'),(176,'Création',_binary '\0',176,'porro','2024-01-26 09:14:37.016313',31,'Alice Dubois'),(177,'Création',_binary '\0',177,'at','2024-01-26 09:14:37.033626',36,'Clémence Gonzalez'),(178,'Création',_binary '\0',178,'aut','2024-01-26 09:14:37.049253',26,'Quentin Francois'),(179,'Création',_binary '\0',179,'totam','2024-01-26 09:14:37.066259',10,'Hugo Roche'),(180,'Création',_binary '\0',180,'tenetur','2024-01-26 09:14:37.081881',41,'Lou Rey'),(181,'Création',_binary '\0',181,'voluptatem','2024-01-26 09:14:37.097389',32,'Carla Sanchez'),(182,'Création',_binary '\0',182,'asperiores','2024-01-26 09:14:37.115945',21,'Maeva Vidal'),(183,'Création',_binary '\0',183,'ut','2024-01-26 09:14:37.133451',14,'Valentin Simon'),(184,'Création',_binary '\0',184,'rerum','2024-01-26 09:14:37.149540',30,'Maxime Cousin'),(185,'Création',_binary '\0',185,'officiis','2024-01-26 09:14:37.167164',1,'manager the'),(186,'Création',_binary '\0',186,'debitis','2024-01-26 09:14:37.186704',25,'Antoine Vidal'),(187,'Création',_binary '\0',187,'enim','2024-01-26 09:14:37.203691',47,'Alicia Lévêque'),(188,'Création',_binary '\0',188,'iste','2024-01-26 09:14:37.219617',24,'Mathis Le roux'),(189,'Création',_binary '\0',189,'laborum','2024-01-26 09:14:37.236185',42,'Laura Schmitt'),(190,'Création',_binary '\0',190,'consequuntur','2024-01-26 09:14:37.251144',1,'manager the'),(191,'Création',_binary '\0',191,'aut','2024-01-26 09:14:37.267742',7,'Lucas Dvnis'),(192,'Création',_binary '\0',192,'esse','2024-01-26 09:14:37.283529',50,'Enzo Mercier'),(193,'Création',_binary '\0',193,'veniam','2024-01-26 09:14:37.302624',8,'Mathis Renault'),(194,'Création',_binary '\0',194,'est','2024-01-26 09:14:37.317981',16,'Rayan Blanc'),(195,'Création',_binary '\0',195,'explicabo','2024-01-26 09:14:37.333504',12,'Paul Marchal'),(196,'Création',_binary '\0',196,'eum','2024-01-26 09:14:37.349870',24,'Mathis Le roux'),(197,'Création',_binary '\0',197,'ducimus','2024-01-26 09:14:37.366876',12,'Paul Marchal'),(198,'Création',_binary '\0',198,'iusto','2024-01-26 09:14:37.389063',26,'Quentin Francois'),(199,'Création',_binary '\0',199,'quia','2024-01-26 09:14:37.403570',25,'Antoine Vidal'),(200,'Création',_binary '\0',200,'qui','2024-01-26 09:14:37.419326',9,'Anaïs Adam');
+/*!40000 ALTER TABLE `user_historical` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-01-26  9:27:38
