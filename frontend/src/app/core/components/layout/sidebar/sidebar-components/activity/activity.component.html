@@ -1,0 +1,12 @@
+<div class="activity">
+  <div class="widget-title">
+    <i class="bi bi-activity"></i><span class="">Dernières</span> activitées
+  </div>
+  <div class="subtitle">
+    Liste des 50 dernières actions effectuées sur la plateforme
+  </div>
+  <div class="widget grid grid-cols-1 gap-20">
+    @for (globalHistorical of globalHistoricals; track globalHistorical.id ) {
+    <app-ticket-historical-card [data]="globalHistorical"></app-ticket-historical-card>
+    }
+  </div>

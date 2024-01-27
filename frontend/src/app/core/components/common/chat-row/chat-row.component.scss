@@ -1,0 +1,78 @@
+@import 'src/assets/scss/template.scss';
+
+.chat-row {
+  background-color: #FFFFFF;
+  padding: 15px;
+  border-radius: 10px;
+  position: relative;
+  
+}
+
+.icon-menu {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: $primaryColor;
+  mat-icon {
+    color: $primaryColor;
+    margin: auto;
+  }
+ 
+
+}
+
+.infos {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+
+  .author-and-date {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.img-container {
+  position: relative;
+  display: inline-block;
+}
+
+img {
+  margin-top: 10px;
+  width: auto;
+  max-height: 300px;
+  border-radius: 10px;
+  margin-right: 10px;
+  border: 2px solid white;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.3s ease-in-out;
+
+}
+
+.message {
+  white-space: pre-wrap;
+}
+
+.zoom-icon {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 32px;
+  color: #333;
+  /* Couleur de l'icône zoom */
+}
+
+.author {
+  font-size: 15px;
+  color: #333;
+}
+
+.date {
+  font-style: italic;
+  font-size: 14px;
+  color: #999;
+
+}

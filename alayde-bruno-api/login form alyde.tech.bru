@@ -1,0 +1,18 @@
+meta {
+  name: login form alyde.tech
+  type: http
+  seq: 7
+}
+
+post {
+  url: https://alayde.tech/api/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "manager@wcs.com",
+    "password": "Alayd3!manager"
+  }
+}

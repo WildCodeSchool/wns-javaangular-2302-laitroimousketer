@@ -1,0 +1,20 @@
+meta {
+  name: get tickets
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{ip}}/tickets/?ticketId=1
+  body: none
+  auth: none
+}
+
+query {
+  ticketId: 1
+  ~userId: 40
+  ~status: En cours
+  ~priority: Élevée
+  ~count: true
+  ~id: 26
+}

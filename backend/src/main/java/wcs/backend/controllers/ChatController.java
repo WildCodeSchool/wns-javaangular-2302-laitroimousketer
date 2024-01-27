@@ -1,28 +1,55 @@
 package wcs.backend.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import wcs.backend.services.ChatService;
 import wcs.backend.dtos.ChatDto;
 
 import java.util.List;
 
-@RequestMapping(path = "api/chat")
+@RestController
+@AllArgsConstructor
+@CrossOrigin(origins = "*")
+@RequestMapping(path = "api/chat/")
+@Tag(name = "Chat", description = "Chat Controller")
+
 public class ChatController {
 
-    private final ChatService chatService;
+  @Autowired
+  private final ChatService chatService;
 
-    public ChatController(ChatService chatService) {
-        this.chatService = chatService;
-    }
+  @GetMapping
+  @Operation(summary = "Get all chats", description = "Get all chats")
+  public List<ChatDto> getAllChats(@RequestParam(name = "ticket_id", required = false) Long ticketId) {
+    return chatService.getAllChats(ticketId);
+  }
 
-    @GetMapping
-    public List<ChatDto> getAllChats() {
-        return chatService.getAllChats();
-    }
+  @GetMapping("{id}")
+  @Operation(summary = "Get chat by ID", description = "Get chat by ID")
+  public ChatDto getChatById(@PathVariable Long id) {
+    return chatService.getChatById(id);
+  }
 
-    @PostMapping
-    public ChatDto addChat(@RequestBody ChatDto chatDto) {
-        return chatService.addChat(chatDto);
-    }
+  @PostMapping
+  @Operation(summary = "Add a chat", description = "Add a chat")
+  public ChatDto addChat(@RequestBody ChatDto chatDto) {
+    return chatService.addChat(chatDto);
+  }
+
+  @PutMapping("{id}")
+  @Operation(summary = "Update a chat by ID", description = "Update a chat by ID")
+  public ChatDto updateChat(@PathVariable Long id, @RequestBody ChatDto chatDto) {
+    return chatService.updateChat(id, chatDto);
+  }
+
+  @DeleteMapping("{id}")
+  @Operation(summary = "Delete a chat by ID", description = "Delete a chat by ID")
+  public void deleteChat(@PathVariable Long id) {
+    chatService.deleteChat(id);
+  }
 
 }

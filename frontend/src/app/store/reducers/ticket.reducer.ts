@@ -1,6 +1,6 @@
 import { ActionReducer, Action } from '@ngrx/store';
 import * as ticketAction from '../actions/ticket.action';
-import { Ticket } from 'src/app/features/ticket/models/ticket';
+import { Ticket } from 'src/app/core/models/ticket.model';
 
 export interface TicketState {
   ticket: Ticket;
@@ -20,6 +20,7 @@ export function reducer(state = initialState, action: Action & { payload?: any }
       return {
         ...state,
         ticket: action.payload,
+        tickets: [...state.tickets, action.payload],//update ticket in tickets too
       };
     }
 

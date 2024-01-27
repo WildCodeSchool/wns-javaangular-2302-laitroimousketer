@@ -1,0 +1,10 @@
+<div class="card lg:grid lg:grid-cols-12" (click)="openUserDetails()">
+
+  <div class="user col-span-5">
+    <app-avatar [user]="user" class="context-user-list"></app-avatar>
+    <div><span class="prefix">Client:</span>{{user.firstname}} {{ user.lastname}}</div>
+  </div>
+  <div class="mail col-span-5"><span class="prefix">Email:</span> {{ user.email }}</div>
+  <div class="role col-span-2"><span class="prefix">Rôle:</span> {{ user.role?.roleTitle }}</div>
+
+</div>

@@ -1,0 +1,401 @@
+{
+  "info": {
+    "name": "alayde",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "get categories",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{ip}}/categories/"
+      }
+    },
+    {
+      "name": "get priorities",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{ip}}/priorities/"
+      }
+    },
+    {
+      "name": "get roles",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{ip}}/roles/"
+      }
+    },
+    {
+      "name": "get status",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{ip}}/status/"
+      }
+    },
+    {
+      "name": "login form alyde.tech",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "https://alayde.tech/api/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"manager@wcs.com\",\n  \"password\": \"Alayd3!manager\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "post login",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{ip}}/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"manager@wcs.com\",\r\n  \"password\": \"Alayd3!manager\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "refresh login",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{ip}}login/refresh",
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"expiredToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYW5hZ2VyQHdjcy5jb20iLCJpYXQiOjE3MDUxNjYyMjAsImV4cCI6MTcwNTE2NjIzMH0.FgpVIBO05IZWbENfHVbonjNeo44QytHGgcI4-PSF7d1DraVhkFrewWphfnwtA98DS5KW4rNw2TnM3Isc_2T0sw\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "adresses",
+      "item": [
+        {
+          "name": "get adresses",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/address/"
+          }
+        },
+        {
+          "name": "post adress",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{ip}}/address/",
+            "body": {
+              "mode": "raw",
+              "raw": "    {\r\n    \"city\": \"La Seyne-sur-Mer\",\r\n    \"country\": \"Serbia\",\r\n    \"latitude\": -81.912807,\r\n    \"longitude\": -88.359691,\r\n    \"postcode\": \"70802\",\r\n    \"street_l1\": \"723 Allée, Voie de la Ferronnerie\",\r\n    \"street_l2\": \"Apt. 050\"\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "chat",
+      "item": [
+        {
+          "name": "get chat",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/chat/?ticket_id=1"
+          }
+        },
+        {
+          "name": "post chat",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{ip}}/chat/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"ticket_id\": 201,\r\n  \"author\":\"toto\",\r\n  \"message\":\"test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "historical-global",
+      "item": [
+        {
+          "name": "get all historical",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/historical/"
+          }
+        },
+        {
+          "name": "get by id  historical",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/historical/160?ticketId=10&userId=150"
+          }
+        }
+      ]
+    },
+    {
+      "name": "historical-ticket",
+      "item": [
+        {
+          "name": "get all historical-ticket",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/historical-ticket/"
+          }
+        },
+        {
+          "name": "get by id historical-ticket",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/historical-ticket/10?ticketId=20"
+          }
+        }
+      ]
+    },
+    {
+      "name": "historical-user",
+      "item": [
+        {
+          "name": "get all historical-user",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/historical-user/"
+          }
+        },
+        {
+          "name": "get by id historical-user",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/historical-user/10"
+          }
+        }
+      ]
+    },
+    {
+      "name": "media",
+      "item": [
+        {
+          "name": "get all media",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/media/"
+          }
+        },
+        {
+          "name": "post media",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{ip}}/media/upload"
+          }
+        }
+      ]
+    },
+    {
+      "name": "tickets",
+      "item": [
+        {
+          "name": "DEL ticket",
+          "event": [],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{ip}}/tickets/1"
+          }
+        },
+        {
+          "name": "get tickets",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/tickets/?ticketId=1"
+          }
+        },
+        {
+          "name": "post ticket",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{ip}}api/tickets/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"ticketTitle\": \"à la main\",\r\n  \"description\": \"Blanditiis et praesentium adipisci. Ipsum esse aspernatur quod. Harum quaerat quidem delectus voluptas qui vitae. Molestiae ut perspiciatis. Soluta et animi laboriosam aut reiciendis in.\",\r\n  \"category\": {\r\n    \"id\": 9,\r\n    \"categoryTitle\": \"Fonctionnalité\"\r\n  },\r\n  \"status\": {\r\n    \"id\": 8,\r\n    \"statusTitle\": \"En cours\"\r\n  },\r\n  \"priority\": {\r\n    \"id\": 9,\r\n    \"priorityTitle\": \"Moyenne\"\r\n  },\r\n  \"author\": {\r\n    \"id\": 40\r\n}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PUT ticket",
+          "event": [],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": "{{ip}}/tickets/4",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"description\":\"cc\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "users",
+      "item": [
+        {
+          "name": "DEL user",
+          "event": [],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{ip}}/users/56",
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "get user by role",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}users/"
+          }
+        },
+        {
+          "name": "get users",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{ip}}/users/"
+          }
+        },
+        {
+          "name": "post user",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{ip}}/users",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"firstname\": \"Eva\",\r\n  \"lastname\": \"Poret\",\r\n  \"email\": \"eva@poretgmail.com\",\r\n  \"password\":\"test\",\r\n  \"role\": {\r\n    \"id\": 8,\r\n    \"roleTitle\": \"Développeur\"\r\n  },\r\n  \"address\": {\r\n    \"id\": 49,\r\n    \"city\": \"Dijon\",\r\n    \"country\": \"Serbia\",\r\n    \"latitude\": 28.131343,\r\n    \"longitude\": -1.1544298,\r\n    \"postcode\": \"56514\",\r\n    \"street_l1\": \"52 Place de la Chaussée-d'Antin\",\r\n    \"street_l2\": \"Apt. 450\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "update user",
+          "event": [],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": "{{ip}}/users/2",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "ip",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "alayde_token",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}

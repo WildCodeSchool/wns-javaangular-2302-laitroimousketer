@@ -1,46 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { TicketService } from '../../../../core/services/ticket.service';
-import { Ticket } from '../../models/ticket';
+import { Ticket } from '../../../../core/models/ticket.model';
 
-import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Subscription, forkJoin, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as Reducer from 'src/app/store/reducers/index';
-import * as ticketAction from 'src/app/store/actions/ticket.action';
-import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
-
-interface TicketFilter {
-  status: {
-    to_do: boolean;
-    doing: boolean;
-    done: boolean;
-  };
-  priority: {
-    low: boolean;
-    medium: boolean;
-    high: boolean;
-  };
-  category: {
-    billing: boolean;
-    feature: boolean;
-    technical: boolean
-  };
-  [key: string]: any; // Ajout de la signature d'index
-}
+import * as Reducer from '../../../../store/reducers/index';
+import * as ticketAction from '../../../../store/actions/ticket.action';
+import { UnsubcribeComponent } from '../../../../core/classes/unsubscribe.component';
+import { Role } from '../../../../core/models/role.model';
+import { MediaService } from '../../../../core/services/media.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 
-
-interface SortOption {
-  label: string;
-  value: string;
-}
 
 @Component({
   selector: 'app-tickets-list',
   templateUrl: './tickets-list.component.html',
   styleUrls: ['./tickets-list.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
@@ -53,14 +33,14 @@ interface SortOption {
     ]),
   ],
 })
-export class TicketsListComponent extends UnsubcribeComponent implements OnInit {
 
+export class TicketsListComponent extends UnsubcribeComponent implements OnInit {
   tickets!: Ticket[];
   ticketsClient: Ticket[] | undefined;
   originalTickets: Ticket[] | undefined;
   isUpdatingTickets: boolean = false;
 
-  role: string = this.authService.userRole;
+  role?: Role;
 
   // COUNT TICKET //
   billingCount: number = 0;
@@ -75,73 +55,77 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
 
   showArchivedTickets: boolean = false;
   currentSortBy: string = '';
-  states: string[] = [
-    'Date de création (asc)',
-    'Date de création (desc)',
-    'Numéro de ticket (asc)',
-    'Numéro de ticket (desc)',
-    'Nom (A-Z)',
-    'Nom (Z-A)',
-    'Prénom (A-Z)',
-    'Prénom (Z-A)',
-  ];
 
-  filters: TicketFilter = {
-    status: {
-      to_do: false,
-      doing: false,
-      done: false,
-    },
-    priority: {
-      low: false,
-      medium: false,
-      high: false,
-    },
-    category: {
-      billing: false,
-      feature: false,
-      technical: false,
-    },
+  firstNameDown: boolean;
+  numeroDown: boolean;
+  titleDown: boolean;
+  categoryDown: boolean;
+  statusDown: boolean;
+  priorityDown: boolean;
+  dateDown: boolean;
+  iconSortingNumero: string = 'bi bi-sort-down';
+  iconSortingTitle: string = 'bi bi-sort-down';
+  iconSortingFirstName: string = 'bi bi-sort-down';
+  iconSortingDate: string = 'bi bi-sort-down';
+
+  filters: any = {
+    status: { 'À faire': false, 'En cours': false, 'Terminé': false },
+    priority: { 'Basse': false, 'Moyenne': false, 'Élevée': false },
+    category: { 'Facturation': false, 'Fonctionnalité': false, 'Technique': false },
   };
-  subscriptions = new Subscription();
 
-  ticketsFromStore: Ticket[] = [];
+  subscriptions = new Subscription();
 
   constructor(
     private store: Store<Reducer.StateDataStore>,
     private ticketService: TicketService,
     private authService: AuthService,
+    private mediaService: MediaService,
+    private formBuilder: FormBuilder,
   ) {
     super();
+    this.dateDown = false;
+    this.numeroDown = false;
+    this.titleDown = false;
+    this.firstNameDown = false;
+    this.categoryDown = false;
+    this.statusDown = false;
+    this.priorityDown = false;
   }
 
+
+  isSmallScreen = false;
+  
   ngOnInit() {
+   
+  
     this.getCounts();
     this.checkRole();
     this.getTicketList();
-    this.initializeStates();
+    this.isSmallScreen = window.innerWidth < 1600;
   }
 
-
-  private initializeStates() {
-    this.states = [
-      'Date de création (asc)',
-      'Date de création (desc)',
-      'Numéro de ticket (asc)',
-      'Numéro de ticket (desc)',
-      'Nom (A-Z)',
-      'Nom (Z-A)',
-      'Prénom (A-Z)',
-      'Prénom (Z-A)',
-    ];
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.isSmallScreen = window.innerWidth < 1600;
   }
 
   checkRole() {
-    this.authService.getUserProfile();
-    return this.authService.userRole;
+    this.store.select(Reducer.getUserConnected).pipe(takeUntil(this.destroy$)).subscribe((data) => {
+      this.role = data.role;
+      // console.log('role', this.role);
+    });
   }
 
-  getTicketList() {
+  getTicketList(searchQuery?: { searchTerm: string }): void {
+    if (searchQuery) {
+      let query = searchQuery.searchTerm;
+      console.log('query', query);
+      this.ticketService.getWithQuery(`query=${query}`).subscribe((tickets) => {
+        this.tickets = tickets;
+        console.log('tickets', tickets);
+      });
+    } else {
     this.store.dispatch(ticketAction.getTickets());
     this.store.select(Reducer.getTickets)
       .pipe(takeUntil(this.destroy$))
@@ -154,6 +138,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
           // Autres opérations ici...
         }
       });
+    }
   }
 
   private updateTicketList() {
@@ -166,94 +151,115 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
   }
 
   // FILTERS //
-  onCheckboxChange(group: string, filterName: string) {
-    // Inversez l'état du groupe de filtre sélectionné
-    this.filters[group as keyof TicketFilter][filterName] = !this.filters[group as keyof TicketFilter][filterName];
-    // Si le filtre est activé, désactivez tous les autres filtres dans le groupe
-    if (this.filters[group as keyof TicketFilter][filterName]) {
-      for (const key in this.filters[group as keyof TicketFilter]) {
-        if (key !== filterName) {
-          this.filters[group as keyof TicketFilter][key] = false;
-        }
+  onCheckboxChange(group: string, value: string) {
+    // Désactiver les autres checkboxes dans le groupe
+    for (const key in this.filters[group]) {
+      if (key !== value) {
+        this.filters[group][key] = false;
       }
     }
-    // Appliquer les filtres
+    // Activer ou désactiver la checkbox sélectionnée
+    this.filters[group][value] = !this.filters[group][value];
+
     this.applyFilters();
-    // Mettre à jour la liste des tickets
     this.updateTicketList();
   }
-
-
-  // TRI //
-  sortTickets(sortBy: string, tickets: Ticket[]) {
-    if (!this.tickets) {
-      return;
-    }
-    // console.log('sortBy', sortBy);
-    switch (sortBy) {
-      case 'Date de création (asc)':
-        this.tickets.sort((a, b) => a.creationDate.localeCompare(b.creationDate));
-        break;
-      case 'Date de création (desc)':
-        this.tickets.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
-        break;
-      case 'Numéro de ticket (asc)':
-        this.tickets.sort((a, b) => a.id.toString().localeCompare(b.id.toString()));
-        break;
-      case 'Numéro de ticket (desc)':
-        this.tickets.sort((a, b) => b.id.toString().localeCompare(a.id.toString()));
-        break;
-      case 'Nom (A-Z)':
-        this.tickets.sort((a, b) => a.authorFirstname.localeCompare(b.authorFirstname));
-        break;
-      case 'Nom (Z-A)':
-        this.tickets.sort((a, b) => b.authorFirstname.localeCompare(a.authorFirstname));
-        break;
-      case 'Prénom (A-Z)':
-        this.tickets.sort((a, b) => a.authorLastname.localeCompare(b.authorLastname));
-        break;
-      case 'Prénom (Z-A)':
-        this.tickets.sort((a, b) => b.authorLastname.localeCompare(a.authorLastname));
-        break;
-      // Add more cases as needed
-      default:
-        break;
-    }
-  }
-  onSortChange(event: MatSelectChange) {
-    this.currentSortBy = event.value;
-    this.updateTicketList();
-  }
-
 
 
   applyFilters() {
-    const filters: string[] = [];
 
-    for (const groupKey in this.filters) {
-      if (this.filters.hasOwnProperty(groupKey) && groupKey !== 'filters') {
-        for (const key in this.filters[groupKey]) {
-          if (this.filters[groupKey].hasOwnProperty(key) && this.filters[groupKey][key]) {
-            filters.push(`${groupKey}=${key.toUpperCase()}`);
-            // console.log('filters', filters);
-          }
-        }
+    const queryStringParams: string[] = [];
+
+    // Build the query string parameters
+    for (const key in this.filters) {
+      const values = Object.keys(this.filters[key]).filter(subKey => this.filters[key][subKey]);
+
+      if (values.length > 0) {
+        // Cumulez les valeurs dans la requête
+        const joinedValues = values.map(val => encodeURIComponent(val)).join(',');
+        queryStringParams.push(`${key}=${joinedValues}`);
       }
     }
 
+    const queryString = queryStringParams.join('&');
+    // console.log('queryString', queryString);  
     // Appel au service pour construire la requête et retourner les tickets filtrés
-    this.ticketService.getTicketsByFilters(filters.join('&')).subscribe((tickets) => {
+    this.ticketService.getTicketsByFilters(queryString).subscribe((tickets) => {
       // Mettez à jour les tickets locaux avec les tickets filtrés
       if (!this.showArchivedTickets) {
         tickets = tickets.filter((ticket) => ticket.archiveDate === null);
       }
       this.tickets = tickets; // Affectez le tableau filtré
-      if (this.role === 'client') {
-        this.tickets = this.tickets.filter((ticket) => ticket.authorId === this.authService.userId);
+      if (this.role?.roleTitle === 'Client') {
+        this.tickets = this.tickets.filter((ticket) => ticket.author?.id === this.authService.userConnected.id);
       }
-      this.sortTickets(this.currentSortBy, this.tickets);
+      // this.sortTickets(this.currentSortBy); // Tri des tickets
     });
   }
+
+
+
+  // TRI //
+
+  sortTickets(sortBy: string) {
+
+    switch (sortBy) {
+      case 'Date de création':
+        this.dateDown = this.currentSortBy === 'Date de création' ? !this.dateDown : true;
+        this.currentSortBy = 'Date de création';
+        this.tickets.sort(this.sortByDate.bind(this));
+        this.titleDown ? this.iconSortingTitle = 'bi bi-sort-down' : this.iconSortingTitle = 'bi bi-sort-up';
+         // Bind the context to the sorting functions
+        break;
+      case 'Numéro':
+        this.numeroDown = this.currentSortBy === 'Numéro' ? !this.numeroDown : true;
+        this.currentSortBy = 'Numéro';
+        this.numeroDown ? this.iconSortingNumero = 'bi bi-sort-down' : this.iconSortingNumero = 'bi bi-sort-up';
+        this.tickets.sort(this.sortByNumero.bind(this));
+        break;
+      case 'Titre':
+        this.titleDown = this.currentSortBy === 'Titre' ? !this.titleDown : true;
+        this.currentSortBy = 'Titre';
+        this.titleDown ? this.iconSortingTitle = 'bi bi-sort-down' : this.iconSortingTitle = 'bi bi-sort-up';
+        this.tickets.sort(this.sortByTitle.bind(this));
+        break;
+      case 'Prénom':
+        this.firstNameDown = this.currentSortBy === 'Prénom' ? !this.firstNameDown : true;
+        this.currentSortBy = 'Prénom';
+        this.firstNameDown ? this.iconSortingFirstName = 'bi bi-sort-down' : this.iconSortingFirstName = 'bi bi-sort-up';
+        this.tickets.sort(this.sortByFirstname.bind(this));
+        break;
+      case 'Date':
+        this.dateDown = this.currentSortBy === 'Date' ? !this.dateDown : true;
+        this.currentSortBy = 'Date';
+        this.dateDown ? this.iconSortingDate = 'bi bi-sort-down' : this.iconSortingDate = 'bi bi-sort-up';
+        this.tickets.sort(this.sortByDate.bind(this));
+        break;
+      default:
+        break;
+    }
+  }
+
+
+
+  sortByTitle(a: Ticket, b: Ticket): number {
+    return this.titleDown ? a.ticketTitle.localeCompare(b.ticketTitle) : b.ticketTitle.localeCompare(a.ticketTitle);
+  }
+
+  sortByNumero(a: Ticket, b: Ticket): number {
+    const idA = Number(a.id);
+    const idB = Number(b.id);
+    return this.numeroDown ? idA - idB : idB - idA;
+  }
+  
+  sortByFirstname(a: Ticket, b: Ticket): number {
+    return this.firstNameDown ? a.author!.firstname.localeCompare(b.author!.firstname) : b.author!.firstname.localeCompare(a.author!.firstname);
+  }
+
+  sortByDate(a: Ticket, b: Ticket): number {
+    return this.dateDown ? a.creationDate.localeCompare(b.creationDate) : b.creationDate.localeCompare(a.creationDate);
+  }
+
 
   isEven(index: number): boolean {
     return index % 2 === 0;
@@ -261,31 +267,21 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
 
   getCounts(): void {
     const subscriptions = new Subscription();
-    const toDoCount$ = this.ticketService.getCountTicketsByStatusToDo().pipe(take(1));
-    const doingCount$ = this.ticketService.getCountTicketsByStatusDoing().pipe(take(1));
-    const doneCount$ = this.ticketService.getCountTicketsByStatusDone().pipe(take(1));
-    const lowCount$ = this.ticketService.getCountTicketsByPriorityLow().pipe(take(1));
-    const mediumCount$ = this.ticketService.getCountTicketsByPriorityMedium().pipe(take(1));
-    const highCount$ = this.ticketService.getCountTicketsByPriorityHigh().pipe(take(1));
-    const billingCount$ = this.ticketService.getCountTicketsByCategoryBilling().pipe(take(1));
-    const featureCount$ = this.ticketService.getCountTicketsByCategoryFeature().pipe(take(1));
-    const technicalCount$ = this.ticketService.getCountTicketsByCategoryTechnical().pipe(take(1));
 
     subscriptions.add(
       forkJoin({
-        toDoCount: toDoCount$,
-        doingCount: doingCount$,
-        doneCount: doneCount$,
-        lowCount: lowCount$,
-        mediumCount: mediumCount$,
-        highCount: highCount$,
-        billingCount: billingCount$,
-        featureCount: featureCount$,
-        technicalCount: technicalCount$,
+        toDoCount: this.ticketService.getTicketCountByFilters('status=À faire&count=true').pipe(take(1)),
+        doingCount: this.ticketService.getTicketCountByFilters('status=En cours&count=true').pipe(take(1)),
+        doneCount: this.ticketService.getTicketCountByFilters('status=Terminé&count=true').pipe(take(1)),
+        lowCount: this.ticketService.getTicketCountByFilters('priority=Basse&count=true').pipe(take(1)),
+        mediumCount: this.ticketService.getTicketCountByFilters('priority=Moyenne&count=true').pipe(take(1)),
+        highCount: this.ticketService.getTicketCountByFilters('priority=Élevée&count=true').pipe(take(1)),
+        billingCount: this.ticketService.getTicketCountByFilters('category=Facturation&count=true').pipe(take(1)),
+        featureCount: this.ticketService.getTicketCountByFilters('category=Fonctionnalité&count=true').pipe(take(1)),
+        technicalCount: this.ticketService.getTicketCountByFilters('category=Technique&count=true').pipe(take(1)),
       }).subscribe({
         next: counts => {
-          // Mettez à jour les variables après avoir obtenu toutes les valeurs
-          this.toDoCount = counts.toDoCount;
+          this.toDoCount = counts.toDoCount; // Mettez à jour les variables avec les compteurs
           this.doingCount = counts.doingCount;
           this.doneCount = counts.doneCount;
           this.lowCount = counts.lowCount;
@@ -307,6 +303,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
     );
     this.subscriptions.add(subscriptions);
   }
+
   ViewArchivedTickets() {
     this.showArchivedTickets = !this.showArchivedTickets;
     this.updateTicketList(); // Mettez à jour la liste des tickets en fonction de la nouvelle valeur

@@ -1,0 +1,17 @@
+meta {
+  name: PUT ticket
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{ip}}/tickets/4
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "description":"cc"
+  }
+}

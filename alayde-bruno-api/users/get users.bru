@@ -1,0 +1,18 @@
+meta {
+  name: get users
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{ip}}/users/
+  body: none
+  auth: none
+}
+
+query {
+  ~query: Alexis
+  ~query: Théo
+  ~query: jul
+  ~email: dev@wcs.com
+}

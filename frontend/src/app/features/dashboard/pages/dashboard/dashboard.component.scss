@@ -1,16 +1,38 @@
 @import "src/assets/scss/template.scss";
 
-article {
-  padding-top: 8vh;
-  padding: 8vh 0 2% 2%;
+.dashboard{
+  padding: 4vh 2% 2% 2%;
+  color: white;
+  overflow: auto;
+  height: 90%;
+  @include mobiletablet {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 }
+.widget {
+  background-color: $thirdColor;
+  overflow: hidden;
+  min-height: 200px;
+}
+.tickets-c {
+  height: 100%;
+  overflow: auto;
+  padding: 10px;
 
-header {
-  h1,h2 {
-    font-size: 20px;
-    font-style: italic;
+}
+.chart-c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 10%;
+}
+  h1,h2,h3 {
+    font-size: 18px;
+    // font-style: italic;
     font-weight: 400;
-    color: $primaryColor;
+    color: white!important;
   }
 
   .ticket-number,
@@ -31,28 +53,29 @@ header {
     color: orangered;
     font-weight: 500;
   }
-}
+
 
 .chart-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  overflow-y: auto;
-  padding-bottom: 10vh;
+  height: fit-content;
+  width: fit-content;
 
   h3 {
     font-size: 22px;
     font-weight: 500;
-    color: $primaryColor;
+    color: white;
   }
 }
 
 .chart {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 5%;
-  width: fit-content;
+  // flex-direction: column;
+  // align-items: center;
+  // margin: 5%;
+  width: 250px;
+  height: 250px;
+  margin-bottom: -40px;
+  margin-top: -10px;
+  @include mobiletablet {
+    width: 200px;
+    height: 200px;
+  }
 }

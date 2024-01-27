@@ -1,3 +1,5 @@
+@import 'src/assets/scss/template.scss';
+
 .avatar {
   width: 48px;
   height: 48px;
@@ -7,25 +9,101 @@
   justify-content: center;
   text-transform: uppercase;
   position: relative;
+  @include mobiletablet {
+  width: 36px;
+  height: 36px
+  }
  p {
   text-align: center;
-  font-size: 1.5em;
+  font-size: 1.4em;
+  @include mobiletablet {
+    font-size: 1.1em;
+  }
+  color: white;
  }
 }
-.avatar-2 {
-  width: 24px;
-  height: 24px;
+img {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  font-size: 0.8em;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+i {
   position: absolute;
-  top:-10%;
-  right: -25%;
-  background-color: rgb(150, 150, 150);
+  top: -6px;
+  right: -10px;
+  font-size: 16px;
   color: white;
+  background-color: $primaryColor;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  
+}
+.warning {
+  color: $secondaryColor!important;
+}
+:host-context(.context-ticket-card-creator) {
+  .avatar {
+  width: 80px;
+  height: 80px;
+  @include mobiletablet {
+    width: 48px;
+    height: 48px;
+  }
+  p {
+    font-size: 1.6em;
+    @include mobiletablet {
+      font-size: 1.2em;
+    }
+   }
+   img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    @include mobiletablet {
+      width: 48px;
+      height: 48px;
+    }
+  }
+}
 }
 
-
+:host-context(.from-navbar) {
+  .avatar {
+  width: 72px;
+  height: 72px;
+  cursor: pointer;
+  p {
+    font-size: 1.8em;
+   }
+}
+img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+}
+:host-context(.context-dev-row) {
+  .avatar {
+  width: 40px;
+  height: 40px;
+  @include mobiletablet {
+    width: 32px;
+    height: 32px;
+  }
+  p {
+    font-size: 0.9em;
+    @include mobiletablet {
+      font-size: 0.8em;
+    }
+   }
+} 
+}

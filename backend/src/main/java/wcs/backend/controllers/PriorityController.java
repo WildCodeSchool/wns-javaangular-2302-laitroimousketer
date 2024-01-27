@@ -1,6 +1,8 @@
 package wcs.backend.controllers;
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,10 +14,10 @@ import wcs.backend.services.PriorityService;
 @AllArgsConstructor
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("api/priority")
+@RequestMapping("api/priorities/")
 @Tag(name = "Priorities", description = "Priority Management Controller")
 public class PriorityController {
-
+  @Autowired
   private PriorityService priorityService;
 
   @GetMapping
@@ -25,9 +27,9 @@ public class PriorityController {
     return ResponseEntity.ok(priorityDto);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("{id}")
   @Operation(summary = "Get Priority by ID", description = "Get details of a priority by its ID.")
-  public ResponseEntity<PriorityDto> getPriorityById(@PathVariable("id") Long priorityId) {
+  public ResponseEntity<PriorityDto> getPriorityById(@PathVariable Long priorityId) {
     PriorityDto priorityDto = priorityService.getPriorityById(priorityId);
      return ResponseEntity.ok(priorityDto);
   }
@@ -39,14 +41,14 @@ public class PriorityController {
     return ResponseEntity.ok(createdPriorityDto);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   @Operation(summary = "Update Priority", description = "Update an existing priority.")
   public ResponseEntity<PriorityDto> updatePriority(@PathVariable Long id, @RequestBody PriorityDto priorityDto) {
     PriorityDto updatedPriorityDto = priorityService.updatePriority(id, priorityDto);
     return ResponseEntity.ok(updatedPriorityDto);
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("{id}")
   @Operation(summary = "Delete Priority", description = "Delete a priority by its ID.")
   public ResponseEntity<Void> deletePriority(@PathVariable Long id) {
     priorityService.deletePriority(id);

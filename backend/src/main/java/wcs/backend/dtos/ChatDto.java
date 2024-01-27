@@ -1,20 +1,29 @@
 package wcs.backend.dtos;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import java.util.Date;
 
-import java.time.LocalDate;
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 
-@Data
 public class ChatDto {
 
     private Long id;
 
+    private Long ticket_id;
+
     private String message;
 
-    private String sender;
+    private Date sent_date;
 
-    private String receiver;
+    private UserReadDto author;
 
-    private LocalDate timestamp;
+    // media sans le contenu data
+    private MediaGetAllDto media;
 
 }

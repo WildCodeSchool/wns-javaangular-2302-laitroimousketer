@@ -19,6 +19,23 @@
 		<image.name>alayde-back</image.name>
 		<image.tag>latest</image.tag>
 	</properties>
+  <profiles>
+    <profile>
+        <id>dev</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <properties>
+            <spring.profiles.active>dev</spring.profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>prod</id>
+        <properties>
+            <spring.profiles.active>prod</spring.profiles.active>
+        </properties>
+    </profile>
+</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
@@ -38,11 +55,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jaxb</groupId>
-			<artifactId>jaxb-runtime</artifactId>
-			<scope>provided</scope>
 		</dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -105,14 +117,35 @@
 			<artifactId>file-management</artifactId>
 			<version>3.1.0</version>
 		</dependency>
-		<dependency>
+    <dependency>
+      <groupId>com.github.javafaker</groupId>
+      <artifactId>javafaker</artifactId>
+      <version>1.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-mysql</artifactId>
-				<version>9.22.3</version>
+			<version>9.22.3</version>
 		</dependency>
 	</dependencies>
 
 <build>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+        </resource>
+    </resources>
     <plugins>
         <plugin>
             <groupId>org.springframework.boot</groupId>
@@ -127,10 +160,11 @@
                         <artifactId>lombok</artifactId>
                     </exclude>
                 </excludes>
-								<user>${flyway.user}</user>
-								<password>${flyway.password}</password>
+                <url>${spring.flyway.url}</url>
+                <user>${spring.flyway.user}</user>
+                <password>${spring.flyway.password}</password>
 								<schemas>
-										<schema>${flyway.schema}</schema>
+								<schema>${spring.flyway.schemas}</schema>
 								</schemas>
             </configuration>
         </plugin>

@@ -22,6 +22,7 @@ export function reducer(state = initialState, action: Action & { payload?: any }
       return {
         ...state,
         user: action.payload,
+        users: [...state.users, action.payload], // update user in users too
       };
     }
 

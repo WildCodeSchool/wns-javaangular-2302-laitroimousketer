@@ -2,35 +2,31 @@ version: "3"
 
 services:
   db:
-    container_name: app_${APP_ENV}_db
+    container_name: app_prod_db
     image: mysql:8.0
     restart: always
     ports:
-      - "5000:3306" # Modifier le port pour correspondre au port MySQL par défaut
+      - "5000:3306"
     volumes:
       - db:/var/lib/mysql
-    env_file:
-      - .env
     networks:
       - appinternals
 
   back:
-    container_name: app_${APP_ENV}_back
+    container_name: app_prod_back
     ports:
       - "8080:8080"
     image: ${DOCKER_USER}/alayde-back:${DOCKER_IMAGE_TAG}
     restart: always
     depends_on:
       - db
-    env_file:
-      - .env
     networks:
-      appinternals:
-        aliases:
-          - back
+      - appinternals
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   nginx:
-    container_name: app_${APP_ENV}_front
+    container_name: app_prod_front
     image: ${DOCKER_USER}/alayde-front:${DOCKER_IMAGE_TAG}
     depends_on:
       - back
@@ -43,7 +39,7 @@ services:
 volumes:
   db:
     driver: local
+
 networks:
   appinternals:
-    # customize the actual network name depending on environment, so "prod" containers do not share network with "preprod" even on same machine / docker server
-    name: appinternals_${APP_ENV}
+    name: appinternals

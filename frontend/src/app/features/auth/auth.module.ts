@@ -11,6 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatStepperModule} from '@angular/material/stepper'
 @NgModule({
   declarations: [
     AuthComponent,
@@ -27,6 +29,8 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     MatInputModule,
     MatButtonModule,
     ClipboardModule,
+    MatAutocompleteModule,
+    MatStepperModule,
     
 
 

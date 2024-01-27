@@ -1,0 +1,146 @@
+@import 'src/assets/scss/template.scss';
+
+.navbar {
+  width: 110px;
+  height: 100vh;
+  background-color: $primaryColor;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 20px;
+  color: white;
+
+  @media screen and (max-width: 700px),
+  screen and (max-height: 700px) {
+    display: none;
+  }
+}
+
+.logo {
+  margin-bottom: auto;
+  width: 140px;
+  transform: translateY(-30px);
+
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    filter: contrast(0%) brightness(200%);
+  }
+
+}
+
+
+ul {
+  height: 100%;
+  position: relative;
+}
+
+.liBg {
+  background-image: url('../../../../../assets/images/nav-white.svg');
+  position: absolute;
+  display: flex;
+  background-repeat: no-repeat;
+  height: 140px;
+  right: -18px;
+  width: 95px;
+  transition: transform 0.3s ease;
+}
+
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 10px;
+  gap: 80px;
+  list-style: none;
+
+  a,
+  i {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    z-index: 1;
+  }
+
+  a,
+  img,
+  span {
+    cursor: pointer;
+  }
+}
+
+li.active a,
+li.active a i {
+  color: $secondaryColor;
+  transition: 0.25s;
+}
+
+
+
+a,
+i {
+  text-decoration: none;
+  color: white;
+}
+
+.avatar {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  cursor: pointer;
+}
+
+.bi {
+  font-size: 2.8rem;
+  margin-right: 10px;
+}
+
+
+.corporation {
+  margin-top: 20px;
+  color: rgb(150, 150, 150, 0.8);
+
+}
+
+//navbarmobile//
+
+.navbar-mobile {
+  display: none;
+
+  @include mobile {
+    display: flex;
+  }
+
+  position: absolute;
+  bottom:0;
+  justify-content: space-between;
+  z-index: 100;
+  width: 100%;
+  background-color: $thirdColor;
+
+  ul,
+  li {
+    text-decoration: none;
+    list-style: none;
+    padding: 4px 8px;
+  }
+
+  color: white;
+
+  .links-mobile {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+
+    i {
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
+
+}

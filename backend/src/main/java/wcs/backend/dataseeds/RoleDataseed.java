@@ -2,9 +2,8 @@ package wcs.backend.dataseeds;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import wcs.backend.services.RoleService;
-import wcs.backend.entities.Role;
+import wcs.backend.dtos.RoleDto;
 
 @Component
 public class RoleDataseed {
@@ -19,15 +18,15 @@ public class RoleDataseed {
     }
 
     private void loadData() {
-      Role roleClientCreated = new Role();
+      RoleDto roleClientCreated = new RoleDto();
       roleClientCreated.setRoleTitle("Client");
       roleService.createRole(roleClientCreated);
 
-      Role roleDevCreated = new Role();
+      RoleDto roleDevCreated = new RoleDto();
       roleDevCreated.setRoleTitle("Développeur");
       roleService.createRole(roleDevCreated);
 
-      Role roleManagerCreated = new Role();
+      RoleDto roleManagerCreated = new RoleDto();
       roleManagerCreated.setRoleTitle("Manager");
       roleService.createRole(roleManagerCreated);
   }

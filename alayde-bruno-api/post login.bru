@@ -1,0 +1,22 @@
+meta {
+  name: post login
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{ip}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "manager@wcs.com",
+    "password": "Alayd3!manager"
+  }
+}
+
+vars:post-response {
+  alayde_token: res.body.accessToken
+}

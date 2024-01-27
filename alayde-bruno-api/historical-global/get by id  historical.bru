@@ -1,0 +1,16 @@
+meta {
+  name: get by id  historical
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{ip}}/historical/160?ticketId=10&userId=150
+  body: none
+  auth: none
+}
+
+query {
+  ticketId: 10
+  userId: 150
+}

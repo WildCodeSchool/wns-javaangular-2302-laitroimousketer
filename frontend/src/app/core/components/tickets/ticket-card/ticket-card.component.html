@@ -1,0 +1,29 @@
+<div class="card" (click)="openTicketDetails()" *ngIf="ticket">
+
+  <div class="client">
+    <app-avatar [user]="ticket.author" [isArchive]="isArchive" class="context-ticket-card-fullnameAuthor"></app-avatar>
+    @if (!!ticket.author) {
+    <p>{{ fullnameAuthor }}<span class="separator"></span></p>
+
+    } @else {
+    <p>Utilisateur inconnu<span class="separator"></span></p>
+    }
+  </div>
+
+  <div class="rest">
+
+
+      <p class="number"><span class="prefix">Numéro :</span>{{ ticket.id }}</p>
+
+      <p class="category "><span class="prefix">Catégorie :</span>{{ ticket.category?.categoryTitle }}</p>
+      <p class="statut " [ngClass]="colorStatus"><span class="prefix">Statut :</span>{{
+        ticket.status?.statusTitle }}
+      </p>
+
+      <p class="priority" [ngClass]="colorPriority"><span class="prefix">Priorité: :</span>{{
+        ticket.priority?.priorityTitle }}</p>
+      <p class="date"><span class="prefix">Date :</span>{{ ticket.creationDate | date:'dd/MM/yyyy' }}</p>
+
+
+  </div>
+</div>
