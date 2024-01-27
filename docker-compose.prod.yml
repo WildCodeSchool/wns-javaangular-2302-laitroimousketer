@@ -42,4 +42,4 @@ volumes:
 
 networks:
   appinternals:
-    name: appinternals_app_prod
+    name: appinternals
