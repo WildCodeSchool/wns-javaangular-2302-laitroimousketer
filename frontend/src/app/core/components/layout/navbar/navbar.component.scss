@@ -9,10 +9,13 @@
   align-items: center;
   padding-bottom: 20px;
   color: white;
-  @media screen and (max-width: 700px), screen and (max-height: 700px) {
+
+  @media screen and (max-width: 700px),
+  screen and (max-height: 700px) {
     display: none;
   }
 }
+
 .logo {
   margin-bottom: auto;
   width: 140px;
@@ -34,13 +37,12 @@ ul {
 }
 
 .liBg {
-  z-index: -1;
-  background-image: url('/src/assets/images/nav-white.svg');
+  background-image: url('../../../../../assets/images/nav-white.svg');
   position: absolute;
   display: flex;
   background-repeat: no-repeat;
   height: 140px;
-  right:-18px;
+  right: -18px;
   width: 95px;
   transition: transform 0.3s ease;
 }
@@ -54,7 +56,8 @@ ul {
   gap: 80px;
   list-style: none;
 
-  a,i {
+  a,
+  i {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -62,20 +65,24 @@ ul {
     gap: 8px;
     z-index: 1;
   }
+
   a,
   img,
   span {
     cursor: pointer;
   }
 }
-li.active a, li.active a i {
+
+li.active a,
+li.active a i {
   color: $secondaryColor;
   transition: 0.25s;
 }
 
 
 
-a,i {
+a,
+i {
   text-decoration: none;
   color: white;
 }
@@ -103,27 +110,33 @@ a,i {
 
 .navbar-mobile {
   display: none;
+
   @include mobile {
     display: flex;
   }
+
   position: absolute;
   bottom:0;
   justify-content: space-between;
   z-index: 100;
   width: 100%;
   background-color: $thirdColor;
-  ul,li {
+
+  ul,
+  li {
     text-decoration: none;
     list-style: none;
     padding: 4px 8px;
   }
+
   color: white;
-    .links-mobile {
+
+  .links-mobile {
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: space-between;
-  
+
     i {
       font-size: 24px;
       cursor: pointer;
