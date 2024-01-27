@@ -4,14 +4,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@Import(JpaConfig.class)
+
 public class AlaydeApplication  {
 
 	@Bean
-	public ModelMapper modelMapperForAlaydeApplication() {
+	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
 
