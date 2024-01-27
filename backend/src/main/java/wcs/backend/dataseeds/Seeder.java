@@ -12,8 +12,8 @@ import jakarta.transaction.Transactional;
 public class Seeder implements CommandLineRunner {
   // inject below the dependencies needed, i.e. class containing seed datas and
   // then add each corresponding resetData() method in run ();
- @PersistenceContext
-private EntityManager entityManager;
+  @PersistenceContext
+  private EntityManager entityManager;
 
   @Autowired
   private RoleDataseed roleDataseed;
