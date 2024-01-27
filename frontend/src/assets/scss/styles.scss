@@ -36,6 +36,10 @@ $angular-frontend-ticketing-theme: mat.define-light-theme((
 @import './material.scss';
 @import './template.scss';
 @import './grid.scss';
+
+$basePath: "src/assets/images/";
+
+
 // reset css
 
 * {box-sizing: border-box;}
