@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 public class AlaydeApplication  {
 
 	@Bean
-	public ModelMapper modelMapper() {
+	public ModelMapper modelMapperForAlaydeApplication() {
 		return new ModelMapper();
 	}
 
