@@ -21,9 +21,7 @@ services:
     depends_on:
       - db
     networks:
-      appinternals:
-        aliases:
-          - back
+      - appinternals
     environment:
       - SPRING_PROFILES_ACTIVE=prod
 
