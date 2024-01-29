@@ -18,13 +18,15 @@
           </mat-select>
         </mat-form-field>
 
-        <div *ngFor="let user of users; let i = index" >
-          <app-user-card class="context-user-list" [user]="user" [ngClass]="{'even': isEven(i), 'odd': !isEven(i)}"></app-user-card>
+        <div *ngFor="let user of users; let i = index">
+          <app-user-card class="context-user-list" [user]="user"
+            [ngClass]="{'even': isEven(i), 'odd': !isEven(i)}"></app-user-card>
         </div>
       </div>
 
       <div class="right">
-   <div class="map" leaflet [leafletOptions]="mapOptions" [leafletLayers]="usersMarkers" (leafletMapReady)="onMapReady($event)"></div>
+        <div class="map" leaflet [leafletOptions]="mapOptions" [leafletLayers]="usersMarkers"
+          (leafletMapReady)="onMapReady($event)"></div>
 
       </div>
 

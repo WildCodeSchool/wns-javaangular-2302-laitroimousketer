@@ -11,7 +11,7 @@ import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component'
   templateUrl: './user-card.component.html',
   styleUrls: ['./user-card.component.scss']
 })
-export class UserCardComponent extends UnsubcribeComponent  implements OnInit {
+export class UserCardComponent extends UnsubcribeComponent implements OnInit {
   @Input() user!: User;
   fullname: string = '';
   userConnected!: User;
@@ -19,7 +19,7 @@ export class UserCardComponent extends UnsubcribeComponent  implements OnInit {
     private store: Store<Reducer.StateDataStore>,
   ) {
     super();
-   }
+  }
 
   ngOnInit() {
     this.loadUserConnected();
@@ -32,7 +32,7 @@ export class UserCardComponent extends UnsubcribeComponent  implements OnInit {
         this.userConnected = user;
       });
   }
- 
+
   openUserDetails() {
     this.store.dispatch(userAction.getUser({ payload: this.user.id, displayInSidebar: true }));
   }

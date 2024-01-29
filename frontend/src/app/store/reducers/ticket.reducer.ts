@@ -17,10 +17,14 @@ export function reducer(state = initialState, action: Action & { payload?: any }
   switch (action.type) {
 
     case ticketAction.action.SAVE_TICKET: {
+      const updatedTickets = state.tickets.some(t => t.id === action.payload.id) ?
+        state.tickets.map(t => (t.id === action.payload.id ? action.payload : t)) :
+        [...state.tickets, action.payload];
+
       return {
         ...state,
         ticket: action.payload,
-        tickets: [...state.tickets, action.payload],//update ticket in tickets too
+        tickets: updatedTickets
       };
     }
 
