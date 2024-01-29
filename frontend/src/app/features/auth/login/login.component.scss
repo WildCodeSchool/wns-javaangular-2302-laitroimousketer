@@ -1,9 +1,11 @@
 @import 'src/assets/scss/template.scss';
+
 :host {
-  width: fit-content!important;
+  width: fit-content !important;
 }
+
 .login {
- width: fit-content!important;
+  width: fit-content !important;
 }
 
 .card {
@@ -13,13 +15,12 @@
   border: 4px solid $primaryColor;
   border-radius: 15px;
   width: 500px;
+
   @include mobiletablet {
-    width: 300px!important;
+    width: 300px !important;
   }
+
   box-shadow:0px 5px 15px 5px rgba(0, 0, 0, 0.2);
-  @include qhd {width: 20%}
-  @include tablet {width: 50%}
-  @include mobile {width: 70%}
 }
 
 .connexion {
@@ -29,8 +30,14 @@
   width: fit-content;
   margin: 20px auto 30px auto;
   position: relative;
-  @include tablet {font-size: 24px;}
-  @include mobile {font-size: 20px;}
+
+  @include tablet {
+    font-size: 24px;
+  }
+
+  @include mobile {
+    font-size: 20px;
+  }
 }
 
 .connexion::after {
@@ -48,8 +55,14 @@
 .card-body {
   padding: 4% 2%;
   font-size: 15;
-  @include tablet {font-size: 14px;}
-  @include mobile {font-size: 13px;}
+
+  @include tablet {
+    font-size: 14px;
+  }
+
+  @include mobile {
+    font-size: 13px;
+  }
 }
 
 .card-footer {
@@ -58,17 +71,31 @@
   width: 100%;
   bottom: 0;
   border: 0;
-  color:white;
+  color: white;
   font-size: 15px;
   border-radius: 0;
   padding: 12px;
-  @include tablet {font-size: 14px;}
-  @include mobile {font-size: 13px;}
+
+  @include tablet {
+    font-size: 14px;
+  }
+
+  @include mobile {
+    font-size: 13px;
+  }
+
   a {
     margin-left: 4px;
     font-size: 15;
-    @include tablet {font-size: 14px;}
-    @include mobile {font-size: 13px;}
+
+    @include tablet {
+      font-size: 14px;
+    }
+
+    @include mobile {
+      font-size: 13px;
+    }
+
     color: $secondaryColor;
     font-weight: 400;
     text-decoration: underline;
@@ -88,4 +115,3 @@
   justify-content: center;
   margin: 20px auto 50px auto;
 }
-

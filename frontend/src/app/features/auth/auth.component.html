@@ -2,7 +2,7 @@
   <img src="../../../assets/images/logo.png" class="logo" alt="logo">
 </div>
 <section class="auth-container" [@fadeInOut]>
-  
+
   <mat-accordion>
     <mat-expansion-panel [expanded]="isPanelOpen" (opened)="panelOpened()" (closed)="panelClosed()">
       <mat-expansion-panel-header>
@@ -22,30 +22,42 @@
             <br>
             <div class="ou">OU</div>
             Connectez-vous directement avec les <span>logs Client fournis.</span>
+            <div>
+              <i class="alert bi bi-exclamation-diamond-fill"></i> Seul un client peut rédiger un ticket, le développeur
+              ou le
+              manager en charge du suivi de celui-ci y répondra.
+            </div>
           </div>
           2: Créez un Ticket : Signalez vos demandes ou problèmes.
           <div>
-            3: Répondez en tant que Développeur ou Manager : <span>Utilisez les profils pour collaborer efficacement.</span>
+            3: Répondez en tant que Développeur ou Manager : <span>Utilisez les profils pour collaborer
+              efficacement.</span>
           </div>
           <div class="log-tempo-mobile">
             <div class="group-el">
-              <span>Client</span> 
-              <div class="el">client&#64;wcs.com <div [cdkCopyToClipboard]="'client@wcs.com'" class="copy"></div></div>
-              <div class="el"> Alayd3!client <div [cdkCopyToClipboard]="'Alayd3!client'" class="copy"></div></div>
+              <span>Client</span>
+              <div class="el">client&#64;wcs.com <div [cdkCopyToClipboard]="'client@wcs.com'" class="copy"></div>
+              </div>
+              <div class="el"> Alayd3!client <div [cdkCopyToClipboard]="'Alayd3!client'" class="copy"></div>
+              </div>
             </div>
-          
+
             <div class="group-el">
               <span>Dev</span>
-              <div class="el">dev&#64;wcs.com <div [cdkCopyToClipboard]="'dev@wcs.com'" class="copy"></div></div>
-              <div class="el">Alayd3!dev <div [cdkCopyToClipboard]="'Alayd3!dev'" class="copy"></div></div>
+              <div class="el">dev&#64;wcs.com <div [cdkCopyToClipboard]="'dev@wcs.com'" class="copy"></div>
+              </div>
+              <div class="el">Alayd3!dev <div [cdkCopyToClipboard]="'Alayd3!dev'" class="copy"></div>
+              </div>
             </div>
-          
+
             <div class="group-el">
               <span>Manager</span>
-              <div class="el"> manager&#64;wcs.com <div [cdkCopyToClipboard]="'manager@wcs.com'" class="copy"></div></div>
-              <div class="el"> Alayd3!manager <div [cdkCopyToClipboard]="'Alayd3!manager'" class="copy"></div></div>
+              <div class="el"> manager&#64;wcs.com <div [cdkCopyToClipboard]="'manager@wcs.com'" class="copy"></div>
+              </div>
+              <div class="el"> Alayd3!manager <div [cdkCopyToClipboard]="'Alayd3!manager'" class="copy"></div>
+              </div>
             </div>
-          
+
           </div>
         </div>
       </div>
@@ -62,6 +74,10 @@
       <br>
       <div class="ou">OU</div>
       Connectez-vous directement avec les <span>logs Client fournis.</span>
+      <div>
+        <i class="alert bi bi-exclamation-diamond-fill"></i> Seul un client peut rédiger un ticket, le développeur ou le
+        manager en charge du suivi de celui-ci y répondra.
+      </div>
     </div>
     2: Créez un Ticket : Signalez vos demandes ou problèmes.
     <div>
@@ -69,23 +85,29 @@
     </div>
     <div class="log-tempo">
       <div class="group-el">
-        <span>Client</span> 
-        <div class="el">client&#64;wcs.com <div [cdkCopyToClipboard]="'client@wcs.com'" class="copy"></div></div>
-        <div class="el"> Alayd3!client <div [cdkCopyToClipboard]="'Alayd3!client'" class="copy"></div></div>
+        <span>Client</span>
+        <div class="el">client&#64;wcs.com <div [cdkCopyToClipboard]="'client@wcs.com'" class="copy"></div>
+        </div>
+        <div class="el"> Alayd3!client <div [cdkCopyToClipboard]="'Alayd3!client'" class="copy"></div>
+        </div>
       </div>
-    
+
       <div class="group-el">
         <span>Dev</span>
-        <div class="el">dev&#64;wcs.com <div [cdkCopyToClipboard]="'dev@wcs.com'" class="copy"></div></div>
-        <div class="el">Alayd3!dev <div [cdkCopyToClipboard]="'Alayd3!dev'" class="copy"></div></div>
+        <div class="el">dev&#64;wcs.com <div [cdkCopyToClipboard]="'dev@wcs.com'" class="copy"></div>
+        </div>
+        <div class="el">Alayd3!dev <div [cdkCopyToClipboard]="'Alayd3!dev'" class="copy"></div>
+        </div>
       </div>
-    
+
       <div class="group-el">
         <span>Manager</span>
-        <div class="el"> manager&#64;wcs.com <div [cdkCopyToClipboard]="'manager@wcs.com'" class="copy"></div></div>
-        <div class="el"> Alayd3!manager <div [cdkCopyToClipboard]="'Alayd3!manager'" class="copy"></div></div>
+        <div class="el"> manager&#64;wcs.com <div [cdkCopyToClipboard]="'manager@wcs.com'" class="copy"></div>
+        </div>
+        <div class="el"> Alayd3!manager <div [cdkCopyToClipboard]="'Alayd3!manager'" class="copy"></div>
+        </div>
       </div>
-    
+
     </div>
   </div>
 

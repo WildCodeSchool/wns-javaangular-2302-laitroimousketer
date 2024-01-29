@@ -11,16 +11,24 @@
   align-items: center;
   width: 100%;
   padding: 10vh 2% 0 2%;
+
   @media (max-width: 1150px) {
     padding: 10vh 0% 0 0%;
   }
 }
+
 .widget {
   background-color: $primaryColor;
+
   @media (max-width: 1150px) {
     border-radius: 0;
   }
 }
+
+.alert {
+  color: $redColor;
+}
+
 .desc-mobile {
   z-index: 150;
   color: white;
@@ -33,7 +41,8 @@
   .ou {
     font-weight: 600;
     color: $secondaryColor;
-    line-height: 1; /* Ajustez la hauteur de ligne si nécessaire */
+    line-height: 1;
+    /* Ajustez la hauteur de ligne si nécessaire */
   }
 
   span {
@@ -43,12 +52,15 @@
   div {
     margin: 16px 0;
     word-wrap: break-word;
-    overflow-wrap: break-word; /* Ajoutez cette propriété pour gérer le retour à la ligne */
+    overflow-wrap: break-word;
+    /* Ajoutez cette propriété pour gérer le retour à la ligne */
   }
 }
+
 .color-span {
-  color:$blueColor;
+  color: $blueColor;
 }
+
 mat-accordion {
   padding: 0 !important;
   z-index: 150;
@@ -64,9 +76,11 @@ mat-accordion {
 
 :host ::ng-deep .mat-expansion-panel-body {
   padding: 4px !important;
+
   * {
     width: 90vw;
   }
+
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -78,31 +92,39 @@ mat-accordion {
   flex-direction: column;
   flex-wrap: wrap;
   color: white;
+
   @media (max-width: 1150px) {
     display: none;
   }
-   div {
+
+  div {
     margin: 16px 0;
   }
- .ou {
+
+  .ou {
     font-weight: 600;
     color: $secondaryColor;
     line-height: 0;
   }
+
   span {
     font-weight: 600;
   }
+
   div {
     margin: 16px 0;
   }
 }
+
 i {
   color: $secondaryColor;
   font-size: 24px;
 }
+
 .small-width {
   width: 10px;
 }
+
 .login,
 .register {
   z-index: 2;
@@ -110,18 +132,20 @@ i {
 
 .logo {
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
   right: 0;
   width: 400px;
   height: 400px;
   z-index: 90;
   margin: -100px auto -100px auto;
+
   @include mobile {
     width: 220px;
     height: 220px;
     margin: -60px 120px -50px auto;
   }
+
   @include tablet {
     width: 300px;
     height: 300px;
@@ -129,18 +153,20 @@ i {
   }
 
 }
+
 .log-tempo {
   margin-top: auto;
   display: flex;
   justify-content: space-between;
-  margin: 0!important;
+  margin: 0 !important;
   padding: 0;
- 
-  .group-el{
+
+  .group-el {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
+
   .el {
     display: flex;
     gap: 10px;
@@ -153,11 +179,13 @@ i {
     width: 30px;
     height: 30px;
   }
+
   span {
     color: $secondaryColor;
   }
-  
+
 }
+
 .copy {
   margin-left: 10px;
   cursor: pointer;

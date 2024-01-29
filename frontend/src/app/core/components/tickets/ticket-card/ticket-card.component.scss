@@ -1,6 +1,6 @@
 @import 'src/assets/scss/template.scss';
 
-.card{
+.card {
   display: grid;
   gap: 10px;
   grid-template-columns: auto 1fr;
@@ -12,18 +12,22 @@
   overflow: hidden;
   border-radius: 5px 5px;
   flex-wrap: wrap;
-  cursor:pointer;
+  cursor: pointer;
+
   @include mobiletablet {
     display: flex;
   }
+
   @include mobile {
     font-size: 13px;
   }
+
   p {
     line-height: 1.75;
   }
- 
+
 }
+
 .rest {
   display: flex;
   justify-content: space-between;
@@ -31,19 +35,22 @@
   align-items: center;
   flex-wrap: wrap;
 }
+
 .date,
 .priority,
 .statut,
 .number,
 .title,
 .category {
- text-align: left;
- margin-right: auto;
- white-space: nowrap;
+  text-align: left;
+  margin-right: auto;
+  white-space: nowrap;
 
 }
+
 .prefix {
   color: $primaryTextColor;
+
   @include mobile {
     font-size: 13px;
   }
@@ -62,24 +69,28 @@
 
   p {
     font-size: 17px;
-   
+
   }
+
   app-avatar {
     margin-right: 8px;
   }
 }
+
 .separator {
   position: absolute;
   width: 1px;
-  border-right: 1px dashed rgba(0, 0, 0, 0.4) ;
+  border-right: 1px dashed rgba(0, 0, 0, 0.4);
   right: 0px;
-  top:-4px;
+  top: -4px;
   bottom: 4px;
   display: block;
+
   @include mobiletablet {
     display: none;
   }
 }
+
 .context-ticket-card-creator {
   margin: auto 10px auto 0;
 }
@@ -89,7 +100,7 @@
 }
 
 .yellow {
-  color: $secondaryColor;
+  color: $yellowColor;
 }
 
 .red {
