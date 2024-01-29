@@ -8,21 +8,22 @@ $primaryColor: #414141;
 // $thirdColor: #EBEEF7;
 $secondaryColor: #2F78C2;
 $thirdColor: #F9F9F9;
-$widgetColor:#ececec;
+$widgetColor: #ececec;
 $blackColor: #252525;
 $redColor: #EF4C4E;
 $blueColor: #2F78C2;
+$yellowColor: #F5B445;
 $primaryTextColor: #505050;
 $hoverTextColor: #2F78C2;
 $menuBackground: #414141;
 // $primaryColor: #004463;
 //DIVERS //
-$boxShadowBtn: -5px -5px 10px  rgba(0,0,0,0.16);
+$boxShadowBtn: -5px -5px 10px rgba(0, 0, 0, 0.16);
 
 
 // RESPONSIVE //
 
-$large : 7680px; 
+$large : 7680px;
 $qhd: 2560px;
 $desktop: 1920px;
 $laptop : 1400px;
@@ -35,7 +36,7 @@ $breakpoints: (
   md: 992px,
   lg: 1400px,
   xl: 2560px,
-) !default;
+  ) !default;
 
 $small: map-get($breakpoints, sm) !default;
 $medium: map-get($breakpoints, md) !default;
@@ -43,16 +44,16 @@ $large: map-get($breakpoints, lg) !default;
 $xlarge: map-get($breakpoints, xl) !default;
 
 @mixin large {
-    @media (min-width : ($qhd + 1)) {
-      @content;
-    }
+  @media (min-width : ($qhd + 1)) {
+    @content;
   }
-  
-  @mixin qhd {
-    @media (min-width : ($desktop + 1)) {
-      @content;
-    }
+}
+
+@mixin qhd {
+  @media (min-width : ($desktop + 1)) {
+    @content;
   }
+}
 
 @mixin desktop {
   @media (min-width : ($laptop + 1)) and (max-width : $qhd) {
@@ -83,7 +84,10 @@ $xlarge: map-get($breakpoints, xl) !default;
     @content;
   }
 }
-@mixin mobiletablet {//alias
+
+@mixin mobiletablet {
+
+  //alias
   @include tabletmobile {
     @content;
   }
@@ -94,7 +98,10 @@ $xlarge: map-get($breakpoints, xl) !default;
     @content;
   }
 }
-@mixin desktoptablet {//alias
+
+@mixin desktoptablet {
+
+  //alias
   @include tabletdesktop {
     @content;
   }
@@ -103,27 +110,35 @@ $xlarge: map-get($breakpoints, xl) !default;
 .weight-100 {
   font-weight: 100;
 }
+
 .weight-200 {
   font-weight: 200;
 }
+
 .weight-300 {
   font-weight: 300;
 }
+
 .weight-400 {
   font-weight: 400;
 }
+
 .weight-500 {
   font-weight: 500;
 }
+
 .weight-600 {
   font-weight: 600;
 }
+
 .weight-700 {
   font-weight: 700;
 }
+
 .weight-800 {
   font-weight: 800;
 }
+
 .weight-900 {
   font-weight: 900;
 }
