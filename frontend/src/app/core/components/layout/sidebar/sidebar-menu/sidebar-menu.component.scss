@@ -9,7 +9,7 @@
   flex-direction: column;
   align-items: center;
   padding-top: 12vh;
-  background-color: $secondaryColor;
+  background-color: $blueColor;
   overflow: hidden;
   z-index: 99999;
   margin-top: -20px;
@@ -61,7 +61,7 @@
     border-radius: 50%;
     background: #FFFFFF 0% 0% no-repeat padding-box;
     box-shadow: -3px -3px 3px #FFFFFF80, 3px 3px 3px rgba(0,0,0,0.23);
-    color: $secondaryColor;
+    color: $blueColor;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -121,7 +121,7 @@
     flex-direction: column;
     gap: 12px;
     align-items: center;
-    background-color: $thirdColor;
+    background-color:#18589A;
     z-index: 20;
     padding-bottom: 2vh;
     @include tablet {
@@ -138,7 +138,7 @@
   #gradient {
     width: 80px; /* Ajuster la largeur pour que la diagonale remplisse le conteneur */
     height: 45px; /* Ajuster la hauteur pour que la diagonale dépasse du conteneur */
-    background: linear-gradient(to bottom left, transparent 49.5%, $thirdColor 50%); /* Définir le dégradé avec une diagonale */
+    background: linear-gradient(to bottom left, transparent 49.5%, #18589A 50%); /* Définir le dégradé avec une diagonale */
     position: absolute;
     top: -45px;
     right: 0;

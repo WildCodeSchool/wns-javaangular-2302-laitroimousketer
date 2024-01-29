@@ -1,7 +1,98 @@
+<div class="logo">
+  <img src="../../../assets/images/logo.png" class="logo" alt="logo">
+</div>
 <section class="auth-container" [@fadeInOut]>
-  <div class="logo">
-    <img src="../../../assets/images/logo.png" class="logo" alt="logo">
+  
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="isPanelOpen" (opened)="panelOpened()" (closed)="panelClosed()">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <i class="bi bi-info-circle-fill"></i>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="content" [ngClass]="{'small-width': !isPanelOpen}">
+        <div class="widget desc-mobile">
+          <div>
+            Bienvenue sur <span class="color-span">Alayde Version 1.0 (démo)</span>
+            <br>
+            Alayde - Votre solution de ticketing simple et collaborative.
+          </div>
+          <div>
+            1: Créez un Compte Client
+            <br>
+            <div class="ou">OU</div>
+            Connectez-vous directement avec les <span>logs Client fournis.</span>
+          </div>
+          2: Créez un Ticket : Signalez vos demandes ou problèmes.
+          <div>
+            3: Répondez en tant que Développeur ou Manager : <span>Utilisez les profils pour collaborer efficacement.</span>
+          </div>
+          <div class="log-tempo-mobile">
+            <div class="group-el">
+              <span>Client</span> 
+              <div class="el">client&#64;wcs.com <div [cdkCopyToClipboard]="'client@wcs.com'" class="copy"></div></div>
+              <div class="el"> Alayd3!client <div [cdkCopyToClipboard]="'Alayd3!client'" class="copy"></div></div>
+            </div>
+          
+            <div class="group-el">
+              <span>Dev</span>
+              <div class="el">dev&#64;wcs.com <div [cdkCopyToClipboard]="'dev@wcs.com'" class="copy"></div></div>
+              <div class="el">Alayd3!dev <div [cdkCopyToClipboard]="'Alayd3!dev'" class="copy"></div></div>
+            </div>
+          
+            <div class="group-el">
+              <span>Manager</span>
+              <div class="el"> manager&#64;wcs.com <div [cdkCopyToClipboard]="'manager@wcs.com'" class="copy"></div></div>
+              <div class="el"> Alayd3!manager <div [cdkCopyToClipboard]="'Alayd3!manager'" class="copy"></div></div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <div class="widget desc">
+    <div>
+      Bienvenue sur <span class="color-span">Alayde Version 1.0 (démo)</span>
+      <br>
+      Alayde - Votre solution de ticketing simple et collaborative.
+    </div>
+    <div>
+      1: Créez un Compte Client
+      <br>
+      <div class="ou">OU</div>
+      Connectez-vous directement avec les <span>logs Client fournis.</span>
+    </div>
+    2: Créez un Ticket : Signalez vos demandes ou problèmes.
+    <div>
+      3: Répondez en tant que Développeur ou Manager : <span>Utilisez les profils pour collaborer efficacement.</span>
+    </div>
+    <div class="log-tempo">
+      <div class="group-el">
+        <span>Client</span> 
+        <div class="el">client&#64;wcs.com <div [cdkCopyToClipboard]="'client@wcs.com'" class="copy"></div></div>
+        <div class="el"> Alayd3!client <div [cdkCopyToClipboard]="'Alayd3!client'" class="copy"></div></div>
+      </div>
+    
+      <div class="group-el">
+        <span>Dev</span>
+        <div class="el">dev&#64;wcs.com <div [cdkCopyToClipboard]="'dev@wcs.com'" class="copy"></div></div>
+        <div class="el">Alayd3!dev <div [cdkCopyToClipboard]="'Alayd3!dev'" class="copy"></div></div>
+      </div>
+    
+      <div class="group-el">
+        <span>Manager</span>
+        <div class="el"> manager&#64;wcs.com <div [cdkCopyToClipboard]="'manager@wcs.com'" class="copy"></div></div>
+        <div class="el"> Alayd3!manager <div [cdkCopyToClipboard]="'Alayd3!manager'" class="copy"></div></div>
+      </div>
+    
+    </div>
   </div>
-  <app-login class="login" *ngIf="activeTab === 'login'" class="login"></app-login>
-  <app-register class="register" *ngIf="activeTab === 'register'" class="register"></app-register>
+
+  @if(activeTab === 'login') {
+  <app-login class="login" class="login"></app-login>
+  }@else {
+  <app-register class="register" class="register"></app-register>
+  }
+
 </section>

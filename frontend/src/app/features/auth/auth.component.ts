@@ -21,7 +21,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 })
 
 export class AuthComponent implements OnInit, OnDestroy {
-  
+  isPanelOpen : boolean = false;
   activeTab: 'login' | 'register' = 'login';
   private activeTabSubscription: Subscription = new Subscription();
 
@@ -36,5 +36,10 @@ export class AuthComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.activeTabSubscription.unsubscribe();
   }
-
+  panelOpened() {
+    this.isPanelOpen = true;
+  }
+  panelClosed() {
+    this.isPanelOpen = false;
+  }
 }

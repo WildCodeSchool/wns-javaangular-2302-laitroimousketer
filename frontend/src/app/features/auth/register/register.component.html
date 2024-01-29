@@ -8,7 +8,7 @@
       <mat-step [stepControl]="registerForm" label="Compléter les informations de connexion">
         <form [formGroup]="registerForm" novalidate class="card-body">
           <div class="form-group">
-            <mat-form-field appearance="outline" color="primary">
+            <mat-form-field appearance="outline" color="primary" class="dense-5">
               <mat-label for="lastname">Nom</mat-label>
               <input matInput type="text" id="lastname" formControlName="lastname">
               <mat-icon matPrefix class="bi bi-justify-left"></mat-icon>
@@ -21,7 +21,7 @@
           </div>
 
           <div class="form-group">
-            <mat-form-field appearance="outline" color="primary">
+            <mat-form-field appearance="outline" color="primary" class="dense-5">
               <mat-label for="firstname">Prénom</mat-label>
               <input matInput type="text" id="firstname" formControlName="firstname">
               <mat-icon matPrefix class="bi bi-justify-left"></mat-icon>
@@ -35,15 +35,15 @@
           </div>
 
           <div class="form-group">
-            <mat-form-field appearance="outline" color="primary">
-              <mat-label for="firstName">Numéro de téléphone</mat-label>
+            <mat-form-field appearance="outline" color="primary" class="dense-5">
+              <mat-label for="phone">Numéro de téléphone</mat-label>
               <input matInput type="text" id="phone" formControlName="phone">
               <mat-icon matPrefix class="bi bi-phone"></mat-icon>
             </mat-form-field>
           </div>
 
           <div class="form-group">
-            <mat-form-field appearance="outline" color="primary">
+            <mat-form-field appearance="outline" color="primary" class="dense-5">
               <mat-label for="email">Email</mat-label>
               <input matInput type="email" id="email" formControlName="email">
               <mat-icon matPrefix class="bi bi-envelope-at-fill"></mat-icon>
@@ -55,9 +55,9 @@
           </div>
 
           <div class="form-group">
-            <mat-form-field appearance="outline" color="primary">
+            <mat-form-field appearance="outline" color="primary" class="dense-5">
               <mat-label for="password">Mot de passe</mat-label>
-              <input matInput type="password" id="password" formControlName="password">
+              <input matInput type="password" id="password"  data-cy="password-input" formControlName="password">
               <mat-icon matPrefix class="bi bi-key-fill"></mat-icon>
               <ng-container
                 *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)">
@@ -71,7 +71,7 @@
           </div>
 
           <div class="form-group">
-            <mat-form-field appearance="outline" color="primary">
+            <mat-form-field appearance="outline" color="primary" class="dense-5">
               <mat-label for="confirmPassword">Confirmer mot de passe</mat-label>
               <input matInput type="password" id="confirmPassword" formControlName="confirmPassword"
                 (input)="checkPasswordMatch()">
@@ -87,13 +87,13 @@
         </form>
 
       </mat-step>
-      <mat-step [stepControl]="addressForm" label="Complétez votre adresse">
+      <mat-step [stepControl]="addressForm" label="Complétez votre adresse" id="adressStep">
         <form [formGroup]="addressForm" novalidate class="card-body">
 
           <div class="form-group">
             <h2>Adresse <i class="bi bi-geo-alt-fill"></i></h2>
 
-            <mat-form-field appearance="outline" color="primary">
+            <mat-form-field appearance="outline" color="primary" class="dense-5">
               <mat-label for="street_l1">Adresse ligne 1</mat-label>
               <input matInput type="text" id="street_l1" formControlName="street_l1">
 
@@ -105,14 +105,14 @@
           </div>
 
           <div class="form-group">
-            <mat-form-field appearance="outline" color="primary">
+            <mat-form-field appearance="outline" color="primary" class="dense-5">
               <mat-label for="street_l2">Adresse ligne 2</mat-label>
               <input matInput type="text" id="street_l2" formControlName="street_l2">
             </mat-form-field>
           </div>
 
           <div class="form-group">
-            <mat-form-field appearance="outline" color="primary">
+            <mat-form-field appearance="outline" color="primary" class="dense-5">
               <mat-label for="postcode">Code postal</mat-label>
               <input matInput type="text" id="postcode" formControlName="postcode">
 
@@ -124,7 +124,7 @@
           </div>
 
           <div class="form-group">
-            <mat-form-field appearance="outline" color="primary">
+            <mat-form-field appearance="outline" color="primary" class="dense-5">
               <mat-label for="city">Ville</mat-label>
               <input matInput type="text" id="city" formControlName="city" [matAutocomplete]="autoCity">
               <ng-container
@@ -140,7 +140,7 @@
           </div>
 
           <div class="form-group">
-            <mat-form-field appearance="outline" color="primary">
+            <mat-form-field appearance="outline" color="primary" class="dense-5">
               <mat-label for="country">Pays</mat-label>
               <input matInput type="text" id="country" formControlName="country" [matAutocomplete]="autoCountry">
               <ng-container

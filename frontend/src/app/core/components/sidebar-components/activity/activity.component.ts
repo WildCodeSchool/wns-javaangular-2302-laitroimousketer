@@ -9,6 +9,8 @@ import { GlobalHistoricalService } from 'src/app/core/services/global-historical
 })
 export class ActivityComponent implements OnInit {
   globalHistoricals: GlobalHistorical [] = [];
+  menuTitle: string = 'Activitées';
+  menuIcon: string = 'bi bi-person-fill';
   constructor(
     private globalHistoricalService: GlobalHistoricalService,
   ) { }

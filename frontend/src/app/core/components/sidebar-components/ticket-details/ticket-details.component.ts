@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MenuItems } from '../sidebar-menu/menu-items.model';
-import { animate, group, state, style, transition, trigger } from '@angular/animations';
+import { Component, OnInit } from '@angular/core';
+import { MenuItems } from '../../layout/sidebar/sidebar-menu/menu-items.model';
+import { animate, group, style, transition, trigger } from '@angular/animations';
 import { TicketService } from 'src/app/core/services/ticket.service';
 import { Ticket } from 'src/app/core/models/ticket.model';
 import { Store } from '@ngrx/store';
@@ -8,12 +8,18 @@ import * as Reducer from 'src/app/store/reducers/index';
 import * as ticketAction from 'src/app/store/actions/ticket.action';
 import * as userAction from 'src/app/store/actions/user.action';
 import * as sidebarAction from 'src/app/store/actions/sidebar.action';
-import { Observable, map, startWith, takeUntil } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 import { User } from 'src/app/core/models/user.model';
 import { UserService } from 'src/app/core/services/user.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/services/alert.service';
+import { Category } from 'src/app/core/models/category.model';
+import { Priority } from 'src/app/core/models/priority.model';
+import { CategoryService } from 'src/app/core/services/category.service';
+import { PriorityService } from 'src/app/core/services/priority.service';
+import { StatusService } from 'src/app/core/services/status.service';
+import { Status } from 'src/app/core/models/status.model';
 
 @Component({
   selector: 'app-ticket-details',
@@ -67,62 +73,133 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
   filteredDevelopers?: Observable<User[]>;
   developersForm!: FormGroup;
   allDevelopers: User[] = [];
+  mode: string = '';
+  ticketEditForm!: FormGroup;
+  categories: Category[] = [];
+  priorities: Priority[] = [];
+  statuses: Status[] = [];
   constructor(
     private ticketService: TicketService,
     private userService: UserService,
     private store: Store<Reducer.StateDataStore>,
     private fb: FormBuilder,
     private alertService: AlertService,
+    private categoryService: CategoryService,
+    private priorityService: PriorityService,
+    private statusService: StatusService,
   ) {
     super();
   }
 
   ngOnInit() {
-    this.loadTicket();
     this.loadUserConnected();
+    this.loadTicket();
     this.loadDevelopers();
     this.loadDevelopersForm();
     this.checkIfUserCanChat();
     this.initMenuItems();
-  }
-
-
-loadDevelopersForm() {
-  this.developersForm = this.fb.group({
-    developers: ['']
-  })
-}
-saveFollowUp() {
-  const selectedDeveloper = this.developersForm.get('developers')?.value;
-  
-  if (selectedDeveloper) {
-    // Cloner le ticket existant
-    let updatedTicket: Partial<Ticket> = {
-      ...this.ticket,
-      developers: [...this.ticket!.developers, selectedDeveloper] // Ajouter le développeur au tableau
-    };
-
-    this.ticketService.update(updatedTicket).pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.isAddingDeveloper = false;
-      this.ticket = updatedTicket as Ticket;
-      this.alertService.showSuccessAlert(`Développeur assigné au ticket numéro ${this.ticket.id} avec succès`);
-      this.checkIfUserCanChat();// Vérifier si l'utilisateur peut chatter après l'ajout du développeur
+    this.initForm();
+    this.categoryService.getAll().subscribe((data) => {
+      this.categories = data;
+    });
+    this.priorityService.getAll().subscribe((data) => {
+      this.priorities = data;
+    });
+    this.statusService.getAll().subscribe((data) => {
+      this.statuses = data;
     });
   }
-}
-cancelFollowUp() {
-  this.developersForm.reset();
-  this.isAddingDeveloper = false;
-}
-deleteFollowUp(developer: User) {
-  let updatedTicket: Partial<Ticket>= {
-    ...this.ticket,
-    developers: this.ticket?.developers.filter(dev => dev.id !== developer.id)
-  };
-  this.ticketService.update(updatedTicket).pipe(takeUntil(this.destroy$)).subscribe(() => {
-    this.ticket = updatedTicket as Ticket;
-  })
-}
+
+
+
+  loadDevelopersForm() {
+    this.developersForm = this.fb.group({
+      developers: ['']
+    })
+  }
+  editTicketMode() {
+    this.mode = 'edit';
+  }
+  initForm() {
+    if (this.ticket && this.ticket.category && this.ticket.priority && this.ticket.status) {
+      this.ticketEditForm = this.fb.group({
+        title: [this.ticket.ticketTitle, Validators.required],
+        description: [this.ticket.description, Validators.required],
+        selectedCategory: [this.ticket.category, Validators.required],
+        selectedPriority: [this.ticket.priority, Validators.required],
+        selectedStatus: [this.ticket.status, Validators.required],
+      });
+  
+      // Écoutez les changements de sélection pour la catégorie
+      this.ticketEditForm.get('selectedCategory')?.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedCategory) => {
+        // Ajustez les champs du formulaire en fonction de la catégorie sélectionnée
+        this.ticketEditForm.patchValue({ selectedCategory: selectedCategory }, { emitEvent: false });
+      });
+  
+      // Écoutez les changements de sélection pour la priorité
+      this.ticketEditForm.get('selectedPriority')?.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedPriority) => {
+        // Ajustez les champs du formulaire en fonction de la priorité sélectionnée
+        this.ticketEditForm.patchValue({ selectedPriority: selectedPriority }, { emitEvent: false });
+      });
+    }
+  }
+  
+  editTicket() {
+    if (this.ticketEditForm.valid) {
+      const updatedTicket: Partial<Ticket> = {
+        ...this.ticket,
+        ticketTitle: this.ticketEditForm.value.title,
+        description: this.ticketEditForm.value.description,
+        priority: this.ticketEditForm.value.selectedPriority,
+        category: this.ticketEditForm.value.selectedCategory,
+        status: this.ticketEditForm.value.selectedStatus
+      };
+  
+      this.store.dispatch(ticketAction.updateTicket({ payload: updatedTicket }));
+      this.ticketEditForm.reset();
+      this.mode = '';
+    }
+  }
+  
+  
+  
+  
+
+  annulate() {
+    this.ticketEditForm.reset();
+    this.mode = '';
+  }
+  saveFollowUp() {
+    const selectedDeveloper = this.developersForm.get('developers')?.value;
+
+    if (selectedDeveloper) {
+      // Cloner le ticket existant
+      let updatedTicket: Partial<Ticket> = {
+        ...this.ticket,
+        developers: [...this.ticket!.developers, selectedDeveloper] // Ajouter le développeur au tableau
+      };
+
+      this.ticketService.update(updatedTicket).pipe(takeUntil(this.destroy$)).subscribe(() => {
+        this.isAddingDeveloper = false;
+        this.ticket = updatedTicket as Ticket;
+        this.alertService.showSuccessAlert(`Développeur assigné au ticket numéro ${this.ticket.id} avec succès`);
+        this.checkIfUserCanChat();// Vérifier si l'utilisateur peut chatter après l'ajout du développeur
+      });
+    }
+  }
+  cancelFollowUp() {
+    this.developersForm.reset();
+    this.isAddingDeveloper = false;
+  }
+  deleteFollowUp(developer: User) {
+    let updatedTicket: Partial<Ticket> = {
+      ...this.ticket,
+      developers: this.ticket?.developers.filter(dev => dev.id !== developer.id)
+    };
+    this.ticketService.update(updatedTicket).pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.ticket = updatedTicket as Ticket;
+    })
+  }
 
   loadUserConnected() {
     this.store.select(Reducer.getUserConnected).pipe(takeUntil(this.destroy$)).subscribe((user) => {
@@ -146,14 +223,14 @@ deleteFollowUp(developer: User) {
       this.menuItems = [
         { page: 'Info', icon: 'bi bi-info-square-fill' },
         { page: 'Chat', icon: 'bi bi-chat-left-dots-fill' },
-        { page: 'Historical-Ticket', icon: 'bi bi-clock-history'},
+        { page: 'Historical-Ticket', icon: 'bi bi-clock-history' },
         { page: 'Actions', icon: 'bi bi-gear-fill' },
       ]
     } else {
       this.menuItems = [
         { page: 'Info', icon: 'bi bi-info-square-fill' },
         { page: 'Chat', icon: 'bi bi-chat-left-dots-fill' },
-        { page: 'Historical-Ticket', icon: 'bi bi-clock-history'}
+        { page: 'Historical-Ticket', icon: 'bi bi-clock-history' }
       ];
     }
   }
@@ -182,12 +259,12 @@ deleteFollowUp(developer: User) {
       });
   }
 
-loadDevelopers() {
-  this.userService.getUsersByRoleTitle('Développeur').subscribe((developers) => {
-    this.allDevelopers = developers;
-    // console.log('Developers:', this.allDevelopers);
-  })
-}
+  loadDevelopers() {
+    this.userService.getUsersByRoleTitle('Développeur').subscribe((developers) => {
+      this.allDevelopers = developers;
+      // console.log('Developers:', this.allDevelopers);
+    })
+  }
 
   checkStatus() {
     switch (this.ticket?.status?.statusTitle) {

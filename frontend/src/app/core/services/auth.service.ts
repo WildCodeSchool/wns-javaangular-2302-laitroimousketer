@@ -99,14 +99,14 @@ export class AuthService implements OnInit {
         })
       );
     } else {
-      return throwError(() => new Error('Adresse e-mail de l\'utilisateur non valide'));
+      return EMPTY;
     }
   }
 
   public getUserMailFromToken(token: string | null): string | null {
     if (token) {
       const decodedToken: any = jwt_decode(token);
-      console.log('decodedToken', decodedToken.sub);
+      // console.log('decodedToken', decodedToken.sub);
       return decodedToken.sub;
     }
     return null;

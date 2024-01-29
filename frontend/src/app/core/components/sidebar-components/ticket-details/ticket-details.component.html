@@ -1,7 +1,20 @@
 <app-sidebar-menu [menuItems]="menuItems" [menuTitle]="menuTitle" [menuIcon]="menuIcon"
   (page)="onPageChange($event)"></app-sidebar-menu>
 
-<header class="widget details" *ngIf="ticket">
+@if (!!this.ticket && mode ==='') {
+<header class="widget details">
+  @if((this.ticket.author && userConnected.id === this.ticket.author.id) || userConnected.role.roleTitle !=='Client') {
+  <button mat-icon-button class="icon-menu" [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  }
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="editTicketMode()">
+      <mat-icon>edit</mat-icon>
+      <span>Éditer</span>
+    </button>
+  </mat-menu>
+
   <h1 class="title">Ticket {{ticket.id}}:<span class="title-name"> {{ticket.ticketTitle}} </span>
   </h1>
   <div class="details-profil">
@@ -37,14 +50,14 @@
   @if (page ==='Info') {
   <article [@expandCollapse]="page === 'Info' ? 'expanded' : 'collapsed'">
     <div class="prefix description">Description:</div>
-    <p >{{ ticket.description}}</p>
+    <p>{{ ticket.description}}</p>
   </article>
   }
 
 
   <!-- FOLOW UP -->
   @if (page ==='Info') {
-  <div class="follow-up" [@expandCollapse]="page === 'Info' ? 'expanded' : 'collapsed'" >
+  <div class="follow-up" [@expandCollapse]="page === 'Info' ? 'expanded' : 'collapsed'">
 
     <div class="widget-small-title"><i class="bi bi-person-raised-hand"></i>Suivi <span>technique</span></div>
     @if (userConnected.role.roleTitle !=='Client') {
@@ -93,11 +106,68 @@
     }
 
   </div>
-}
+  }
 </header>
+}
+
+@else {
+
+<div class="widget-title">
+  <i class="bi bi-bookmark-plus-fill"></i><span class="first-word"> Modifier le</span> ticket
+</div>
 
 
+<form [formGroup]="ticketEditForm" class="grid grid-cols-1 gap-20">
 
+
+  <mat-form-field appearance="outline" color="primary">
+    <mat-label for="title">Titre</mat-label>
+    <input matInput type="text" id="title" formControlName="title" placeholder="Renseigner le thème du sujet">
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline" color="primary">
+    <mat-label id="priority">Priorité</mat-label>
+    <mat-select id="priority" formControlName="selectedPriority" name="selectedPriority">
+      @for (priority of priorities; track priority.id) {
+      <mat-option [value]="priority">{{priority.priorityTitle}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline" color="primary">
+    <mat-label for="category">Catégorie</mat-label>
+    <mat-select id="category" formControlName="selectedCategory" name="selectedCategory">
+      @for (category of categories; track category.id) {
+      <mat-option [value]="category">{{category.categoryTitle}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" color="primary">
+    <mat-label for="status">Status</mat-label>
+    <mat-select id="status" matNativeControl formControlName="selectedStatus" name="selectedStatus">
+      @for (status of statuses; track status.id) {
+      <mat-option [value]="status">{{status.statusTitle}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" color="primary">
+    <mat-label for="description">Description</mat-label>
+    <textarea id="description" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="10"
+      cdkAutosizeMaxRows="auto" placeholder="Expliquer avec détails votre problèmatique"
+      formControlName="description"></textarea>
+  </mat-form-field>
+
+  <div class="actions">
+    <button mat-raised-button color="accent" class="btn" type="button" [disabled]="!ticketEditForm.valid"
+      (click)="editTicket()"><i class="bi bi-check-lg"></i> Modifier le ticket</button>
+    <a class="cancel" (click)="annulate()">Annuler</a>
+  </div>
+</form>
+}
 @switch (page) {
 
 @case ('Chat') {
@@ -106,9 +176,9 @@
 </div>
 }
 @case ('Historical-Ticket') {
-  <div class="widget" [@opacity]="page==='Historical-Ticket'?'active':''">
-    <app-ticket-historical [ticket]="ticket"></app-ticket-historical>
-  </div>
+<div class="widget" [@opacity]="page==='Historical-Ticket'?'active':''">
+  <app-ticket-historical [ticket]="ticket"></app-ticket-historical>
+</div>
 }
 @case ('Actions') {
 <div class="widget" [@opacity]="page==='Actions'?'active':''">

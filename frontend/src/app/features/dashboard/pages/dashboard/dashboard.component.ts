@@ -24,7 +24,7 @@ import { FormGroup } from '@angular/forms';
       ]),
     ]),
   ],
-  
+
 })
 
 export class DashboardComponent implements OnInit {
@@ -48,26 +48,26 @@ export class DashboardComponent implements OnInit {
 
   chartIsUpdated: boolean = false;
   subscriptions = new Subscription();
-  ticketsWithoutDev : Ticket[] = [];
+  ticketsWithoutDev: Ticket[] = [];
   //chart
   dataPriority: ChartConfiguration<'doughnut'>['data']['datasets'] = [
-    { data: [this.lowCount], label: 'Priorités' },
-    { data: [this.mediumCount], label: 'Priorités' },
-    { data: [this.highCount], label: 'Priorités' }
+    { data: [this.lowCount] },
+    { data: [this.mediumCount] },
+    { data: [this.highCount] }
   ];
   labelsPriority: string[] = ['mineure', 'moyenne', 'élevée'];
 
   dataStatus: ChartConfiguration<'doughnut'>['data']['datasets'] = [
-    { data: [this.toDoCount], label: 'Statuts' },
-    { data: [this.doingCount], label: 'Statuts' },
-    { data: [this.doneCount], label: 'Statuts' }
+    { data: [this.toDoCount] },
+    { data: [this.doingCount] },
+    { data: [this.doneCount] }
   ];
-  labelsStatus: string[] = ['à faire', 'en cours', 'terminé'];
+  labelsStatus: string[] = [`à faire`, 'en cours', 'terminé'];
 
   dataCategory: ChartConfiguration<'doughnut'>['data']['datasets'] = [
-    { data: [this.technicalCount], label: 'Catégories' },
-    { data: [this.featureCount], label: 'Catégories' },
-    { data: [this.billingCount], label: 'Catégories' }
+    { data: [this.technicalCount] },
+    { data: [this.featureCount] },
+    { data: [this.billingCount] }
   ];
   labelsCategory: string[] = ['technique', 'fonctionnalité', 'facturation'];
 
@@ -78,9 +78,13 @@ export class DashboardComponent implements OnInit {
       legend: {
         "display": true,
         "position": "left",
-        "align": "start",
+        // "align": "center",
+        
+        labels: {
+          color: 'white',
+        }
+        },
       },
-    },
   };
   ticketForm!: FormGroup;
   allDevelopers: User[] = [];
@@ -88,7 +92,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private ticketService: TicketService,
     private userService: UserService,
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.getAllTickets();
@@ -125,6 +129,25 @@ export class DashboardComponent implements OnInit {
     this.toDoCount = this.tickets.filter((ticket) => ticket.status?.statusTitle === 'À faire').length;
     this.doingCount = this.tickets.filter((ticket) => ticket.status?.statusTitle === 'En cours').length;
     this.doneCount = this.tickets.filter((ticket) => ticket.status?.statusTitle === 'Terminé').length;
+
+    // Mettre à jour les labels avec le nombre de tickets
+    this.labelsPriority = [
+      `mineure (${this.lowCount})`,
+      `moyenne (${this.mediumCount})`,
+      `élevée (${this.highCount})`
+    ];
+
+    this.labelsStatus = [
+      `à faire (${this.toDoCount})`,
+      `en cours (${this.doingCount})`,
+      `terminé (${this.doneCount})`
+    ];
+
+    this.labelsCategory = [
+      `technique (${this.technicalCount})`,
+      `fonctionnalité (${this.featureCount})`,
+      `facturation (${this.billingCount})`
+    ];
   }
 
   updateAllChart(): void {
