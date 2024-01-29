@@ -91,6 +91,24 @@ img {
   object-fit: cover;
 }
 }
+:host-context(.from-navbar-mobile) {
+  .avatar {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  p {
+    font-size: 1.2em;
+   }
+}
+img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+}
+
 :host-context(.context-dev-row) {
   .avatar {
   width: 40px;

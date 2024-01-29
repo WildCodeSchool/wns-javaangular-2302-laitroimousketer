@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { Router } from '@angular/router';
-import { Subscription, takeUntil } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription, filter, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as Reducer from 'src/app/store/reducers/index';
 import * as sidebarAction from 'src/app/store/actions/sidebar.action';
@@ -30,6 +30,7 @@ export class NavbarComponent extends UnsubcribeComponent implements OnInit {
 
 
   items: { label?: string, iconClass: string; routerLink?: string; action?: () => void }[] = [];
+
   @ViewChild('liBg') liBg!: ElementRef;
   @ViewChild('navigationList') navigationList!: ElementRef;
   userConnected!: User
@@ -41,6 +42,7 @@ export class NavbarComponent extends UnsubcribeComponent implements OnInit {
     private renderer: Renderer2,
   ) {
     super();
+    
   }
   
   handleItemClick(item: any): void {
@@ -48,8 +50,31 @@ export class NavbarComponent extends UnsubcribeComponent implements OnInit {
       item.action();
     }
   }
-  
-  moveDivToPosition(positionMenu: number, event: Event) {
+  ngOnInit(): void {
+    // Appelle getUserProfile() pour récupérer les données de l'utilisateur
+    this.loadUserConnected();
+    this.router.events
+    .pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    )
+    .subscribe((event: NavigationEnd) => {
+      // Vérifiez si l'URL correspond à '/tickets/list' et activez le premier élément du menu en conséquence
+      if (event.urlAfterRedirects === '/tickets/list') {
+        // Appeler moveDivToPosition pour mettre à jour la position de la div
+        this.moveDivToPosition(0, null);
+      }
+      if (event.urlAfterRedirects === '/users/list') {
+        // Appeler moveDivToPosition pour mettre à jour la position de la div
+        this.moveDivToPosition(1, null);
+      }
+      if (event.urlAfterRedirects === '/dashboard') {
+        // Appeler moveDivToPosition pour mettre à jour la position de la div
+        this.moveDivToPosition(2, null);
+      }
+      
+    });
+  }
+  moveDivToPosition(positionMenu: number, event?: Event | null) {
     const liElements = this.navigationList.nativeElement.querySelectorAll('li');
 
     // Supprimez la classe active de tous les éléments li
@@ -84,7 +109,7 @@ export class NavbarComponent extends UnsubcribeComponent implements OnInit {
     }, 100);
 
     // Empêcher la propagation de l'événement pour éviter de déclencher le clic deux fois
-    event.stopPropagation();
+    event?.stopPropagation();
   }
 
 
@@ -98,42 +123,25 @@ export class NavbarComponent extends UnsubcribeComponent implements OnInit {
 
   updateIcon() {
   }
-  ngOnInit(): void {
-    // Appelle getUserProfile() pour récupérer les données de l'utilisateur
-    this.loadUserConnected();
-    this.iniItems();
-   
-  }
+ 
+
   iniItems() {
-    this.items.push({ iconClass: 'bi bi-bookmarks-fill', routerLink: '/tickets/list' });
-
-    if (this.userConnected.role?.roleTitle === 'Client') {
-      this.items.push({ iconClass: 'bi bi-bookmark-plus-fill', action: () => this.toggleSidebarNewTicket() });
-    }
-
-    this.items.push({ iconClass: 'bi bi-people', routerLink: 'users/list' });
-
-    if (this.userConnected.role?.roleTitle !== 'Client') {
-      this.items.push({ iconClass: 'bi bi-speedometer', routerLink: 'dashboard' });
-      this.items.push({ iconClass: 'bi bi-activity', action: () => this.toggleSidebarActivity() });
-    }
-  }
+    this.items = []; // Clear existing items
+    // Default menu item
+      this.items.push({ iconClass: 'bi bi-bookmarks-fill', routerLink: '/tickets/list' });
   
-  initMenuMobileItems() {
-    this.items.push({ iconClass: 'bi bi-bookmarks-fill', routerLink: '/tickets/list' });
-
-    if (this.userConnected.role?.roleTitle === 'Client') {
-      this.items.push({ iconClass: 'bi bi-bookmark-plus-fill', action: () => this.toggleSidebarNewTicket() });
-    }
-
+    // Common menu items for all users
     this.items.push({ iconClass: 'bi bi-people', routerLink: 'users/list' });
-
+  
+    // Additional menu items for users who are not clients
     if (this.userConnected.role?.roleTitle !== 'Client') {
       this.items.push({ iconClass: 'bi bi-speedometer', routerLink: 'dashboard' });
       this.items.push({ iconClass: 'bi bi-activity', action: () => this.toggleSidebarActivity() });
     }
   }
-
+ 
+  
+  
 
   logout() {
     this.authService.logout();
@@ -142,10 +150,6 @@ export class NavbarComponent extends UnsubcribeComponent implements OnInit {
 
   toggleSidebarActivity(): void {
     this.store.dispatch(sidebarAction.displayActivity());
-  }
-
-  toggleSidebarNewTicket(): void {
-    this.store.dispatch(sidebarAction.displayTicketCreate());
   }
 
   toggleSidebarUserProfil(): void {
@@ -163,6 +167,7 @@ export class NavbarComponent extends UnsubcribeComponent implements OnInit {
         .subscribe({
           next: (user: User) => {
             this.userConnected = user;
+            this.iniItems();
             // console.log('userConnected:', this.userConnected);
           },
           error: (error: any) => {

@@ -1,20 +1,25 @@
 @import "src/assets/scss/template.scss";
 
 .dashboard{
-  padding: 4vh 2% 2% 2%;
+  padding: 4vh 2% 0% 2%;
   color: white;
   overflow: auto;
-  height: 90%;
+  height: 87%;
   @include mobiletablet {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
 }
+h1,h2,h3 {
+  color: white;
+}
+
 .widget {
-  background-color: $thirdColor;
   overflow: hidden;
   min-height: 200px;
+  background-color: $menuBackground;
+  border: 2px solid white;
 }
 .tickets-c {
   height: 100%;
@@ -22,24 +27,47 @@
   padding: 10px;
 
 }
-.chart-c {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-right: 10%;
-}
-  h1,h2,h3 {
-    font-size: 18px;
-    // font-style: italic;
-    font-weight: 400;
-    color: white!important;
+canvas {
+  // width: 60%;
+  margin: auto;
+  width: 60%;
+  @include qhd {
+    width: 55%;
   }
+  padding: 0!important;
+  transform: translateY(-60px);
+  h3 {
+    position: absolute;
+    top:0;
+    line-height: 0;
+  }
+}
+.chart {
+  width: 100%;
+ 
+}
+
+.chart-c {
+  width: 100%;
+  position: relative;
+
+  // padding-right: 10%;
+  h1,h2,h3 {
+    z-index: 3;
+    font-size: 18px;
+    font-weight: 400;
+    color: $secondaryColor!important;
+  }
+}
 
   .ticket-number,
   .ticket-user {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+  }
+  .grid-1 {
+    min-height: 50vh
   }
 
   span {
@@ -66,16 +94,3 @@
   }
 }
 
-.chart {
-  // flex-direction: column;
-  // align-items: center;
-  // margin: 5%;
-  width: 250px;
-  height: 250px;
-  margin-bottom: -40px;
-  margin-top: -10px;
-  @include mobiletablet {
-    width: 200px;
-    height: 200px;
-  }
-}

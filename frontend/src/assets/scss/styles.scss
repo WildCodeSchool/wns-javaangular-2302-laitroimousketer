@@ -2,8 +2,8 @@
 @use '@angular/material' as mat;
 @include mat.core();
 // hue. Available color palettes: https://material.io/design/color/ OU https://www.materialpalette.com/colors
-$angular-frontend-ticketing-primary: mat.define-palette(mat.$red-palette, 500);
-$angular-frontend-ticketing-accent: mat.define-palette(mat.$blue-palette, 600);
+$angular-frontend-ticketing-primary: mat.define-palette(mat.$blue-palette, 500);
+$angular-frontend-ticketing-accent: mat.define-palette(mat.$blue-palette, 500);
 $angular-frontend-ticketing-warn: mat.define-palette(mat.$red-palette,900);
 // Create the theme object. A theme consists of configurations for individual
 $angular-frontend-ticketing-theme: mat.define-light-theme((
@@ -124,7 +124,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
 input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-box-shadow: 0 0 0 30px $widgetColor inset !important;
 }
 
 // COMMON //
@@ -137,6 +137,7 @@ input:-webkit-autofill:active{
     padding: 8px;
   }
 }
+
 .widget-title {
   font-size: 25px;
   font-weight: 600;

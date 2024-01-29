@@ -9,10 +9,12 @@ import { Subscription, forkJoin, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as Reducer from '../../../../store/reducers/index';
 import * as ticketAction from '../../../../store/actions/ticket.action';
+import * as sidebarAction from '../../../../store/actions/sidebar.action';
 import { UnsubcribeComponent } from '../../../../core/classes/unsubscribe.component';
 import { Role } from '../../../../core/models/role.model';
 import { MediaService } from '../../../../core/services/media.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { User } from 'src/app/core/models/user.model';
 
 
 
@@ -40,8 +42,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
   originalTickets: Ticket[] | undefined;
   isUpdatingTickets: boolean = false;
 
-  role?: Role;
-
+  userConnected!: User;
   // COUNT TICKET //
   billingCount: number = 0;
   featureCount: number = 0;
@@ -97,11 +98,8 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
   isSmallScreen = false;
   
   ngOnInit() {
-   
-  
     this.getCounts();
     this.checkRole();
-    this.getTicketList();
     this.isSmallScreen = window.innerWidth < 1600;
   }
 
@@ -112,7 +110,8 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
 
   checkRole() {
     this.store.select(Reducer.getUserConnected).pipe(takeUntil(this.destroy$)).subscribe((data) => {
-      this.role = data.role;
+      this.userConnected = data;
+      this.getTicketList();
       // console.log('role', this.role);
     });
   }
@@ -134,8 +133,14 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
           // Effectuez vos opérations une fois que les tickets sont disponibles
           this.originalTickets = [...data]; // Copie des tickets originaux
           this.tickets = [...this.originalTickets]; // initialisation des tickets
+          if (data && this.userConnected.role?.roleTitle === 'Client') {
+            this.tickets = this.tickets.filter((ticket) => ticket.author?.id === this.userConnected.id);
+          }
           this.updateTicketList();
           // Autres opérations ici...
+        }
+        if (data && this.userConnected.role?.roleTitle === 'Client') {
+          this.tickets = this.tickets.filter((ticket) => ticket.author?.id === this.userConnected.id);
         }
       });
     }
@@ -145,8 +150,11 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
     if (!this.originalTickets) {
       return;
     }
-    this.tickets = [...this.originalTickets];
-    this.applyFilters();
+    if (this.userConnected.role?.roleTitle !== 'Client') {
+      this.tickets = [...this.originalTickets];
+      this.applyFilters();
+    }
+   
     // this.sortTickets(this.currentSortBy, this.tickets);
   }
 
@@ -189,9 +197,10 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
       if (!this.showArchivedTickets) {
         tickets = tickets.filter((ticket) => ticket.archiveDate === null);
       }
+      if (this.userConnected.role?.roleTitle === 'Client') {
+        this.tickets = tickets.filter((ticket) => ticket.author?.id === this.authService.userConnected.id);
+      } else {
       this.tickets = tickets; // Affectez le tableau filtré
-      if (this.role?.roleTitle === 'Client') {
-        this.tickets = this.tickets.filter((ticket) => ticket.author?.id === this.authService.userConnected.id);
       }
       // this.sortTickets(this.currentSortBy); // Tri des tickets
     });
@@ -309,4 +318,7 @@ export class TicketsListComponent extends UnsubcribeComponent implements OnInit 
     this.updateTicketList(); // Mettez à jour la liste des tickets en fonction de la nouvelle valeur
   }
 
+  toggleSidebarNewTicket(): void {
+    this.store.dispatch(sidebarAction.displayTicketCreate());
+  }
 }

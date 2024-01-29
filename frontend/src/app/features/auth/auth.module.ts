@@ -13,6 +13,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatStepperModule} from '@angular/material/stepper'
+import {MatExpansionModule} from '@angular/material/expansion';
 @NgModule({
   declarations: [
     AuthComponent,
@@ -31,6 +32,7 @@ import {MatStepperModule} from '@angular/material/stepper'
     ClipboardModule,
     MatAutocompleteModule,
     MatStepperModule,
+    MatExpansionModule,
     
 
 
