@@ -19,10 +19,14 @@ export function reducer(state = initialState, action: Action & { payload?: any }
   switch (action.type) {
 
     case userAction.action.SAVE_USER: {
+      const updatedUsers = state.users.some(u => u.id === action.payload.id)
+        ? state.users.map(u => (u.id === action.payload.id ? action.payload : u))
+        : [...state.users, action.payload];
+
       return {
         ...state,
         user: action.payload,
-        users: [...state.users, action.payload], // update user in users too
+        users: updatedUsers,
       };
     }
 

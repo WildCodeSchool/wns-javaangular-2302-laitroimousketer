@@ -14,7 +14,7 @@
   <div class="contact-c" [ngClass]="{ 'not-info': page !== 'Info' }">
     <div class="widget-small-title"><i class="bi bi-person-vcard-fill"></i> Informations de contact</div>
     <div class="contact">
-      <div><span class="prefix">Role:</span> {{user.role!.roleTitle}}</div>
+      <div><span class="prefix">Role:</span> {{user.role?.roleTitle}}</div>
 
       <div class="mail">
         <span class="prefix">Email:</span>
@@ -25,7 +25,7 @@
         <span class="prefix">Téléphone:</span>
         <a href="tel:{{user.phone}}">{{user.phone}}</a>
       </div>
-      <hr *ngIf="page !== 'Info' && this.user.role!.roleTitle === 'Client'" class="hr" />
+      <hr *ngIf="page !== 'Info' && this.user.role?.roleTitle === 'Client'" class="hr" />
     </div>
   </div>
 
@@ -43,25 +43,25 @@
   </div>
   }
   @if (page !== 'Info' && this.user.role!.roleTitle === 'Client') {
-    <hr class="hr" />
-    <a class="show-more" (click)="onShowMore()">{{showMore ? 'Voir moins' : 'Voir le détail'}}</a>
-    }
+  <hr class="hr" />
+  <a class="show-more" (click)="onShowMore()">{{showMore ? 'Voir moins' : 'Voir le détail'}}</a>
+  }
 </header>
 
 
 @if (page === 'Tickets') {
-  <div class="widget user-tickets" [@opacity]="page==='Tickets'?'active':''">
-    <div class="widget-title"><i class="bi bi-bookmarks-fill"></i>Tickets <span>de l'utilisateur</span></div>
-    @for (ticket of userTickets; track ticket) {
-    <app-ticket-card [ticket]="ticket"></app-ticket-card>
-    }
-  </div>
+<div class="widget user-tickets" [@opacity]="page==='Tickets'?'active':''">
+  <div class="widget-title"><i class="bi bi-bookmarks-fill"></i>Tickets <span>de l'utilisateur</span></div>
+  @for (ticket of userTickets; track ticket) {
+  <app-ticket-card [ticket]="ticket"></app-ticket-card>
+  }
+</div>
 }
 
 @if (page ==='Historical-User' && userConnected.role.roleTitle !== 'Client') {
-  <div class="widget" [@opacity]="page==='Historical-User'?'active':''">
-    <app-user-historical [user]="user"></app-user-historical>
-  </div>
+<div class="widget" [@opacity]="page==='Historical-User'?'active':''">
+  <app-user-historical [user]="user"></app-user-historical>
+</div>
 }
 
 @if (page ==='Actions') {
@@ -74,11 +74,11 @@
       mail</button>
 
 
-<!--  ne pas utiliser pour le moment !
+    <!--  ne pas utiliser pour le moment !
     <button mat-raised-button color="warn" class="btn" (click)="deleteUser(this.user.id)"><i
         class=" bi bi-archive-fill"></i>
       Supprimer</button> -->
-    
+
   </div>
 
 </div>
