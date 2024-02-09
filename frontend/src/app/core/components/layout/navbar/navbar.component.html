@@ -30,12 +30,18 @@
 <nav class="navbar-mobile">
   <ul #navigationList class="links-mobile">
     <ng-container *ngFor="let item of items; let i = index">
-      <li routerLinkActive="active" [routerLink]="item.routerLink" (click)="($event)">
+      <li routerLinkActive="active" [routerLink]="item.routerLink" (click)="moveDivToPosition(i, $event); handleItemClick(item)">
         <a>
           <i [class]="item.iconClass"></i>
         </a>
       </li>
     </ng-container>
+    <li> 
+      <app-avatar class="from-navbar-mobile" *ngIf="userConnected" [user]="userConnected" [matMenuTriggerFor]="menu" ></app-avatar>
+      <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="toggleSidebarUserProfil()">Voir son profil</button>
+      <button mat-menu-item (click)="logout()">Se déconnecter</button>
+    </mat-menu></li>
   </ul>
   
 </nav>

@@ -1,4 +1,7 @@
 @import 'src/assets/scss/template.scss';
+:host {
+  color: $primaryTextColor;
+}
 
 .details {
   display: flex;
@@ -8,6 +11,18 @@
   align-items: flex-start;
 }
 
+.icon-menu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: $primaryColor;
+  mat-icon {
+    color: $primaryColor;
+    margin: auto;
+  }
+ 
+
+}
 .title {
   display: flex;
   justify-content: center;

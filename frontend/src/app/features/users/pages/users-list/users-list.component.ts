@@ -57,7 +57,7 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
   ];
   currentSortBy: string = '';
   placeholderSearchbar: string = "Rechercher un utilisateur par son nom, prénom, mail...";
-
+  userConnected!: User;
   constructor(
     private store: Store<Reducer.StateDataStore>,
     private sharedService: SharedService,
@@ -67,9 +67,19 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadUsers();
+    this.loadUserConnected();
+   
   }
-
+loadUserConnected() {
+  this.store.select(Reducer.getUserConnected)
+  .pipe(takeUntil(this.destroy$))
+  .subscribe((data: User) => {
+    if (data) {
+      this.userConnected = data;
+      this.loadUsers();
+    }
+  });
+}
   onMapReady(map: Map) {
     this.map = map;
     this.map.attributionControl.setPrefix(false);
@@ -81,6 +91,9 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
       this.userService.getWithQuery(`query=${query}`)
         .subscribe((users: User[]) => {
           this.users = users;
+          if (this.userConnected.role?.roleTitle === 'Client') {
+            this.users = this.users.filter(user => user.role?.roleTitle !== 'Client');
+          }
           this.usersMarkers = this.initializeMarkersData(this.users); // Populate markersData
           this.updateMapMarkers(); // Update map markers
         });
@@ -91,6 +104,9 @@ export class UsersListComponent extends UnsubcribeComponent implements OnInit {
       .subscribe((data: User[]) => {
         if (data) {
           this.users = data;
+          if (this.userConnected.role?.roleTitle === 'Client') {
+            this.users = this.users.filter(user => user.role?.roleTitle !== 'Client');
+          }
           this.usersMarkers = this.initializeMarkersData(this.users); // Populate markersData
           this.updateMapMarkers(); // Update map markers
         }

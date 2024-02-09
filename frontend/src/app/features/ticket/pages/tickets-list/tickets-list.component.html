@@ -1,18 +1,25 @@
 <!-- PARTIE DEV ET MANAGER -->
 <section class="tickets-list-c" [@fadeInOut]>
 
-  <div class="toggle-c">
-    <mat-slide-toggle class="toggle" (click)="ViewArchivedTickets()">
-      <p>Tickets archivés</p>
-    </mat-slide-toggle>
-  </div>
-  <app-search-bar *ngIf="role?.roleTitle !== 'Client'" (searchEvent)="getTicketList($event)"></app-search-bar>
+  @if(userConnected.role.roleTitle !== 'Client') {
+      <div class="toggle-c">
+      <mat-slide-toggle class="toggle" (click)="ViewArchivedTickets()">
+        <p>Tickets archivés</p>
+      </mat-slide-toggle>
+    </div>
+    }
+  <app-search-bar *ngIf="userConnected.role.roleTitle !== 'Client'" (searchEvent)="getTicketList($event)"></app-search-bar>
 
 
   <div class="ticket-list-with-header">
     <header class="header-tickets-list">
-
-      <div class="checkbox-c" *ngIf="role?.roleTitle !== 'Client'">
+      @if(userConnected.role.roleTitle === 'Client') {
+        <div class="addTicket" (click)="toggleSidebarNewTicket()">Créer un nouveau ticket <i class="bi bi-plus-circle-fill"></i> </div>
+          <mat-slide-toggle class="toggle toggle-client-mode" (click)="ViewArchivedTickets()">
+            <p>Tickets archivés</p>
+          </mat-slide-toggle>
+      }
+      <div class="checkbox-c" *ngIf="userConnected.role?.roleTitle !== 'Client'">
         @if (isSmallScreen) {
         <mat-tab-group activateInkBar="true"><!-- MOBILE ONLY -->
           <mat-tab label="Catégorie">
@@ -156,7 +163,7 @@
 
     </header>
 
-    <div class="tickets-list">
+    <div class="tickets-list" [ngClass]="userConnected.role.roleTitle === 'Client' ? 'ticket-list-client' : ''">
       <div *ngFor="let ticket of tickets; let i = index" [ngClass]="{'even': isEven(i), 'odd': !isEven(i)}">
         <app-ticket-card-in-list [ticket]="ticket"></app-ticket-card-in-list>
       </div>

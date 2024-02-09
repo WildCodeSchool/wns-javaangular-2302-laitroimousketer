@@ -27,32 +27,31 @@ export class UserEffects {
   getuser = createEffect(() =>
     this.actions$.pipe(
       ofType(action.getUser),
-      switchMap(({ payload, displayInSidebar }) => {
-        return this.userService.getUser(payload).pipe(
-          tap((data: User) => {
-            // console.log('user récupéré dans getuser:', data);
-          }),
+      switchMap(({ payload, displayInSidebar }) =>
+        this.userService.getUser(payload).pipe(
           switchMap((data: User) => {
-            const saveuserAction = action.saveUser({ payload: data });
+            const saveUserAction = action.saveUser({ payload: data });
 
             if (displayInSidebar) {
               return [
-                saveuserAction,
+                saveUserAction,
                 sidebarAction.displayUserDetails()
               ];
             } else {
-              return [saveuserAction];
+              return [saveUserAction];
             }
           }),
           catchError(error => {
             this.msgService.showErrorAlert('Erreur lors de la récupération du user');
-            // Gérer les erreurs ici si nécessaire
-            return of(/* action d'erreur si besoin */);
+            return of(/* action d'erreur si nécessaire */);
           })
-        );
-      })
+        )
+      )
     )
   );
+
+
+
 
 
   updateUser$ = createEffect(() =>

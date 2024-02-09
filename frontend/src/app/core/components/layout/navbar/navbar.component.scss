@@ -3,7 +3,7 @@
 .navbar {
   width: 110px;
   height: 100vh;
-  background-color: $primaryColor;
+  background-color: $menuBackground;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -111,22 +111,23 @@ i {
 .navbar-mobile {
   display: none;
 
-  @include mobile {
+
+  @media screen and (max-width: 700px),
+  screen and (max-height: 700px) {
     display: flex;
   }
-
   position: absolute;
   bottom:0;
   justify-content: space-between;
   z-index: 100;
   width: 100%;
-  background-color: $thirdColor;
+  background-color: $menuBackground;
 
   ul,
   li {
     text-decoration: none;
     list-style: none;
-    padding: 4px 8px;
+    padding: 3px 8px;
   }
 
   color: white;

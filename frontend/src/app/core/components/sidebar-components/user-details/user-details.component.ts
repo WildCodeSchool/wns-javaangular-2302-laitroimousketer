@@ -1,6 +1,6 @@
-import { getUser } from './../../../../../../store/reducers/index';
+import { getUser } from '../../../../store/reducers/index';
 import { Component, OnInit } from '@angular/core';
-import { MenuItems } from '../sidebar-menu/menu-items.model';
+import { MenuItems } from '../../layout/sidebar/sidebar-menu/menu-items.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { animate, group, style, transition, trigger } from '@angular/animations';
 import { User } from 'src/app/core/models/user.model';
