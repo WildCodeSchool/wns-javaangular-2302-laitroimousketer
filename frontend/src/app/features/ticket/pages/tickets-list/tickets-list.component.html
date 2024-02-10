@@ -165,7 +165,7 @@
 
     <div class="tickets-list" [ngClass]="userConnected.role.roleTitle === 'Client' ? 'ticket-list-client' : ''">
       <div *ngFor="let ticket of tickets; let i = index" [ngClass]="{'even': isEven(i), 'odd': !isEven(i)}">
-        <app-ticket-card-in-list [ticket]="ticket"></app-ticket-card-in-list>
+        <app-ticket-card-in-list [ticket]="ticket" ></app-ticket-card-in-list>
       </div>
 
     </div>

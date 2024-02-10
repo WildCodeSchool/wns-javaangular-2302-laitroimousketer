@@ -40,7 +40,8 @@
         font-size: 24px;
       }
       @include mobile {
-        font-size: 18px
+        font-size: 18px;
+        padding: 2px;
       }
     }
   }
@@ -73,7 +74,7 @@
       height: 28px;
     }
     @include mobile {
-      top: 12px;
+      top: 16px;
       left: 6px;
       width: 22px;
       height: 22px;
