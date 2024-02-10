@@ -31,8 +31,9 @@
       </div>
       <form class="formUpload" [formGroup]="uploadForm">
         <!-- Champ de fichier caché -->
-        <input type="file" id="file" name="file" (change)="onFileChange($event)" #fileInput accept="image/*" capture="camera"
+        <input type="file" id="file" name="file" (change)="onFileChange($event)" #fileInput accept="image/*" 
           style="display: none;" />
+          <i *ngIf="isCameraAvailable" class="bi bi-camera" (click)="openCamera()"></i>
       </form>
 
     </div>

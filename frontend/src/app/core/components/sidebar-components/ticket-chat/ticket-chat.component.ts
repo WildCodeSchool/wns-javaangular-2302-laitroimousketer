@@ -12,7 +12,7 @@ import { SafeUrl } from '@angular/platform-browser';
 import { MediaService } from 'src/app/core/services/media.service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
-
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-ticket-chat',
@@ -31,6 +31,7 @@ export class TicketChatComponent extends UnsubcribeComponent implements OnInit {
   userMediaId: number = 0;
   fileSelected: boolean = false;
   selectedFileName: string = '';
+  isCameraAvailable: boolean = false;
   constructor(
 
     private chatService: ChatService,
@@ -48,54 +49,34 @@ export class TicketChatComponent extends UnsubcribeComponent implements OnInit {
     this.initChatForm();
     this.getChatMessages();
     this.initUploadForm();
-
+    this.checkCameraAvailability();
   }
 
-  initChatForm() {
-    this.chatForm = this.fb.group({
-      message: [''],
-      ticket_id: [this.ticket?.id],
-      author: [this.userConnected],
-      media: [null],
-    });
+  checkCameraAvailability() {
+    // Vérifiez si la fonction Camera de Capacitor est disponible
+    this.isCameraAvailable = 'getPhoto' in Camera;
   }
 
-  initUploadForm() {
-    this.uploadForm = this.fb.group({
-      file: [''],
-      chatId: [null],
-    });
-  }
-
-  deleteMessage(message: Chat) {
-    this.chatService.delete(message.id).subscribe((data: any) => {
-      this.chatService.getWithQuery(`ticket_id=${this.ticket?.id}`).subscribe((data: any) => {
-        // reload chat after sending with new ref for the array, this is for refreshing the view
-        this.chat = [...data];
-      });
-    });
-  }
-  editMessage(editedMessage: Chat) {
-    // Implement the logic to update the edited message in your data or service
-    this.chatService.update(editedMessage).subscribe((data: any) => {
-      this.chatService.getWithQuery(`ticket_id=${this.ticket?.id}`).subscribe((data: any) => {
-        this.chat = [...data];
-      });
+  openCamera() {
+    Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Camera,
+    }).then((image) => {
+      // `image.dataUrl` contient les données de l'image capturée depuis la caméra
+      // Ajoutez ces données au formulaire
+      this.uploadForm.get('file')?.setValue(image.dataUrl);
+      this.fileSelected = true;
+  
+      // Vous pouvez également afficher l'image dans votre interface utilisateur si nécessaire
+      // Par exemple, vous pouvez utiliser une variable pour stocker l'URL de l'image et l'afficher dans le template
+      // this.capturedImageUrl = image.dataUrl;
+    }).catch((error) => {
+      console.error('Erreur lors de l\'ouverture de la caméra', error);
     });
   }
   
-  getChatMessages() {
-    this.chatService.getWithQuery(`ticket_id=${this.ticket?.id}`).subscribe((data: any) => {
-      console.log("data chat with filters", data);
-      this.chat = data;
-    });
-  }
-
-  loadUserConnected() {
-    this.store.select(Reducer.getUserConnected).subscribe((data: any) => {
-      this.userConnected = data;
-    });
-  }
 
   onFileChange(event: any): void {
     if (event.target.files.length > 0) {
@@ -105,6 +86,14 @@ export class TicketChatComponent extends UnsubcribeComponent implements OnInit {
       this.selectedFileName = file.name;
     }
   }
+  
+  clearFileInput() {
+    const fileInput = document.getElementById('file') as HTMLInputElement;
+    fileInput.value = '';  // Réinitialiser la valeur de l'input file
+    this.fileSelected = false;  // Réinitialiser votre indicateur fileSelected si nécessaire
+    this.selectedFileName = '';
+  }
+
   sendMessage() {
     // Sending the chat message
     if (this.userCanChat) {
@@ -146,11 +135,54 @@ export class TicketChatComponent extends UnsubcribeComponent implements OnInit {
     this.alertService.showErrorAlert("Pour envoyer un message, vous devez être l'auteur du ticket ou être assigné à celui-ci.");
   }
   }
-  clearFileInput() {
-    const fileInput = document.getElementById('file') as HTMLInputElement;
-    fileInput.value = '';  // Réinitialiser la valeur de l'input file
-    this.fileSelected = false;  // Réinitialiser votre indicateur fileSelected si nécessaire
-    this.selectedFileName = '';
+
+  initChatForm() {
+    this.chatForm = this.fb.group({
+      message: [''],
+      ticket_id: [this.ticket?.id],
+      author: [this.userConnected],
+      media: [null],
+    });
   }
+
+  initUploadForm() {
+    this.uploadForm = this.fb.group({
+      file: [''],
+      chatId: [null],
+    });
+  }
+
+ 
+  deleteMessage(message: Chat) {
+    this.chatService.delete(message.id).subscribe((data: any) => {
+      this.chatService.getWithQuery(`ticket_id=${this.ticket?.id}`).subscribe((data: any) => {
+        // reload chat after sending with new ref for the array, this is for refreshing the view
+        this.chat = [...data];
+      });
+    });
+  }
+  editMessage(editedMessage: Chat) {
+    // Implement the logic to update the edited message in your data or service
+    this.chatService.update(editedMessage).subscribe((data: any) => {
+      this.chatService.getWithQuery(`ticket_id=${this.ticket?.id}`).subscribe((data: any) => {
+        this.chat = [...data];
+      });
+    });
+  }
+  
+  getChatMessages() {
+    this.chatService.getWithQuery(`ticket_id=${this.ticket?.id}`).subscribe((data: any) => {
+      console.log("data chat with filters", data);
+      this.chat = data;
+    });
+  }
+
+  loadUserConnected() {
+    this.store.select(Reducer.getUserConnected).subscribe((data: any) => {
+      this.userConnected = data;
+    });
+  }
+
+
 
 }
