@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">alayde</string>
+    <string name="title_activity_main">alayde</string>
+    <string name="package_name">com.alayde.ionic</string>
+    <string name="custom_url_scheme">com.alayde.ionic</string>
+</resources>

@@ -15,7 +15,9 @@
   border-radius: 10px;
   border: 2px solid white;
 }
-
+.test {
+  border-radius: 50px;
+}
 .tickets-list {
   padding-top: 1%;
   padding-right: 1%;
@@ -241,10 +243,12 @@ header {
 
 .even {
   background-color: #e1e1e1;
+  border-radius: 5px;
   /* Couleur d'arrière-plan pour les index pairs */
 }
 
 .odd {
   background-color: #ffffff;
+  border-radius: 5px;
   /* Couleur d'arrière-plan pour les index impairs */
 }

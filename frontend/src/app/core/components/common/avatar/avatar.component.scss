@@ -1,8 +1,8 @@
 @import 'src/assets/scss/template.scss';
 
 .avatar {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -23,8 +23,8 @@
  }
 }
 img {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   aspect-ratio: 1/1;
   object-fit: cover;
@@ -51,8 +51,8 @@ i {
   width: 80px;
   height: 80px;
   @include mobiletablet {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
   }
   p {
     font-size: 1.6em;
@@ -67,8 +67,8 @@ i {
     aspect-ratio: 1/1;
     object-fit: cover;
     @include mobiletablet {
-      width: 48px;
-      height: 48px;
+      width: 40px;
+      height: 40px;
     }
   }
 }
@@ -84,8 +84,8 @@ i {
    }
 }
 img {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   aspect-ratio: 1/1;
   object-fit: cover;
@@ -116,6 +116,13 @@ img {
   @include mobiletablet {
     width: 32px;
     height: 32px;
+    img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+    }
   }
   p {
     font-size: 0.9em;
