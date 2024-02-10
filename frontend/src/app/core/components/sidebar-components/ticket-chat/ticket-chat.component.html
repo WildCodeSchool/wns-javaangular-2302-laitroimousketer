@@ -8,7 +8,8 @@
 
   <div class="message-list grid grid-cols-1 gap-20">
     @for(message of chat; track message.id) {
-    <app-chat-row [message]="message" class="col-span-1" (deleteMessageEvent)="deleteMessage($event)" (editMessageEvent)="editMessage($event)"></app-chat-row>
+    <app-chat-row [message]="message" class="col-span-1" (deleteMessageEvent)="deleteMessage($event)"
+      (editMessageEvent)="editMessage($event)"></app-chat-row>
     }
 
   </div>
@@ -31,9 +32,11 @@
       </div>
       <form class="formUpload" [formGroup]="uploadForm">
         <!-- Champ de fichier caché -->
-        <input type="file" id="file" name="file" (change)="onFileChange($event)" #fileInput accept="image/*" 
+        <input type="file" id="file" name="file" (change)="onFileChange($event)" #fileInput accept="image/*"
           style="display: none;" />
-          <i *ngIf="isCameraAvailable" class="bi bi-camera" (click)="openCamera()"></i>
+        <input *ngIf="!isCameraAvailable"class="bi bi-camera" type="file" accept="image/*" id="file" name="file" (change)="onFileChange($event)" #fileInput
+          capture="camera" style="display: none;" />
+        <i *ngIf="isCameraAvailable" class="bi bi-camera" (click)="openCamera()"></i>
       </form>
 
     </div>
