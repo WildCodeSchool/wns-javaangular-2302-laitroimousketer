@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Status } from 'src/app/core/models/status.model';
 import { FormGroup } from '@angular/forms';
@@ -26,6 +26,7 @@ import { MenuItems } from '../../../layout/sidebar/sidebar-menu/menu-items.model
   styleUrls: ['./ticket-add.component.scss'],
 })
 export class TicketAddComponent extends UnsubcribeComponent {
+  isSmallScreen: boolean = false;
   constructor(
     private store: Store<Reducer.StateDataStore>,
     private ticketService: TicketService,
@@ -55,6 +56,7 @@ export class TicketAddComponent extends UnsubcribeComponent {
  ;
 
   ngOnInit() {
+    this.isSmallScreen = window.innerWidth < 992;
     this.getAuthor();
     this.initForm();
     this.categoryService.getAll().subscribe((data) => {
@@ -130,5 +132,9 @@ export class TicketAddComponent extends UnsubcribeComponent {
 
   annulate() {
     this.store.dispatch(sidebarAction.resetSideBar());
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.isSmallScreen = window.innerWidth < 992;
   }
 }

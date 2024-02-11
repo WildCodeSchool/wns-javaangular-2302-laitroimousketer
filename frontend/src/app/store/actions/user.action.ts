@@ -15,6 +15,7 @@ export const action = {
   GET_USER_CONNECTED: '[DataStore] get USER CONNECTED',
   SAVE_USER_CONNECTED: '[DataStore] save USER CONNECTED',
   CRUD_OPERATION_SUCCESS: '[DataStore] crud operation success',
+  CLEAR: '[DataStore] clear',
 
 };
 
@@ -30,4 +31,5 @@ export const getUsers = createAction(action.GET_USERS);
 export const saveUsers = createAction(action.SAVE_USERS, props<{ payload: User[] }>());
 export const getUserConnected = createAction(action.GET_USER_CONNECTED, props<{ payload: number }>());
 export const saveUserConnected = createAction(action.SAVE_USER_CONNECTED, props<{ payload: User }>());
+export const clear = createAction(action.CLEAR);
 

@@ -39,6 +39,7 @@ export class AuthService implements OnInit {
     private httpClient: HttpClient,
     private userService: UserService,
     private store: Store<Reducer.StateDataStore>,
+    private router: Router
   ) {
     this.isAuthenticated()
       .pipe(take(1))
@@ -157,7 +158,8 @@ export class AuthService implements OnInit {
   logout() {
     this.isLog$.next(false); // Indiquer que l'utilisateur n'est plus connecté
     localStorage.removeItem('auth_token'); // Supprimer le jeton d'authentification
-    window.location.href = '/auth'; // Rafraîchit la page en changeant l'URL, nécéssaire pour le changement d'user
+    this.store.dispatch(userAction.clear());// Effacer le store
+    this.router.navigate(['/auth']);
     this.alertService.showSuccessAlert('Vous êtes maintenant déconnecté'); // Afficher une alerte de déconnexion
 
   }

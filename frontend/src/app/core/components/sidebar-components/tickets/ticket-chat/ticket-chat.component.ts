@@ -55,6 +55,7 @@ export class TicketChatComponent extends UnsubcribeComponent implements OnInit {
   checkCameraAvailability() {
     // Vérifiez si la fonction Camera de Capacitor est disponible
     this.isCameraAvailable = 'getPhoto' in Camera;
+    this.alertService.showErrorAlert('Camera available?: ' + this.isCameraAvailable);
   }
 
   openCamera() {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs';
@@ -25,6 +25,7 @@ export class TicketEditComponent extends UnsubcribeComponent implements OnInit, 
   priorities: Priority[] = [];
   statuses: Status[] = [];
   ticketEditForm!: FormGroup;
+  isSmallScreen: boolean = false;
 
   constructor(
     private store: Store<Reducer.StateDataStore>,
@@ -45,6 +46,7 @@ export class TicketEditComponent extends UnsubcribeComponent implements OnInit, 
     }
   }
   ngOnInit() {
+    this.isSmallScreen = window.innerWidth < 992;
     this.initForm();
     this.categoryService.getAll().subscribe((data) => {
       this.categories = data;
@@ -100,5 +102,9 @@ export class TicketEditComponent extends UnsubcribeComponent implements OnInit, 
   onAnnulate() {
     this.ticketEditForm.reset();
     this.annulate.emit();
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.isSmallScreen = window.innerWidth < 992;
   }
 }
