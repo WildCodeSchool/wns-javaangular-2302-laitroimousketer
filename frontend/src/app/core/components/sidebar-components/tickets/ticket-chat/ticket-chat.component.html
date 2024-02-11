@@ -35,7 +35,7 @@
         <!-- Champ de fichier caché -->
         <input type="file" id="file2" name="file" (change)="onFileChange($event)" #fileInput accept="image/*"
           style="display: none;" />
-        <input *ngIf="!isCameraAvailable" class="bi bi-camera" type="file" accept="image/*" id="file" name="file"
+        <input *ngIf="!isCameraAvailable" class="bi bi-camera" type="file" accept="*" id="file" name="file"
           (change)="onFileChange($event)" #fileInput capture="camera" style="display: none;" />
 
       </form>

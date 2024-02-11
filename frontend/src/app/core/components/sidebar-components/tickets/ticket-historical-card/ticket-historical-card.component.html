@@ -1,8 +1,8 @@
 
-<div class="historical-card grid grid-cols-12 gap-10">
+<div class="historical-card grid grid-cols-12 ">
 
-  <span class="avatar initials" [style.background-color]="bgColor" *ngIf="!!initials">{{ initials }}</span>
-    <div class="col-span-9 md:col-span-11">
+  <span class="avatar initials col-span-2 md:col-span-1" [style.background-color]="bgColor" *ngIf="!!initials">{{ initials }}</span>
+    <div class="col-span-10 md:col-span-11">
       <div class="author"> {{ data.userName || data.authorName }}</div>
       <div class="date">{{ data.timestamp | date:'dd MMMM yyyy à HH:mm' }}</div>
       <div class="comment"><span class="bold">{{ data.action }}</span> du ticket {{data.ticketTitle}} n°{{data.ticketId}}</div>

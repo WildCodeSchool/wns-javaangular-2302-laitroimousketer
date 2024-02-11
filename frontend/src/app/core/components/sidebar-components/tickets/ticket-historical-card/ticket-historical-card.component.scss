@@ -18,7 +18,8 @@
   align-items: center;
   justify-content: center;
   color: white;
-  margin: auto;
+  margin: auto ;
+  // grid-template-columns: auto;
   @include mobile {
     width: 28px;
     height: 28px;
