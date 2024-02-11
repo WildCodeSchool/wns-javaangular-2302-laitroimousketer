@@ -12,22 +12,24 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { AvatarComponent } from './components/common/avatar/avatar.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { TicketDetailsComponent } from './components/sidebar-components/ticket-details/ticket-details.component';
 import { ActivityComponent } from './components/sidebar-components/activity/activity.component';
 import { SidebarMenuComponent } from './components//layout/sidebar/sidebar-menu/sidebar-menu.component';
-import { TicketAddComponent } from './components/sidebar-components/ticket-add/ticket-add.component';
-import { TicketChatComponent } from './components/sidebar-components/ticket-chat/ticket-chat.component';
-import { UserDetailsComponent } from './components/sidebar-components/user-details/user-details.component';
-import { TicketCardComponent } from './components/tickets/ticket-card/ticket-card.component';
-import { UserProfilComponent } from './components/sidebar-components/user-profil/user-profil.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { ChatRowComponent } from './components/common/chat-row/chat-row.component';
 import { ImagePopUpComponent } from './components/common/image-pop-up/image-pop-up.component';
-import { UserCardComponent } from './components/users/user-card/user-card.component';
-import { TicketHistoricalComponent } from './components/tickets/ticket-historical/ticket-historical.component';
-import { TicketHistoricalCardComponent } from './components/tickets/ticket-historical-card/ticket-historical-card.component';
-import { UserHistoricalComponent } from './components/users/user-historical-component/user-historical.component';
+import { TicketAddComponent } from './components/sidebar-components/tickets/ticket-add/ticket-add.component';
+import { TicketCardComponent } from './components/sidebar-components/tickets/ticket-card/ticket-card.component';
+import { TicketChatComponent } from './components/sidebar-components/tickets/ticket-chat/ticket-chat.component';
+import { TicketDetailsComponent } from './components/sidebar-components/tickets/ticket-details/ticket-details.component';
+import { TicketEditComponent } from './components/sidebar-components/tickets/ticket-edit/ticket-edit.component';
+import { TicketHistoricalCardComponent } from './components/sidebar-components/tickets/ticket-historical-card/ticket-historical-card.component';
+import { TicketHistoricalComponent } from './components/sidebar-components/tickets/ticket-historical/ticket-historical.component';
+import { UserCardComponent } from './components/sidebar-components/users/user-card/user-card.component';
+import { UserDetailsComponent } from './components/sidebar-components/users/user-details/user-details.component';
+import { UserHistoricalComponent } from './components/sidebar-components/users/user-historical-component/user-historical.component';
+import { UserProfilComponent } from './components/sidebar-components/users/user-profil/user-profil.component';
+
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { UserHistoricalComponent } from './components/users/user-historical-comp
     TicketHistoricalComponent,
     TicketHistoricalCardComponent,
     UserHistoricalComponent,
+    TicketEditComponent,
 
   ],
   imports: [
@@ -86,6 +89,7 @@ import { UserHistoricalComponent } from './components/users/user-historical-comp
     TicketHistoricalComponent,
     TicketHistoricalCardComponent,
     UserHistoricalComponent,
+    TicketEditComponent,
 
   ],
   providers: [],

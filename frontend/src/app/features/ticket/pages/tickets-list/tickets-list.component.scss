@@ -5,6 +5,7 @@
   flex-direction: column;
   justify-content: flex-end;
   padding: 16px 2% 0 2%;
+  
   @include mobile {
     padding: 0 2% 0 2%;
   }
@@ -18,6 +19,9 @@
 .test {
   border-radius: 50px;
 }
+.dense-5 {
+  margin-bottom: 6px;
+}
 .tickets-list {
   padding-top: 1%;
   padding-right: 1%;
@@ -25,7 +29,7 @@
   background-color: $menuBackground;
   border-radius: 0 0 10px 10px;
   width: 100%;
-  height: 66vh;
+  height: 68vh;
   overflow: auto;
 
   @include mobile {

@@ -8,7 +8,6 @@ import { Category } from 'src/app/core/models/category.model';
 import { Ticket } from 'src/app/core/models/ticket.model';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { TicketService } from 'src/app/core/services/ticket.service';
-import { MenuItems } from '../../layout/sidebar/sidebar-menu/menu-items.model';
 import { Store } from '@ngrx/store';
 import * as Reducer from 'src/app/store/reducers/index';
 import * as ticketAction from 'src/app/store/actions/ticket.action';
@@ -19,6 +18,7 @@ import { User } from 'src/app/core/models/user.model';
 import { takeUntil } from 'rxjs';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 import { StatusService } from 'src/app/core/services/status.service';
+import { MenuItems } from '../../../layout/sidebar/sidebar-menu/menu-items.model';
 
 @Component({
   selector: 'app-ticket-add',

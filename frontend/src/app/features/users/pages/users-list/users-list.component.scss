@@ -18,7 +18,7 @@
   background-color: $menuBackground;
   border-radius: 10px;
   width: 100%;
-  height: 76vh;
+  height: 78vh;
   border: 2px solid white;
 
   @include qhd {
@@ -28,6 +28,12 @@
   @include mobile {
     height: 80vh
   }
+}
+.dense-5 {
+  @include mobiletablet {
+    margin-bottom: 6px;
+  }
+  margin-bottom: 16px;
 }
 
 :host ::ng-deep .mat-mdc-form-field-type-mat-select {
