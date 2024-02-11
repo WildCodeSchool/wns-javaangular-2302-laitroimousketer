@@ -21,7 +21,10 @@ export class ActivityComponent implements OnInit {
   getHistoricals() {
     this.globalHistoricalService.getAll().subscribe((data: any) => {
       this.globalHistoricals = data;
-      // console.log(this.globalHistoricals);
-    })
+      // sorting the historicals by id to get the last historicals first
+      this.globalHistoricals.sort((a, b) => b.id - a.id);
+      console.log(this.globalHistoricals);
+    });
   }
+  
 }

@@ -10,7 +10,7 @@ import * as sidebarAction from 'src/app/store/actions/sidebar.action';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 import { Observable, map, of, startWith, takeUntil } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
-import { MenuItems } from '../../layout/sidebar/sidebar-menu/menu-items.model';
+import { MenuItems } from '../../../layout/sidebar/sidebar-menu/menu-items.model';
 import countries from 'src/assets/json/countries.json';
 import cities from 'cities.json';
 import { MediaService } from 'src/app/core/services/media.service';

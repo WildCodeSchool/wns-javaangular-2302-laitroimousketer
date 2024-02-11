@@ -15,6 +15,7 @@ export class SearchBarComponent implements OnInit {
   @Output() searchEvent = new EventEmitter<{ searchTerm: string }>();
   isSmallScreen : boolean = false;
   ngOnInit() {
+    this.isSmallScreen = window.innerWidth < 992;
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {

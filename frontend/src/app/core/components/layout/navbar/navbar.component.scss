@@ -110,13 +110,13 @@ i {
 
 .navbar-mobile {
   display: none;
-
+  height: 40px;
 
   @media screen and (max-width: 700px),
   screen and (max-height: 700px) {
     display: flex;
   }
-  position: absolute;
+  position: fixed;
   bottom:0;
   justify-content: space-between;
   z-index: 100;

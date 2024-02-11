@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MenuItems } from '../../layout/sidebar/sidebar-menu/menu-items.model';
+import { Component, OnInit, WritableSignal, signal } from '@angular/core';
+import { MenuItems } from '../../../layout/sidebar/sidebar-menu/menu-items.model';
 import { animate, group, style, transition, trigger } from '@angular/animations';
 import { TicketService } from 'src/app/core/services/ticket.service';
 import { Ticket } from 'src/app/core/models/ticket.model';
@@ -12,13 +12,10 @@ import { Observable, takeUntil } from 'rxjs';
 import { UnsubcribeComponent } from 'src/app/core/classes/unsubscribe.component';
 import { User } from 'src/app/core/models/user.model';
 import { UserService } from 'src/app/core/services/user.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { Category } from 'src/app/core/models/category.model';
 import { Priority } from 'src/app/core/models/priority.model';
-import { CategoryService } from 'src/app/core/services/category.service';
-import { PriorityService } from 'src/app/core/services/priority.service';
-import { StatusService } from 'src/app/core/services/status.service';
 import { Status } from 'src/app/core/models/status.model';
 
 @Component({
@@ -59,7 +56,7 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
   menuItems: MenuItems[] = [];
   menuTitle: string = 'Ticket';
   menuIcon: string = 'bi bi-tag-fill';
-  page: string = 'Info';
+  page: WritableSignal<string> = signal('Info')
   statutSpan: string = '';
   prioritySpan: string = '';
 
@@ -74,7 +71,6 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
   developersForm!: FormGroup;
   allDevelopers: User[] = [];
   mode: string = '';
-  ticketEditForm!: FormGroup;
   categories: Category[] = [];
   priorities: Priority[] = [];
   statuses: Status[] = [];
@@ -84,9 +80,7 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
     private store: Store<Reducer.StateDataStore>,
     private fb: FormBuilder,
     private alertService: AlertService,
-    private categoryService: CategoryService,
-    private priorityService: PriorityService,
-    private statusService: StatusService,
+
   ) {
     super();
   }
@@ -98,16 +92,7 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
     this.loadDevelopersForm();
     this.checkIfUserCanChat();
     this.initMenuItems();
-    this.initForm();
-    this.categoryService.getAll().subscribe((data) => {
-      this.categories = data;
-    });
-    this.priorityService.getAll().subscribe((data) => {
-      this.priorities = data;
-    });
-    this.statusService.getAll().subscribe((data) => {
-      this.statuses = data;
-    });
+  
   }
 
 
@@ -117,58 +102,15 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
       developers: ['']
     })
   }
+
   editTicketMode() {
     this.mode = 'edit';
   }
-  initForm() {
-    if (this.ticket && this.ticket.category && this.ticket.priority && this.ticket.status) {
-      this.ticketEditForm = this.fb.group({
-        title: [this.ticket.ticketTitle, Validators.required],
-        description: [this.ticket.description, Validators.required],
-        selectedCategory: [this.ticket.category, Validators.required],
-        selectedPriority: [this.ticket.priority, Validators.required],
-        selectedStatus: [this.ticket.status, Validators.required],
-      });
-  
-      // Écoutez les changements de sélection pour la catégorie
-      this.ticketEditForm.get('selectedCategory')?.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedCategory) => {
-        // Ajustez les champs du formulaire en fonction de la catégorie sélectionnée
-        this.ticketEditForm.patchValue({ selectedCategory: selectedCategory }, { emitEvent: false });
-      });
-  
-      // Écoutez les changements de sélection pour la priorité
-      this.ticketEditForm.get('selectedPriority')?.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedPriority) => {
-        // Ajustez les champs du formulaire en fonction de la priorité sélectionnée
-        this.ticketEditForm.patchValue({ selectedPriority: selectedPriority }, { emitEvent: false });
-      });
-    }
-  }
-  
-  editTicket() {
-    if (this.ticketEditForm.valid) {
-      const updatedTicket: Partial<Ticket> = {
-        ...this.ticket,
-        ticketTitle: this.ticketEditForm.value.title,
-        description: this.ticketEditForm.value.description,
-        priority: this.ticketEditForm.value.selectedPriority,
-        category: this.ticketEditForm.value.selectedCategory,
-        status: this.ticketEditForm.value.selectedStatus
-      };
-  
-      this.store.dispatch(ticketAction.updateTicket({ payload: updatedTicket }));
-      this.ticketEditForm.reset();
-      this.mode = '';
-    }
-  }
-  
-  
-  
-  
 
   annulate() {
-    this.ticketEditForm.reset();
     this.mode = '';
   }
+
   saveFollowUp() {
     const selectedDeveloper = this.developersForm.get('developers')?.value;
 
@@ -237,10 +179,11 @@ export class TicketDetailsComponent extends UnsubcribeComponent implements OnIni
   onAddFollowUp() {
     this.isAddingDeveloper = true;
   }
+
   onPageChange(page: string): void {
-    this.page = page;
-    // console.log('Page changed to:', this.page);
+    this.page.set(page)
   }
+  
   displayUser() {
     this.store.dispatch(userAction.getUser({ payload: this.ticket!.author!.id, displayInSidebar: true }));
   }

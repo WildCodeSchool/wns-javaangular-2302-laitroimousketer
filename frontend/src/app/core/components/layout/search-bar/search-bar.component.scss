@@ -4,26 +4,35 @@
   width: 100%;
   display: flex;
   align-items: center;
-  
-
+  margin-bottom: 10px;
+  @include qhd {
+    margin-bottom: 20px;
+  }
 }
-.test {
-  width: 100%;
-  font-size: 18px;
-  @include mobile {
-    font-size: 12px;
-  
+
+::ng-deep .mat-mdc-form-field:not(.mat-form-field-disabled) .mat-mdc-floating-label.mdc-floating-label {
+  padding-right:  20px;
+}
+::ng-deep .mat-mdc-form-field-subscript-wrapper, .mat-mdc-form-field-bottom-align::before {
+  display: none;
+}
+
+.searchbar {
+  font-size: 15px;
+  @include mobiletablet {
+    font-size: 14px;
   } 
-
-}
-.search-bar input {
- 
 }
 
 mat-icon {
   cursor: pointer;
   color: $secondaryColor;
   font-size: 28px;
-  margin-top: -6px;
-  margin-left: 10px;
+  margin-top: -8px;
+  // margin-right: -8px;
+  @include mobiletablet {
+    font-size: 22px;
+    margin-top: -4px;
+    margin-right: -6px;
+  }
 }

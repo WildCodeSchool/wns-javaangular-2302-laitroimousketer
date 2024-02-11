@@ -9,6 +9,9 @@
   height: 100vh;
   background-color: transparent;
   z-index: 9999;
+  @include mobiletablet {
+    height: calc(100dvh - 40px);
+  }
 }
 
 .hide {
