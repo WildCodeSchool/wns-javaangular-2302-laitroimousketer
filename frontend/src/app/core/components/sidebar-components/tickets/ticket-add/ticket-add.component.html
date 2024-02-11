@@ -11,13 +11,13 @@
   <form [formGroup]="ticketAddForm" class="grid grid-cols-1 gap-20">
 
 
-    <mat-form-field appearance="outline" color="primary">
+    <mat-form-field appearance="outline" color="primary"  [ngClass]="isSmallScreen ? 'dense-5' : ''">
       <mat-label for="title">Titre</mat-label>
       <input matInput type="text" id="title" formControlName="title" placeholder="Renseigner le thème du sujet">
     </mat-form-field>
 
 
-    <mat-form-field appearance="outline" color="primary">
+    <mat-form-field appearance="outline" color="primary"  [ngClass]="isSmallScreen ? 'dense-5' : ''">
       <mat-label id="priority">Priorité</mat-label>
       <mat-select id="priority" formControlName="selectedPriority" name="selectedPriority">
         @for (priority of priorities; track priority.id) {
@@ -27,7 +27,7 @@
     </mat-form-field>
 
 
-    <mat-form-field appearance="outline" color="primary">
+    <mat-form-field appearance="outline" color="primary"  [ngClass]="isSmallScreen ? 'dense-5' : ''">
       <mat-label for="category">Catégorie</mat-label>
       <mat-select id="category" formControlName="selectedCategory" name="selectedCategory">
         @for (category of categories; track category.id) {
@@ -36,7 +36,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" color="primary">
+    <mat-form-field appearance="outline" color="primary"  [ngClass]="isSmallScreen ? 'dense-5' : ''">
       <mat-label for="description">Description</mat-label>
       <textarea id="description" 
                 matInput

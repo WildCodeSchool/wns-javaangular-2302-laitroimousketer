@@ -7,13 +7,13 @@
   <form [formGroup]="ticketEditForm" class="grid grid-cols-1 gap-20">
 
 
-    <mat-form-field appearance="outline" color="primary">
+    <mat-form-field appearance="outline" color="primary" [ngClass]="isSmallScreen ? 'dense-5' : ''">
       <mat-label for="title">Titre</mat-label>
       <input matInput type="text" id="title" formControlName="title" placeholder="Renseigner le thème du sujet">
     </mat-form-field>
 
 
-    <mat-form-field appearance="outline" color="primary">
+    <mat-form-field appearance="outline" color="primary"  [ngClass]="isSmallScreen ? 'dense-5' : ''">
       <mat-label id="priority">Priorité</mat-label>
       <mat-select id="priority" formControlName="selectedPriority" name="selectedPriority">
         <mat-option [value]="ticket?.priority">{{ticket?.priority?.priorityTitle}}</mat-option>
@@ -24,7 +24,7 @@
     </mat-form-field>
 
 
-    <mat-form-field appearance="outline" color="primary">
+    <mat-form-field appearance="outline" color="primary"  [ngClass]="isSmallScreen ? 'dense-5' : ''">
       <mat-label for="category">Catégorie</mat-label>
       <mat-select id="category" formControlName="selectedCategory" name="selectedCategory" >
         <mat-option [value]="ticket?.category">
@@ -38,7 +38,7 @@
 
    
     
-    <mat-form-field appearance="outline" color="primary">
+    <mat-form-field appearance="outline" color="primary"  [ngClass]="isSmallScreen ? 'dense-5' : ''">
       <mat-label for="status">Status</mat-label>
       <mat-select id="status" matNativeControl formControlName="selectedStatus" name="selectedStatus">
         <mat-option [value]="ticket?.status">{{ticket?.status?.statusTitle}}</mat-option>
@@ -48,7 +48,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" color="primary">
+    <mat-form-field appearance="outline" color="primary"  [ngClass]="isSmallScreen ? 'dense-5' : ''">
       <mat-label for="description">Description</mat-label>
       <textarea id="description" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="10"
         cdkAutosizeMaxRows="auto" placeholder="Expliquer avec détails votre problèmatique"

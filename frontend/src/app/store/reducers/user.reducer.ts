@@ -17,7 +17,7 @@ const initialState: UserState = {
 
 export function reducer(state = initialState, action: Action & { payload?: any }) {
   switch (action.type) {
-
+  
     case userAction.action.SAVE_USER: {
       const updatedUsers = state.users.some(u => u.id === action.payload.id)
         ? state.users.map(u => (u.id === action.payload.id ? action.payload : u))
@@ -61,7 +61,12 @@ export function reducer(state = initialState, action: Action & { payload?: any }
         userConnected: action.payload,
       };
     }
-
+    case userAction.action.CLEAR: {
+      return {
+        ...state,
+        user: {} as User,
+      };
+    }
     default:
       return state;
   }
