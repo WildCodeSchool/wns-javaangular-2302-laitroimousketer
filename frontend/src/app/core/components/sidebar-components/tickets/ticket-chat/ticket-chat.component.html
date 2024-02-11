@@ -36,7 +36,7 @@
           style="display: none;" />
         <input *ngIf="!isCameraAvailable"class="bi bi-camera" type="file" accept="image/*" id="file" name="file" (change)="onFileChange($event)" #fileInput
           capture="camera" style="display: none;" />
-        <i *ngIf="isCameraAvailable" class="bi bi-camera" (click)="openCamera()"></i>
+        <i class="bi bi-camera" (click)="openCamera()">Prendre une photo</i>
       </form>
 
     </div>
